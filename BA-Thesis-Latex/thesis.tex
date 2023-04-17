@@ -1,0 +1,71 @@
+% Author: Jannes Bantje
+% Modified: Lars Haalck lars.haalck@wwu.de
+% please ask Lars Haalck first if you have any questions
+\input{preamble.tex}
+
+%Informationen zur Arbeit
+\newcommand{\printname}{Timo Lietmeyer}
+\newcommand{\printnumber}{459 169}
+
+\newcommand{\printtitle}{Titel der Arbeit \\ Auch über Mehrere Zeilen}
+\newcommand{\printalttitle}{Titel Of This Work \\ in English}
+\newcommand{\printcity}{Münster}
+\newcommand{\printtype}{Masterarbeit}
+\newcommand{\printdegree}{Master of Science}
+\newcommand{\printsupervisor}{John Doe}
+\newcommand{\printfirstassessor}{Prof. Dr. Erika Musterfrau}
+\newcommand{\printsecondassessor}{Prof. Dr. Hans Peter}
+\newcommand{\printinstitute}{Fachbereich Mathematik und Informatik \\
+    Institut für Informatik}
+
+% !!!only for pseudo text, can be deleted!!!
+\usepackage{blindtext}
+
+\begin{document}
+% set the pager numbering to big roman numbers for firt few pages
+\pagenumbering{Roman}
+\listoftodos
+
+% titlepage does not need cleardoubleoddemptypage
+\begin{titlepage}
+	\input{chapter/title_page.tex}
+\end{titlepage}
+
+\begin{titlepage}
+	\input{chapter/title_page2.tex}
+\end{titlepage}
+
+\input{chapter/abstract.tex}
+\cleardoubleoddemptypage
+
+\tableofcontents
+\cleardoubleoddemptypage
+
+% set the page numbering back to arabic
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\input{chapter/intro.tex}
+\cleardoubleoddemptypage
+
+\input{chapter/conclusion.tex}
+\cleardoubleoddemptypage
+
+% when adding a new chapter comment out this line
+%\input{chapter/chapterFile.tex}
+%cleardoubleoddemptypage
+
+\appendix % hier beginnt der Anhang
+\input{chapter/appendix_chapter.tex}
+\cleardoubleoddemptypage
+
+\listoffigures
+\cleardoubleoddemptypage
+
+\listoftables
+\cleardoubleoddemptypage
+
+\printbibliography
+\cleardoubleoddemptypage
+\input{chapter/signature.tex}
+
+\end{document}
