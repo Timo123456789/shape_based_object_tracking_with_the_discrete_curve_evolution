@@ -3,6 +3,7 @@ import geopandas as gpd
 import folium
 import matplotlib.pyplot as plt
 from shapely.geometry import Polygon, Point
+import math
 
 
 def main():
@@ -10,13 +11,25 @@ def main():
     #Alternativ Import einer Textdatei mit Punkten (gleiches Schema wie oben?)
     p = readtxtfile()
     print(p)
-    print(calc_distance_between_two_points(p,1,3))
+    print(calc_distance_between_two_points(p,0,1))
+    print("getangle")
+    print(get_angle(p,4,5))
  
     #print(p[0].exterior.coords[0].distance())
     plot_GS_polygon(p)
     
 
-    return 0        
+    return 0 
+#return angle in radiant
+def get_angle(p,point1,point2):
+    p1 = Point(p[0].exterior.coords[point1])  
+    p2 = Point(p[0].exterior.coords[point2])
+    angle = math.degrees(math.atan2(p2.y-p1.y, p2.x-p1.x))
+    return math.radians(angle)
+    #return math.degrees(math.atan2(y2-y1, x2-x1))
+    
+
+
 #Input p = Polygon (as Geopanda.Geoseries Object)
 #Input point1 = Point 1 which calculate distance from
 #Input point2 = Point 2 which calculate distance to
@@ -26,6 +39,9 @@ def calc_distance_between_two_points(p, point1, point2):
     p2 = Point(p[0].exterior.coords[point2])
     dist = p1.distance(p2)
     return dist
+
+
+
 
 def readtxtfile():
     f = open(r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\testpolygon.txt")
