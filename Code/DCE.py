@@ -10,15 +10,18 @@ def main():
     #Alternativ Import einer Textdatei mit Punkten (gleiches Schema wie oben?)
     p = readtxtfile()
     print(p)
-    print(distance_between_two_points(p,1,3))
+    print(calc_distance_between_two_points(p,1,3))
  
     #print(p[0].exterior.coords[0].distance())
     plot_GS_polygon(p)
     
 
     return 0        
-
-def distance_between_two_points(p, point1, point2):
+#Input p = Polygon (as Geopanda.Geoseries Object)
+#Input point1 = Point 1 which calculate distance from
+#Input point2 = Point 2 which calculate distance to
+#return dist = Distance between Point1 and Point2 in p
+def calc_distance_between_two_points(p, point1, point2):
     p1 = Point(p[0].exterior.coords[point1])  
     p2 = Point(p[0].exterior.coords[point2])
     dist = p1.distance(p2)
