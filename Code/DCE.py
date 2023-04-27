@@ -12,23 +12,37 @@ def main():
     p = readtxtfile()
    #  p_lines = convert_polygon_to_linestrings(p)
     print(p)
-    print("-------------------------------------------------------")
-    #print(p_lines)
-    print(calc_distance_between_two_points(p,0,1))
-    print("getangle")
-    print(get_angle(p,4,5))
-    print("getboundary")
-    print(p.boundary)
-    #print(p.boundary[0])
-
+    print("1-------------------------------------------------------")
     print("k")
-    print(calc_k_with_points(p,0,5,1))
+    print(calc_k_with_points(p,0,8,1))
     print(calc_k_with_points(p,1,0,2))
     print(calc_k_with_points(p,2,1,3))
-    print("dreier")
     print(calc_k_with_points(p,3,2,4))
     print(calc_k_with_points(p,4,3,5))
-    print(calc_k_with_points(p,5,4,0))
+    print(calc_k_with_points(p,5,4,6))
+    print(calc_k_with_points(p,6,5,7))
+    print(calc_k_with_points(p,7,6,8))
+    print(calc_k_with_points(p,8,7,0))
+    print("2-------------------------------------------------------")
+
+   # print("länge des arrays")
+   # print(p[0].exterior.coords.length)
+   
+    NoP = get_number_of_points(p)
+    for i in range(NoP):
+        if i==0:
+            print("anfang", i)
+            print(p[0].exterior.coords[i])
+            print(calc_k_with_points(p,i,NoP,1))
+        else:
+            if i==NoP:
+                break
+            print("mitte", i)
+            print(p[0].exterior.coords[i])
+            print(calc_k_with_points(p,i,(i+1),(i-1)))
+            
+
+
    
     
  
@@ -38,6 +52,14 @@ def main():
 
     return 0 
 
+def get_number_of_points(p):
+    pointcounter = 0
+    for i in p[0].exterior.coords:
+       # print(i)
+        pointcounter = pointcounter + 1 
+       # print (p[0].exterior.coords[i])
+    pointcounter = pointcounter-1
+    return pointcounter
 
 def convert_polygon_to_linestrings(p):
     print("p in convertlinestring")
@@ -53,7 +75,9 @@ def convert_polygon_to_linestrings(p):
 def get_angle(p,point1,point2):
     p1 = Point(p[0].exterior.coords[point1])  
     p2 = Point(p[0].exterior.coords[point2])
-    angle = math.degrees(math.atan2(p2.y-p1.y, p2.x-p1.x))
+    angle = math.degrees(math.atan2(-(p2.y-p1.y), p2.x-p1.x))
+    print(p1,p2)
+    print("angle", angle, "angle in radians", math.radians(angle))
     return math.radians(angle)
     #return math.degrees(math.atan2(y2-y1, x2-x1))
     
@@ -73,18 +97,32 @@ def calc_distance_between_two_points(p, point1, point2):
 
 
 def readtxtfile():
+
+    #readgeodataFrame.from_file benutzen? siehe https://stackoverflow.com/questions/27606924/count-number-of-points-in-multipolygon-shapefile-using-python
+
+
+
     f = open(r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\testpolygon.txt")
     #polygon_from_txt = np.loadtxt(r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\testpolygon.txt", comments="#", delimiter=";")
     #print(polygon_from_txt)
     polygon1 = Polygon([   (1,1),
                     (0,3),
                     (2,4),
-                    (7,7),
+                    (5,5),
                     (4,3),
                     (4,1)
                     ])
+    polygon2 = Polygon([   (1,2),
+                    (2,1),
+                    (3,1),
+                    (4,1),
+                    (5,2),
+                    (4,3),
+                    (3,6),
+                    (2,3)
+                    ])
 
-    p = gpd.GeoSeries(polygon1)
+    p = gpd.GeoSeries(polygon2)
     return p
     
 def plot_GS_polygon(p):
@@ -94,8 +132,29 @@ def plot_GS_polygon(p):
 
 #not finished
 def calc_k_with_points(polygon,p,s1,s2):
-    k = (get_angle(polygon,s1,s2)*calc_distance_between_two_points(polygon,p, s1)*calc_distance_between_two_points(polygon,p, s2))/(calc_distance_between_two_points(polygon,p, s1)+calc_distance_between_two_points(polygon,p, s2))
+    angle = (get_angle(polygon,p,s1) + get_angle(polygon,p,s2))
+    dist_between_p_s1 = calc_distance_between_two_points(polygon,p,s1)
+    dist_between_p_s2 = calc_distance_between_two_points(polygon,p,s2)
+
+    
+    
+
+    k ={ 
+        (angle*dist_between_p_s1*dist_between_p_s2)
+    
+         /
+    
+        (dist_between_p_s1+dist_between_p_s2)
+    
+    }
+
+    print("angle",angle, "dist p s1 ",dist_between_p_s1, "dist p s2",dist_between_p_s2, "k", k)
+   # print("Summe Distanz zw. 2 Punkten","  p: ", p," s1: ", s1," s2: ", s2)
+   # print( (calc_distance_between_two_points(polygon,p, s1)+calc_distance_between_two_points(polygon,p, s2)))
     return k
+
+
+
 
 def calc_k(s1,s2):
     k = (calc_betha(s1,s2)*calc_length(s1)*calc_length(s2))/(calc_length(s1)+calc_length(s2))
