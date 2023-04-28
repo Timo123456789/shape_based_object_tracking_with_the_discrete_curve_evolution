@@ -11,72 +11,23 @@ def main():
     #testpolygon = [[0,0],[2,0],[2,2],[3,4],[1,2]]
     #Alternativ Import einer Textdatei mit Punkten (gleiches Schema wie oben?)
     p = readtxtfile()
-    #  p_lines = convert_polygon_to_linestrings(p)
-    # print(p)
-    # print("1-------------------------------------------------------")
-    # print("k")
-    # print(calc_k_with_points(p,0,8,1))
-    # print(calc_k_with_points(p,1,0,2))
-    # print(calc_k_with_points(p,2,1,3))
-    # print(calc_k_with_points(p,3,2,4))
-    # print(calc_k_with_points(p,4,3,5))
-    # print(calc_k_with_points(p,5,4,6))
-    # print(calc_k_with_points(p,6,5,7))
-    # print(calc_k_with_points(p,7,6,8))
-    # print(calc_k_with_points(p,8,7,0))
-    # print("2-------------------------------------------------------")
 
-    # print("länge des arrays")
-    # print(p[0].exterior.coords.length)
    
-    # NoP = get_number_of_points(p)
-    # k_value = 0
-    # point_on_k = [-1,-1]
-    # for i in range(NoP):
-    #     if i==0:
-    #         k_value = calc_k_with_points(p,i,NoP,1) 
-    #         point_on_k = get_selected_point(p,i)        
-    #     else:
-    #         if i==NoP:
-    #             break
-    #         scnd_k_value = calc_k_with_points(p,i,(i+1),(i-1))
-    #         point_on_k = get_selected_point(p,i) 
-    #         if scnd_k_value>k_value: 
-    #             print("k neu setzen")
-    #             print("i",i, "i+1", i+1,"i-1", i-1)
-    #             k_value = scnd_k_value
-    #             index_for_point_on_k = i  
-            
-    # print("höchster k Wert", k_value)
-    # print("entsprechender Pointindex", index_for_point_on_k)
-    # print("entsprechender Punkt", get_selected_point(p,(i-1))) # -1 keine Ahnung warum, sonst springt er einen Punkt zu weit
+  
+    print("get index where highest k is")
     print(get_highest_k(p))
+    print("get index where lowest k is")
+    index_lowest_k = get_lowest_k(p)
+    print(index_lowest_k, "kvalue", calc_k_with_points(p,index_lowest_k,(index_lowest_k+1),(index_lowest_k-1)))
+    print(get_selected_point(p,get_lowest_k(p)))
 
 
-    def delete_point_from_polygon(p,index_of_point):
-        return p
+
+    print(calc_k_with_points(p,2,1,3))
+    print(calc_k_with_points(p,3,4,1))
+
+
     
-    def get_highest_k(p):
-        NoP = get_number_of_points(p)
-        k_value = 0
-        for i in range(NoP):
-            if i==0:
-                k_value = calc_k_with_points(p,i,NoP,1) 
-                point_on_k = get_selected_point(p,i)        
-            else:
-                if i==NoP:
-                    break
-                scnd_k_value = calc_k_with_points(p,i,(i+1),(i-1))
-                if scnd_k_value>k_value: 
-                    print("k neu setzen")
-                    print("i",i, "i+1", i+1,"i-1", i-1)
-                    k_value = scnd_k_value
-                    index_for_point_on_k = i  
-            
-        # print("höchster k Wert", k_value)
-        # print("entsprechender Pointindex", index_for_point_on_k)
-        # print("entsprechender Punkt", get_selected_point(p,(i-1))) # -1 keine Ahnung warum, sonst springt er einen Punkt zu weit
-        return index_for_point_on_k
 
 
 
@@ -85,9 +36,65 @@ def main():
  
     #print(p[0].exterior.coords[0].distance())
     plot_GS_polygon(p)
-    
 
     return 0 
+
+
+
+
+
+
+
+
+
+
+def delete_point_from_polygon(p,index_of_point):
+        return p
+    
+def get_highest_k(p):
+    NoP = get_number_of_points(p)
+    k_value = 0
+    for i in range(NoP):
+        if i==0:
+            k_value = calc_k_with_points(p,i,NoP,1) 
+            point_on_k = get_selected_point(p,i)        
+        else:
+            if i==NoP:
+                break
+            scnd_k_value = calc_k_with_points(p,i,(i+1),(i-1))
+            if scnd_k_value>k_value:        
+                # print("k neu setzen")
+                # print("i",i, "i+1", i+1,"i-1", i-1)
+                k_value = scnd_k_value
+                index_for_point_on_k = i  
+            
+    # print("höchster k Wert", k_value)
+    # print("entsprechender Pointindex", index_for_point_on_k)
+    # print("entsprechender Punkt", get_selected_point(p,(i-1))) # -1 keine Ahnung warum, sonst springt er einen Punkt zu weit
+    return index_for_point_on_k
+
+def get_lowest_k(p):
+    NoP = get_number_of_points(p)
+    k_value = 0
+    for i in range(NoP):
+        if i==0:
+            k_value = calc_k_with_points(p,i,NoP,1) 
+            point_on_k = get_selected_point(p,i)        
+        else:
+            if i==NoP:
+                break
+            scnd_k_value = calc_k_with_points(p,i,(i+1),(i-1))
+            if scnd_k_value<=k_value:        
+                # print("k neu setzen")
+                # print("i",i, "i+1", i+1,"i-1", i-1)
+                k_value = scnd_k_value
+                index_for_point_on_k = i  
+            
+    # print("höchster k Wert", k_value)
+    # print("entsprechender Pointindex", index_for_point_on_k)
+    # print("entsprechender Punkt", get_selected_point(p,(i-1))) # -1 keine Ahnung warum, sonst springt er einen Punkt zu weit
+    return index_for_point_on_k
+
 
 def get_number_of_points(p):
     pointcounter = 0
@@ -168,7 +175,7 @@ def plot_GS_polygon(p):
     plt.show()
 
 
-#not finished
+
 def calc_k_with_points(polygon,p,s1,s2):
     angle = (get_angle(polygon,p,s1) + get_angle(polygon,p,s2))
     dist_between_p_s1 = calc_distance_between_two_points(polygon,p,s1)
@@ -184,21 +191,13 @@ def calc_k_with_points(polygon,p,s1,s2):
     # print("angle",angle, "dist p s1 ",dist_between_p_s1, "dist p s2",dist_between_p_s2, "k", k)
     # print("Summe Distanz zw. 2 Punkten","  p: ", p," s1: ", s1," s2: ", s2)
     # print( (calc_distance_between_two_points(polygon,p, s1)+calc_distance_between_two_points(polygon,p, s2)))
-    return k
+    if k<0:                 #Muss das so? Bei negativen Winkel kommen immer negative Werte raus die je höher ja kleiner sind, als andere.
+        return k*(-1)
+    else:
+        return k
 
 
 
-
-def calc_k(s1,s2):
-    k = (calc_betha(s1,s2)*calc_length(s1)*calc_length(s2))/(calc_length(s1)+calc_length(s2))
-    return k
-
-def calc_betha(s1,s2):
-    foo = 0
-    return foo
-
-def calc_length(ls):
-    return ls
 
 
 main()
