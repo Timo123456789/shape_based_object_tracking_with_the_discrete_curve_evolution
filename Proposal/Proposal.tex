@@ -1,19 +1,18 @@
-\documentclass[a4paper,11pt,pdftex]{scrreport}
+\documentclass[a4paper,11pt,pdftex, parskip]{scrreprt}
 \usepackage[pdftex]{graphicx}
 \usepackage{ngerman}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage[numbers]{natbib}
-\usepackage{parskip}
-\usepackage[margin=10pt,font=small,labelfont=bf]{caption}
-
-
+\usepackage[margin=5pt,font=small,labelfont=bf, textfont=it]{caption}
+%\usepackage[reals]{layout}
+\usepackage[lmargin = 2cm, rmargin = 2cm, tmargin = 2cm]{geometry}
 
 
 
 \begin{document}
-
+%\layout*
 \begin{titlepage}
 
   
@@ -36,7 +35,7 @@
             \vspace{3cm}
            % \LARGE 
             Proposal zu\\}
-        \glqq {Discrete Curve Evolution und ihre Anwendung auf Drohnenvideos}\grqq 
+        \glqq {Semantische Kompression von Drohnenvideos \\ mit der Discrete Curve Evolution}\grqq 
         \vspace{1,5cm}}
 
    
@@ -57,57 +56,45 @@
 \maketitle
 %\tableofcontents
 
-
 \section*{1 Motivation}
-Drohnen mit Kameras verbreiten sich immer weiter in Deutschland. Durch die steigende Verbreitung von UAVs (Unmanned Aerial Vehicle) ist eine stabile Verbindung von Pilot zu Drohne von hoher Wichtigkeit \citep{Nehring2021}. 
-
-Da bei der immer weiter voranschreitenden technischen Entwicklung abzusehen ist, dass die Kameraauflösung bei Drohnen weiter steigt \citep{futuretech2017}, ist auch eine stärkere Kompression dieser Bilder und Videos vonnöten, um eine stabile Verbindung weiter zu gewährleisten. Des Weiteren ist das Erreichen einer höheren Reichweite bei der Funkverbindung sehr wünschenswert. 
-
+Drohnen mit Kameras verbreiten sich immer weiter in Deutschland. Durch die steigende Verbreitung von UAVs (Unmanned Aerial Vehicle) ist eine stabile Verbindung von Pilot zu Drohne von hoher Wichtigkeit \citep{Nehring2021}. \newline
+Da bei der immer weiter voranschreitenden technischen Entwicklung abzusehen ist, dass die Kameraauflösung bei Drohnen weiter steigt \citep{futuretech2017}, ist auch eine stärkere Kompression dieser Bilder und Videos vonnöten, um eine stabile Verbindung weiter zu gewährleisten. Des Weiteren ist das Erreichen einer höheren Reichweite bei der Funkverbindung sehr wünschenswert. \newline
 Im Rahmen dieser Bachelorarbeit soll beispielhaft eine Methode implementiert werden, die eine Kompression von Drohnenvideos ermöglicht.
-
-
 % \begin{itemize}
 %     \item Sequenzierung von Objekten kann für bessere (semantische) Kompression mithilfe der Discrete Curve Evaluation (DCE) benutzt werden 
 %     \item bessere Reichweite, stabilere Funkverbindungen von Drohne zu Pilot 
 %     \item Dadurch können auch private Drohnennutzer von besseren Bedingungen profitieren 
 % \end{itemize}
 
+\section*{2 Methodik}{
+Zum Testen stellt der Betreuer Videomaterial, welches im Rahmen der Bachelorarbeit analysiert und komprimiert wird (s. Abb. \ref{Scr_ges_Vid}). \\
+Als ersten Schritt müssen die zu erkennenden Objekte detektiert werden. Bei dem Beispielvideo ist dies durch die statische Kameraposition in Verbindung mit den sich bewegenden Objekten durch Bewegtsegmentierung der beiden Objekte (s. Abb. \ref{Scr_detail_Obj}) oder mit anderen Bilderkennungsalgorithmen, wie YOLO, möglich.\newline
+Zur Vereinfachung von Polygonzügen bietet sich die Discrete Curve Evolution (DCE) an. Diese Methode berechnet anhand eines Grenzwertes, welche Punkte für die Darstellung einer Form irrelevant sind, sodass diese ohne größeren Informationsverlust entfernt werden können \citep{Barkowsky2000}. 
 
-
-\section*{2 Methodik}
-Zur Vereinfachung von Polygonzügen bietet sich die Discrete Curve Evolution (DCE) an. Diese Methode berechnet anhand eines Grenzwertes, welche Punkte für die Darstellung einer Form irrelevant sind, sodass diese ohne größeren Informationsverlust entfernt werden können \citep{Barkowsky2000}. Zum Testen stellt der Betreuer Videomaterial, welches im Rahmen der Bachelorarbeit analysiert und komprimiert wird (Abb. \ref{Scr_ges_Vid}). 
-
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[scale=0.2, keepaspectratio]{images/screenshot_video_moratz.png}
     \caption[Screenshot des zu analysierenden Videos]{Screenshot des zu analysierenden Videos (Quelle: eigene Darstellung)}
     \label{Scr_ges_Vid}
 \end{figure}
-
-
-
-Als ersten Schritt müssen die zu erkennenden Objekte detektiert werden. Bei dem Beispielvideo ist dies durch die statische Kameraposition in Verbindung mit den sich bewegenden Objekten durch Bewegtsegmentierung der beiden Objekte (s. Abb. \ref{Scr_detail_Obj}) oder mit anderen Bilderkennungsalgorithmen, wie YOLO, möglich. 
-
-\begin{figure}[h]
+Weitergehend müssen die detektierten Bildsegmente in eine Binärmaske umgewandelt werden, welche mit der DCE Methode vereinfacht werden kann. Ein beispielhafter Verlauf ist in Abb. \ref{Bsp_Dorr} zu sehen.\newline
+Das Umwandeln der segementierten Bildausschnitte in eine Binärmaske kann mithilfe eines Schwellwertverfahrens, welches von Nobuyuki Otsu entwickelt wurde, erfolgen \citep{Otsu1979}. Die weitere Vereinfachung des Polygons erfolgt dann mithilfe der Discrete Curve Evolution \citep{Barkowsky2000}.
+\begin{figure}[ht]
     \centering
     \includegraphics[scale = 4, keepaspectratio] {images/detail_screenshot_people.png}
     \includegraphics[scale = 4, keepaspectratio]{images/detail_screenshot_boat.png}
     \caption[Ausschnitte aus Abb. \ref{Scr_ges_Vid}, welche die beiden bewegenden Objekte darstellen ]{Ausschnitte aus Abb. \ref{Scr_ges_Vid}, welche die beiden bewegenden Objekte darstellen (Quelle: eigene Darstellung)}
     \label{Scr_detail_Obj}
 \end{figure}
-
-Weitergehend müssen die detektierten Bildsegmente in eine Binärmaske umgewandelt werden, welche mit der DCE Methode vereinfacht werden kann. Ein beispielhafter Verlauf ist in Abb. \ref{Bsp_Dorr} zu sehen.
-
-Das Umwandeln der segementierten Bildausschnitte in eine Binärmaske kann mithilfe eines Schwellwertverfahrens, welches von Nobuyuki Otsu entwickelt wurde, erfolgen \citep{Otsu1979}. Die weitere Vereinfachung des Polygons erfolgt dann mithilfe der Discrete Curve Evoltution \citep{Barkowsky2000}. 
-
-Anhand des komprimierten Videos, was als Ergebnis zu erwarten ist, kann eine Ergebnisevaluation stattfinden.
-
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics*[scale = 0.5, keepaspectratio]{images/Example_bird.png}
     \caption[Beispiel aus \citep{Dorr2017}]{Beispiel, welches einen segementierten Vogel zeigt, der in eine Binärmaske umgewandelt wird. Dieses Polygon wird dann mithilfe der DCE vereinfacht (Quelle: \citep{Dorr2017})}
     \label{Bsp_Dorr}
 \end{figure}
+\newline
+Anhand des komprimierten Videos, was als Ergebnis zu erwarten ist, kann eine Ergebnisevaluation stattfinden.
+}
 
 
 % \begin{itemize}
