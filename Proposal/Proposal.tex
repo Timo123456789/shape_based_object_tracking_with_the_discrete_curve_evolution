@@ -83,7 +83,8 @@ Das Umwandeln der segementierten Bildausschnitte in eine Binärmaske kann mithil
     \caption[Screenshot des zu analysierenden Videos]{Screenshot des zu analysierenden Videos (Quelle: eigene Darstellung)}
     \label{Scr_ges_Vid}
 \end{figure}
-Zur Vereinfachung von Polygonzügen bietet sich die Discrete Curve Evolution (DCE) an. Diese Methode berechnet anhand eines Grenzwertes, welche Punkte für die Darstellung einer Form irrelevant sind, sodass diese ohne größeren Informationsverlust entfernt werden können \citep{Barkowsky2000}.
+Die Discrete Curve Evolution berechnet anhand eines Grenzwertes, welche Punkte für die Darstellung einer Form irrelevant sind, sodass diese ohne größeren Informationsverlust entfernt werden können \citep{Barkowsky2000}. Durch die schrittweise Entfernung von Punkten kann eine bedarfsbezogene Vereinfachung des Polygons ermöglicht werden. \\
+Anhand des komprimierten Videos, was als Ergebnis zu erwarten ist, kann eine Ergebnisevaluation stattfinden.
 \begin{figure}[ht]
     \centering
     \includegraphics[scale = 4, keepaspectratio] {images/detail_screenshot_people.png}
@@ -97,8 +98,6 @@ Zur Vereinfachung von Polygonzügen bietet sich die Discrete Curve Evolution (DC
     \caption[Beispiel aus \citep{Dorr2017}]{Beispiel, welches einen segementierten Vogel zeigt, der in eine Binärmaske umgewandelt wird. Dieses Polygon wird dann mithilfe der DCE vereinfacht (Quelle: \citep{Dorr2017})}
     \label{Bsp_Dorr}
 \end{figure}
-\newline
-Anhand des komprimierten Videos, was als Ergebnis zu erwarten ist, kann eine Ergebnisevaluation stattfinden.
 }
 
 
