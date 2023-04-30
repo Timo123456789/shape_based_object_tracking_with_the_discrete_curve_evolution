@@ -19,7 +19,7 @@
     \title{
         \begin{figure}[t]
             \centering
-            \includegraphics[scale = 0.1, keepaspectratio]{Logos/wwu_logo.png}
+            \includegraphics[scale = 0.125, keepaspectratio]{Logos/wwu_logo.png}
             \includegraphics[scale = 0.5, keepaspectratio]{Logos/ifgi_logo.png}
         \end{figure}
         % \begin{figure}[t]
@@ -71,9 +71,11 @@ Im Rahmen dieser Bachelorarbeit soll beispielhaft eine Methode implementiert wer
 % \end{itemize}
 
 \section*{2 Methodik}{
-Zum Testen stellt der Betreuer Videomaterial, welches im Rahmen der Bachelorarbeit analysiert und komprimiert wird (s. Abb. \ref{Scr_ges_Vid}). \\
-Als ersten Schritt müssen die zu erkennenden Objekte detektiert werden. Bei dem Beispielvideo ist dies durch die statische Kameraposition in Verbindung mit den sich bewegenden Objekten durch Bewegtsegmentierung der beiden Objekte (s. Abb. \ref{Scr_detail_Obj}) oder mit anderen Bilderkennungsalgorithmen, wie YOLO, möglich.\newline
-Zur Vereinfachung von Polygonzügen bietet sich die Discrete Curve Evolution (DCE) an. Diese Methode berechnet anhand eines Grenzwertes, welche Punkte für die Darstellung einer Form irrelevant sind, sodass diese ohne größeren Informationsverlust entfernt werden können \citep{Barkowsky2000}. 
+Zum Testen stellt der Betreuer Videomaterial, welches im Rahmen der Bachelorarbeit analysiert und komprimiert wird (s. Abb. \ref{Scr_ges_Vid}). Ein beispielhafter Verlauf ist in Abb. \ref{Bsp_Dorr} zu sehen. \\
+Als ersten Schritt müssen die zu erkennenden Objekte detektiert werden (s. Abb. \ref{Scr_detail_Obj}). Bei dem Beispielvideo ist dies durch die statische Kameraposition in Verbindung mit den sich bewegenden Objekten durch Bewegtsegmentierung der beiden Objekte oder mit anderen Bilderkennungsalgorithmen, wie YOLO, möglich.\newline
+Weitergehend müssen die detektierten Bildsegmente in eine Binärmaske umgewandelt werden, welche mit der DCE Methode vereinfacht werden kann. \newline
+Das Umwandeln der segementierten Bildausschnitte in eine Binärmaske kann mithilfe eines Schwellwertverfahrens, welches von Nobuyuki Otsu entwickelt wurde, erfolgen \citep{Otsu1979}. Die weitere Vereinfachung des Polygons erfolgt dann mithilfe der Discrete Curve Evolution \citep{Barkowsky2000}
+ 
 
 \begin{figure}[ht]
     \centering
@@ -81,8 +83,7 @@ Zur Vereinfachung von Polygonzügen bietet sich die Discrete Curve Evolution (DC
     \caption[Screenshot des zu analysierenden Videos]{Screenshot des zu analysierenden Videos (Quelle: eigene Darstellung)}
     \label{Scr_ges_Vid}
 \end{figure}
-Weitergehend müssen die detektierten Bildsegmente in eine Binärmaske umgewandelt werden, welche mit der DCE Methode vereinfacht werden kann. Ein beispielhafter Verlauf ist in Abb. \ref{Bsp_Dorr} zu sehen.\newline
-Das Umwandeln der segementierten Bildausschnitte in eine Binärmaske kann mithilfe eines Schwellwertverfahrens, welches von Nobuyuki Otsu entwickelt wurde, erfolgen \citep{Otsu1979}. Die weitere Vereinfachung des Polygons erfolgt dann mithilfe der Discrete Curve Evolution \citep{Barkowsky2000}.
+Zur Vereinfachung von Polygonzügen bietet sich die Discrete Curve Evolution (DCE) an. Diese Methode berechnet anhand eines Grenzwertes, welche Punkte für die Darstellung einer Form irrelevant sind, sodass diese ohne größeren Informationsverlust entfernt werden können \citep{Barkowsky2000}.
 \begin{figure}[ht]
     \centering
     \includegraphics[scale = 4, keepaspectratio] {images/detail_screenshot_people.png}
