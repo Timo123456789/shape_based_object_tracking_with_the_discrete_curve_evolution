@@ -20,11 +20,11 @@ def main():
     index_lowest_k = get_lowest_k(p)
     print(index_lowest_k, "kvalue", calc_k_with_points(p,index_lowest_k,(index_lowest_k+1),(index_lowest_k-1)))
     print(get_selected_point(p,get_lowest_k(p)))
+    delete_point_from_polygon(p, get_lowest_k(p))
 
 
-
-    print(calc_k_with_points(p,2,1,3))
-    print(calc_k_with_points(p,3,4,1))
+    # print(calc_k_with_points(p,2,1,3))
+    # print(calc_k_with_points(p,3,4,1))
 
 
     
@@ -49,8 +49,50 @@ def main():
 
 
 def delete_point_from_polygon(p,index_of_point):
+        d_point = get_selected_point(p, index_of_point)
+        array = p[0].exterior.coords
+        print("array vorher")
+        print(array)
+        # print("array nachher")
+        # print(array)
+        # plot_GS_polygon(shrinked_p)
+        print("--------------------------")
+        print(get_array_with_points(p))
+        array = get_array_with_points(p)
+        print("--------------------------")
+     
+      
+        array.pop(index_of_point)
+        shrink_poly = create_Polygon_from_array(array)
+        print(create_Polygon_from_array(array))
+        plot_GS_polygon(shrink_poly)
+        print(array)
+
+
+        # test = gpd.GeoDataFrame(geometry=gpd.GeoSeries(p))
+        # print(test)
+        # print("index_of_point")
+        # print(index_of_point)
+        # #p2 = test[0].pop(index_of_point)
+        # #print(p2)
+        return False
         return p
-    
+
+def create_Polygon_from_array(arr):
+    polygon = Polygon(arr)
+    p = gpd.GeoSeries(polygon)
+    return p
+
+def get_array_with_points(p):
+    NoP = get_number_of_points(p)
+    array_of_points = []
+    k_value = 0
+    for i in range(NoP):
+        array_of_points.append(p[0].exterior.coords[i]) 
+        # array_of_points.append(get_selected_point(p,i)) 
+
+    return array_of_points
+
 def get_highest_k(p):
     NoP = get_number_of_points(p)
     k_value = 0
@@ -168,6 +210,7 @@ def readtxtfile():
                     ])
 
     p = gpd.GeoSeries(polygon2)
+    # p = gpd.GeoDataFrame(polygon2)
     return p
     
 def plot_GS_polygon(p):
