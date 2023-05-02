@@ -14,20 +14,30 @@ def main():
 
    
   
-    print("get index where highest k is")
-    print(get_highest_k(p))
-    print("get index where lowest k is")
-    index_lowest_k = get_lowest_k(p)
-    print(index_lowest_k, "kvalue", calc_k_with_points(p,index_lowest_k,(index_lowest_k+1),(index_lowest_k-1)))
-    print(get_selected_point(p,get_lowest_k(p)))
-    delete_point_from_polygon(p, get_lowest_k(p))
-
+    # print("get index where highest k is")
+    # print(get_highest_k(p))
+    # print("get index where lowest k is")
+    # index_lowest_k = get_lowest_k(p)
+    # print(index_lowest_k, "kvalue", calc_k_with_points(p,index_lowest_k,(index_lowest_k+1),(index_lowest_k-1)))
+    # print(get_selected_point(p,get_lowest_k(p)))
+    # polytwo = delete_point_from_polygon(p, get_lowest_k(p))
+    # plot_GS_polygon(polytwo)
 
     # print(calc_k_with_points(p,2,1,3))
     # print(calc_k_with_points(p,3,4,1))
 
+    NoP = get_number_of_points(p)
+    plot_GS_polygon(p)
+    DCE_Polygon = p
+    for i in range(NoP-3):
+        index_lowest_k = get_lowest_k(DCE_Polygon)
+        if index_lowest_k==-1:
+            print("Error; k = -1")
+            break
+        DCE_Polygon = delete_point_from_polygon(DCE_Polygon, index_lowest_k)
+        plot_GS_polygon(DCE_Polygon)
 
-    
+
 
 
 
@@ -47,36 +57,15 @@ def main():
 
 
 
-
+#gibt Polygon ohne Punkt zurück
 def delete_point_from_polygon(p,index_of_point):
         d_point = get_selected_point(p, index_of_point)
         array = p[0].exterior.coords
-        print("array vorher")
-        print(array)
-        # print("array nachher")
-        # print(array)
-        # plot_GS_polygon(shrinked_p)
-        print("--------------------------")
-        print(get_array_with_points(p))
         array = get_array_with_points(p)
-        print("--------------------------")
-     
-      
         array.pop(index_of_point)
         shrink_poly = create_Polygon_from_array(array)
-        print(create_Polygon_from_array(array))
-        plot_GS_polygon(shrink_poly)
-        print(array)
-
-
-        # test = gpd.GeoDataFrame(geometry=gpd.GeoSeries(p))
-        # print(test)
-        # print("index_of_point")
-        # print(index_of_point)
-        # #p2 = test[0].pop(index_of_point)
-        # #print(p2)
-        return False
-        return p
+        return shrink_poly
+       
 
 def create_Polygon_from_array(arr):
     polygon = Polygon(arr)
@@ -118,10 +107,12 @@ def get_highest_k(p):
 def get_lowest_k(p):
     NoP = get_number_of_points(p)
     k_value = 0
+    index_for_point_on_k = -1
     for i in range(NoP):
         if i==0:
             k_value = calc_k_with_points(p,i,NoP,1) 
-            point_on_k = get_selected_point(p,i)        
+            point_on_k = get_selected_point(p,i) 
+            index_for_point_on_k = 0       
         else:
             if i==NoP:
                 break
@@ -209,7 +200,7 @@ def readtxtfile():
                     (2,3)
                     ])
 
-    p = gpd.GeoSeries(polygon2)
+    p = gpd.GeoSeries(polygon1)
     # p = gpd.GeoDataFrame(polygon2)
     return p
     
