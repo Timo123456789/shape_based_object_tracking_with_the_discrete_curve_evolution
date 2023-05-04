@@ -17,29 +17,31 @@ def main():
   
 
     NoP = get_number_of_points(p)
-    print_limiter = 1000
+    print_limiter = 10
     print_limiter_var = 0
     plot_GS_polygon(p, 0)
     DCE_Polygon = p
     for i in range(NoP-10):
-        index_lowest_k = get_lowest_k(DCE_Polygon)
+        calc_lowest_k = get_lowest_k(DCE_Polygon)
+        index_lowest_k = calc_lowest_k[0]
+        k_value=calc_lowest_k[1]
         if index_lowest_k==-1:
             print("Error; k = -1")
             break
-        print(get_selected_point(p,i),"i: ",i," limiter:", (print_limiter-print_limiter_var), "verbl. P.:", (NoP-i))
+        print(get_selected_point(p,i),"i: ",i," limiter:", (print_limiter-print_limiter_var), "verbl. P.:", (NoP-i), "kvalue", k_value)
         print_limiter_var = print_limiter_var +1
-        if i == (NoP-800):
-            print_limiter = 150
-            print_limiter_var = 150
-        if i == (NoP-500):
-            print_limiter = 100
-            print_limiter_var = 100
-        if i == (NoP-300):
-            print_limiter = 50
-            print_limiter_var = 50
-        if i == (NoP-100):
-            print_limiter = 10
-            print_limiter_var = 10
+        # if i == (NoP-800):
+        #     print_limiter = 150
+        #     print_limiter_var = 150
+        # if i == (NoP-500):
+        #     print_limiter = 100
+        #     print_limiter_var = 100
+        # if i == (NoP-300):
+        #     print_limiter = 50
+        #     print_limiter_var = 50
+        # if k_value ==(NoP-100):
+        #     print_limiter = 10
+        #     print_limiter_var = 10
         if i == (NoP-10):
             plot_GS_polygon(DCE_Polygon,i)
             print("finished")
@@ -58,7 +60,7 @@ def main():
     
  
     #print(p[0].exterior.coords[0].distance())
-    plot_GS_polygon(p)
+    #plot_GS_polygon(p)
 
     return 0 
 
@@ -140,7 +142,7 @@ def get_lowest_k(p):
     # print("höchster k Wert", k_value)
     # print("entsprechender Pointindex", index_for_point_on_k)
     # print("entsprechender Punkt", get_selected_point(p,(i-1))) # -1 keine Ahnung warum, sonst springt er einen Punkt zu weit
-    return index_for_point_on_k
+    return [index_for_point_on_k,k_value]
 
 
 def get_number_of_points(p):
@@ -241,7 +243,7 @@ def choosePolygon():
 def plot_GS_polygon(p, index):
     p.plot()
     #plt.savefig("testtiff" + str(index)+".tiff")
-    plt.savefig(r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\TestRuns\NRWPolySmall\testpng" + str(index)+".png")
+    plt.savefig(r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\TestRuns\NRWPolySmallTenStep\testpng" + str(index)+".png")
     #plt.show()
 
 
