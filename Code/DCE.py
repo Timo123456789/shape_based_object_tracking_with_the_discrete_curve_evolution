@@ -10,32 +10,33 @@ import pandas
 def main():
     #testpolygon = [[0,0],[2,0],[2,2],[3,4],[1,2]]
     #Alternativ Import einer Textdatei mit Punkten (gleiches Schema wie oben?)
-    p = readtxtfile()
+    #p = choosePolygon()
+    p = readtextfile()
 
    
   
-    # print("get index where highest k is")
-    # print(get_highest_k(p))
-    # print("get index where lowest k is")
-    # index_lowest_k = get_lowest_k(p)
-    # print(index_lowest_k, "kvalue", calc_k_with_points(p,index_lowest_k,(index_lowest_k+1),(index_lowest_k-1)))
-    # print(get_selected_point(p,get_lowest_k(p)))
-    # polytwo = delete_point_from_polygon(p, get_lowest_k(p))
-    # plot_GS_polygon(polytwo)
-
-    # print(calc_k_with_points(p,2,1,3))
-    # print(calc_k_with_points(p,3,4,1))
 
     NoP = get_number_of_points(p)
-    plot_GS_polygon(p)
+    print_limiter = 1000
+    print_limiter_var = 0
+    plot_GS_polygon(p, 0)
     DCE_Polygon = p
-    for i in range(NoP-3):
+    for i in range(NoP-100):
         index_lowest_k = get_lowest_k(DCE_Polygon)
         if index_lowest_k==-1:
             print("Error; k = -1")
             break
+        print(get_selected_point(p,i),"limiter", (print_limiter-print_limiter_var))
+        print_limiter_var = print_limiter_var +1
+        if i == 6500:
+            print_limiter = 500
+        if i == 7000:
+            print_limiter = 100
+        if print_limiter_var == print_limiter:
+            plot_GS_polygon(DCE_Polygon,i)
+            print_limiter_var = 0
         DCE_Polygon = delete_point_from_polygon(DCE_Polygon, index_lowest_k)
-        plot_GS_polygon(DCE_Polygon)
+        #plot_GS_polygon(DCE_Polygon)
 
 
 
@@ -48,6 +49,7 @@ def main():
     plot_GS_polygon(p)
 
     return 0 
+
 
 
 
@@ -172,9 +174,29 @@ def calc_distance_between_two_points(p, point1, point2):
     return dist
 
 
+def readtextfile():
+    p = 0
+    path = r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\examples\dvg2bld_nw.txt"
+   # f = open(path) 
+    #Quelle https://www.opengeodata.nrw.de/produkte/geobasis/vkg/dvg/dvg2/
+    test = pandas.read_table(path, delimiter=';')
+    array = convert_table_in_array(test)
+    return create_Polygon_from_array(array) 
 
 
-def readtxtfile():
+def convert_table_in_array(t):
+    RowCount = len(t)
+    #print(RowCount)
+    a = []
+    for i in range(RowCount):
+        a.append((t.iloc[i]["x"], t.iloc[i]["y"]))
+    #print("a")
+    #print(a)
+    return a
+    
+
+    return a 
+def choosePolygon():
 
     #readgeodataFrame.from_file benutzen? siehe https://stackoverflow.com/questions/27606924/count-number-of-points-in-multipolygon-shapefile-using-python
 
@@ -183,12 +205,8 @@ def readtxtfile():
     f = open(r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\testpolygon.txt")
     #polygon_from_txt = np.loadtxt(r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\testpolygon.txt", comments="#", delimiter=";")
     #print(polygon_from_txt)
-    polygon1 = Polygon([   (1,1),
-                    (0,3),
-                    (2,4),
-                    (5,5),
-                    (4,3),
-                    (4,1)
+    polygon1 = Polygon([    (1,1),(0,3),(2,4),
+                            (5,5),(4,3),(4,1)
                     ])
     polygon2 = Polygon([(1,2),
                     (2,1),
@@ -208,9 +226,11 @@ def readtxtfile():
     # p = gpd.GeoDataFrame(polygon2)
     return p
     
-def plot_GS_polygon(p):
+def plot_GS_polygon(p, index):
     p.plot()
-    plt.show()
+    plt.savefig("testtiff" + str(index)+".tiff")
+    plt.savefig("testpng" + str(index)+".png")
+    #plt.show()
 
 
 
@@ -229,10 +249,10 @@ def calc_k_with_points(polygon,p,s1,s2):
     # print("angle",angle, "dist p s1 ",dist_between_p_s1, "dist p s2",dist_between_p_s2, "k", k)
     # print("Summe Distanz zw. 2 Punkten","  p: ", p," s1: ", s1," s2: ", s2)
     # print( (calc_distance_between_two_points(polygon,p, s1)+calc_distance_between_two_points(polygon,p, s2)))
-    if k<0:                 #Muss das so? Bei negativen Winkel kommen immer negative Werte raus die je höher ja kleiner sind, als andere.
-        return k*(-1)
-    else:
-        return k
+    # if k<0:                 #Muss das so? Bei negativen Winkel kommen immer negative Werte raus die je höher ja kleiner sind, als andere.
+    #     return k*(-1)
+    # else:
+    return k
 
 
 
