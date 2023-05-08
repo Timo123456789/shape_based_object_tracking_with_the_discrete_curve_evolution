@@ -6,6 +6,8 @@ from shapely.geometry import Polygon, Point, LineString
 import math
 import pandas
 
+#WICHTIG: y Koordinate wird beim Einlesen noch *-1 genommen (muss wieder abgeändert werden)
+
 
 def main():
     #testpolygon = [[0,0],[2,0],[2,2],[3,4],[1,2]]
@@ -98,27 +100,7 @@ def get_array_with_points(p):
 
     return array_of_points
 
-def get_highest_k(p):
-    NoP = get_number_of_points(p)
-    k_value = 0
-    for i in range(NoP):
-        if i==0:
-            k_value = calc_k_with_points(p,i,NoP,1) 
-            point_on_k = get_selected_point(p,i)        
-        else:
-            if i==NoP:
-                break
-            scnd_k_value = calc_k_with_points(p,i,(i+1),(i-1))
-            if scnd_k_value>k_value:        
-                # print("k neu setzen")
-                # print("i",i, "i+1", i+1,"i-1", i-1)
-                k_value = scnd_k_value
-                index_for_point_on_k = i  
-            
-    # print("höchster k Wert", k_value)
-    # print("entsprechender Pointindex", index_for_point_on_k)
-    # print("entsprechender Punkt", get_selected_point(p,(i-1))) # -1 keine Ahnung warum, sonst springt er einen Punkt zu weit
-    return index_for_point_on_k
+
 
 def get_lowest_k(p):
     NoP = get_number_of_points(p)
@@ -154,15 +136,6 @@ def get_number_of_points(p):
     pointcounter = pointcounter-1
     return pointcounter
 
-def convert_polygon_to_linestrings(p):
-    # print("p in convertlinestring")
-    # print(p)
-    # print("p[0].boundary in convertlinestring")
-    # print(p[0].boundary)
-    b = p.boundary.coords
-    linestrings = [LineString(b[k:k+2]) for k in range(len(b) - 1)]
-    p_lines = [list(ls.coords) for ls in linestrings]
-    return p_lines
 
 #return angle in radiant
 def get_angle(p,point1,point2):
@@ -244,7 +217,8 @@ def choosePolygon():
 def plot_GS_polygon(p, index):
     p.plot()
     #plt.savefig("testtiff" + str(index)+".tiff")
-    plt.savefig(r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\TestRuns\NRWPolyVSmall\testpng" + str(index)+".png")
+    #plt.savefig(r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\TestRuns\NRWPolyVSmall\testpng" + str(index)+".png")
+    plt.savefig(r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\TestRuns\temp\testpng" + str(index)+".png")
     plt.close
     #plt.show()
 
@@ -258,13 +232,14 @@ def calc_k_with_points(polygon,p,s1,s2):
     
     
 
-    k =  (angle*dist_between_p_s1*dist_between_p_s2)     /    (dist_between_p_s1+dist_between_p_s2)
+    k =  (angle*dist_between_p_s1*dist_between_p_s2)/(dist_between_p_s1+dist_between_p_s2)
     
     
 
     # print("angle",angle, "dist p s1 ",dist_between_p_s1, "dist p s2",dist_between_p_s2, "k", k)
     # print("Summe Distanz zw. 2 Punkten","  p: ", p," s1: ", s1," s2: ", s2)
     # print( (calc_distance_between_two_points(polygon,p, s1)+calc_distance_between_two_points(polygon,p, s2)))
+    # print("k", k)
 
     return k
 
