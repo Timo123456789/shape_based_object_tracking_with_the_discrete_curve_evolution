@@ -45,3 +45,33 @@
 
     # print(calc_k_with_points(p,2,1,3))
     # print(calc_k_with_points(p,3,4,1))
+
+
+
+
+
+
+
+
+
+def get_highest_k(p):
+    NoP = get_number_of_points(p)
+    k_value = 0
+    for i in range(NoP):
+        if i==0:
+            k_value = calc_k_with_points(p,i,NoP,1) 
+            point_on_k = get_selected_point(p,i)        
+        else:
+            if i==NoP:
+                break
+            scnd_k_value = calc_k_with_points(p,i,(i+1),(i-1))
+            if scnd_k_value>k_value:        
+                # print("k neu setzen")
+                # print("i",i, "i+1", i+1,"i-1", i-1)
+                k_value = scnd_k_value
+                index_for_point_on_k = i  
+            
+    # print("höchster k Wert", k_value)
+    # print("entsprechender Pointindex", index_for_point_on_k)
+    # print("entsprechender Punkt", get_selected_point(p,(i-1))) # -1 keine Ahnung warum, sonst springt er einen Punkt zu weit
+    return index_for_point_on_k
