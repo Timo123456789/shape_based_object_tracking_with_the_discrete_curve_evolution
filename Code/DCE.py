@@ -171,6 +171,7 @@ def get_angle(p,point1,point2):
     angle = math.degrees(math.atan2(-(p2.y-p1.y), p2.x-p1.x))
     # print(p1,p2)
     # print("angle", angle, "angle in radians", math.radians(angle))
+    # return angle
     return math.radians(angle)
     #return math.degrees(math.atan2(y2-y1, x2-x1))
     
@@ -190,7 +191,7 @@ def calc_distance_between_two_points(p, point1, point2):
 
 def readtextfile():
     p = 0
-    path = r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\examples\dvg2bld_nw_small.txt"
+    path = r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\examples\dvg2bld_nw_vsmall.txt"
    # f = open(path) 
     #Quelle https://www.opengeodata.nrw.de/produkte/geobasis/vkg/dvg/dvg2/
     test = pandas.read_table(path, delimiter=';')
@@ -203,7 +204,7 @@ def convert_table_in_array(t):
     #print(RowCount)
     a = []
     for i in range(RowCount):
-        a.append((t.iloc[i]["x"], t.iloc[i]["y"]))
+        a.append((t.iloc[i]["x"], (-1*(t.iloc[i]["y"]))))
     #print("a")
     #print(a)
     return a
@@ -243,7 +244,8 @@ def choosePolygon():
 def plot_GS_polygon(p, index):
     p.plot()
     #plt.savefig("testtiff" + str(index)+".tiff")
-    plt.savefig(r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\TestRuns\NRWPolySmallTenStep\testpng" + str(index)+".png")
+    plt.savefig(r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\TestRuns\NRWPolyVSmall\testpng" + str(index)+".png")
+    plt.close
     #plt.show()
 
 
@@ -263,9 +265,7 @@ def calc_k_with_points(polygon,p,s1,s2):
     # print("angle",angle, "dist p s1 ",dist_between_p_s1, "dist p s2",dist_between_p_s2, "k", k)
     # print("Summe Distanz zw. 2 Punkten","  p: ", p," s1: ", s1," s2: ", s2)
     # print( (calc_distance_between_two_points(polygon,p, s1)+calc_distance_between_two_points(polygon,p, s2)))
-    # if k<0:                 #Muss das so? Bei negativen Winkel kommen immer negative Werte raus die je höher ja kleiner sind, als andere.
-    #     return k*(-1)
-    # else:
+
     return k
 
 
