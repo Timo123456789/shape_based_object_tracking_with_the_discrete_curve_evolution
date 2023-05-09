@@ -7,23 +7,29 @@ import math
 import pandas
 
 #WICHTIG: y Koordinate wird beim Einlesen noch *-1 genommen (muss wieder abgeändert werden)
+#NoP muss wieder -10 genommen werden, damit am Ende kein leeres Polygon ausgegeben wird
 
 
 def main():
-    #testpolygon = [[0,0],[2,0],[2,2],[3,4],[1,2]]
-    #Alternativ Import einer Textdatei mit Punkten (gleiches Schema wie oben?)
-    #p = choosePolygon()
-    p = readtextfile()
+    read_path = r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\examples\dvg2bld_nw_vsmall.txt"
+
+
+
+    write_path = r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\TestRuns\SimplePolygons\testpng"
+    #write_path = r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\TestRuns\NRWPolyVSmall\testpng"
+
+    p = choosePolygon(2)
+    #p = readtextfile(read_path)
 
    
   
 
     NoP = get_number_of_points(p)
-    print_limiter = 10
+    print_limiter = 1
     print_limiter_var = 0
-    plot_GS_polygon(p, 0)
+    plot_GS_polygon(p, 0, write_path)
     DCE_Polygon = p
-    for i in range(NoP-10):
+    for i in range(NoP):
         calc_lowest_k = get_lowest_k(DCE_Polygon)
         index_lowest_k = calc_lowest_k[0]
         k_value=calc_lowest_k[1]
@@ -45,11 +51,11 @@ def main():
         #     print_limiter = 10
         #     print_limiter_var = 10
         if i == (NoP-10):
-            plot_GS_polygon(DCE_Polygon,i)
+            plot_GS_polygon(DCE_Polygon,i,write_path)
             print("finished")
             break
         if print_limiter_var == print_limiter:
-            plot_GS_polygon(DCE_Polygon,i)
+            plot_GS_polygon(DCE_Polygon,i, write_path)
             print_limiter_var = 0
         DCE_Polygon = delete_point_from_polygon(DCE_Polygon, index_lowest_k)
         #plot_GS_polygon(DCE_Polygon)
@@ -115,15 +121,14 @@ def get_lowest_k(p):
             if i==NoP:
                 break
             scnd_k_value = calc_k_with_points(p,i,(i+1),(i-1))
+            print("Punkt", get_selected_point(p,i), "K Wert:", scnd_k_value)
             if scnd_k_value<=k_value:        
                 # print("k neu setzen")
                 # print("i",i, "i+1", i+1,"i-1", i-1)
                 k_value = scnd_k_value
                 index_for_point_on_k = i  
             
-    # print("höchster k Wert", k_value)
-    # print("entsprechender Pointindex", index_for_point_on_k)
-    # print("entsprechender Punkt", get_selected_point(p,(i-1))) # -1 keine Ahnung warum, sonst springt er einen Punkt zu weit
+   
     return [index_for_point_on_k,k_value]
 
 
@@ -162,9 +167,8 @@ def calc_distance_between_two_points(p, point1, point2):
     return dist
 
 
-def readtextfile():
+def readtextfile(path):
     p = 0
-    path = r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\examples\dvg2bld_nw_vsmall.txt"
    # f = open(path) 
     #Quelle https://www.opengeodata.nrw.de/produkte/geobasis/vkg/dvg/dvg2/
     test = pandas.read_table(path, delimiter=';')
@@ -184,15 +188,8 @@ def convert_table_in_array(t):
     
 
     return a 
-def choosePolygon():
-
-    #readgeodataFrame.from_file benutzen? siehe https://stackoverflow.com/questions/27606924/count-number-of-points-in-multipolygon-shapefile-using-python
-
-
-
-    f = open(r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\testpolygon.txt")
-    #polygon_from_txt = np.loadtxt(r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\testpolygon.txt", comments="#", delimiter=";")
-    #print(polygon_from_txt)
+def choosePolygon(x):
+   
     polygon1 = Polygon([    (1,1),(0,3),(2,4),
                             (5,5),(4,3),(4,1)
                     ])
@@ -209,16 +206,23 @@ def choosePolygon():
         (4,1),(5,1),(6,1),(7,1),(8,1),(9,2),(8,3),(7,4),(8,5),(9,6),(10,7),(11,8),(8,7),(6,7),(5,9),(8,10),(7,11),(6,12),(5,11),(4,11),
         (3,11),(2,11),(0,10),(2,9),(2,8),(2,7),(1,6),(1,5),(3,4),(1,3),(2,2)
     ])
-
-    p = gpd.GeoSeries(polygon3)
+    if x == 1:
+        p = gpd.GeoSeries(polygon1)
+        
+    if x == 2:
+        p = gpd.GeoSeries(polygon2)
+    if x == 3:
+        p = gpd.GeoSeries(polygon3)
+        
+   
     # p = gpd.GeoDataFrame(polygon2)
     return p
     
-def plot_GS_polygon(p, index):
+def plot_GS_polygon(p, index, write_path):
     p.plot()
     #plt.savefig("testtiff" + str(index)+".tiff")
     #plt.savefig(r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\TestRuns\NRWPolyVSmall\testpng" + str(index)+".png")
-    plt.savefig(r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\TestRuns\temp\testpng" + str(index)+".png")
+    plt.savefig( write_path + str(index)+".png")
     plt.close
     #plt.show()
 
@@ -240,7 +244,6 @@ def calc_k_with_points(polygon,p,s1,s2):
     # print("Summe Distanz zw. 2 Punkten","  p: ", p," s1: ", s1," s2: ", s2)
     # print( (calc_distance_between_two_points(polygon,p, s1)+calc_distance_between_two_points(polygon,p, s2)))
     # print("k", k)
-
     return k
 
 
