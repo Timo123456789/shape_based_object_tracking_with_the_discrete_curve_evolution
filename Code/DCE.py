@@ -95,6 +95,14 @@ def main():
 
 
 #gibt Polygon ohne Punkt zurück
+
+"""
+returns a polgyon p, where a point has been deleted
+
+@param p: Polygon (as Geopanda.Geoseries Object)
+@param index_of_point: Index for the point, which would be deleted
+@return: Polygon (as Geopanda.Geoseries Object) without point on index 'index_on_point'
+"""
 def delete_point_from_polygon(p,index_of_point):
         d_point = get_selected_point(p, index_of_point)
         array = p[0].exterior.coords
@@ -103,12 +111,26 @@ def delete_point_from_polygon(p,index_of_point):
         shrink_poly = create_Polygon_from_array(array)
         return shrink_poly
        
+"""
+create a Geopanda Geoseries Object from an given array
 
+@param arr: 2 dim Array of points (as tupel); like [[0,1],[0,2],..]
+@return p: Geopanda.Geoseries Object
+
+"""
 def create_Polygon_from_array(arr):
     polygon = Polygon(arr)
     p = gpd.GeoSeries(polygon)
     return p
 
+
+"""
+Returns an Array of Points in p
+
+@param p: Polygon (as Geopanda.Geoseries Object)
+@return: array of points, which are in given Polygon p
+
+"""
 def get_array_with_points(p):
     NoP = get_number_of_points(p)
     array_of_points = []
@@ -120,7 +142,13 @@ def get_array_with_points(p):
     return array_of_points
 
 
+"""
+returns lowest k value for polygon p
 
+@param p: Polygon (as Geopanda.Geoseries Object)
+@return k: calculated lowest k value in p as int
+
+"""
 def get_lowest_k(p):
     NoP = get_number_of_points(p)
     k_value = 0
@@ -144,7 +172,13 @@ def get_lowest_k(p):
    
     return [index_for_point_on_k,k_value]
 
+"""
+returns number of points in a polygon p
 
+@param p: Polygon (as Geopanda.Geoseries Object)
+@return pointcounter: Number of points in Polygon p as int
+
+"""
 def get_number_of_points(p):
     pointcounter = 0
     for i in p[0].exterior.coords:
@@ -155,6 +189,15 @@ def get_number_of_points(p):
     return pointcounter
 
 
+"""
+returns angel between two points (point1 and point2)
+
+@param p: Polygon (as Geopanda.Geoseries Object)
+@param point1: point from there the angle would be calculated
+@param point2: point from there the angle would be calculated
+@return: angle between point1 and point2 on Polygon p in radiant
+
+"""
 #return angle in radiant
 def get_angle(p,point1,point2):
     p1 = Point(p[0].exterior.coords[point1])  
@@ -166,20 +209,37 @@ def get_angle(p,point1,point2):
     return math.radians(angle)
     #return math.degrees(math.atan2(y2-y1, x2-x1))
     
+
+"""
+returns  point at index i from a given Polgon 
+
+@param p = Polygon (as Geopanda.Geoseries Object)
+@return Point = Tuple from Point at index i on p
+"""
 def get_selected_point(p,i):
        return Point(p[0].exterior.coords[i])
 
-#Input p = Polygon (as Geopanda.Geoseries Object)
-#Input point1 = Point 1 which calculate distance from
-#Input point2 = Point 2 which calculate distance to
-#return dist = Distance between Point1 and Point2 in p
+
+"""
+calculate distance between two Points
+
+@param p: Polygon (as Geopanda.Geoseries Object)
+@param point1: Point 1 which calculate distance from
+@param point2: Point 2 which calculate distance to
+@return dist: Distance between Point1 and Point2 in p
+"""
 def calc_distance_between_two_points(p, point1, point2):
     p1 = Point(p[0].exterior.coords[point1])  
     p2 = Point(p[0].exterior.coords[point2])
     dist = p1.distance(p2)
     return dist
 
+"""
+read a given textfile from path
 
+@param path: Path where the reading file is located
+@returns: Geoseries Polygon, which are created from array
+"""
 def readtextfile(path):
     p = 0
    # f = open(path) 
@@ -188,7 +248,12 @@ def readtextfile(path):
     array = convert_table_in_array(test)
     return create_Polygon_from_array(array) 
 
+"""
+Convert a given table to an arrray
 
+@param t: table with columns, which are named with 'x' and 'y'
+@return a: array with points from table as tuple
+"""
 def convert_table_in_array(t):
     RowCount = len(t)
     #print(RowCount)
@@ -201,6 +266,13 @@ def convert_table_in_array(t):
     
 
     return a 
+
+"""
+Function which is used, when a simple Polygon is choosen as testrun
+
+@param x: Selected the Polygon with this number
+@return p: return p as geopanda.geoseries object which includes one Polygon Object 
+"""
 def choosePolygon(x):
    
     polygon1 = Polygon([    (1,1),(0,3),(2,4),
@@ -230,7 +302,16 @@ def choosePolygon(x):
    
     # p = gpd.GeoDataFrame(polygon2)
     return p
-    
+
+
+"""
+Plot a given Polygon at the folderpath 'path' with the indexnumber 'index' in the filename.
+Plot the polygon as PNG File
+
+@param p = Polygon, created with Geopanda, which would be saved as file
+@param index = index to make saved file unique
+@param writepath = Path, where would be file written
+"""
 def plot_GS_polygon(p, index, write_path):
     p.plot()
     #plt.savefig("testtiff" + str(index)+".tiff")
@@ -240,7 +321,17 @@ def plot_GS_polygon(p, index, write_path):
     #plt.show()
 
 
+"""
+Returns K Value calculated based on Latecki and Lakaemper, with three Points.
+The first linesegment is from p to s1 (p,s1) and the second linesegment is form p to s2 (p,s2)
+Angle calculation must be sum up, because there are two angles to get the hole angle from s1 to s2.
 
+@param polygon: Polygon, created with Geopanda
+@param p: Point for which k is calculated
+@param s1: Point which describes the end of the first line from p
+@param s2: Point which describes the end of the second line from p
+@returns: K as Int
+"""
 def calc_k_with_points(polygon,p,s1,s2):
     angle = (get_angle(polygon,p,s1) + get_angle(polygon,p,s2))
     dist_between_p_s1 = calc_distance_between_two_points(polygon,p,s1)
