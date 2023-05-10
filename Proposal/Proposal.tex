@@ -68,7 +68,7 @@
 Drohnen mit Kameras verbreiten sich immer weiter in Deutschland, wodurch eine stabile Verbindung von Pilot zu Drohne von hoher Wichtigkeit ist \citep{Nehring2021}. \newline
 Da bei der immer weiter voranschreitenden technischen Entwicklung abzusehen ist, dass die Kameraauflösung bei Drohnen weiter steigt \citep{futuretrends2017}, ist auch eine stärkere Kompression dieser Bilder und Videos nötig, um eine stabile Verbindung weiter zu gewährleisten. Diese Kompression kann semantisch erfolgen, indem nur das übertragen wird, was auch gewünscht ist, um noch geringere Datenraten zu ermöglichen. Außerdem ist das Erreichen einer höheren Reichweite bei der Funkverbindung sehr wünschenswert. \newline
 Eine Vereinfachung des detektierten Objekts kann außerdem eine Anonymisierung ermöglichen, da nur das Übertragen wird, was auch übertragen werden soll. Ein konkreter Anwendungsfall ist die Zählung von Personen, die durch die Discrete Curve Evolution anonymisiert wurden. Hier kann ein maschineller Lernalgorithmus durch die vereinfachte Erkennung und Abstraktion das Zählen deutlich schneller und einfacher ermöglichen.\\
-Im Rahmen dieser Bachelorarbeit soll beispielhaft eine Methode implementiert werden, die eine Darstellung von vereinfachten Objekten ermöglicht, was zur Zählung verwendet werden kann.
+Im Rahmen dieser Bachelorarbeit soll beispielhaft eine Methode implementiert werden, die eine Darstellung von vereinfachten Objekten ermöglicht, welche zur Zählung verwendet werden kann.
 % \begin{itemize}
 %     \item Sequenzierung von Objekten kann für bessere (semantische) Kompression mithilfe der Discrete Curve Evaluation (DCE) benutzt werden 
 %     \item bessere Reichweite, stabilere Funkverbindungen von Drohne zu Pilot 
@@ -110,7 +110,7 @@ Anhand des komprimierten Videos, was als Ergebnis zu erwarten ist, kann eine Erg
 \begin{figure}[ht]
     \centering
     \includegraphics*[scale = 0.5, keepaspectratio]{images/Example_bird.png}
-    \caption[Beispielablauf der Segmentierung und DCE aus \citet{Dorr2017}]{Beispiel, welches einen segementierten Vogel zeigt, der in eine Binärmaske umgewandelt wird. Dieses Polygon wird dann mithilfe der DCE vereinfacht (Quelle: \citep{Dorr2017})}
+    \caption[Beispielablauf der Segmentierung und DCE aus \citet{Dorr2017}]{Beispiel, welches einen segementierten Vogel zeigt, der in eine Binärmaske umgewandelt wird. Dieses Polygon wird dann mithilfe der DCE vereinfacht \citep{Dorr2017}.}
     \label{Bsp_Dorr}
 \end{figure}
 }
@@ -135,7 +135,7 @@ Anhand des komprimierten Videos, was als Ergebnis zu erwarten ist, kann eine Erg
 
 \section*{3 Ausblick}
 Wenn das Ergebnis der Komprimierung von Drohnenvideos mithilfe der DCE zufriedenstellend ist, kann eine hardwarenähere Programmierung erfolgen. Diese könnte in C oder C++ gemacht werden, um schnellere Ergebnisse liefern zu können, da die Prozessierungsgeschwindigkeit von Python begrenzt ist.\newline
-Durch die hardwarenähere Implementierung der DCE könnte eine Komprimierung direkt am Aufzeichnungsort, bzw. in der Drohne, stattfinden, welche die Datenübertragungsrate senkt. Auch die Weiterentwicklung der integrierten Prozessoren in Drohnen ermöglicht möglicherweise in absehbarer Zeit vor Ort semantische Komprimierung mithilfe der DCE. Durch die Senkung der Datenübertragungsrate kann eine stabilere Funkverbindung, sowie höhere Reichweite ermöglicht werden.
+Durch die hardwarenähere Implementierung der DCE könnte eine Komprimierung direkt am Aufzeichnungsort, bzw. in der Drohne, stattfinden, welche die Datenübertragungsrate senkt. Auch die Weiterentwicklung der integrierten Prozessoren in Drohnen ermöglicht möglicherweise in absehbarer Zeit vor Ort semantische Komprimierung mithilfe der DCE. Durch die Senkung der Datenübertragungsrate kann eine stabilere Funkverbindung, sowie höhere Reichweite ermöglicht werden. Außerdem kann die Zählung der abgebildeten Objekte vereinfacht werden.
 
 
 % \begin{itemize}
