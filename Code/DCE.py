@@ -17,7 +17,7 @@ def main():
 
     write_path = r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\TestRuns\SimplePolygons\testpng"
     #write_path = r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\TestRuns\NRWPolyVSmall\testpng"
-
+    print_limiter = 1
     p = choosePolygon(2)
     #p = readtextfile(read_path)
 
@@ -25,7 +25,7 @@ def main():
   
 
     NoP = get_number_of_points(p)
-    print_limiter = 1
+ 
     print_limiter_var = 0
     plot_GS_polygon(p, 0, write_path)
     DCE_Polygon = p
