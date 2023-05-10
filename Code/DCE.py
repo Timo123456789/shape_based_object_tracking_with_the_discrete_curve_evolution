@@ -10,16 +10,18 @@ import pandas
 #NoP muss wieder -10 genommen werden, damit am Ende kein leeres Polygon ausgegeben wird
 
 
+#Main Method
+#
 def main():
     read_path = r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\examples\dvg2bld_nw_vsmall.txt"
 
 
 
-    write_path = r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\TestRuns\SimplePolygons\testpng"
-    #write_path = r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\TestRuns\NRWPolyVSmall\testpng"
+    #write_path = r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\TestRuns\SimplePolygons\testpng"
+    write_path = r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\TestRuns\NRWPolyVSmall\testpng"
     print_limiter = 1
-    p = choosePolygon(2)
-    #p = readtextfile(read_path)
+    #p = choosePolygon(2)
+    p = readtextfile(read_path)
 
    
   
