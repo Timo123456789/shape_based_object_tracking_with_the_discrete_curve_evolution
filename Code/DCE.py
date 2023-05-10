@@ -28,7 +28,7 @@ def main():
     
     #p = choosePolygon(2)
 
-
+    
     read_path = read_path_very_small_NRW
     write_path = write_path_temp
     print_limiter = 10
