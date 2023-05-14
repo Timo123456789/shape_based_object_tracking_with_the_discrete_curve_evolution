@@ -35,7 +35,7 @@
 	\input{chapter/title_page2.tex}
 \end{titlepage}
 
-\input{chapter/abstract.tex}
+\input{chapter/001abstract.tex}
 \cleardoubleoddemptypage
 
 \tableofcontents
@@ -44,10 +44,22 @@
 % set the page numbering back to arabic
 \pagenumbering{arabic}
 \setcounter{page}{1}
-\input{chapter/intro.tex}
+\input{chapter/01intro.tex}
 \cleardoubleoddemptypage
 
-\input{chapter/conclusion.tex}
+\input{chapter/02hintergrund.tex}
+cleardoubleoddemptypage
+
+
+\input{chapter/03implementierung.tex}
+\cleardoubleoddemptypage
+
+
+\input{chapter/04evaluation.tex}
+\cleardoubleoddemptypage
+
+
+\input{chapter/05conclusion.tex}
 \cleardoubleoddemptypage
 
 % when adding a new chapter comment out this line
@@ -55,7 +67,7 @@
 %cleardoubleoddemptypage
 
 \appendix % hier beginnt der Anhang
-\input{chapter/appendix_chapter.tex}
+\input{chapter/06appendix_chapter.tex}
 \cleardoubleoddemptypage
 
 \listoffigures
