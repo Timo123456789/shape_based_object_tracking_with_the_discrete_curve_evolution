@@ -392,14 +392,14 @@ def calc_k_dist(p,p1,s1,s2):
 
     print("__________________________________________________")
     if k < 0:
-        print("Distanz zw. P1 und S1", calc_distance_between_two_points(p,s1,p1))
-        print("Distanz zw. P1 und S2", calc_distance_between_two_points(p,s2,p1))
+        print("Distanz zw. S1 und P1", calc_distance_between_two_points(p,s1,p1))
+        print("Distanz zw. S2 und P1", calc_distance_between_two_points(p,s2,p1))
         print("Distanz zw. S1 und S2", calc_distance_between_two_points(p,s1,s2))
         print("k*-1", k*-1)
         return k *-1
     else:
-        print("Distanz zw. P1 und S1", calc_distance_between_two_points(p,s1,p1))
-        print("Distanz zw. P1 und S2", calc_distance_between_two_points(p,s2,p1))
+        print("Distanz zw. S1 und P1", calc_distance_between_two_points(p,s1,p1))
+        print("Distanz zw. S2 und P1", calc_distance_between_two_points(p,s2,p1))
         print("Distanz zw. S1 und S2", calc_distance_between_two_points(p,s1,s2))
         print("k", k)
         return k 
