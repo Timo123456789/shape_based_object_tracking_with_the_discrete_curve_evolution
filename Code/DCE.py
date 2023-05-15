@@ -31,25 +31,31 @@ def main():
     
     read_path = read_path_very_small_NRW
     write_path = write_path_temp
-    print_limiter = 10
-    p = readtextfile(read_path)
+    print_limiter = 1
+    p = choosePolygon(2)
 
    
   
 
     NoP = get_number_of_points(p)
- 
+    print("____________________________________")
     print_limiter_var = 0
     plot_GS_polygon(p, 0, write_path)
     DCE_Polygon = p
+    
+    print(calc_k_with_points(p,4,3,5))
+    print(calc_k_anotherway(p,4,3,5))
+
     for i in range(NoP):
+        print("Punkt", get_selected_point(p,i) )
         calc_lowest_k = get_lowest_k(DCE_Polygon)
         index_lowest_k = calc_lowest_k[0]
         k_value=calc_lowest_k[1]
         if index_lowest_k==-1:
             print("Error; k = -1")
             break
-        print(get_selected_point(p,i),"i: ",i," limiter:", (print_limiter-print_limiter_var), "verbl. P.:", (NoP-i), "kvalue", k_value)
+        #print(get_selected_point(p,i),"i: ",i," limiter:", (print_limiter-print_limiter_var), "verbl. P.:", (NoP-i), "kvalue", k_value)
+       
         print_limiter_var = print_limiter_var +1
         # if i == (NoP-800):
         #     print_limiter = 150
@@ -193,8 +199,8 @@ def get_number_of_points(p):
 returns angel between two points (point1 and point2)
 
 @param p: Polygon (as Geopanda.Geoseries Object)
-@param point1: point from there the angle would be calculated
-@param point2: point from there the angle would be calculated
+@param point1: point1 from there the angle would be calculated
+@param point2: point2 from there the angle would be calculated
 @return: angle between point1 and point2 on Polygon p in radiant
 
 """
@@ -203,10 +209,16 @@ def get_angle(p,point1,point2):
     p1 = Point(p[0].exterior.coords[point1])  
     p2 = Point(p[0].exterior.coords[point2])
     angle = math.degrees(math.atan2(-(p2.y-p1.y), p2.x-p1.x))
-    # print(p1,p2)
-    # print("angle", angle, "angle in radians", math.radians(angle))
+    print(p1,p2)
+    print("angle", angle, "angle in radians", math.radians(angle))
+    angle_radians = math.radians(angle)
     # return angle
+    if angle_radians < 0:
+        return angle_radians*-1
+    else:
+        return angle_radians
     return math.radians(angle)
+
     #return math.degrees(math.atan2(y2-y1, x2-x1))
     
 
@@ -268,7 +280,7 @@ def convert_table_in_array(t):
     return a 
 
 """
-Function which is used, when a simple Polygon is choosen as testrun
+Function which is used, when a simple Polygon is choosen for testrun
 
 @param x: Selected the Polygon with this number
 @return p: return p as geopanda.geoseries object which includes one Polygon Object 
@@ -334,6 +346,7 @@ Angle calculation must be sum up, because there are two angles to get the hole a
 """
 def calc_k_with_points(polygon,p,s1,s2):
     angle = (get_angle(polygon,p,s1) + get_angle(polygon,p,s2))
+
     dist_between_p_s1 = calc_distance_between_two_points(polygon,p,s1)
     dist_between_p_s2 = calc_distance_between_two_points(polygon,p,s2)
 
@@ -343,15 +356,19 @@ def calc_k_with_points(polygon,p,s1,s2):
     k =  (angle*dist_between_p_s1*dist_between_p_s2)/(dist_between_p_s1+dist_between_p_s2)
     
     
-
-    # print("angle",angle, "dist p s1 ",dist_between_p_s1, "dist p s2",dist_between_p_s2, "k", k)
+    print("point", p)
+    print("angle",angle, "dist p s1 ",dist_between_p_s1, "dist p s2",dist_between_p_s2, "k", k)
     # print("Summe Distanz zw. 2 Punkten","  p: ", p," s1: ", s1," s2: ", s2)
     # print( (calc_distance_between_two_points(polygon,p, s1)+calc_distance_between_two_points(polygon,p, s2)))
     # print("k", k)
+    if k == 0:
+        print("angle")
+        print(angle, dist_between_p_s1, dist_between_p_s2)
     return k
 
 
-
-
+def calc_k_anotherway(p,p1,s1,s2):
+    k = calc_distance_between_two_points(p,p1,s1)+calc_distance_between_two_points(p,p1,s2) - calc_distance_between_two_points(p,s1,s2)
+    return k 
 
 main()
