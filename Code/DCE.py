@@ -26,13 +26,13 @@ def main():
 
     #write_path = r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\TestRuns\SimplePolygons\testpng"
     
-    #p = choosePolygon(2)
-
+    
     
     read_path = read_path_very_small_NRW
     write_path = write_path_temp
-    print_limiter = 10
-    p = readtextfile(read_path)
+    print_limiter = 1
+    #p = readtextfile(read_path)
+    p = choosePolygon(2)
 
    
   
@@ -387,10 +387,21 @@ def calc_k_with_points(polygon,p,s1,s2):
 
 
 def calc_k_dist(p,p1,s1,s2):
-    k = calc_distance_between_two_points(p,p1,s1)+calc_distance_between_two_points(p,p1,s2) - calc_distance_between_two_points(p,s1,s2)
+
+    k = calc_distance_between_two_points(p,s1,p1)+calc_distance_between_two_points(p,s2,p1) - calc_distance_between_two_points(p,s1,s2)
+
+    print("__________________________________________________")
     if k < 0:
+        print("Distanz zw. P1 und S1", calc_distance_between_two_points(p,s1,p1))
+        print("Distanz zw. P1 und S2", calc_distance_between_two_points(p,s2,p1))
+        print("Distanz zw. S1 und S2", calc_distance_between_two_points(p,s1,s2))
+        print("k*-1", k*-1)
         return k *-1
     else:
+        print("Distanz zw. P1 und S1", calc_distance_between_two_points(p,s1,p1))
+        print("Distanz zw. P1 und S2", calc_distance_between_two_points(p,s2,p1))
+        print("Distanz zw. S1 und S2", calc_distance_between_two_points(p,s1,s2))
+        print("k", k)
         return k 
 
 main()
