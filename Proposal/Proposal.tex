@@ -65,10 +65,12 @@
 %\tableofcontents
 
 \section*{1 Motivation}
-Drohnen mit Kameras verbreiten sich immer weiter in Deutschland, wodurch eine stabile Verbindung von Pilot zu Drohne von hoher Wichtigkeit ist \citep{Nehring2021}. \newline
-Da bei der immer weiter voranschreitenden technischen Entwicklung abzusehen ist, dass die Kameraauflösung bei Drohnen weiter steigt \citep{futuretrends2017}, ist auch eine stärkere Kompression dieser Bilder und Videos nötig, um eine stabile Verbindung weiter zu gewährleisten. Diese Kompression kann semantisch erfolgen, indem nur das übertragen wird, was auch gewünscht ist, um noch geringere Datenraten zu ermöglichen. Außerdem ist das Erreichen einer höheren Reichweite bei der Funkverbindung sehr wünschenswert. \newline
-Eine Vereinfachung des detektierten Objekts kann außerdem eine Anonymisierung ermöglichen, da nur das Übertragen wird, was auch übertragen werden soll. Ein konkreter Anwendungsfall ist die Zählung von Personen, die durch die Discrete Curve Evolution anonymisiert wurden. Hier kann ein maschineller Lernalgorithmus durch die vereinfachte Erkennung und Abstraktion das Zählen deutlich schneller und einfacher ermöglichen.\\
-Im Rahmen dieser Bachelorarbeit soll beispielhaft eine Methode implementiert werden, die eine Darstellung von vereinfachten Objekten ermöglicht, welche zur Zählung verwendet werden kann.
+Kameradrohnen verbreiten sich immer weiter in Deutschland und werden in immer mehr Anwendungsfällen genutzt. Da auch die gewerbliche Nutzung von Drohnen zunimmt, ist eine Anonymisierung des aufgenommenen Videomaterials nötig, um den Anforderungen des Datenschutzes zu entsprechen \citep{Nehring2021}.
+% Drohnen mit Kameras verbreiten sich immer weiter in Deutschland, wodurch eine stabile Verbindung von Pilot zu Drohne von hoher Wichtigkeit ist \citep{Nehring2021}. \newline
+% % Da bei der immer weiter voranschreitenden technischen Entwicklung abzusehen ist, dass die Kameraauflösung bei Drohnen weiter steigt \citep{futuretrends2017}, ist auch eine stärkere Kompression dieser Bilder und Videos nötig, um eine stabile Verbindung weiter zu gewährleisten. Diese Kompression kann semantisch erfolgen, indem nur das übertragen wird, was auch gewünscht ist, um noch geringere Datenraten zu ermöglichen. Außerdem ist das Erreichen einer höheren Reichweite bei der Funkverbindung sehr wünschenswert. \newline
+Eine Anwendung von Kameradrohnen kann in der Überwachung von Verkehrsströmen liegen. Hier ist insbesondere die Anonymisierung des einzelnen (Auto-)Fahrers wichtig, da es nicht möglich sein darf, diesen eindeutig zu identifizieren. \\
+Ein UseCase für die Anwendung von Discrete Curve Evolution ist ein Verkehrsmonitoring mit Anonymisierung der Autos. \\
+Im Rahmen dieser Bachelorarbeit soll beispielhaft eine Methode implementiert werden, die eine Darstellung von vereinfachten Objekten ermöglicht.
 % \begin{itemize}
 %     \item Sequenzierung von Objekten kann für bessere (semantische) Kompression mithilfe der Discrete Curve Evaluation (DCE) benutzt werden 
 %     \item bessere Reichweite, stabilere Funkverbindungen von Drohne zu Pilot 
@@ -81,9 +83,10 @@ Im Rahmen dieser Bachelorarbeit soll beispielhaft eine Methode implementiert wer
 % \end{itemize}
 
 \section*{2 Methodik}{
-Zum Testen wird Videomaterial bereitgestellt, welches im Rahmen der Bachelorarbeit analysiert und komprimiert wird (s. Abb. \ref{Scr_ges_Vid}). Ein beispielhafter Verlauf ist in Abb. \ref{Bsp_Dorr} zu sehen. \\
-Als ersten Schritt müssen die zu erkennenden Objekte detektiert werden (s. Abb. \ref{Scr_detail_Obj}). Bei dem Beispielvideo ist dies durch die statische Kameraposition in Verbindung mit den sich bewegenden Objekten durch Bewegtsegmentierung der beiden Objekte oder mit anderen Bilderkennungsalgorithmen, wie YOLO (You Only Look Once), möglich \Citep{Plastiras2018}. Dies ermöglicht die kontextabhängige Weieterverarbeitung.\newline
-Weitergehend müssen die detektierten Bildsegmente in eine Binärmaske umgewandelt werden, welche vereinfacht werden kann. Das Umwandeln der segementierten Bildausschnitte in eine Binärmaske kann mithilfe eines Schwellwertverfahrens, welches von Nobuyuki Otsu entwickelt wurde, erfolgen \citep{Otsu1979}. \\
+Zum Testen wird Videomaterial bereitgestellt, welches im Rahmen der Bachelorarbeit analysiert (s. Abb. \ref{Scr_ges_Vid}). Ein beispielhafter Verlauf ist in Abb. \ref{Bsp_Dorr} zu sehen. \\
+Als ersten Schritt müssen die zu erkennenden Objekte detektiert werden (s. Abb. \ref{Scr_detail_Obj}). Dies kann mit der Schwellwertsegmentierung nach Otsu erfolgen, da die Objekte eindeutig zu erkennen sind \citep{Otsu1979}. Außerdem ist die Schwellwertsegmentierung sehr ressourcenschonend, da kein maschinelles Lernverfahren verwendet wird. Dieses Verfahren ermöglicht auch das Umwandeln des Bildausschnittes in die Binärmaske. Diese Binärmaske kann dann als Polygon betrachtet werden.
+%  Bei dem Beispielvideo ist dies durch die statische Kameraposition in Verbindung mit den sich bewegenden Objekten durch Bewegtsegmentierung der beiden Objekte oder mit anderen Bilderkennungsalgorithmen, wie YOLO (You Only Look Once), möglich \Citep{Plastiras2018}. Dies ermöglicht die kontextabhängige Weiterverarbeitung.\newline
+% Weitergehend müssen die detektierten Bildsegmente in eine Binärmaske umgewandelt werden, welche vereinfacht werden kann. Das Umwandeln der segementierten Bildausschnitte in eine Binärmaske kann mithilfe eines Schwellwertverfahrens, welches von Nobuyuki Otsu entwickelt wurde, erfolgen \citep{Otsu1979}. \\
 Die weitere Vereinfachung des Polygons erfolgt dann mithilfe der Discrete Curve Evolution (DCE).
 % \begin{figure}
 %     \lstinputlisting[firstline=131, lastline=140]{../Code/DCE.py}
@@ -99,14 +102,10 @@ Die weitere Vereinfachung des Polygons erfolgt dann mithilfe der Discrete Curve 
     \label{Scr_ges_Vid}
 \end{figure}
 Diese berechnet anhand eines Grenzwertes, welche Punkte für die Darstellung einer Form irrelevant sind, sodass diese ohne größeren Informationsverlust entfernt werden können \citep{Barkowsky2000}. Durch die schrittweise Entfernung von Punkten kann eine bedarfsbezogene Vereinfachung des Polygons ermöglicht werden. \\
-Anhand des komprimierten Videos, was als Ergebnis zu erwarten ist, kann eine Ergebnisevaluation stattfinden.
-\begin{figure}[ht]
-    \centering
-    \includegraphics[scale = 4, keepaspectratio] {images/detail_screenshot_people.png}
-    \includegraphics[scale = 4, keepaspectratio]{images/detail_screenshot_boat.png}
-    \caption[Ausschnitte aus Abb. \ref{Scr_ges_Vid}, welche die beiden bewegenden Objekte darstellen ]{Ausschnitte aus Abb. \ref{Scr_ges_Vid}, welche die beiden bewegenden Objekte darstellen (Quelle: eigene Darstellung)}
-    \label{Scr_detail_Obj}
-\end{figure}
+Außerdem kann die durch die Vereinfachung mit der DCE erkannt werden, ob die Formähnlichkeit erhalten bleibt und die Methode somit sinnvoll ist. \\
+Für diesen Schritt kann auch eine Ähnlichkeitsfunktion genutzt werden, um dies zu berechnen.
+Anhand des komprimierten Videos oder einzelner Frames aus diesem kann eine Ergebnisevaluation stattfinden. Einzelne Bilder aus dem Video können vereinfacht werden, wenn Sie Objekte enthalten, die über Schwellwertsegmentierung detektiert werden können. \\
+ 
 \begin{figure}[ht]
     \centering
     \includegraphics*[scale = 0.5, keepaspectratio]{images/Example_bird.png}
@@ -114,6 +113,13 @@ Anhand des komprimierten Videos, was als Ergebnis zu erwarten ist, kann eine Erg
     \label{Bsp_Dorr}
 \end{figure}
 }
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale = 4, keepaspectratio] {images/detail_screenshot_people.png}
+    \includegraphics[scale = 4, keepaspectratio]{images/detail_screenshot_boat.png}
+    \caption[Ausschnitte aus Abb. \ref{Scr_ges_Vid}, welche die beiden bewegenden Objekte darstellen ]{Ausschnitte aus Abb. \ref{Scr_ges_Vid}, welche die beiden bewegenden Objekte darstellen (Quelle: eigene Darstellung)}
+    \label{Scr_detail_Obj}
+\end{figure}
 
 
 % \begin{itemize}
@@ -135,7 +141,8 @@ Anhand des komprimierten Videos, was als Ergebnis zu erwarten ist, kann eine Erg
 
 \section*{3 Ausblick}
 Wenn das Ergebnis der Komprimierung von Drohnenvideos mithilfe der DCE zufriedenstellend ist, kann eine hardwarenähere Programmierung erfolgen. Diese könnte in C oder C++ gemacht werden, um schnellere Ergebnisse liefern zu können, da die Prozessierungsgeschwindigkeit von Python begrenzt ist.\newline
-Durch die hardwarenähere Implementierung der DCE könnte eine Komprimierung direkt am Aufzeichnungsort, bzw. in der Drohne, stattfinden, welche die Datenübertragungsrate senkt. Auch die Weiterentwicklung der integrierten Prozessoren in Drohnen ermöglicht möglicherweise in absehbarer Zeit vor Ort semantische Komprimierung mithilfe der DCE. Durch die Senkung der Datenübertragungsrate kann eine stabilere Funkverbindung, sowie höhere Reichweite ermöglicht werden. Außerdem kann die Zählung der abgebildeten Objekte vereinfacht werden.
+Durch die hardwarenähere Implementierung der DCE könnte eine Anonymisierung direkt am Aufzeichnungsort, bzw. in der Drohne, stattfinden. 
+Auch die Weiterentwicklung der integrierten Prozessoren in Drohnen ermöglicht möglicherweise in absehbarer Zeit vor Ort semantische Komprimierung mithilfe der DCE. Durch die Senkung der Datenübertragungsrate kann eine stabilere Funkverbindung, sowie höhere Reichweite ermöglicht werden. Außerdem kann die Zählung der abgebildeten Objekte vereinfacht werden.
 
 
 % \begin{itemize}
