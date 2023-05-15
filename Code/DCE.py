@@ -31,8 +31,8 @@ def main():
     
     read_path = read_path_very_small_NRW
     write_path = write_path_temp
-    print_limiter = 1
-    p = choosePolygon(2)
+    print_limiter = 10
+    p = readtextfile(read_path)
 
    
   
@@ -43,18 +43,16 @@ def main():
     plot_GS_polygon(p, 0, write_path)
     DCE_Polygon = p
     
-    print(calc_k_with_points(p,4,3,5))
-    print(calc_k_anotherway(p,4,3,5))
 
     for i in range(NoP):
-        print("Punkt", get_selected_point(p,i) )
-        calc_lowest_k = get_lowest_k(DCE_Polygon)
+       # print("Punkt", get_selected_point(p,i) )
+        calc_lowest_k = get_lowest_k_dist_calc(DCE_Polygon)
         index_lowest_k = calc_lowest_k[0]
         k_value=calc_lowest_k[1]
         if index_lowest_k==-1:
             print("Error; k = -1")
             break
-        #print(get_selected_point(p,i),"i: ",i," limiter:", (print_limiter-print_limiter_var), "verbl. P.:", (NoP-i), "kvalue", k_value)
+        print(get_selected_point(p,i),"i: ",i," limiter:", (print_limiter-print_limiter_var), "verbl. P.:", (NoP-i), "kvalue", k_value)
        
         print_limiter_var = print_limiter_var +1
         # if i == (NoP-800):
@@ -96,7 +94,28 @@ def main():
 
 
 
-
+def get_lowest_k_dist_calc(p):
+    NoP = get_number_of_points(p)
+    k_value = 0
+    index_for_point_on_k = -1
+    for i in range(NoP):
+        if i==0:
+            k_value = calc_k_dist(p,i,NoP,1) 
+            point_on_k = get_selected_point(p,i) 
+            index_for_point_on_k = 0       
+        else:
+            if i==NoP:
+                break
+            scnd_k_value = calc_k_dist(p,i,(i+1),(i-1))
+           # print("Punkt", get_selected_point(p,i), "K Wert:", scnd_k_value)
+            if scnd_k_value<=k_value:        
+                # print("k neu setzen")
+                # print("i",i, "i+1", i+1,"i-1", i-1)
+                k_value = scnd_k_value
+                index_for_point_on_k = i  
+            
+   
+    return [index_for_point_on_k,k_value]
 
 
 
@@ -367,8 +386,11 @@ def calc_k_with_points(polygon,p,s1,s2):
     return k
 
 
-def calc_k_anotherway(p,p1,s1,s2):
+def calc_k_dist(p,p1,s1,s2):
     k = calc_distance_between_two_points(p,p1,s1)+calc_distance_between_two_points(p,p1,s2) - calc_distance_between_two_points(p,s1,s2)
-    return k 
+    if k < 0:
+        return k *-1
+    else:
+        return k 
 
 main()
