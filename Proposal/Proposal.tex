@@ -15,6 +15,9 @@
 
 \begin{document}
 %\layout*
+\widowpenalty = 10000
+\clubpenalty = 10000
+\displaywidowpenalty = 10000
 \begin{titlepage}
 
   
@@ -42,7 +45,7 @@
             \vspace{3cm}
            % \LARGE 
             Proposal zu\\}
-        \glqq {Objekttracking in Videos mit \\ der Discrete Curve Evolution}\grqq
+        \glqq {Videobasiertes Objektracking mit \\ der Discrete Curve Evolution}\grqq
         %Semantische Kompressino von Drohnenvideos mit der Discrete Curve Evolution 
         \vspace{1,5cm}}
 
@@ -57,70 +60,54 @@
         Geboren am : 23.05.1999 \\
         E-Mail-Adresse: timolietmeyer@uni-muenster.de \\
         Matrikelnummer: 459 169 \\
-        Studiengang: Bachelor Geoinformatik
+        Studiengang: B. Sc.  Geoinformatik
     }
     \date{ }    
 \end{titlepage}
 \maketitle
 %\tableofcontents
 
-\section*{1 Motivation}
-Kameradrohnen verbreiten sich immer weiter in Deutschland und werden in immer mehr Anwendungsfällen genutzt. Da auch die gewerbliche Nutzung von Drohnen zunimmt, ist eine Anonymisierung des aufgenommenen Videomaterials nötig, um den Anforderungen des Datenschutzes zu entsprechen \citep{Nehring2021}. \\
-Eine Anwendung von Kameradrohnen liegt in der Überwachung von Verkehrsströmen. Hier ist insbesondere die Anonymisierung des einzelnen Autos wichtig, da es nicht möglich sein darf, dieses eindeutig zu identifizieren. \\
-Ein UseCase für die Anwendung von Discrete Curve Evolution (DCE) ist ein Verkehrsmonitoring mit Anonymisierung der Autos. \\
-Im Rahmen dieser Bachelorarbeit soll beispielhaft eine Methode implementiert werden, die eine Darstellung von vereinfachten Objekten ermöglicht. Außerdem soll evaluiert werden, inwieweit die DCE Tracking von Objekten in Videos unterstützen kann.
+% \listoffigures \pagebreak
 
-\section*{2 Methodik}{
-Zum Testen wird Videomaterial bereitgestellt, welches im Rahmen der Bachelorarbeit analysiert (s. Abb. \ref{Scr_ges_Vid}) \citep{Metz2022}. Ein beispielhafter Verlauf ist in Abb. \ref{Bsp_Dorr} zu sehen. \\
-Die folgenden Schritte werden für jeden Frame ausgeführt. 
-Als ersten Schritt müssen die zu erkennenden Objekte detektiert werden (s. Abb. \ref{Scr_detail_Obj}). Dies kann mit der Schwellwertsegmentierung nach Otsu erfolgen, da die Objekte eindeutig zu erkennen sind \citep{Otsu1979}. Außerdem ist die Schwellwertsegmentierung sehr ressourcenschonend, da kein maschinelles Lernverfahren verwendet wird. Dieses Verfahren ermöglicht auch das Umwandeln des Bildausschnittes in die Binärmaske. Diese Binärmaske wird in ein Polygon umgewandelt, welches mit der DCE vereinfacht wird.
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[scale=0.2, keepaspectratio]{images/screenshot_video_autobahn_yt.png}
-    \caption[Screenshot des zu analysierenden Videos]{Screenshot des zu analysierenden Videos \citep{Metz2022}}
-    \label{Scr_ges_Vid}
-\end{figure}
+\setcounter{page}{1}
 
-Die DCE berechnet anhand eines Grenzwertes, welche Punkte für die Darstellung einer Form irrelevant sind, sodass diese ohne größeren Informationsverlust entfernt werden können \citep{Barkowsky2000}. Dies ermöglicht eine bedarfsbezogene Vereinfachung des Polygons. 
-Außerdem kann die durch die Vereinfachung mit der DCE erkannt werden, ob die Formähnlichkeit erhalten bleibt und die Methode somit sinnvoll ist. Hierfür bietet sich Verwendung einer Ähnlichkeitsfunktion für Polygone an. \\
-Eine Ergebnisevaluation ist durch die Ausgabe der vereinfachten Frames  oder des gesamten vereinfachten Videos möglich. \\
- 
-
-}
+%\section*{1 Motivation}
+{\bfseries \large Motivation\\}
+Verkehrsüberwachung mit Kameras ist ein wichtiges Element um flüssigen Verkehr zu ermöglichen. \\
+Eine Schwierigkeit bei Videoaufzeichnungen liegt im Datenschutz des einzelnen Autos.  \\
+Eine Lösung für die Anonymisierung ist die Benutzung Discrete Curve Evolution (DCE).\\
+Im Rahmen dieser Bachelorarbeit soll beispielhaft eine Methode in Python implementiert werden, die eine Darstellung von vereinfachten Objekten ermöglicht. Außerdem soll evaluiert werden, inwieweit die DCE Tracking von Objekten in Videos unterstützen kann.
+Die Idee ist, dass das Objekt detektiert, in eine Binärmaske umgewandelt, mit der DCE vereinfacht und wieder in einem Video ausgegeben wird.\\%\section*{2 Methodik}%
+{\bfseries \large Methodik\\}
+Zum Testen wird Videomaterial von Autobahnen aufgenommen, welches im Rahmen der Bachelorarbeit analysiert wird. Ein beispielhafter Verlauf anhand eines einzelnen Bildes ist in Abb. \ref{Bsp_Dorr} zu sehen. \\
+Die folgenden Schritte werden für jeden Frame im Video ausgeführt. 
+Als ersten Schritt müssen die zu erkennenden Objekte detektiert werden. Dies kann mit der Schwellwertsegmentierung nach Otsu erfolgen, da die Objekte eindeutig zu erkennen sind \citep{Otsu1979}. Außerdem ist die Schwellwertsegmentierung sehr ressourcenschonend, da kein maschinelles Lernverfahren verwendet wird. Eine andere Methode mit einem maschinellen Lernverfahren wäre die Benutzung von YOLO zur Segmentierung. Beide Verfahren beinhalten das Umwandeln in eine Binärmaske als zweiten Schritt. Diese Binärmaske wird im dritten Schritt in ein Polygon umgewandelt, welches mit der DCE vereinfacht wird. \\
+Die DCE berechnet anhand eines Grenzwertes, welche Punkte für die Darstellung einer Form irrelevant sind, sodass diese ohne größeren Informationsverlust entfernt werden können \citep{Barkowsky2000}. Dadurch wird eine bedarfsbezogene Vereinfachung des Polygons ermöglicht. 
+Weiterhin kann die Vereinfachung die mit dem DCE Algorithmus erreicht wird, eine Überprüfung der Ergebnisse vereinfachen. Hierfür bietet sich Verwendung einer Ähnlichkeitsfunktion für Polygone an. \\
+Eine Ergebnisevaluation ist durch die Ausgabe der vereinfachten Frames  oder des gesamten vereinfachten Videos möglich, wo vorher die einzelnen Bilder zu einem Video zusammengesetzt wurden. \\
 
 \begin{figure}[ht]
+ \vspace{-0.5cm}
     \centering
-    \includegraphics*[scale = 0.5, keepaspectratio]{images/Example_bird.png}
-    \caption[Beispielablauf der Segmentierung und DCE aus \citet{Dorr2017}]{Beispiel, welches einen segementierten Vogel zeigt, der in eine Binärmaske umgewandelt wird. Dieses Polygon wird dann mithilfe der DCE vereinfacht \citep{Dorr2017}.}
+    \includegraphics*[scale = 0.5, keepaspectratio, trim=2 2 2 2 ]{images/Example_bird.png}
+    \caption[Beispielablauf der Segmentierung und DCE aus \citet{Dorr2017}]{Beispielablauf einer Vereinfachung mit der DCE \citep{Dorr2017}.}
     \label{Bsp_Dorr}
 \end{figure}
-\begin{figure}[ht]
-    \centering
-    \includegraphics[scale = 1, keepaspectratio] {images/detail_screenshot_lkw_yt.png}
-    \includegraphics[scale = 2.25, keepaspectratio] {images/detail_screenshot_car_yt.png}
-    \caption[Ausschnitte aus Abb. \ref{Scr_ges_Vid}, welche bewegenden Objekte darstellen ]{Ausschnitte aus Abb. \ref{Scr_ges_Vid}, welche die beiden bewegenden Objekte darstellen \citep{Metz2022}}
-    \label{Scr_detail_Obj}
-\end{figure}
 
-
-
-
-\section*{3 Ausblick}
-Wenn das Ergebnis der Anwendung von DCE für Objekttracking erfolgreich ist, kann eine hardwarenähere Programmierung erfolgen. Diese könnte in C oder C++ gemacht werden, um schnellere Ergebnisse liefern zu können, da die Prozessierungsgeschwindigkeit von Python begrenzt ist.\newline
-Durch die hardwarenähere Implementierung der DCE könnte eine Anonymisierung direkt am Aufzeichnungsort, bzw. in der Drohne, stattfinden. Auch ein vereinfachtes Objekttracking ist dadurch möglich.
+%\section*{3 Ausblick}
+{\bfseries \large Ausblick\\}
+Wenn das Ergebnis der Anwendung von DCE für Objekttracking erfolgreich ist und die getrackten Objekte erkennbar bleiben, kann eine hardwarenahe Programmierung erfolgen. Diese könnte in C oder C++ gemacht werden, um schnellere Ergebnisse liefern zu können, da die Prozessierungsgeschwindigkeit von Python begrenzt ist.\newline
+Durch die hardwarenahe Implementierung der DCE könnte eine Anonymisierung direkt am Aufzeichnungsort stattfinden. Auch ein vereinfachtes Objekttracking ist durch eine erfolgreiche Anwendung der DCE möglich.
 
 
 
 \appendix
 
-
 \bibliographystyle{unsrtnat}
 \bibliography{Bibliography}
-\pagenumbering{roman}
-\setcounter{page}{1}
 
-\listoffigures
+
 
 % Die Weiterentwicklung der integrierten Prozessoren in Drohnen ermöglicht möglicherweise in absehbarer Zeit vor Ort semantische Komprimierung mithilfe der DCE. Durch die Senkung der Datenübertragungsrate kann eine stabilere Funkverbindung, sowie höhere Reichweite ermöglicht werden. 
 
@@ -145,6 +132,20 @@ Durch die hardwarenähere Implementierung der DCE könnte eine Anonymisierung di
 %         \item Was passiert mit den komprimierten Daten? Werden die beim Empfänger wieder zurückentpackt?
 % \end{itemize}
 
+% \begin{figure}[ht]
+%     \centering
+%     \includegraphics[scale = 1, keepaspectratio] {images/detail_screenshot_lkw_yt.png}
+%     \includegraphics[scale = 2.25, keepaspectratio] {images/detail_screenshot_car_yt.png}
+%     \caption[Ausschnitte aus Abb. \ref{Scr_ges_Vid}, welche bewegenden Objekte darstellen ]{Ausschnitte aus Abb. \ref{Scr_ges_Vid}, welche die beiden bewegenden Objekte darstellen \citep{Metz2022}}
+%     \label{Scr_detail_Obj}
+% \end{figure}
+
+% \begin{figure}[ht]
+%     \centering
+%     \includegraphics[scale=0.2, keepaspectratio]{images/screenshot_video_autobahn_yt.png}
+%     \caption[Screenshot des zu analysierenden Videos]{Screenshot des zu analysierenden Videos \citep{Metz2022}}
+%     \label{Scr_ges_Vid}
+% \end{figure}
 
 % \begin{itemize}
 %     \item Hier kommt ein Ausblickstichpunkt
