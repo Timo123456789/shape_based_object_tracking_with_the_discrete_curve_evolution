@@ -85,7 +85,7 @@ Die folgenden Schritte werden für jeden Frame im Video ausgeführt.
 Als ersten Schritt müssen die zu erkennenden Objekte detektiert werden. Dies kann mit der Schwellwertsegmentierung nach Otsu erfolgen, da die Objekte eindeutig zu erkennen sind \citep{Otsu1979}. Außerdem ist die Schwellwertsegmentierung sehr ressourcenschonend, da kein maschinelles Lernverfahren verwendet wird. Eine andere Methode mit einem maschinellen Lernverfahren wäre die Benutzung von YOLO zur Segmentierung. Beide Verfahren beinhalten das Umwandeln in eine Binärmaske als zweiten Schritt. Diese Binärmaske wird im dritten Schritt in ein Polygon umgewandelt, welches mit der DCE vereinfacht wird. \\
 Die DCE berechnet anhand eines Grenzwertes, welche Punkte für die Darstellung einer Form irrelevant sind, sodass diese ohne größeren Informationsverlust entfernt werden können \citep{Barkowsky2000}. Dadurch wird eine bedarfsbezogene Vereinfachung des Polygons ermöglicht. 
 Weiterhin kann die Vereinfachung die mit dem DCE Algorithmus erreicht wird, eine Überprüfung der Ergebnisse vereinfachen. Hierfür bietet sich Verwendung einer Ähnlichkeitsfunktion für Polygone an. \\
-Eine Ergebnisevaluation ist durch die Ausgabe der vereinfachten Frames  oder des gesamten vereinfachten Videos möglich, wo vorher die einzelnen Bilder zu einem Video zusammengesetzt wurden. \\
+Eine Ergebnisevaluation ist durch die Ausgabe der vereinfachten Frames  oder des gesamten vereinfachten Videos möglich, bei der vorher die einzelnen Bilder zu einem Video zusammengesetzt wurden. \\
 
 \begin{figure}[ht]
  \vspace{-0.5cm}
