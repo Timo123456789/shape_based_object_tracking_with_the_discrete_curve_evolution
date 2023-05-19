@@ -6,3 +6,8 @@ Speed: 2.5ms preprocess, 68.2ms inference, 1.3ms postprocess per image at shape 
 
 yolo8x:
 Speed: 2.5ms preprocess, 693.7ms inference, 1.0ms postprocess per image at shape (1, 3, 640, 640)
+
+yolo8n-seq:
+Speed: 2.4ms preprocess, 93.5ms inference, 4.3ms postprocess per image at shape (1, 3, 640, 640)
+
+yolo8m-seq
