@@ -43,10 +43,13 @@ def main():
 
   
     
+def run_DCE(array):
+    print(array)
 
+    return array
    
 
-def run_yolo(img):
+def run_yolo(img):  #https://pysource.com/2023/02/21/yolo-v8-segmentation
     ys = YOLOSegmentation("yolov8n-seg.pt")
     bboxes, classes, segmentations, scores = ys.detect(img)
     for bbox, class_id, seg, score in zip(bboxes, classes, segmentations, scores):
@@ -55,26 +58,26 @@ def run_yolo(img):
         if class_id == 2 or class_id == 3 or class_id == 7:  #car = 2,  motorcycle = 3, truck = 7,
             cv2.rectangle(img, (x, y), (x2, y2), (255, 0, 0), 2)
 
-            cv2.polylines(img, [seg], True, (0, 0, 255), 1)
+            cv2.polylines(img, run_DCE([seg]), True, (0, 0, 255), 1)
 
             cv2.putText(img, str(class_id), (x, y - 10), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
     return img
 
 
-def get_number_of_frames(path):
+def get_number_of_frames(path): #https://stackoverflow.com/questions/25359288/how-to-know-total-number-of-frame-in-a-file-with-cv2-in-python
     cap = cv2.VideoCapture(path)
     length = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     print(length)
     return length
 
-def get_fps(path):
+def get_fps(path):  #https://stackoverflow.com/questions/49025795/python-opencv-video-getcv2-cap-prop-fps-returns-0-0-fps
     cap = cv2.VideoCapture(path)
     fps = cap.get(cv2.CAP_PROP_FPS)
     return fps
 
 
     
-def get_specific_frame(path, frame_number):
+def get_specific_frame(path, frame_number): #https://stackoverflow.com/questions/33650974/opencv-python-read-specific-frame-using-videocapture
     if frame_number == 0:
         frame_number = 1
     cap = cv2.VideoCapture(path)
