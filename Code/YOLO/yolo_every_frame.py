@@ -13,8 +13,9 @@ from yolo_segmentation import YOLOSegmentation
 
 
 def main(): 
-    path_source_video = r'Code\vid_examples\right_Side\autobahn1s.mp4'
+    path_source_video = r'Code\vid_examples\right_Side\autobahn_2.mp4'
     path_read_imgs = r'Code\YOLO\frames\analyzed\frame'
+    path_write_video = r'Code\YOLO\runs\videos_from_frames\video.mp4'
     # 8n = sehr schnell, aber ungenau, 8m = schnell recht genau, 8x = langsam aber sehr genau
     #results = analyse_vid(path)
 
@@ -23,21 +24,17 @@ def main():
     print("framecounter")
     print(framecounter)
     img_arr=[]
-    # for i in range(framecounter):
-    #     img = get_specific_frame(path_source_video,i)
-    #     img_analyzed = run_yolo(img)
-    #     cv2.imwrite(r'Code\YOLO\frames\analyzed\frame'+str(i)+'.png', img_analyzed)  # save frame as JPEG file
-
-
-    testimg = cv2.imread(r'Code\YOLO\frames\analyzed\frame2.png')
-    cv2.imshow("image", testimg)       
-    cv2.waitKey(0)           
-
     for i in range(framecounter):
-        img_arr.append(cv2.imread(path_read_imgs+str(i)+'.png'))
-        cv2.imshow("image", img_arr[i])
-    print(img_arr)
-    create_video_from_imgs(path_source_video,img_arr, framecounter)
+        img = get_specific_frame(path_source_video,i)
+        img_analyzed = run_yolo(img)
+        img_arr.append(img_analyzed)
+        #cv2.imwrite(r'Code\YOLO\frames\analyzed\frame'+str(i)+'.png', img_analyzed)  # save frame as JPEG file
+
+
+          
+
+ 
+    create_video_from_imgs(path_source_video,path_write_video,img_arr, framecounter)
 
 
 
@@ -45,10 +42,10 @@ def main():
   
 
 
-def create_video_from_imgs(path_source_video, img_arr, framecounter): #https://stackoverflow.com/questions/43048725/python-creating-video-from-images-using-opencv
+def create_video_from_imgs(path_source_video,path_write_video, img_arr, framecounter): #https://stackoverflow.com/questions/43048725/python-creating-video-from-images-using-opencv
     height, width, layers = get_specific_frame(path_source_video, (framecounter)).shape
     fps = get_fps(path_source_video)
-    video=cv2.VideoWriter('video.mp4',-1,fps,(width,height))
+    video=cv2.VideoWriter(path_write_video,-1,fps,(width,height))
     for i in range(framecounter):
         video.write(img_arr[i])
     cv2.destroyAllWindows()
@@ -104,7 +101,7 @@ def get_specific_frame(path, frame_number): #https://stackoverflow.com/questions
     cap.set(cv2.CAP_PROP_POS_FRAMES, frame_number-1)
     res, frame = cap.read()
     frame_resized = cv2.resize(frame, None, fx=0.5, fy=0.5)
-    cv2.imwrite(r'Code\YOLO\frames\raw\frame'+str(frame_number)+'.png', frame)  # save frame as JPEG file
+    #cv2.imwrite(r'Code\YOLO\frames\raw\frame'+str(frame_number)+'.png', frame)  # save frame as JPEG file
     return frame_resized
 
 

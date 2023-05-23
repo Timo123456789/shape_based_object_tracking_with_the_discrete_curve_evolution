@@ -74,3 +74,13 @@
 #     if success:
 #         cv2.imwrite(r"Code\YOLO\frames\first_frame.jpg", image)  # save frame as JPEG file
 #         return image
+
+
+    # testimg = cv2.imread(r'Code\YOLO\frames\analyzed\frame2.png')
+    # cv2.imshow("image", testimg)       
+    # cv2.waitKey(0) 
+
+   # for i in range(framecounter):
+    #     img_arr.append(cv2.imread(path_read_imgs+str(i)+'.png'))
+    #     #cv2.imshow("image", img_arr[i])
+    # print(img_arr)
