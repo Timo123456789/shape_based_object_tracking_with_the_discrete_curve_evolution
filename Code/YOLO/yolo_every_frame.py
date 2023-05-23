@@ -46,8 +46,9 @@ def main():
 
 
 def create_video_from_imgs(path_source_video, img_arr, framecounter): #https://stackoverflow.com/questions/43048725/python-creating-video-from-images-using-opencv
-    height, width, layers = get_specific_frame(path_source_video, (framecounter-5)).shape
-    video=cv2.VideoWriter('video.mp4',-1,1,(width,height))
+    height, width, layers = get_specific_frame(path_source_video, (framecounter)).shape
+    fps = get_fps(path_source_video)
+    video=cv2.VideoWriter('video.mp4',-1,fps,(width,height))
     for i in range(framecounter):
         video.write(img_arr[i])
     cv2.destroyAllWindows()
