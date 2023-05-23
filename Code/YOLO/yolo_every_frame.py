@@ -13,8 +13,8 @@ from yolo_segmentation import YOLOSegmentation
 
 
 def main(): 
-    path_source_video = r'C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\vid_examples\right_Side\autobahn1s.mp4'
-    path_read_imgs = r'C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\YOLO\frames\analyzed\frame'
+    path_source_video = r'Code\vid_examples\right_Side\autobahn1s.mp4'
+    path_read_imgs = r'Code\YOLO\frames\analyzed\frame'
     # 8n = sehr schnell, aber ungenau, 8m = schnell recht genau, 8x = langsam aber sehr genau
     #results = analyse_vid(path)
 
@@ -29,8 +29,14 @@ def main():
     #     cv2.imwrite(r'Code\YOLO\frames\analyzed\frame'+str(i)+'.png', img_analyzed)  # save frame as JPEG file
 
 
+    testimg = cv2.imread(r'Code\YOLO\frames\analyzed\frame2.png')
+    cv2.imshow("image", testimg)       
+    cv2.waitKey(0)           
+
     for i in range(framecounter):
         img_arr.append(cv2.imread(path_read_imgs+str(i)+'.png'))
+        cv2.imshow("image", img_arr[i])
+    print(img_arr)
     create_video_from_imgs(path_source_video,img_arr, framecounter)
 
 
@@ -44,7 +50,8 @@ def create_video_from_imgs(path_source_video, img_arr, framecounter): #https://s
     video=cv2.VideoWriter('video.mp4',-1,1,(width,height))
     for i in range(framecounter):
         video.write(img_arr[i])
-
+    cv2.destroyAllWindows()
+    video.release()
     return 0
     
  
