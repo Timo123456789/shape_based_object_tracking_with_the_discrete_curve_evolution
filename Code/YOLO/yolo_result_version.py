@@ -37,49 +37,30 @@ def get_outline_for_every_object(res):
         data_arr = get_data(res[i])
         bbox = data_arr[0]
         class_id = data_arr[1]
-        outline = data_arr[2]
+        outline = data_arr[2] #Hier kann DCE gut angewendet werden?
         scores = data_arr[3]
-        print("_______________________________________________________________________________________________")
-        print("bbox")
-        print(data_arr[0])
-        print(len(bbox))
-        print("classid")
-        print(data_arr[1])
-        print("scores")
-        print(data_arr[3])
-        print("bbox1_start")
-        print(bbox[0][0])
-        print("bbox1_ende")
-        print(bbox[0][1])
-        print("_______________________________________________________________________________________________")
-        res_cop[i]= cv2.polylines(res[i].orig_img, outline, True, (0, 0, 255), 1) #Hier kann DCE gut angewendet werden?
+        res_cop[i]= cv2.polylines(res[i].orig_img, outline, True, (0, 0, 255), 1) 
         for b in range(len(bbox)):
             res_cop[i] = cv2.rectangle(res_cop[i], (bbox[b][0],bbox[b][1]),(bbox[b][2],bbox[b][3]), (255, 0, 0), 2)
-            if class_id[b] == 2: #car = 2,  motorcycle = 3, truck = 7,
-                res_cop[i] = cv2.putText(res_cop[i], (str(class_id[b])+'car'), (bbox[b][0], bbox[b][1] - 10), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
-            else:
-                if class_id[b] == 3:
-                     res_cop[i] = cv2.putText(res_cop[i], (str(class_id[b])+'motorcycle'), (bbox[b][0], bbox[b][1] - 10), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
-                else:
-                    if class_id[b] == 7:
-                         res_cop[i] = cv2.putText(res_cop[i], (str(class_id[b])+'truck'), (bbox[b][0], bbox[b][1] - 10), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
-                    else:
-                         res_cop[i] = cv2.putText(res_cop[i], str(class_id[b]), (bbox[b][0], bbox[b][1] - 10), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
-
+            res_cop[i] = cv2.putText(res_cop[i], get_text_string(class_id[b],scores[b]), (bbox[b][0], bbox[b][1] - 10), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
+           
+        
+        
+  
         
        
         
     
     return res_cop
 
-
+def get_text_string(class_id, score):
+    category_list = {0: 'person', 1: 'bicycle', 2: 'car', 3: 'motorcycle', 4: 'airplane', 5: 'bus', 6: 'train', 7: 'truck', 8: 'boat', 9: 'traffic light', 10: 'fire hydrant', 11: 'stop sign', 12: 'parking meter', 13: 'bench', 14: 'bird', 15: 'cat', 16: 'dog', 17: 'horse', 18: 'sheep', 19: 'cow', 20: 'elephant', 21: 'bear', 22: 'zebra', 23: 'giraffe', 24: 'backpack', 25: 'umbrella', 26: 'handbag', 27: 'tie', 28: 'suitcase', 29: 'frisbee', 30: 'skis', 31: 'snowboard', 32: 'sports ball', 33: 'kite', 34: 'baseball bat', 35: 'baseball glove', 36: 'skateboard', 37: 'surfboard', 38: 'tennis racket', 39: 'bottle', 40: 'wine glass', 41: 'cup', 42: 'fork', 43: 'knife', 44: 'spoon', 45: 'bowl', 46: 'banana', 47: 'apple', 48: 'sandwich', 49: 'orange', 50: 'broccoli', 51: 'carrot', 52: 'hot dog', 53: 'pizza', 54: 'donut', 55: 'cake', 56: 'chair', 57: 'couch', 58: 'potted plant', 59: 'bed', 60: 'dining table', 61: 'toilet', 62: 'tv', 63: 'laptop', 64: 'mouse', 65: 'remote', 66: 'keyboard', 67: 'cell phone', 68: 'microwave', 69: 'oven', 70: 'toaster', 71: 'sink', 72: 'refrigerator', 73: 'book', 74: 'clock', 75: 'vase', 76: 'scissors', 77: 'teddy bear', 78: 'hair drier', 79: 'toothbrush'}
+    category = category_list[class_id]
+    return (category + str(score))
 
 
 def get_data(res):
     segmentation_contours_idx = []
-    # testimg = res.plot()
-    # cv2.imshow("result", testimg)       
-    # cv2.waitKey(0)
     height, width, layers = res.orig_img.shape
     for seg in res.masks.segments:
         # contours
