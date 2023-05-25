@@ -3,12 +3,12 @@ import cv2
 import numpy as np
 
 def main():
-    path = r'C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\yolov8_segmentation-pysource.com_\yolov8_segmentation-pysource.com\autobahn1s.mp4'
+    path_source_video = r'Code\vid_examples\right_Side\autobahn_2.mp4'
     path_write_video = r'Code\YOLO\runs\videos_from_frames\video_results.mp4'
 
 
     model = YOLO('yolov8n-seg.pt') 
-    results = model.predict(path, save=False)
+    results = model.predict(path_source_video, save=False)
     # print(results[3].boxes.xyxy)
     # print(results[3].boxes.xyxy[0])
     # print(np.array(results[3].boxes.xyxy.cpu(), dtype="int"))
@@ -26,7 +26,7 @@ def main():
     # cv2.waitKey(0)
     res_outline = get_outline_for_every_object(results)
 
-    write_video(res_outline, path_write_video)
+    write_video(res_outline, path_write_video, path_source_video)
    
     # https://github.com/ultralytics/yolov5/issues/9665  #ne Eher nicht ist pytorch
 
@@ -100,17 +100,29 @@ def write_outline(img,arr):
 
 
 
-def write_video(res, path_write_video):
+def write_video(res, path_write_video, path_source_video):
     height, width, layers = res[2].shape
-    fps = len(res)
+    fps = int(get_fps(path_source_video))
+    print(fps)
     video=cv2.VideoWriter(path_write_video,-1,fps,(width,height))
-    for i in range(fps):
+    for i in range(len(res)):
         video.write(res[i])
     cv2.destroyAllWindows()
     video.release()
     print("video written")
     return 0
 
+
+def get_number_of_frames(path): #https://stackoverflow.com/questions/25359288/how-to-know-total-number-of-frame-in-a-file-with-cv2-in-python
+    cap = cv2.VideoCapture(path)
+    length = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+    print(length)
+    return length
+
+def get_fps(path):  #https://stackoverflow.com/questions/49025795/python-opencv-video-getcv2-cap-prop-fps-returns-0-0-fps
+    cap = cv2.VideoCapture(path)
+    fps = cap.get(cv2.CAP_PROP_FPS)
+    return fps
 
 
 main()
