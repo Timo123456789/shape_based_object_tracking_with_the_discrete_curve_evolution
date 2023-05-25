@@ -84,3 +84,22 @@
     #     img_arr.append(cv2.imread(path_read_imgs+str(i)+'.png'))
     #     #cv2.imshow("image", img_arr[i])
     # print(img_arr)
+
+
+
+
+# def create_segments(res):
+#     print(res)
+#     fps = len(res)
+#     for i in range(fps):
+#         detected_object_bbox = np.array(res[i].boxes.xyxy.cpu(), dtype="int")
+#         for x in range(len(detected_object_bbox)):
+#             x1 = detected_object_bbox[x][0]
+#             y1 = detected_object_bbox[x][1]
+            
+#             x2 = detected_object_bbox[x][2]
+#             y2 = detected_object_bbox[x][3]
+#             res[i] = cv2.rectangle(res[i].orig_img, (x1,y1),(x2,y2),(255, 0, 0), 2)   #https://stackoverflow.com/questions/75324341/yolov8-get-predicted-bounding-box
+#         #
+   
+#     return res

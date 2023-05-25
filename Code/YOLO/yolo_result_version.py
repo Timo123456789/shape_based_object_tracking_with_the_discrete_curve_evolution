@@ -1,5 +1,6 @@
 from ultralytics import YOLO
 import cv2
+import numpy as np
 
 def main():
     path = r'C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\yolov8_segmentation-pysource.com_\yolov8_segmentation-pysource.com\autobahn1s.mp4'
@@ -7,31 +8,96 @@ def main():
 
 
     model = YOLO('yolov8n-seg.pt') 
-    results_first = model.predict(path, save=False)
-    print(results_first[3].masks)
-    print("_______________________________________________________________________________________________")
-    print(results_first[3].masks.xy)
-    print(len(results_first))
+    results = model.predict(path, save=False)
+    print(results[3].boxes.xyxy)
+    print(results[3].boxes.xyxy[0])
+    print(np.array(results[3].boxes.xyxy.cpu(), dtype="int"))
+    detected_object_bbox = np.array(results[1].boxes.xyxy.cpu(), dtype="int")
+    print()
+    # print("_______________________________________________________________________________________________")
+    # print(results[3].masks.xy)
 
-    # testimg = results_first[1].plot()
+    # print("_______________________________________________________________________________________________")
+    print(results[3].masks.xy)
+    print(len(results))
+
+    # testimg = results[10].plot()
     # cv2.imshow("result", testimg)       
     # cv2.waitKey(0)
+    res_outline = get_outline_for_every_object(results)
 
-    write_video(results_first, path_write_video)
+    write_video(res_outline, path_write_video)
    
     # https://github.com/ultralytics/yolov5/issues/9665  #ne Eher nicht ist pytorch
 
+def get_outline_for_every_object(res):
+    fps = len(res)
+    res_cop = res
+    for i in range(fps):
+        res_cop[i]= cv2.polylines(res[i].orig_img, get_outline(res[i]), True, (0, 0, 255), 1) #Hier kann DCE gut angewendet werden?
 
+        
+        res_cop[i]= cv2.polylines(res[i].orig_img, get_outline(res[i]), True, (0, 0, 255), 1) #Hier kann DCE gut angewendet werden?
+        res_cop[i]= cv2.polylines(res[i].orig_img, get_outline(res[i]), True, (0, 0, 255), 1) #Hier kann DCE gut angewendet werden?
+        
+    
+    return res_cop
+
+def get_outline(res):
+    segmentation_contours_idx = []
+    # testimg = res.plot()
+    # cv2.imshow("result", testimg)       
+    # cv2.waitKey(0)
+    height, width, layers = res.orig_img.shape
+    for seg in res.masks.segments:
+        # contours
+        seg[:, 0] *= width
+        seg[:, 1] *= height
+        segment = np.array(seg, dtype=np.int32)
+        segmentation_contours_idx.append(segment)
+
+    bboxes = np.array(res.boxes.xyxy.cpu(), dtype="int")
+    # Get class ids
+    class_ids = np.array(res.boxes.cls.cpu(), dtype="int")
+    # Get scores
+    scores = np.array(res.boxes.conf.cpu(), dtype="float").round(2)
+    print("_______________________________________________________________________________________________")
+    print(segmentation_contours_idx)
+    print("_______________________________________________________________________________________________")
+    print(len(segmentation_contours_idx))
+    print("_______________________________________________________________________________________________")
+    return segmentation_contours_idx
+
+
+def write_outline(img,arr):
+    print(len(arr), arr.size)
+
+    for i in range(len(arr)):
+        img[arr[i][0],arr[i][1]]=(255,0,0)
+    testimg = img
+    cv2.imshow("result", testimg)       
+    cv2.waitKey(0)
+    return img
+
+
+
+
+
+# bboxes = np.array(result.boxes.xyxy.cpu(), dtype="int")
+#         # Get class ids
+#         class_ids = np.array(result.boxes.cls.cpu(), dtype="int")
+#         # Get scores
+#         scores = np.array(result.boxes.conf.cpu(), dtype="float").round(2)
 
 
 
 
 def write_video(res, path_write_video):
-    height, width, layers = res[2].orig_img.shape
-    fps = 33
+    height, width, layers = res[2].shape
+    fps = len(res)
     video=cv2.VideoWriter(path_write_video,-1,fps,(width,height))
     for i in range(fps):
-        video.write(res[i].plot())
+        video.write(res[i])
     cv2.destroyAllWindows()
     video.release()
     print("video written")
