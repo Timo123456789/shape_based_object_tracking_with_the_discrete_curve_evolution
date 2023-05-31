@@ -20,7 +20,7 @@ def main():
   
     write_path_very_small_NRW = r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\DCE\TestRuns\NRWPolyVSmall\testpng"
     write_path_small_NRW = r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\DCE\TestRuns\NRWPolySmall\testpng"
-    write_path_big_NRW = r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\DCE\TestRuns\NRWPoly\testpng"
+    write_path_big_NRW = r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\DCE\TestRuns\NRWPoly_big\testpng"
     write_path_simplePolygon = r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\DCE\TestRuns\SimplePolygons\testpng"
     write_path_temp = r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\DCE\TestRuns\temp\testpng"
 
@@ -28,9 +28,9 @@ def main():
     
     
     
-    read_path = read_path_very_small_NRW
-    write_path = write_path_temp
-    print_limiter = 10
+    read_path = read_path_big_NRW
+    write_path = write_path_big_NRW
+    print_limiter = 2000
     p = readtextfile(read_path)
     #p = choosePolygon(2)
 
@@ -55,18 +55,18 @@ def main():
         print(get_selected_point(p,i),"i: ",i," limiter:", (print_limiter-print_limiter_var), "verbl. P.:", (NoP-i), "kvalue", k_value)
        
         print_limiter_var = print_limiter_var +1
-        # if i == (NoP-800):
-        #     print_limiter = 150
-        #     print_limiter_var = 150
-        # if i == (NoP-500):
-        #     print_limiter = 100
-        #     print_limiter_var = 100
-        # if i == (NoP-300):
-        #     print_limiter = 50
-        #     print_limiter_var = 50
-        # if k_value ==(NoP-100):
-        #     print_limiter = 10
-        #     print_limiter_var = 10
+        if i == (NoP-800):
+            print_limiter = 150
+            print_limiter_var = 150
+        if i == (NoP-500):
+            print_limiter = 100
+            print_limiter_var = 100
+        if i == (NoP-300):
+            print_limiter = 50
+            print_limiter_var = 50
+        if k_value ==(NoP-100):
+            print_limiter = 10
+            print_limiter_var = 10
         if i == (NoP-10):
             plot_GS_polygon(DCE_Polygon,i,write_path)
             print("finished")
