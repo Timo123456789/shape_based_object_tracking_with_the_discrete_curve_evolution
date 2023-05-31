@@ -30,9 +30,9 @@ def main():
     
     read_path = read_path_very_small_NRW
     write_path = write_path_temp
-    print_limiter = 1
-    #p = readtextfile(read_path)
-    p = choosePolygon(2)
+    print_limiter = 10
+    p = readtextfile(read_path)
+    #p = choosePolygon(2)
 
    
   
@@ -52,7 +52,7 @@ def main():
         if index_lowest_k==-1:
             print("Error; k = -1")
             break
-        #print(get_selected_point(p,i),"i: ",i," limiter:", (print_limiter-print_limiter_var), "verbl. P.:", (NoP-i), "kvalue", k_value)
+        print(get_selected_point(p,i),"i: ",i," limiter:", (print_limiter-print_limiter_var), "verbl. P.:", (NoP-i), "kvalue", k_value)
        
         print_limiter_var = print_limiter_var +1
         # if i == (NoP-800):
@@ -184,7 +184,7 @@ def get_lowest_k(p):
     index_for_point_on_k = -1
     for i in range(NoP):
         if i==0:
-            k_value = calc_k_with_points(p,i,NoP,1) 
+            k_value = calc_k_with_points(p,i,(NoP-1),1) 
             point_on_k = get_selected_point(p,i) 
             index_for_point_on_k = 0       
         else:
@@ -219,8 +219,20 @@ def get_number_of_points(p):
     return pointcounter
 
 
+def get_angle_two_lines(polygon,p,s1,s2):  #https://numpy.org/doc/stable/reference/generated/numpy.arctan2.html#numpy.arctan2
+    p = polygon[0].exterior.coords[p]
+    s1 = polygon[0].exterior.coords[s1]
+    s2 = polygon[0].exterior.coords[s2]
+    x = np.array([p[0],p[1],s1[0],s1[1]])
+    y = np.array([p[0],p[1],s2[0],s2[1]])
+    val_arr = np.arctan2(y,x)*180/np.pi
+    val_arr_sum = 0
+    for i in range(len(val_arr)):
+        val_arr_sum = val_arr_sum + val_arr[i]
+    return np.deg2rad(val_arr_sum)
 
-def get_angle(p,point1,point2):
+
+def get_angle_two_points(p,point1,point2):
     """
     returns angel between two points (point1 and point2)
 
@@ -310,7 +322,7 @@ def convert_table_in_array(t):
     #print(RowCount)
     a = []
     for i in range(RowCount):
-        a.append((t.iloc[i]["x"], (-1*(t.iloc[i]["y"]))))
+        a.append((t.iloc[i]["x"], ((t.iloc[i]["y"]))))
     #print("a")
     #print(a)
     return a
@@ -387,11 +399,14 @@ def calc_k_with_points(polygon,p,s1,s2):
     @param s2: Point which describes the end of the second line from p
     @returns: K as Int
     """
-    angle = (get_angle(polygon,p,s1) + get_angle(polygon,p,s2))
+    #angle = (get_angle(polygon,p,s1) + get_angle(polygon,p,s2))
     #angle = get_angle(polygon,s1,s2)
-    print("angle"+ str(angle) + "Punkt P")
-    print(get_selected_point(polygon, p))
+    # print("angle"+ str(angle) + "Punkt P")
 
+    angle = get_angle_two_lines(polygon,p,s1,s2)
+    # print("p in calc_k_anlge")
+    # print(get_selected_point(polygon, p))
+    
     dist_between_p_s1 = calc_distance_between_two_points(polygon,p,s1)
     dist_between_p_s2 = calc_distance_between_two_points(polygon,p,s2)
 
@@ -399,6 +414,11 @@ def calc_k_with_points(polygon,p,s1,s2):
     
 
     k =  (angle*dist_between_p_s1*dist_between_p_s2)/(dist_between_p_s1+dist_between_p_s2)
+
+    # print(str(angle) + "*"+ str(dist_between_p_s1) + "*"+ str(dist_between_p_s2))
+    # print("________________")
+    # print(str(dist_between_p_s1)+"+"+str(dist_between_p_s2))
+    # print("=="+ str(k))
     
     
     # print("point", p)
