@@ -6,8 +6,8 @@ from shapely.geometry import Polygon, Point, LineString
 import math
 import pandas
 
-#WICHTIG: y Koordinate wird beim Einlesen noch *-1 genommen (muss wieder abgeändert werden)
-#NoP muss wieder -10 genommen werden, damit am Ende kein leeres Polygon ausgegeben wird
+#WICHTIG: y Koordinate wird beim Einlesen noch *-1 genommen (muss wieder abgeändert werden) (Das war der Fehler)
+#NoP muss wieder -10 genommen werden, damit am Ende kein leeres Polygon ausgegeben wird (aktuell -3)
 
 
 #Main Method
@@ -28,9 +28,9 @@ def main():
     
     
     
-    read_path = read_path_big_NRW
-    write_path = write_path_big_NRW
-    print_limiter = 2000
+    read_path = read_path_very_small_NRW
+    write_path = write_path_temp
+    print_limiter = 5
     p = readtextfile(read_path)
     #p = choosePolygon(2)
 
@@ -55,19 +55,19 @@ def main():
         print(get_selected_point(p,i),"i: ",i," limiter:", (print_limiter-print_limiter_var), "verbl. P.:", (NoP-i), "kvalue", k_value)
        
         print_limiter_var = print_limiter_var +1
-        if i == (NoP-800):
-            print_limiter = 150
-            print_limiter_var = 150
-        if i == (NoP-500):
-            print_limiter = 100
-            print_limiter_var = 100
-        if i == (NoP-300):
-            print_limiter = 50
-            print_limiter_var = 50
-        if k_value ==(NoP-100):
-            print_limiter = 10
-            print_limiter_var = 10
-        if i == (NoP-10):
+        # if i == (NoP-800):
+        #     print_limiter = 150
+        #     print_limiter_var = 150
+        # if i == (NoP-500):
+        #     print_limiter = 100
+        #     print_limiter_var = 100
+        # if i == (NoP-300):
+        #     print_limiter = 50
+        #     print_limiter_var = 50
+        # if k_value ==(NoP-100):
+        #     print_limiter = 10
+        #     print_limiter_var = 10
+        if i == (NoP-3):
             plot_GS_polygon(DCE_Polygon,i,write_path)
             print("finished")
             break
