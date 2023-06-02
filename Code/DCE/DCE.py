@@ -6,13 +6,13 @@ from shapely.geometry import Polygon, Point, LineString
 import math
 import pandas
 
-#WICHTIG: y Koordinate wird beim Einlesen noch *-1 genommen (muss wieder abgeändert werden) (Das war der Fehler)
+#WICHTIG: y Koordinate wird beim Einlesen noch *-1 genommen (muss wieder abgeändert werden) (Das war der Fehler) (wird nicht mehr gemacht)
 #NoP muss wieder -10 genommen werden, damit am Ende kein leeres Polygon ausgegeben wird (aktuell -3)
 
 
-#Main Method
+#Test Method
 #
-def main():
+def test():
     read_path_very_small_NRW = r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\DCE\examples\dvg2bld_nw_vsmall.txt"
     read_path_small_NRW = r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\DCE\examples\dvg2bld_nw_small.txt"
     read_path_big_NRW = r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\DCE\examples\dvg2bld_nw.txt"
@@ -107,10 +107,7 @@ def get_lowest_k_dist_calc(p):
             if i==NoP:
                 break
             scnd_k_value = calc_k_dist(p,i,(i+1),(i-1))
-           # print("Punkt", get_selected_point(p,i), "K Wert:", scnd_k_value)
             if scnd_k_value<=k_value:        
-                # print("k neu setzen")
-                # print("i",i, "i+1", i+1,"i-1", i-1)
                 k_value = scnd_k_value
                 index_for_point_on_k = i  
             
@@ -165,7 +162,6 @@ def get_array_with_points(p):
     k_value = 0
     for i in range(NoP):
         array_of_points.append(p[0].exterior.coords[i]) 
-        # array_of_points.append(get_selected_point(p,i)) 
 
     return array_of_points
 
@@ -191,10 +187,7 @@ def get_lowest_k(p):
             if i==NoP:
                 break
             scnd_k_value = calc_k_with_points(p,i,(i+1),(i-1))
-            #print("Punkt", get_selected_point(p,i), "K Wert:", scnd_k_value)
             if scnd_k_value<=k_value:        
-                # print("k neu setzen")
-                # print("i",i, "i+1", i+1,"i-1", i-1)
                 k_value = scnd_k_value
                 index_for_point_on_k = i  
             
@@ -212,9 +205,7 @@ def get_number_of_points(p):
     """
     pointcounter = 0
     for i in p[0].exterior.coords:
-       # print(i)
         pointcounter = pointcounter + 1 
-       # print (p[0].exterior.coords[i])
     pointcounter = pointcounter-1
     return pointcounter
 
@@ -243,22 +234,7 @@ def get_angle_two_points(p,point1,point2):
     """
     p1 = Point(p[0].exterior.coords[point1])  
     p2 = Point(p[0].exterior.coords[point2])
-    #First Version
-  
-    # angle = math.degrees(math.atan2(-(p2.y-p1.y), p2.x-p1.x))
-    # print(p1,p2)
-    # print("angle", angle, "angle in radians", math.radians(angle))
-    # angle_radians = math.radians(angle)
-    # # return angle
-    # if angle_radians < 0:
-    #     return angle_radians*-1
-    # else:
-    #     return angle_radians
-    # return math.radians(angle)
-
-    # #return math.degrees(math.atan2(y2-y1, x2-x1))
-
-    #second Version
+    
 
     return math.radians(math.atan2((p2.x-p1.x),(p2.y-p1.y)))
  
@@ -296,19 +272,17 @@ def calc_distance_between_two_points(p, point1, point2):
     return dist
 
 
-def readtextfile(path):
+def readtextfile(path):  #Quelle https://www.opengeodata.nrw.de/produkte/geobasis/vkg/dvg/dvg2/
     """
     read a given textfile from path
 
     @param path: Path where the reading file is located
     @returns: Geoseries Polygon, which are created from array
     """
-    p = 0
-   # f = open(path) 
-    #Quelle https://www.opengeodata.nrw.de/produkte/geobasis/vkg/dvg/dvg2/
     test = pandas.read_table(path, delimiter=';')
     array = convert_table_in_array(test)
     return create_Polygon_from_array(array) 
+
 
 
 def convert_table_in_array(t):
@@ -319,16 +293,14 @@ def convert_table_in_array(t):
     @return a: array with points from table as tuple
     """
     RowCount = len(t)
-    #print(RowCount)
     a = []
     for i in range(RowCount):
         a.append((t.iloc[i]["x"], ((t.iloc[i]["y"]))))
-    #print("a")
-    #print(a)
     return a
     
 
     return a 
+
 
 
 def choosePolygon(x):
@@ -342,18 +314,14 @@ def choosePolygon(x):
     polygon1 = Polygon([    (1,1),(0,3),(2,4),
                             (5,5),(4,3),(4,1)
                     ])
-    polygon2 = Polygon([(1,2),
-                    (2,1),
-                    (3,1),
-                    (4,1),
-                    (5,2),
-                    (4,3),
-                    (3,6),
-                    (2,3)
+    polygon2 = Polygon([    (1,2),(2,1),(3,1),
+                            (4,1),(5,2),(4,3),
+                            (3,6),(2,3)
                     ])
-    polygon3= Polygon([(3,1),
-        (4,1),(5,1),(6,1),(7,1),(8,1),(9,2),(8,3),(7,4),(8,5),(9,6),(10,7),(11,8),(8,7),(6,7),(5,9),(8,10),(7,11),(6,12),(5,11),(4,11),
-        (3,11),(2,11),(0,10),(2,9),(2,8),(2,7),(1,6),(1,5),(3,4),(1,3),(2,2)
+    polygon3= Polygon([     (3,1),(4,1),(5,1), (6,1),(7,1),(8,1), (9,2),(8,3),(7,4),
+                            (8,5),(9,6),(10,7),(11,8),(8,7),(6,7),(5,9),(8,10),(7,11),
+                            (6,12),(5,11),(4,11),(3,11),(2,11),(0,10),(2,9),(2,8),(2,7),
+                            (1,6),(1,5),(3,4),(1,3),(2,2)
     ])
     if x == 1:
         p = gpd.GeoSeries(polygon1)
@@ -362,9 +330,6 @@ def choosePolygon(x):
         p = gpd.GeoSeries(polygon2)
     if x == 3:
         p = gpd.GeoSeries(polygon3)
-        
-   
-    # p = gpd.GeoDataFrame(polygon2)
     return p
 
 
@@ -383,7 +348,6 @@ def plot_GS_polygon(p, index, write_path):
     #plt.savefig(r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\TestRuns\NRWPolyVSmall\testpng" + str(index)+".png")
     plt.savefig( write_path + str(index)+".png")
     plt.close
-    #plt.show()
 
 
 
@@ -399,37 +363,16 @@ def calc_k_with_points(polygon,p,s1,s2):
     @param s2: Point which describes the end of the second line from p
     @returns: K as Int
     """
-    #angle = (get_angle(polygon,p,s1) + get_angle(polygon,p,s2))
-    #angle = get_angle(polygon,s1,s2)
-    # print("angle"+ str(angle) + "Punkt P")
+  
 
     angle = get_angle_two_lines(polygon,p,s1,s2)
-    # print("p in calc_k_anlge")
-    # print(get_selected_point(polygon, p))
-    
     dist_between_p_s1 = calc_distance_between_two_points(polygon,p,s1)
-    dist_between_p_s2 = calc_distance_between_two_points(polygon,p,s2)
-
-    
+    dist_between_p_s2 = calc_distance_between_two_points(polygon,p,s2)   
     
 
     k =  (angle*dist_between_p_s1*dist_between_p_s2)/(dist_between_p_s1+dist_between_p_s2)
-
-    # print(str(angle) + "*"+ str(dist_between_p_s1) + "*"+ str(dist_between_p_s2))
-    # print("________________")
-    # print(str(dist_between_p_s1)+"+"+str(dist_between_p_s2))
-    # print("=="+ str(k))
-    
-    
-    # print("point", p)
-    # print("angle",angle, "dist p s1 ",dist_between_p_s1, "dist p s2",dist_between_p_s2, "k", k)
-    # # print("Summe Distanz zw. 2 Punkten","  p: ", p," s1: ", s1," s2: ", s2)
-    # # print( (calc_distance_between_two_points(polygon,p, s1)+calc_distance_between_two_points(polygon,p, s2)))
-    # # print("k", k)
-    # if k == 0:
-    #     print("angle")
-    #     print(angle, dist_between_p_s1, dist_between_p_s2)
     return k
+
 
 
 def calc_k_dist(p,p1,s1,s2):
@@ -450,4 +393,4 @@ def calc_k_dist(p,p1,s1,s2):
         print("k", k)
         return k 
 
-main()
+test()
