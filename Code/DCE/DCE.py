@@ -1,8 +1,7 @@
 import numpy as np
 import geopandas as gpd
-import folium
 import matplotlib.pyplot as plt
-from shapely.geometry import Polygon, Point, LineString
+from shapely.geometry import Polygon, Point
 import math
 import pandas
 
@@ -33,9 +32,15 @@ def test():
     print_limiter = 5
     p = readtextfile(read_path)
     #p = choosePolygon(2)
-
-   
+    polygon_in_arr = get_array_with_points(p)
+    final_number_poly = simplify_polygon(polygon_in_arr,10)
+    plot_GS_polygon(create_Polygon_from_array(final_number_poly),-20,write_path)
   
+
+
+
+
+
 
     NoP = get_number_of_points(p)
     print("____________________________________")
@@ -89,6 +94,24 @@ def test():
 
     return 0 
 
+def simplify_polygon(arr, final_number_of_points):
+    DCE_Polygon = create_Polygon_from_array(arr)
+    NoP = get_number_of_points(DCE_Polygon)
+    
+
+    for i in range(NoP):
+        calc_lowest_k = get_lowest_k(DCE_Polygon)
+        index_lowest_k = calc_lowest_k[0]
+        print("verbleib. Punkte: ", (NoP-i-final_number_of_points))
+        if index_lowest_k==-1:
+            print("Error; k = -1")
+            break       
+        if i == (NoP-3):
+            print("finished")
+            break
+        DCE_Polygon = delete_point_from_polygon(DCE_Polygon, index_lowest_k)
+        if final_number_of_points == get_number_of_points(DCE_Polygon):
+            return get_array_with_points(DCE_Polygon)
 
 
 
