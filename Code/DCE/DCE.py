@@ -416,4 +416,4 @@ def calc_k_dist(p,p1,s1,s2):
         print("k", k)
         return k 
 
-test()
+#test()

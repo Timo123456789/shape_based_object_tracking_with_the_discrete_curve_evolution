@@ -12,7 +12,7 @@ from yolo_segmentation import YOLOSegmentation
 
 
 
-def main(): 
+def test(): 
     path_source_video = r'Code\vid_examples\right_Side\autobahn_2.mp4'
     path_read_imgs = r'Code\YOLO\frames\analyzed\frame'
     path_write_video = r'Code\YOLO\runs\videos_from_frames\video.mp4'
@@ -120,4 +120,4 @@ def analyse_vid(path):
 
 
 
-main()
+test()

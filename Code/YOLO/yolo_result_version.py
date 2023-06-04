@@ -1,8 +1,11 @@
 from ultralytics import YOLO
 import cv2
 import numpy as np
+#from Code.DCE.DCE import *
 
-def main():
+
+
+def test():
     path_source_video = r'Code\vid_examples\right_Side\autobahn_2.mp4'
     path_write_video = r'Code\YOLO\runs\videos_from_frames\video_results.mp4'
 
@@ -28,30 +31,52 @@ def main():
 
     write_video(res_outline, path_write_video, path_source_video)
    
-    # https://github.com/ultralytics/yolov5/issues/9665  #ne Eher nicht ist pytorch
+  
 
-def get_outline_for_every_object(res):
+def get_outline_for_every_object(res, NoP_Cars, NoP_Motorcycle, NoP_Truck):
     fps = len(res)
     res_cop = res
     for i in range(fps):
         data_arr = get_data(res[i])
         bbox = data_arr[0]
         class_id = data_arr[1]
-        outline = data_arr[2] #Hier kann DCE gut angewendet werden?
+        outline = run_DCE(data_arr[2],class_id,NoP_Cars, NoP_Motorcycle, NoP_Truck) #Hier kann DCE gut angewendet werden?
         scores = data_arr[3]
         res_cop[i]= cv2.polylines(res[i].orig_img, outline, True, (0, 0, 255), 1) 
         for b in range(len(bbox)):
             res_cop[i] = cv2.rectangle(res_cop[i], (bbox[b][0],bbox[b][1]),(bbox[b][2],bbox[b][3]), (255, 0, 0), 2)
             res_cop[i] = cv2.putText(res_cop[i], get_text_string(class_id[b],scores[b]), (bbox[b][0], bbox[b][1] - 10), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
-           
-        
-        
-  
-        
-       
-        
-    
+            
     return res_cop
+
+
+
+
+
+
+def run_DCE(outline, class_id, NoP_Cars, NoP_Motorcycle, NoP_Truck): #car = 2,  motorcycle = 3, truck = 7,
+    # print(len(outline))
+    # print("len[1]",len(outline[1]))
+    # for i in range(len(outline)):
+    #     if class_id[i] == 2:
+    #         return DCE.simplify_Polygon(outline[i],NoP_Cars)
+    #     if class_id[i] == 3:
+    #         return simplify_Polygon(outline[i],NoP_Motorcycle)
+    #     if class_id[i] == 7:
+    #         return simplify_Polygon(outline[i],NoP_Truck)
+        
+    # test = 0
+    return outline
+
+
+
+
+
+
+
+
+
+
 
 def get_text_string(class_id, score):
     category_list = {0: 'person', 1: 'bicycle', 2: 'car', 3: 'motorcycle', 4: 'airplane', 5: 'bus', 6: 'train', 7: 'truck', 8: 'boat', 9: 'traffic light', 10: 'fire hydrant', 11: 'stop sign', 12: 'parking meter', 13: 'bench', 14: 'bird', 15: 'cat', 16: 'dog', 17: 'horse', 18: 'sheep', 19: 'cow', 20: 'elephant', 21: 'bear', 22: 'zebra', 23: 'giraffe', 24: 'backpack', 25: 'umbrella', 26: 'handbag', 27: 'tie', 28: 'suitcase', 29: 'frisbee', 30: 'skis', 31: 'snowboard', 32: 'sports ball', 33: 'kite', 34: 'baseball bat', 35: 'baseball glove', 36: 'skateboard', 37: 'surfboard', 38: 'tennis racket', 39: 'bottle', 40: 'wine glass', 41: 'cup', 42: 'fork', 43: 'knife', 44: 'spoon', 45: 'bowl', 46: 'banana', 47: 'apple', 48: 'sandwich', 49: 'orange', 50: 'broccoli', 51: 'carrot', 52: 'hot dog', 53: 'pizza', 54: 'donut', 55: 'cake', 56: 'chair', 57: 'couch', 58: 'potted plant', 59: 'bed', 60: 'dining table', 61: 'toilet', 62: 'tv', 63: 'laptop', 64: 'mouse', 65: 'remote', 66: 'keyboard', 67: 'cell phone', 68: 'microwave', 69: 'oven', 70: 'toaster', 71: 'sink', 72: 'refrigerator', 73: 'book', 74: 'clock', 75: 'vase', 76: 'scissors', 77: 'teddy bear', 78: 'hair drier', 79: 'toothbrush'}
@@ -125,7 +150,7 @@ def get_fps(path):  #https://stackoverflow.com/questions/49025795/python-opencv-
     return fps
 
 
-main()
+#test()
 
 
 
