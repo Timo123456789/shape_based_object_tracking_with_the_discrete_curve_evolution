@@ -1,7 +1,7 @@
 from ultralytics import YOLO
 import cv2
 import numpy as np
-#from Code.DCE.DCE import *
+from DCE.DCE import *
 
 
 
@@ -12,61 +12,90 @@ def test():
 
     model = YOLO('yolov8n-seg.pt') 
     results = model.predict(path_source_video, save=False)
-    # print(results[3].boxes.xyxy)
-    # print(results[3].boxes.xyxy[0])
-    # print(np.array(results[3].boxes.xyxy.cpu(), dtype="int"))
-    # detected_object_bbox = np.array(results[1].boxes.xyxy.cpu(), dtype="int")
-    # print()
-    # print("_______________________________________________________________________________________________")
-    # print(results[3].masks.xy)
-
-    # print("_______________________________________________________________________________________________")
+   
     print(results[3].masks.xy)
     print(len(results))
 
-    # testimg = results[10].plot()
-    # cv2.imshow("result", testimg)       
-    # cv2.waitKey(0)
+ 
     res_outline = get_outline_for_every_object(results)
 
     write_video(res_outline, path_write_video, path_source_video)
    
   
 
-def get_outline_for_every_object(res, NoP_Cars, NoP_Motorcycle, NoP_Truck):
+def get_outline_for_every_object(res, NoP_Cars, NoP_Motorcycle, NoP_Truck, NoP_other_Object):
     fps = len(res)
     res_cop = res
     for i in range(fps):
         data_arr = get_data(res[i])
+        write_results_file(data_arr, 'data_arr')
         bbox = data_arr[0]
         class_id = data_arr[1]
-        outline = run_DCE(data_arr[2],class_id,NoP_Cars, NoP_Motorcycle, NoP_Truck) #Hier kann DCE gut angewendet werden?
+        outline = data_arr[2]
+        outline_DCE = run_DCE(data_arr[2],data_arr[1],NoP_Cars, NoP_Motorcycle, NoP_Truck, NoP_other_Object) #Hier kann DCE gut angewendet werden?
         scores = data_arr[3]
-        res_cop[i]= cv2.polylines(res[i].orig_img, outline, True, (0, 0, 255), 1) 
+
+        # print("__________________________________________")
+        # write_results_file(outline, 'vorDCE')
+        # write_results_file(outline_DCE, 'nachDCE')
+        # write_results_file(data_arr, 'DataArray')
+
+        # print("__________________________________________")
+        #res_cop[i] = cv2.rectangle(res_cop[i], (bbox), (0, 0, 0), -1)
+        res_cop[i]= cv2.polylines(res[i].orig_img, outline_DCE, True, (255, 255, 255), 5) 
+       
         for b in range(len(bbox)):
-            res_cop[i] = cv2.rectangle(res_cop[i], (bbox[b][0],bbox[b][1]),(bbox[b][2],bbox[b][3]), (255, 0, 0), 2)
+            #res_cop[i]= cv2.polylines(res[i].orig_img, outline[b], True, (0, 0, 255), 1) 
+            res_cop[i] = cv2.rectangle(res_cop[i], (bbox[b][0],bbox[b][1]),(bbox[b][2],bbox[b][3]), (0, 0, 0), -1)
             res_cop[i] = cv2.putText(res_cop[i], get_text_string(class_id[b],scores[b]), (bbox[b][0], bbox[b][1] - 10), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
-            
+        res_cop[i]= cv2.polylines(res[i], outline_DCE, True, (255, 255, 255), 5) 
+           
     return res_cop
 
 
+def write_results_file(results, text):
+    f = open( r'Code\YOLO\temp\t_'+ text+'.txt', 'w' )
+    f.write(repr(results))
+    f.close()
+    
+
+
+def run_DCE(outline, class_id, NoP_Cars, NoP_Motorcycle, NoP_Truck, NoP_other_Object): #car = 2,  motorcycle = 3, truck = 7,
+    write_results_file(outline, 'outline_before_DCE')
+    print("_________________")
+
+    print("outline len", len(outline))
+    print("outline[1] len", len(outline[1]))
+    cop_outline_raw = outline
+    #temp_outline = np.array([])
+
+    for i in range(len(outline)):
+        if class_id[i] == 2:
+            #np.append(temp_outline, simplify_polygon(outline[i],NoP_Cars))
+            outline[i] = simplify_polygon(outline[i],NoP_Cars)
+        else:
+            if class_id[i] == 3:
+                #np.append(temp_outline, simplify_polygon(outline[i],NoP_Motorcycle))
+                outline[i] = simplify_polygon(outline[i],NoP_Motorcycle)
+            else:
+                if class_id[i] == 7:
+                     #np.append(temp_outline, simplify_polygon(outline[i],NoP_Truck))
+                     outline[i] = simplify_polygon(outline[i],NoP_Truck)
+                else:
+                     #np.append(temp_outline, simplify_polygon(outline[i],NoP_other_Object))
+                     outline[i] = simplify_polygon(outline[i],NoP_other_Object)
 
 
 
-
-def run_DCE(outline, class_id, NoP_Cars, NoP_Motorcycle, NoP_Truck): #car = 2,  motorcycle = 3, truck = 7,
-    # print(len(outline))
-    # print("len[1]",len(outline[1]))
-    # for i in range(len(outline)):
-    #     if class_id[i] == 2:
-    #         return DCE.simplify_Polygon(outline[i],NoP_Cars)
-    #     if class_id[i] == 3:
-    #         return simplify_Polygon(outline[i],NoP_Motorcycle)
-    #     if class_id[i] == 7:
-    #         return simplify_Polygon(outline[i],NoP_Truck)
-        
-    # test = 0
+ 
+    #print("outline_temp len", len(outline))
+   # print("outline_temp[1] len", len(outline[1]))
+    # write_results_file(cop_outline_raw[1], 'cop_outline_raw[1]')
+    # write_results_file(outline[1], 'outline[1]')
+    # write_results_file(outline, 'outline_all')
+    # write_results_file(cop_outline_raw, 'cop_outline_raw_all')
     return outline
+    #return temp_outline
 
 
 
@@ -91,14 +120,22 @@ def get_data(res):
         # contours
         seg[:, 0] *= width
         seg[:, 1] *= height
+        # print('##################################################################')
+
+        # print("seg", seg)
         segment = np.array(seg, dtype=np.int32)
         segmentation_contours_idx.append(segment)
+        # print('segment', segment)
+        # print('segment_contour_idx', segmentation_contours_idx)
+        # print('##################################################################')
+     
 
     bboxes = np.array(res.boxes.xyxy.cpu(), dtype="int")
     # Get class ids
     class_ids = np.array(res.boxes.cls.cpu(), dtype="int")
     # Get scores
     scores = np.array(res.boxes.conf.cpu(), dtype="float").round(2)
+    write_results_file(segmentation_contours_idx,'segm_Contour_idx')
     return bboxes, class_ids, segmentation_contours_idx, scores
 
 
@@ -134,7 +171,7 @@ def write_video(res, path_write_video, path_source_video):
         video.write(res[i])
     cv2.destroyAllWindows()
     video.release()
-    print("video written")
+    print("video saved")
     return 0
 
 
@@ -154,23 +191,3 @@ def get_fps(path):  #https://stackoverflow.com/questions/49025795/python-opencv-
 
 
 
-# result = results_first
-
-# height, width, channels = img.shape
-
-#         results = self.model.predict(source=img.copy(), save=False, save_txt=False)
-#         result = results[0]
-#         segmentation_contours_idx = []
-#         for seg in result.masks.segments:
-#             # contours
-#             seg[:, 0] *= width
-#             seg[:, 1] *= height
-#             segment = np.array(seg, dtype=np.int32)
-#             segmentation_contours_idx.append(segment)
-
-#         bboxes = np.array(result.boxes.xyxy.cpu(), dtype="int")
-#         # Get class ids
-#         class_ids = np.array(result.boxes.cls.cpu(), dtype="int")
-#         # Get scores
-#         scores = np.array(result.boxes.conf.cpu(), dtype="float").round(2)
-#         return bboxes, class_ids, segmentation_contours_idx, scores
