@@ -74,42 +74,37 @@ def write_results_file(results, text):
 
 
 def run_DCE(outline, class_id, options): #car = 2,  motorcycle = 3, truck = 7,
-    # write_results_file(outline, 'outline_before_DCE')
-    # print("_________________")
+   
+    match options["calc_K_with_Dist"]:
+        case True:
+            for i in range(len(outline)):
+                match class_id[i]:
+                    case 2:
+                        outline[i] = simplify_polygon_k_with_dist(outline[i],options["NoP_Cars"])
+                    case 3:
+                        outline[i] = simplify_polygon_k_with_dist(outline[i],options["NoP_Motorcycle"])
+                    case 7:
+                        outline[i] = simplify_polygon_k_with_dist(outline[i],options["NoP_Truck"])
+                    case _:
+                        outline[i] = simplify_polygon_k_with_dist(outline[i],options["NoP_other_Object"])
 
-    # print("outline len", len(outline))
-    # print("outline[1] len", len(outline[1]))
-    #cop_outline_raw = outline
-    #temp_outline = np.array([])
-
-    for i in range(len(outline)):
-        ma
-        if class_id[i] == 2:
-            #np.append(temp_outline, simplify_polygon(outline[i],NoP_Cars))
-            outline[i] = simplify_polygon_k_with_angle(outline[i],options["NoP_Cars"])
-        else:
-            if class_id[i] == 3:
-                #np.append(temp_outline, simplify_polygon(outline[i],NoP_Motorcycle))
-                outline[i] = simplify_polygon_k_with_angle(outline[i],options["NoP_Motorcycle"])
-            else:
-                if class_id[i] == 7:
-                     #np.append(temp_outline, simplify_polygon(outline[i],NoP_Truck))
-                     outline[i] = simplify_polygon_k_with_angle(outline[i],options["NoP_Truck"])
-                else:
-                     #np.append(temp_outline, simplify_polygon(outline[i],NoP_other_Object))
-                     outline[i] = simplify_polygon_k_with_angle(outline[i],options["NoP_other_Object"])
-
-
-
- 
-    #print("outline_temp len", len(outline))
-   # print("outline_temp[1] len", len(outline[1]))
-    # write_results_file(cop_outline_raw[1], 'cop_outline_raw[1]')
-    # write_results_file(outline[1], 'outline[1]')
-    # write_results_file(outline, 'outline_all')
-    # write_results_file(cop_outline_raw, 'cop_outline_raw_all')
+        case False:
+            for i in range(len(outline)):
+                match class_id[i]:
+                    case 2:
+                        outline[i] = simplify_polygon_k_with_angle(outline[i],options["NoP_Cars"])
+                    case 3:
+                        outline[i] = simplify_polygon_k_with_angle(outline[i],options["NoP_Motorcycle"])
+                    case 7:
+                        outline[i] = simplify_polygon_k_with_angle(outline[i],options["NoP_Truck"])
+                    case _:
+                        outline[i] = simplify_polygon_k_with_angle(outline[i],options["NoP_other_Object"])
+        case _:
+            print("Error at 'calc_K_with_Dist' Options parameter; must be True or False!")
+            return None        
+       
     return outline
-    #return temp_outline
+
 
 
 
@@ -134,20 +129,9 @@ def get_data(res):
     class_ids = np.array([])
     scores = np.array([])
     if res.masks is not None:
-        for seg in res.masks.segments:
-            # contours
-            seg[:, 0] *= width
-            seg[:, 1] *= height
-            # print('##################################################################')
-
-            # print("seg", seg)
-            segment = np.array(seg, dtype=np.int32)
-            segmentation_contours_idx.append(segment)
-            # print('segment', segment)
-            # print('segment_contour_idx', segmentation_contours_idx)
-            # print('##################################################################')
+    
         
-
+        segmentation_contours_idx = res.masks.xy
         bboxes = np.array(res.boxes.xyxy.cpu(), dtype="int")
         # Get class ids
         class_ids = np.array(res.boxes.cls.cpu(), dtype="int")

@@ -156,7 +156,7 @@ def get_lowest_k_dist_calc(p):
     index_for_point_on_k = -1
     for i in range(NoP):
         if i==0:
-            k_value = calc_k_dist(p,i,NoP,1) 
+            k_value = calc_k_dist(p,i,(NoP-1),1) 
             point_on_k = get_selected_point(p,i) 
             index_for_point_on_k = 0       
         else:
@@ -435,6 +435,11 @@ def calc_k_dist(p,p1,s1,s2):
 
     k = calc_distance_between_two_points(p,s1,p1)+calc_distance_between_two_points(p,s2,p1) - calc_distance_between_two_points(p,s1,s2)
 
-    return k
+    if k < 0:
+        
+        return k * -1
+    else:
+        
+        return k
 
 #test()
