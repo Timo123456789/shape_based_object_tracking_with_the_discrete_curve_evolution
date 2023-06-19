@@ -94,12 +94,12 @@ def test():
 
     return 0 
 
-def simplify_polygon(arr, final_number_of_points):
-    # write_results_file(arr, 'onePolygon_before_DCE')
+def simplify_polygon_k_with_angle(arr, final_number_of_points):
+ 
     DCE_Polygon = create_Polygon_from_array(arr)
     NoP = get_number_of_points(DCE_Polygon)
-    # if final_number_of_points <= NoP:
-    #     return polygon_to_pixels(DCE_Polygon)
+    if final_number_of_points >= NoP:
+        return polygon_to_pixels(DCE_Polygon)
 
     for i in range(NoP):
         calc_lowest_k = get_lowest_k(DCE_Polygon)
@@ -111,21 +111,12 @@ def simplify_polygon(arr, final_number_of_points):
             print("finished")
             break
         DCE_Polygon = delete_point_from_polygon(DCE_Polygon, index_lowest_k)
-        print("verbleib. Punkte: ", (NoP-i-final_number_of_points))
+        #print("verbleib. Punkte: ", (NoP-i-final_number_of_points))
         if final_number_of_points == get_number_of_points(DCE_Polygon):
-            # write_results_file(arr, 'onePolygon_after_DCE')
-            # write_path_temp = r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\DCE\TestRuns\temp\testpng"
-            # plot_GS_polygon(DCE_Polygon,-5,write_path_temp)
-            # write_results_file(get_array_with_points(DCE_Polygon), 'Polygon_nach_DCE')
-            # write_results_file(polygon_to_pixels(DCE_Polygon), 'Polygon_TOPIXELS_without_int')
-
+            #print("finished one DCE run sucessfull")
             return polygon_to_pixels(DCE_Polygon)
 
 
-def write_results_file(results, text):
-    f = open( r'Code\YOLO\temp\t_'+ text+'.txt', 'w' )
-    f.write(repr(results))
-    f.close()
 
 
 def polygon_to_pixels(p):
@@ -134,7 +125,6 @@ def polygon_to_pixels(p):
     for i in range(NoP):
         located_pixel = [p[0].exterior.coords[i][0], p[0].exterior.coords[i][1]]
         array_of_points.append(located_pixel) 
-
     return np.array(array_of_points, np.int32)
 
 def get_lowest_k_dist_calc(p):

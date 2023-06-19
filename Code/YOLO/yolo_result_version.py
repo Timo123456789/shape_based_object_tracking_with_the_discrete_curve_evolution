@@ -23,35 +23,48 @@ def test():
    
   
 
-def get_outline_for_every_object(res, NoP_Cars, NoP_Motorcycle, NoP_Truck, NoP_other_Object):
+def get_outline_for_every_object(res, options): #, NoP_Motorcycle, NoP_Truck, NoP_other_Object,black_video
     fps = len(res)
     res_cop = res
+    NoP = get_number_of_points_result(res)
+
+
     for i in range(fps):
-        data_arr = get_data(res[i])
-        write_results_file(data_arr, 'data_arr')
-        bbox = data_arr[0]
-        class_id = data_arr[1]
-        outline = data_arr[2]
-        outline_DCE = run_DCE(data_arr[2],data_arr[1],NoP_Cars, NoP_Motorcycle, NoP_Truck, NoP_other_Object) #Hier kann DCE gut angewendet werden?
-        scores = data_arr[3]
+        if (res[i] is not None):
+            print("Segment gefudnen")
+            data_arr = get_data(res[i])
+            #write_results_file(data_arr, 'data_arr')
+            bbox = data_arr[0]
+            class_id = data_arr[1]
+            outline = data_arr[2]
+            outline_DCE = run_DCE(data_arr[2],data_arr[1],options) #Hier kann DCE gut angewendet werden?
+            scores = data_arr[3]
+            img_size = data_arr[4]
 
-        # print("__________________________________________")
-        # write_results_file(outline, 'vorDCE')
-        # write_results_file(outline_DCE, 'nachDCE')
-        # write_results_file(data_arr, 'DataArray')
-
-        # print("__________________________________________")
-        #res_cop[i] = cv2.rectangle(res_cop[i], (bbox), (0, 0, 0), -1)
-        res_cop[i]= cv2.polylines(res[i].orig_img, outline_DCE, True, (255, 255, 255), 5) 
-       
-        for b in range(len(bbox)):
-            #res_cop[i]= cv2.polylines(res[i].orig_img, outline[b], True, (0, 0, 255), 1) 
-            res_cop[i] = cv2.rectangle(res_cop[i], (bbox[b][0],bbox[b][1]),(bbox[b][2],bbox[b][3]), (0, 0, 0), -1)
-            res_cop[i] = cv2.putText(res_cop[i], get_text_string(class_id[b],scores[b]), (bbox[b][0], bbox[b][1] - 10), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
-        res_cop[i]= cv2.polylines(res[i], outline_DCE, True, (255, 255, 255), 5) 
-           
+        
+            res_cop[i]= cv2.polylines(res[i].orig_img, outline_DCE, True, (255, 255, 255), 0) 
+            if(options["black_video"] == True):
+                res_cop[i] = cv2.rectangle(res_cop[i], (0,0),(img_size[0],img_size[1]), (0, 0, 0), -1)
+            for b in range(len(bbox)):
+                NoP = NoP-1
+                #res_cop[i]= cv2.polylines(res[i].orig_img, outline[b], True, (0, 0, 255), 1) 
+                res_cop[i] = cv2.rectangle(res_cop[i], (bbox[b][0],bbox[b][1]),(bbox[b][2],bbox[b][3]), (0, 0, 0), -1)
+                if(options["write_labels"] == True):
+                    res_cop[i] = cv2.putText(res_cop[i], get_text_string(class_id[b],scores[b]), (bbox[b][0], bbox[b][1] - 10), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
+            res_cop[i]= cv2.polylines(res[i], outline_DCE, True, (255, 255, 255), 1) 
+            print('NoP', NoP)
+        else:
+            print("Segment NIHCTgefudnen")
+            res_cop[i]= cv2.polylines(res[i].orig_img, outline_DCE, True, (255, 255, 255), 0) 
+            if(options["black_video"] == True):
+                res_cop[i] = cv2.rectangle(res_cop[i], (0,0),(img_size[0],img_size[1]), (0, 0, 0), -1)
     return res_cop
 
+def get_number_of_points_result(res):
+    NoP = 0
+    for i in range(len(res)):
+        NoP = NoP + len(res[i])
+    return NoP
 
 def write_results_file(results, text):
     f = open( r'Code\YOLO\temp\t_'+ text+'.txt', 'w' )
@@ -60,30 +73,31 @@ def write_results_file(results, text):
     
 
 
-def run_DCE(outline, class_id, NoP_Cars, NoP_Motorcycle, NoP_Truck, NoP_other_Object): #car = 2,  motorcycle = 3, truck = 7,
-    write_results_file(outline, 'outline_before_DCE')
-    print("_________________")
+def run_DCE(outline, class_id, options): #car = 2,  motorcycle = 3, truck = 7,
+    # write_results_file(outline, 'outline_before_DCE')
+    # print("_________________")
 
-    print("outline len", len(outline))
-    print("outline[1] len", len(outline[1]))
-    cop_outline_raw = outline
+    # print("outline len", len(outline))
+    # print("outline[1] len", len(outline[1]))
+    #cop_outline_raw = outline
     #temp_outline = np.array([])
 
     for i in range(len(outline)):
+        ma
         if class_id[i] == 2:
             #np.append(temp_outline, simplify_polygon(outline[i],NoP_Cars))
-            outline[i] = simplify_polygon(outline[i],NoP_Cars)
+            outline[i] = simplify_polygon_k_with_angle(outline[i],options["NoP_Cars"])
         else:
             if class_id[i] == 3:
                 #np.append(temp_outline, simplify_polygon(outline[i],NoP_Motorcycle))
-                outline[i] = simplify_polygon(outline[i],NoP_Motorcycle)
+                outline[i] = simplify_polygon_k_with_angle(outline[i],options["NoP_Motorcycle"])
             else:
                 if class_id[i] == 7:
                      #np.append(temp_outline, simplify_polygon(outline[i],NoP_Truck))
-                     outline[i] = simplify_polygon(outline[i],NoP_Truck)
+                     outline[i] = simplify_polygon_k_with_angle(outline[i],options["NoP_Truck"])
                 else:
                      #np.append(temp_outline, simplify_polygon(outline[i],NoP_other_Object))
-                     outline[i] = simplify_polygon(outline[i],NoP_other_Object)
+                     outline[i] = simplify_polygon_k_with_angle(outline[i],options["NoP_other_Object"])
 
 
 
@@ -116,31 +130,35 @@ def get_text_string(class_id, score):
 def get_data(res):
     segmentation_contours_idx = []
     height, width, layers = res.orig_img.shape
-    for seg in res.masks.segments:
-        # contours
-        seg[:, 0] *= width
-        seg[:, 1] *= height
-        # print('##################################################################')
+    bboxes = np.array([])
+    class_ids = np.array([])
+    scores = np.array([])
+    if res.masks is not None:
+        for seg in res.masks.segments:
+            # contours
+            seg[:, 0] *= width
+            seg[:, 1] *= height
+            # print('##################################################################')
 
-        # print("seg", seg)
-        segment = np.array(seg, dtype=np.int32)
-        segmentation_contours_idx.append(segment)
-        # print('segment', segment)
-        # print('segment_contour_idx', segmentation_contours_idx)
-        # print('##################################################################')
-     
+            # print("seg", seg)
+            segment = np.array(seg, dtype=np.int32)
+            segmentation_contours_idx.append(segment)
+            # print('segment', segment)
+            # print('segment_contour_idx', segmentation_contours_idx)
+            # print('##################################################################')
+        
 
-    bboxes = np.array(res.boxes.xyxy.cpu(), dtype="int")
-    # Get class ids
-    class_ids = np.array(res.boxes.cls.cpu(), dtype="int")
-    # Get scores
-    scores = np.array(res.boxes.conf.cpu(), dtype="float").round(2)
-    write_results_file(segmentation_contours_idx,'segm_Contour_idx')
-    return bboxes, class_ids, segmentation_contours_idx, scores
+        bboxes = np.array(res.boxes.xyxy.cpu(), dtype="int")
+        # Get class ids
+        class_ids = np.array(res.boxes.cls.cpu(), dtype="int")
+        # Get scores
+        scores = np.array(res.boxes.conf.cpu(), dtype="float").round(2)
+    img_size = [width, height]
+    return bboxes, class_ids, segmentation_contours_idx, scores, img_size
 
 
 def write_outline(img,arr):
-    print(len(arr), arr.size)
+    #print(len(arr), arr.size)
 
     for i in range(len(arr)):
         img[arr[i][0],arr[i][1]]=(255,0,0)
