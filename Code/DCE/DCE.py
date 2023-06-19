@@ -115,6 +115,29 @@ def simplify_polygon_k_with_angle(arr, final_number_of_points):
         if final_number_of_points == get_number_of_points(DCE_Polygon):
             #print("finished one DCE run sucessfull")
             return polygon_to_pixels(DCE_Polygon)
+        
+
+def simplify_polygon_k_with_dist(arr, final_number_of_points):
+ 
+    DCE_Polygon = create_Polygon_from_array(arr)
+    NoP = get_number_of_points(DCE_Polygon)
+    if final_number_of_points >= NoP:
+        return polygon_to_pixels(DCE_Polygon)
+
+    for i in range(NoP):
+        calc_lowest_k = get_lowest_k_dist_calc(DCE_Polygon)
+        index_lowest_k = calc_lowest_k[0]
+        if index_lowest_k==-1:
+            print("Error; k = -1")
+            break       
+        if i == (NoP-3):
+            print("finished")
+            break
+        DCE_Polygon = delete_point_from_polygon(DCE_Polygon, index_lowest_k)
+        #print("verbleib. Punkte: ", (NoP-i-final_number_of_points))
+        if final_number_of_points == get_number_of_points(DCE_Polygon):
+            #print("finished one DCE run sucessfull")
+            return polygon_to_pixels(DCE_Polygon)
 
 
 
@@ -412,18 +435,6 @@ def calc_k_dist(p,p1,s1,s2):
 
     k = calc_distance_between_two_points(p,s1,p1)+calc_distance_between_two_points(p,s2,p1) - calc_distance_between_two_points(p,s1,s2)
 
-    print("__________________________________________________")
-    if k < 0:
-        print("Distanz zw. S1 und P1", calc_distance_between_two_points(p,s1,p1))
-        print("Distanz zw. S2 und P1", calc_distance_between_two_points(p,s2,p1))
-        print("Distanz zw. S1 und S2", calc_distance_between_two_points(p,s1,s2))
-        print("k*-1", k*-1)
-        return k *-1
-    else:
-        print("Distanz zw. S1 und P1", calc_distance_between_two_points(p,s1,p1))
-        print("Distanz zw. S2 und P1", calc_distance_between_two_points(p,s2,p1))
-        print("Distanz zw. S1 und S2", calc_distance_between_two_points(p,s1,s2))
-        print("k", k)
-        return k 
+    return k
 
 #test()

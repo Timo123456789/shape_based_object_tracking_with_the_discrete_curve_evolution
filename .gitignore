@@ -411,6 +411,10 @@ TSWLatexianTemp*
 *.lpz
 
 *.pt
+Code/vid_examples/
+Code/YOLO/runs/
+runs/
 runs/segment/predict3/autobahn1s.mp4
 runs/segment/predict4/autobahn1s.mp4
 Code/YOLO/runs/videos_from_frames/video_results.mp4
+Code\vid_examples\left_Side\not_stabilized\autobahn_6.mp4
