@@ -5,6 +5,7 @@ import pandas # Source: https://java2blog.com/save-object-to-file-python/
 import numpy as np
 import cv2
 from yolo_segmentation import YOLOSegmentation
+from DCE.DCE import *
 
 
 
@@ -13,9 +14,10 @@ from yolo_segmentation import YOLOSegmentation
 
 
 def test(): 
-    path_source_video = r'Code\vid_examples\right_Side\autobahn_2.mp4'
+    #path_source_video = r'Code\vid_examples\right_Side\autobahn_2.mp4'
+    path_source_video = r'Code\vid_examples\right_Side\autobahn1s.mp4'
     path_read_imgs = r'Code\YOLO\frames\analyzed\frame'
-    path_write_video = r'Code\YOLO\runs\videos_from_frames\video.mp4'
+    path_write_video = r'Code\YOLO\runs\videos_from_frames\videotest_9.mp4'
     # 8n = sehr schnell, aber ungenau, 8m = schnell recht genau, 8x = langsam aber sehr genau
     #results = analyse_vid(path)
 
@@ -50,6 +52,7 @@ def create_video_from_imgs(path_source_video,path_write_video, img_arr, framecou
         video.write(img_arr[i])
     cv2.destroyAllWindows()
     video.release()
+    print("video saved")
     return 0
     
  
@@ -62,23 +65,42 @@ def create_video_from_imgs(path_source_video,path_write_video, img_arr, framecou
     
 def run_DCE(array, class_id):
     #print(array)
+    #test = np.array(array, dtype='int')
+    # print(test)
+    # print(seg)
 
-    return array
+
+    # print(test[1][1])
+    # print(seg[1][1])
+    print("array")
+    print(array)
+    print("px")
+    #print(px)
+    test = np.array(array, dtype='int')
+    print("test") 
+    print(test) 
+    
+    return [test]
    
+
+
+
 
 def run_yolo(img):  #https://pysource.com/2023/02/21/yolo-v8-segmentation
     ys = YOLOSegmentation("yolov8n-seg.pt")
     bboxes, classes, segmentations, scores = ys.detect(img)
     for bbox, class_id, seg, score in zip(bboxes, classes, segmentations, scores):
-        # print("bbox:", bbox, "class id:", class_id, "seg:", seg, "score:", score)
+      
         (x, y, x2, y2) = bbox
-        if class_id == 2 or class_id == 3 or class_id == 7:  #car = 2,  motorcycle = 3, truck = 7,
-            cv2.rectangle(img, (x, y), (x2, y2), (255, 0, 0), 2)
 
-            cv2.polylines(img, run_DCE([seg],class_id), True, (0, 0, 255), 1)
+        cv2.rectangle(img, (x, y), (x2, y2), (255, 0, 0), 2)
 
-            cv2.putText(img, str(class_id), (x, y - 10), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
+        cv2.polylines(img, run_DCE([seg],class_id), True, (0, 0, 255), 1)
+
+        cv2.putText(img, str(class_id), (x, y - 10), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
     return img
+
+     
 
 
 def get_number_of_frames(path): #https://stackoverflow.com/questions/25359288/how-to-know-total-number-of-frame-in-a-file-with-cv2-in-python
