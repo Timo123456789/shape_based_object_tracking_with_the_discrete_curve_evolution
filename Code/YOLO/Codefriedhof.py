@@ -116,3 +116,38 @@
 #                          res_cop[i] = cv2.putText(res_cop[i], (str(class_id[b])+'truck'), (bbox[b][0], bbox[b][1] - 10), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
 #                     else:
 #                          res_cop[i] = cv2.putText(res_cop[i], str(class_id[b]), (bbox[b][0], bbox[b][1] - 10), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
+
+
+# def run_yolo_new(img):  #https://pysource.com/2023/02/21/yolo-v8-segmentation
+#     ys = YOLOSegmentation("yolov8n-seg.pt")
+#     #bboxes, classes, segmentations, pixels, scores = ys.detect(img)
+#     #bboxes, classes, segmentations, pixels, scores = ys.detect(img)
+#     # print("test")
+#     # for bbox, class_id, seg, px, score in zip(bboxes, classes, segmentations, pixels, scores):
+#     #     # print("bbox:", bbox, "class id:", class_id, "seg:", seg, "score:", score)
+#     #     print("HALO", score)
+#     #     (x, y, x2, y2) = bbox
+#     #     # match class_id:
+#     #     #     case 2:
+#     #     # if class_id == 2 or class_id == 3 or class_id == 7:  #car = 2,  motorcycle = 3, truck = 7,
+#     #     print("ID")
+#     #     cv2.rectangle(img, (x, y), (x2, y2), (255, 0, 0), 2)
+#     #     #cv2.polylines(img, run_DCE([seg],class_id), True, (0, 0, 255), 1)
+#     #     cv2.polylines(img, run_DCE(px, class_id, seg), True, (0, 0, 255), 10)
+#     #     #cv2.polylines(img, [seg], True, (0, 0, 255), 1)
+
+#     #     cv2.putText(img, str(class_id), (x, y - 10), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
+#     # print("Test Ende")
+
+#     bboxes, classes, segmentations, scores = ys.detect(img)
+#     for bbox, class_id, seg, score in zip(bboxes, classes, segmentations, scores):
+#         # print("bbox:", bbox, "class id:", class_id, "seg:", seg, "score:", score)
+#         (x, y, x2, y2) = bbox
+#         print("test5")
+#         if class_id == 32:
+#             cv2.rectangle(img, (x, y), (x2, y2), (255, 0, 0), 2)
+
+#             cv2.polylines(img, [seg], True, (0, 0, 255), 4)
+
+#             cv2.putText(img, str(class_id), (x, y - 10), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
+#     return img
