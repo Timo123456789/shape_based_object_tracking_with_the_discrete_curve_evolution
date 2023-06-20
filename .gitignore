@@ -409,3 +409,31 @@ TSWLatexianTemp*
 
 # Makeindex log files
 *.lpz
+Code/YOLO/runs/videos_from_frames/autobahn_2_without_whole_anon.mp4
+Code/YOLO/runs/videos_from_frames/autobahn_left_FALSE.mp4
+Code/YOLO/runs/videos_from_frames/autobahn_left_temp_dist.mp4
+Code/YOLO/runs/videos_from_frames/autobahn_left_temp.mp4
+Code/YOLO/runs/videos_from_frames/autobahn_left.mp4
+Code/YOLO/runs/videos_from_frames/autobahn_middle.mp4
+Code/YOLO/runs/videos_from_frames/autobahn_o_kennz.mp4
+Code/YOLO/runs/videos_from_frames/autobahn_xy_temp.mp4
+Code/YOLO/runs/videos_from_frames/autobahn1s_non_whole_anon.mp4
+Code/YOLO/runs/videos_from_frames/autobahn1s_whole_anon.mp4
+Code/YOLO/runs/videos_from_frames/autobahn2_whole_anon_manyPoints.mp4
+Code/YOLO/runs/videos_from_frames/autobahn2_whole_anon.mp4
+Code/YOLO/runs/videos_from_frames/autobahntemp.mp4
+Code/YOLO/runs/videos_from_frames/video1s_main_DCE.mp4
+Code/YOLO/runs/videos_from_frames/videotest_9.mp4
+Code/YOLO/runs/videos_from_frames/videotest_ecery_frame_ursprung.mp4
+Code/YOLO/runs/videos_from_frames/videotest2.mp4
+Code/vid_examples/left_Side/not_stabilized/autobahn_1.mp4
+Code/vid_examples/left_Side/not_stabilized/autobahn_2.mp4
+Code/vid_examples/left_Side/not_stabilized/autobahn_3.mp4
+Code/vid_examples/left_Side/not_stabilized/autobahn_4.mp4
+Code/vid_examples/left_Side/not_stabilized/autobahn_5.mp4
+Code/vid_examples/left_Side/not_stabilized/autobahn_6.mp4
+Code/vid_examples/left_Side/not_stabilized/autobahn_7.mp4
+runs/segment/predict3/autobahn1s.mp4
+runs/segment/predict4/autobahn1s.mp4
+yolov8n-seg.pt
+yolov8x-seg.pt
