@@ -1,6 +1,8 @@
 from ultralytics import YOLO
 import cv2
 import numpy as np
+import time
+from tqdm import tqdm # for progress bar
 from DCE.DCE import *
 
 
@@ -27,40 +29,54 @@ def get_outline_for_every_object(res, options): #, NoP_Motorcycle, NoP_Truck, No
     fps = len(res)
     res_cop = res
     NoP = get_number_of_points_result(res)
-
+    NoP_zero = 0
+    pbar = tqdm(desc= "DCE Progress", total = NoP)
 
     for i in range(fps):
+        NoP_zero += 1
+
         if (res[i] is not None):
-            print("Segment gefudnen")
             data_arr = get_data(res[i])
             #write_results_file(data_arr, 'data_arr')
             bbox = data_arr[0]
             class_id = data_arr[1]
             outline = data_arr[2]
-            outline_DCE = run_DCE(data_arr[2],data_arr[1],options) #Hier kann DCE gut angewendet werden?
+            options["timestamp_DCE_start"] = time.time()
+            outline_DCE = run_DCE(data_arr[2],data_arr[1], NoP ,options) #Hier kann DCE gut angewendet werden?
+
+            if(options["save_timestamps"]==True):
+                options["timestamp_DCE_end"] = time.time()
+                options["timestamp_DCE_dur"] = options["timestamp_DCE_dur"] + (options["timestamp_DCE_end"] - options["timestamp_DCE_start"])
+
             scores = data_arr[3]
             img_size = data_arr[4]
 
-        
+
             res_cop[i]= cv2.polylines(res[i].orig_img, outline_DCE, True, (255, 255, 255), 0) 
             if(options["black_video"] == True):
                 res_cop[i] = cv2.rectangle(res_cop[i], (0,0),(img_size[0],img_size[1]), (0, 0, 0), -1)
 
 
             for b in range(len(bbox)):
-                NoP = NoP-1
+                #NoP = NoP-1
                 #res_cop[i]= cv2.polylines(res[i].orig_img, outline[b], True, (0, 0, 255), 1) 
                 res_cop[i] = cv2.rectangle(res_cop[i], (bbox[b][0],bbox[b][1]),(bbox[b][2],bbox[b][3]), (0, 0, 0), -1)
                 if(options["write_labels"] == True):
                     res_cop[i] = cv2.putText(res_cop[i], get_text_string(class_id[b],scores[b]), (bbox[b][0], bbox[b][1] - 10), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
             res_cop[i]= cv2.polylines(res[i], outline_DCE, True, (255, 255, 255), 1) 
-            print('NoP', NoP)
+
+        
+            #print('NoP', NoP)
+           
         else:
             print("Segment NIHCTgefudnen")
             res_cop[i]= cv2.polylines(res[i].orig_img, outline_DCE, True, (255, 255, 255), 0) 
             if(options["black_video"] == True):
                 res_cop[i] = cv2.rectangle(res_cop[i], (0,0),(img_size[0],img_size[1]), (0, 0, 0), -1)
-    return res_cop
+        pbar.update(NoP_zero)
+          
+    
+    return [res_cop, options]
 
 def get_number_of_points_result(res):
     NoP = 0
@@ -75,11 +91,12 @@ def write_results_file(results, text):
     
 
 
-def run_DCE(outline, class_id, options): #car = 2,  motorcycle = 3, truck = 7,
-   
+def run_DCE(outline, class_id,NoP, options): #car = 2,  motorcycle = 3, truck = 7,
+  
     match options["calc_K_with_Dist"]:
         case True:
             for i in range(len(outline)):
+                
                 match class_id[i]:
                     case 2:
                         outline[i] = simplify_polygon_k_with_dist(outline[i],options["NoP_Cars"])
@@ -92,6 +109,7 @@ def run_DCE(outline, class_id, options): #car = 2,  motorcycle = 3, truck = 7,
 
         case False:
             for i in range(len(outline)):
+           
                 match class_id[i]:
                     case 2:
                         outline[i] = simplify_polygon_k_with_angle(outline[i],options["NoP_Cars"])

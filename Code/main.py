@@ -22,7 +22,7 @@ def main():
             "black_video": True,
             "write_labels": True,
             "calc_K_with_Dist": False,
-            "yolo_every_frame": True,
+            "yolo_every_frame": False,
 
             "save_timestamps": True,
             "timestamp_prog_start": time.time(),

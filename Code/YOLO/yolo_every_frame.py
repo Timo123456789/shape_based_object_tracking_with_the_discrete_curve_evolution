@@ -5,6 +5,7 @@ import pandas # Source: https://java2blog.com/save-object-to-file-python/
 import numpy as np
 import cv2
 import time
+from tqdm import tqdm # for progress bar
 from YOLO.yolo_segmentation import YOLOSegmentation
 from DCE.DCE import *
 
@@ -48,6 +49,7 @@ def run_yolo_every_frame_version_intern(options):
     # print("framecounter")
     # print(framecounter)
     img_arr=[]
+  
     for i in range(framecounter):
         img = get_specific_frame(options["path_source_video"],i)
 
@@ -56,6 +58,7 @@ def run_yolo_every_frame_version_intern(options):
         
 
         img_arr.append(img_analyzed)
+       
         #cv2.imwrite(r'Code\YOLO\frames\analyzed\frame'+str(i)+'.png', img_analyzed)  # save frame as JPEG file
 
 
