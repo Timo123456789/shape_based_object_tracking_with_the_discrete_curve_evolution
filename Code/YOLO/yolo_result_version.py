@@ -45,6 +45,8 @@ def get_outline_for_every_object(res, options): #, NoP_Motorcycle, NoP_Truck, No
             res_cop[i]= cv2.polylines(res[i].orig_img, outline_DCE, True, (255, 255, 255), 0) 
             if(options["black_video"] == True):
                 res_cop[i] = cv2.rectangle(res_cop[i], (0,0),(img_size[0],img_size[1]), (0, 0, 0), -1)
+
+
             for b in range(len(bbox)):
                 NoP = NoP-1
                 #res_cop[i]= cv2.polylines(res[i].orig_img, outline[b], True, (0, 0, 255), 1) 
@@ -125,6 +127,7 @@ def get_text_string(class_id, score):
 def get_data(res):
     segmentation_contours_idx = []
     height, width, layers = res.orig_img.shape
+    img_size = [width, height]
     bboxes = np.array([])
     class_ids = np.array([])
     scores = np.array([])
@@ -137,7 +140,7 @@ def get_data(res):
         class_ids = np.array(res.boxes.cls.cpu(), dtype="int")
         # Get scores
         scores = np.array(res.boxes.conf.cpu(), dtype="float").round(2)
-    img_size = [width, height]
+    
     return bboxes, class_ids, segmentation_contours_idx, scores, img_size
 
 
