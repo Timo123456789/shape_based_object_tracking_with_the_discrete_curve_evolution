@@ -29,11 +29,11 @@ def get_outline_for_every_object(res, options): #, NoP_Motorcycle, NoP_Truck, No
     fps = len(res)
     res_cop = res
     NoP = get_number_of_points_result(res)
-    NoP_zero = 0
+    #NoP_zero = 0
     pbar = tqdm(desc= "DCE Progress", total = NoP)
 
     for i in range(fps):
-        NoP_zero += 1
+        #NoP_zero += 1
 
         if (res[i] is not None):
             data_arr = get_data(res[i])
@@ -58,7 +58,7 @@ def get_outline_for_every_object(res, options): #, NoP_Motorcycle, NoP_Truck, No
 
 
             for b in range(len(bbox)):
-                #NoP = NoP-1
+                NoP = NoP-1
                 #res_cop[i]= cv2.polylines(res[i].orig_img, outline[b], True, (0, 0, 255), 1) 
                 res_cop[i] = cv2.rectangle(res_cop[i], (bbox[b][0],bbox[b][1]),(bbox[b][2],bbox[b][3]), (0, 0, 0), -1)
                 if(options["write_labels"] == True):
@@ -73,10 +73,12 @@ def get_outline_for_every_object(res, options): #, NoP_Motorcycle, NoP_Truck, No
             res_cop[i]= cv2.polylines(res[i].orig_img, outline_DCE, True, (255, 255, 255), 0) 
             if(options["black_video"] == True):
                 res_cop[i] = cv2.rectangle(res_cop[i], (0,0),(img_size[0],img_size[1]), (0, 0, 0), -1)
-        pbar.update(NoP_zero)
+        pbar.update(NoP)
           
     
     return [res_cop, options]
+
+
 
 def get_number_of_points_result(res):
     NoP = 0

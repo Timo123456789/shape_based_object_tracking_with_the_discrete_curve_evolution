@@ -151,3 +151,17 @@
 
 #             cv2.putText(img, str(class_id), (x, y - 10), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
 #     return img
+
+
+
+
+# def calc_remaining_points(NoP, class_id, options):
+#     match class_id:
+#         case 2:
+#             return NoP - options["NoP_Cars"]
+#         case 3:
+#             return NoP - options["NoP_Motorcycle"]
+#         case 7: 
+#             return NoP - options["NoP_Truck"]
+#         case _:
+#             return NoP - options["NoP_other_Object"]
