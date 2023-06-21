@@ -4,6 +4,7 @@ from ultralytics import YOLO
 import pandas # Source: https://java2blog.com/save-object-to-file-python/
 import numpy as np
 import cv2
+import time
 from YOLO.yolo_segmentation import YOLOSegmentation
 from DCE.DCE import *
 
@@ -28,7 +29,9 @@ def test():
     img_arr=[]
     for i in range(framecounter):
         img = get_specific_frame(path_source_video,i)
+      
         img_analyzed = run_yolo(img)
+        
         img_arr.append(img_analyzed)
         #cv2.imwrite(r'Code\YOLO\frames\analyzed\frame'+str(i)+'.png', img_analyzed)  # save frame as JPEG file
 
@@ -42,21 +45,27 @@ def test():
 
 def run_yolo_every_frame_version_intern(options):
     framecounter = get_number_of_frames(options["path_source_video"])
-    print("framecounter")
-    print(framecounter)
+    # print("framecounter")
+    # print(framecounter)
     img_arr=[]
     for i in range(framecounter):
         img = get_specific_frame(options["path_source_video"],i)
+
+      
         img_analyzed = run_yolo(img, options)
+        
+
         img_arr.append(img_analyzed)
         #cv2.imwrite(r'Code\YOLO\frames\analyzed\frame'+str(i)+'.png', img_analyzed)  # save frame as JPEG file
 
 
           
 
- 
+    options["timestamp_write_video_start"] = time.time()
     create_video_from_imgs(options["path_source_video"],options["path_write_video"],img_arr, framecounter)
-
+    if(options["save_timestamps"]==True):
+                options["timestamp_write_video_end"] = time.time()
+                options["timestamp_write_video_dur"] = options["timestamp_write_video_dur"] + (options["timestamp_write_video_end"] - options["timestamp_write_video_start"])
 
     return 0   
   
@@ -83,15 +92,10 @@ def create_video_from_imgs(path_source_video,path_write_video, img_arr, framecou
     
 def run_DCE(yolo_res_img, class_id, options):
     
-    print("test") 
-    #print(test) 
-    #print(yolo_res_img)
+    
     cop_yolo_res_img = np.array(yolo_res_img, dtype=  'int')
     cop_yolo_res_img = cop_yolo_res_img[0]
-    #print(cop_yolo_res_img)
-    print(len(cop_yolo_res_img))
-    print("____________________________")
-    print(class_id)
+ 
     match options["calc_K_with_Dist"]:
             case True:
                     match class_id:
@@ -117,9 +121,9 @@ def run_DCE(yolo_res_img, class_id, options):
             case _:
                 print("Error at 'calc_K_with_Dist' Options parameter; must be True or False!")
                 return None        
-    print(len(cop_yolo_res_img))
-    print("/////////////////////////")
-    print(cop_yolo_res_img)
+    # print(len(cop_yolo_res_img))
+    # print("/////////////////////////")
+    # print(cop_yolo_res_img)
     return [cop_yolo_res_img]
         
         
@@ -130,7 +134,11 @@ def run_DCE(yolo_res_img, class_id, options):
 
 
 def run_yolo(img, options):  #https://pysource.com/2023/02/21/yolo-v8-segmentation
+    options["timestamp_yolo_start"] = time.time()
     ys = YOLOSegmentation("yolov8n-seg.pt")
+    if(options["save_timestamps"]==True):
+                options["timestamp_yolo_end"] = time.time()
+                options["timestamp_yolo_dur"] = options["timestamp_yolo_dur"] + (options["timestamp_yolo_end"] - options["timestamp_yolo_start"])
     bboxes, classes, segmentations, scores = ys.detect(img)
    
     if(options["black_video"] == True):
@@ -141,9 +149,13 @@ def run_yolo(img, options):  #https://pysource.com/2023/02/21/yolo-v8-segmentati
     for bbox, class_id, seg, score in zip(bboxes, classes, segmentations, scores):
        
         (x, y, x2, y2) = bbox
+        options["timestamp_DCE_start"] = time.time()
         outline = run_DCE([seg], class_id, options)
-    
-     
+        if(options["save_timestamps"]==True):
+                options["timestamp_DCE_end"] = time.time()
+                options["timestamp_DCE_dur"] = options["timestamp_DCE_dur"] + (options["timestamp_DCE_end"] - options["timestamp_DCE_start"])
+         
+        options["timestamp_write_outline_start"] = time.time()
         cv2.rectangle(img, (x, y), (x2, y2), (255, 0, 0), 2)
 
         cv2.polylines(img, outline, True, (255, 255, 255), 1)
@@ -151,6 +163,9 @@ def run_yolo(img, options):  #https://pysource.com/2023/02/21/yolo-v8-segmentati
         if(options["write_labels"] == True):
             img = cv2.putText(img, get_text_string(class_id,score), (x, y - 10), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
         #cv2.putText(img, str(class_id), (x, y - 10), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
+        if(options["save_timestamps"]==True):
+                options["timestamp_write_outline_end"] = time.time()
+                options["timestamp_write_outline_dur"] = options["timestamp_write_outline_dur"] + (options["timestamp_write_outline_end"] - options["timestamp_write_outline_start"])
     return img
 
 def get_text_string(class_id, score):
