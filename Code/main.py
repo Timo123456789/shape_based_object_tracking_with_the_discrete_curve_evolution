@@ -12,7 +12,7 @@ def main():
             #"path_source_video": r'Code\vid_examples\left_Side\not_stabilized\autobahn_6.mp4',
             "path_source_video": r'Code\vid_examples\right_Side\autobahn1s.mp4',
             "path_write_video": r'Code\YOLO\runs\videos_from_frames\autobahn1s_temp.mp4',
-            "path_write_timestamps": r'Code\YOLO\runs\videos_from_frames\timestamps_every_frame.txt',
+            "path_write_timestamps": r'Code\YOLO\runs\videos_from_frames\timestamps_temp.txt',
 
         	"NoP_Cars": 10, #Number of final Points for Cars, first try: 10, second try: 25
         	"NoP_Motorcycle": 5, #Number of final Points for Motorcycles, first try: 5, second try: 20
@@ -22,7 +22,7 @@ def main():
             "black_video": True,
             "write_labels": True,
             "calc_K_with_Dist": False,
-            "yolo_every_frame": False,
+            "yolo_every_frame": True,
 
             "save_timestamps": True,
             "timestamp_prog_start": time.time(),
@@ -103,6 +103,7 @@ def save_timestamps_as_file(options):
 
     f.write(str(results))
     print("timestamps saved")
+    print("Processing Time:"+ ret_timestampline(options, "prog"))
     f.close()
     return 0
 

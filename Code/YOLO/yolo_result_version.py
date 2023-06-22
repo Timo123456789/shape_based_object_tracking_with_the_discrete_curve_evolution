@@ -63,19 +63,19 @@ def get_outline_for_every_object(res, options): #, NoP_Motorcycle, NoP_Truck, No
                 res_cop[i] = cv2.rectangle(res_cop[i], (bbox[b][0],bbox[b][1]),(bbox[b][2],bbox[b][3]), (0, 0, 0), -1)
                 if(options["write_labels"] == True):
                     res_cop[i] = cv2.putText(res_cop[i], get_text_string(class_id[b],scores[b]), (bbox[b][0], bbox[b][1] - 10), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
+                pbar.update(1)
             res_cop[i]= cv2.polylines(res[i], outline_DCE, True, (255, 255, 255), 1) 
 
         
             #print('NoP', NoP)
-           
         else:
             print("Segment NIHCTgefudnen")
             res_cop[i]= cv2.polylines(res[i].orig_img, outline_DCE, True, (255, 255, 255), 0) 
             if(options["black_video"] == True):
                 res_cop[i] = cv2.rectangle(res_cop[i], (0,0),(img_size[0],img_size[1]), (0, 0, 0), -1)
-        pbar.update(NoP)
+       
           
-    
+    pbar.close()
     return [res_cop, options]
 
 
