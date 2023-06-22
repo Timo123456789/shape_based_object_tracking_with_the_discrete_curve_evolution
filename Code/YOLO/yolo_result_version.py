@@ -208,18 +208,12 @@ def test():
     path_source_video = r'Code\vid_examples\right_Side\autobahn_2.mp4'
     path_write_video = r'Code\YOLO\runs\videos_from_frames\video_results.mp4'
 
-
     model = YOLO('yolov8n-seg.pt') 
     results = model.predict(path_source_video, save=False)
-   
-    print(results[3].masks.xy)
-    print(len(results))
-
  
     res_outline = get_outline_for_every_object(results)
 
     write_video(res_outline, path_write_video, path_source_video)
-
 
 
 

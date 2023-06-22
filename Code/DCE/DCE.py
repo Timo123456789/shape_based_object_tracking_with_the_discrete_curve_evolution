@@ -15,7 +15,7 @@ def simplify_polygon_k_with_angle(arr, final_number_of_points):
 
     @param arr: 2-dim Array with points as tupel, like [[1,2],[2,1],...]
     @param final_number_of_points: int for the number of points of the returned polygon
-    @return: array, which was simplified to the given score
+    @return array:  which was simplified to the given number of points
     """
     DCE_Polygon = create_Polygon_from_array(arr)  #transform array to polygon for further calculations
     NoP = get_number_of_points(DCE_Polygon) # variable to save the total numbers of points in the polygon
@@ -44,7 +44,7 @@ def simplify_polygon_k_with_dist(arr, final_number_of_points):
 
     @param arr: 2-dim Array with points as tupel, like [[1,2],[2,1],...]
     @param final_number_of_points: int for the number of points of the returned polygon
-    @return: array, which was simplified to the given score
+    @return array:  which was simplified to the given number of points
     """
     DCE_Polygon = create_Polygon_from_array(arr) #transform array to polygon for further calculations
     NoP = get_number_of_points(DCE_Polygon) # variable to save the total numbers of points in the polygon
@@ -121,7 +121,7 @@ def get_lowest_k_dist_calc(p):
 
 def calc_k_with_points(polygon,p,s1,s2):
     """
-    Returns K Value calculated based on Latecki and Lakaemper, with three Points.
+    returns K Value calculated based on Latecki and Lakaemper, with three Points.
     The first linesegment is from p to s1 (p,s1) and the second linesegment is form p to s2 (p,s2)
     Angle calculation must be sum up, because there are two angles to get the hole angle from s1 to s2.
 
@@ -129,7 +129,7 @@ def calc_k_with_points(polygon,p,s1,s2):
     @param p: Point for which k is calculated
     @param s1: Point which describes the end of the first line from p
     @param s2: Point which describes the end of the second line from p
-    @returns: K as Int
+    @returns k: as Int
     """
     angle = get_angle_two_lines(polygon,p,s1,s2)
     dist_between_p_s1 = calc_distance_between_two_points(polygon,p,s1)
@@ -143,13 +143,13 @@ def calc_k_with_points(polygon,p,s1,s2):
 
 def calc_k_dist(p,p1,s1,s2):
     """
-    Returns K Value calculated based on Latecki, Lakaemper and Wolter, with three Points.
+    returns K Value calculated based on Latecki, Lakaemper and Wolter, with three Points.
 
     @param p: Polygon, created with Geopanda
     @param p1: Point for which k is calculated
     @param s1: Point which describes the end of the first line from p
     @param s2: Point which describes the end of the second line from p
-    @returns: K as Int; only positiv
+    @returns k: as int; only positiv
     """
     k = calc_distance_between_two_points(p,s1,p1)+calc_distance_between_two_points(p,s2,p1) - calc_distance_between_two_points(p,s1,s2)
     if k < 0:
@@ -164,7 +164,7 @@ def delete_point_from_polygon(p,index_of_point):
 
     @param p: Polygon (as Geopanda.Geoseries Object)
     @param index_of_point: Index for the point, which would be deleted
-    @return: Polygon (as Geopanda.Geoseries Object) without point on index 'index_on_point'
+    @return shrink_poly: Polygon (as Geopanda.Geoseries Object) without point on index 'index_on_point'
     """
     d_point = get_selected_point(p, index_of_point)
     array = p[0].exterior.coords
@@ -193,10 +193,10 @@ def create_Polygon_from_array(arr):
 
 def get_array_with_points(p):
     """
-    Returns an Array of Points in p
+    returns an Array of Points in p
 
     @param p: Polygon (as Geopanda.Geoseries Object)
-    @return: array of points, which are in given Polygon p
+    @return array of points: which are in given Polygon p
 
     """
     NoP = get_number_of_points(p)
@@ -229,6 +229,7 @@ def get_number_of_points(p):
 def get_angle_two_lines(polygon,p,s1,s2):  #https://numpy.org/doc/stable/reference/generated/numpy.arctan2.html#numpy.arctan2
     """
     returns angle in degree between two lines
+
     @param polygon: Polygon (as Geopanda.Geoseries Object)
     @param p1: Point Object from there the angle would be calculated
     @param s1: Point Object from p1 to s1 from there the angle would be calculated
@@ -275,9 +276,7 @@ def get_selected_point(p,i):
     @param p = Polygon (as Geopanda.Geoseries Object)
     @return Point = Tuple from Point at index i on p
     """
-
     return Point(p[0].exterior.coords[i])
-
 
 
 
@@ -304,7 +303,7 @@ def readtextfile(path):  #Quelle https://www.opengeodata.nrw.de/produkte/geobasi
     read a given textfile from path
 
     @param path: Path where the reading file is located
-    @returns: Geoseries Polygon, which are created from array
+    @returns Geoseries Polygon: which are created from array
     """
     test = pandas.read_table(path, delimiter=';')
     array = convert_table_in_array(test)
@@ -365,13 +364,11 @@ def plot_GS_polygon(p, index, write_path):
     Plot a given Polygon at the folderpath 'path' with the indexnumber 'index' in the filename.
     Plot the polygon as PNG File
 
-    @param p = Polygon, created with Geopanda, which would be saved as file
-    @param index = index to make saved file unique
-    @param writepath = Path, where would be file written
+    @param p: Polygon, created with Geopanda, which would be saved as file
+    @param index: index to make saved file unique
+    @param writepath: Path, where would be file written
     """
     p.plot()
-    #plt.savefig("testtiff" + str(index)+".tiff")
-    #plt.savefig(r"C:\Users\timol\OneDrive - Universität Münster\10. Fachsemester_SS_2023\bachelor-thesis\Code\TestRuns\NRWPolyVSmall\testpng" + str(index)+".png")
     plt.savefig( write_path + str(index)+".png")
     plt.close
 
@@ -384,6 +381,7 @@ def polygon_to_pixels(p):
     returns a numpy array, which includes all points as pixel values
 
     @param p: Polygon (as Geopanda.Geoseries Object)
+    @return array: numpy array with pixels
     """
     NoP = get_number_of_points(p) # variable to save the total numbers of points in the polygon
     array_of_points = []
@@ -402,11 +400,12 @@ def test():
 
     write some testdata
     """       
+
+    #Paths for write and read files
     read_path_very_small_NRW = r"Code\DCE\examples\dvg2bld_nw_vsmall.txt"
     read_path_small_NRW = r"Code\DCE\examples\dvg2bld_nw_small.txt"
     read_path_big_NRW = r"Code\DCE\examples\dvg2bld_nw.txt"
     
-  
     write_path_very_small_NRW = r"Code\DCE\TestRuns\NRWPolyVSmall\testpng"
     write_path_small_NRW = r"Code\DCE\TestRuns\NRWPolySmall\testpng"
     write_path_big_NRW = r"Code\DCE\TestRuns\NRWPoly_big\testpng"
@@ -417,11 +416,12 @@ def test():
     
     read_path = read_path_very_small_NRW
     write_path = write_path_temp
-    print_limiter = 5
+    print_limiter = 5 #Limiter for saving file intervall
     p = readtextfile(read_path)
     polygon_in_arr = get_array_with_points(p)
-    final_number_poly = simplify_polygon_k_with_angle(polygon_in_arr,10)
-    plot_GS_polygon(create_Polygon_from_array(final_number_poly),-20,write_path)
+
+    final_number_poly = simplify_polygon_k_with_angle(polygon_in_arr,10) #simplify polygon to 10 points
+    plot_GS_polygon(create_Polygon_from_array(final_number_poly),-20,write_path) #write polygon
   
     NoP = get_number_of_points(p)
     print("____________________________________")
@@ -429,8 +429,7 @@ def test():
     plot_GS_polygon(p, 0, write_path)
     DCE_Polygon = p
     
-
-    for i in range(NoP):
+    for i in range(NoP):  #iterate over all points in polygon
        # print("Punkt", get_selected_point(p,i) )
         calc_lowest_k = get_lowest_k(DCE_Polygon)
         index_lowest_k = calc_lowest_k[0]
@@ -441,7 +440,7 @@ def test():
         print(get_selected_point(p,i),"i: ",i," limiter:", (print_limiter-print_limiter_var), "verbl. P.:", (NoP-i), "kvalue", k_value)
        
         print_limiter_var = print_limiter_var +1
-        # if i == (NoP-800):
+        # if i == (NoP-800): #set limit with fixed number of points remaining (must be comment IN!)
         #     print_limiter = 150
         #     print_limiter_var = 150
         # if i == (NoP-500):
@@ -467,5 +466,8 @@ def test():
     #plot_GS_polygon(p)
 
     return 0 
+
+
+
 
 #test()
