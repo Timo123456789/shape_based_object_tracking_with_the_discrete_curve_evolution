@@ -1,7 +1,7 @@
+import time
 from ultralytics import YOLO
 import cv2
 import numpy as np
-import time
 from tqdm import tqdm # for progress bar
 from DCE.DCE import *
 
