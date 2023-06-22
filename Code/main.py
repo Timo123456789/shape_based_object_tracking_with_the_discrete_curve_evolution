@@ -12,6 +12,8 @@ def main():
     "calc_K_with_Dist" Bool: (ATTENTION!; currently still erroneous for small scores). Calculate K Value at DCE only with distances (according to Latecki, Lakämper, Wolter)
 
     "yolo_every_frame" is an alternative YOLO implementation where the entire video is not immediately analyzed with YOLO. The video is first split into individual frames and then the YOLO algorithm is applied to each frame individually. This is more resource efficient and saves memory that would otherwise overflow. The disadvantage is that this method takes longer than applying YOLO directly to the entire video.
+
+    init.py files are important for import DCE.py to yolo_every_frame.py and yolo_result_version.py
     """
     options = {
             "path_source_video": r'Code\vid_examples\right_Side\autobahn1s.mp4',
