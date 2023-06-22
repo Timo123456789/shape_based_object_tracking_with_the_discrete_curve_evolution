@@ -1,15 +1,10 @@
 from YOLO.yolo_result_version import *
 from YOLO.yolo_every_frame import *
 import time
-#from DCE.DCE import * 
 
 
 def main():
-    #path_source_video = r'Code\vid_examples\left_Side\not_stabilized\autobahn_6.mp4'
-    #path_source_video = r'Code\vid_examples\right_Side\autobahn1s.mp4'
-   # path_write_video = r'Code\YOLO\runs\videos_from_frames\autobahn_xy_temp.mp4'
     options = {
-            #"path_source_video": r'Code\vid_examples\left_Side\not_stabilized\autobahn_6.mp4',
             "path_source_video": r'Code\vid_examples\right_Side\autobahn1s.mp4',
             "path_write_video": r'Code\YOLO\runs\videos_from_frames\autobahn1s_temp.mp4',
             "path_write_timestamps": r'Code\YOLO\runs\videos_from_frames\timestamps_temp.txt',
@@ -41,25 +36,28 @@ def main():
             "timestamp_write_video_dur": 0
 
     }
-    #run_yolo_result_version(options)
-    print(options["timestamp_prog_start"])
-
    
     if (options["yolo_every_frame"] == True):
         run_yolo_every_frame_version(options)
     else:
         run_yolo_result_version(options)
 
+
+
+
+
+
+
    
 def run_yolo_every_frame_version(options):
     run_yolo_every_frame_version_intern(options)
-
     if(options["save_timestamps"]==True):
         if (options["yolo_every_frame"]== True):
             save_timestamps_as_file_yolo_every_frame(options)
         else:
             save_timestamps_as_file(options)
     return 0
+
 
 
 
@@ -81,6 +79,9 @@ def run_yolo_result_version(options):
         save_timestamps_as_file(options)
     return 0
 
+
+
+
 def save_timestamps_as_file_yolo_every_frame(options):
     f = open( options["path_write_timestamps"], 'w' )
     options["timestamp_prog_end"] = time.time()
@@ -89,6 +90,7 @@ def save_timestamps_as_file_yolo_every_frame(options):
 
     f.write(str(results))
     print("timestamps saved")
+    print("Processing Time:"+ ret_timestampline(options, "prog"))
     f.close()
     return 0
 
@@ -107,6 +109,9 @@ def save_timestamps_as_file(options):
     f.close()
     return 0
 
+
+
+
 def ret_timestampline(options, string):
     time_in_ms = round((options["timestamp_"+string+"_end"]-options["timestamp_"+string+"_start"]) * 100, 2)
     time_in_s = round((time_in_ms /100), 2)
@@ -117,5 +122,8 @@ def ret_timestampline(options, string):
         return str(time_in_ms) +" ms / "+str(time_in_s)+" sec," 
    
     
-    
+
+
+
+
 main()

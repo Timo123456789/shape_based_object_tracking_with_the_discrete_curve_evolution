@@ -234,3 +234,11 @@
 #     return 0 
 
 
+# #third version  https://stackoverflow.com/questions/31735499/calculate-angle-clockwise-between-two-points
+#     p1 = [p1.x, p1.y]
+#     p2 = [p2.x, p2.y]
+#     ang1 = np.arctan2(*p1[::-1])
+#     ang2 = np.arctan2(*p2[::-1])
+#     return np.rad2deg((ang1 - ang2) % (2 * np.pi))
+
+
