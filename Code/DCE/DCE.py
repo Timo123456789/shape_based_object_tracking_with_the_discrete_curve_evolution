@@ -14,7 +14,7 @@ def simplify_polygon_k_with_angle(arr, final_number_of_points):
     K Calculation with using angles and distances
 
     @param arr: 2-dim Array with points as tupel, like [[1,2],[2,1],...]
-    @param final_number_of_points = int for the number of points of the returned polygon
+    @param final_number_of_points: int for the number of points of the returned polygon
     @return: array, which was simplified to the given score
     """
     DCE_Polygon = create_Polygon_from_array(arr)  #transform array to polygon for further calculations
@@ -43,7 +43,7 @@ def simplify_polygon_k_with_dist(arr, final_number_of_points):
     K Calculation with using distances
 
     @param arr: 2-dim Array with points as tupel, like [[1,2],[2,1],...]
-    @param final_number_of_points = int for the number of points of the returned polygon
+    @param final_number_of_points: int for the number of points of the returned polygon
     @return: array, which was simplified to the given score
     """
     DCE_Polygon = create_Polygon_from_array(arr) #transform array to polygon for further calculations
@@ -79,7 +79,6 @@ def get_lowest_k(p):
     for i in range(NoP):
         if i==0:
             k_value = calc_k_with_points(p,i,(NoP-1),1) 
-            point_on_k = get_selected_point(p,i) 
             index_for_point_on_k = 0       
         else:
             if i==NoP:
@@ -107,7 +106,6 @@ def get_lowest_k_dist_calc(p):
     for i in range(NoP):
         if i==0:
             k_value = calc_k_dist(p,i,(NoP-1),1) 
-            point_on_k = get_selected_point(p,i) 
             index_for_point_on_k = 0       
         else:
             if i==NoP:
@@ -395,7 +393,8 @@ def polygon_to_pixels(p):
     return np.array(array_of_points, np.int32) #cast to get a integer and not floats
 
 
-#Test Method
+
+
 def test():
     """
     testfunction for DCE.py; 
