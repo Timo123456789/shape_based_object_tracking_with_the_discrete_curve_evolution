@@ -33,9 +33,6 @@ def run_yolo_every_frame_version_intern(options):
         #cv2.imwrite(r'Code\YOLO\frames\analyzed\frame'+str(i)+'.png', img_analyzed)  # save frame as JPEG file
     pbar.close()
 
-          
-
-
     options["timestamp_write_video_start"] = time.time()
     create_video_from_imgs(options["path_source_video"], options["path_write_video"],img_arr, framecounter) # write video to given path
     if(options["save_timestamps"]==True):
@@ -106,7 +103,7 @@ def run_DCE(yolo_res_img, class_id, options):
     @param class_ID = array, which the class_IDs from all detected objects on the image saved; only ints
     @param img_arr = array, which contains the individual images (frames)
     @param options: Dictionary with options set in main
-    @return: 0
+    @return: image with simplified polygons
     """
     
     cop_yolo_res_img = np.array(yolo_res_img, dtype=  'int')
@@ -237,8 +234,8 @@ def get_specific_frame(path, frame_number):
 
 def test(): 
     """
-    testfunction for DCE.py; 
-    use only when you would run DCE.py without main.py
+    testfunction for yolo_every_frame.py; 
+    use only when you would run yolo_every_frame.py without main.py
 
     write some testdata
     """ 
