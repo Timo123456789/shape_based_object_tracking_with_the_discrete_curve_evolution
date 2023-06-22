@@ -48,5 +48,3 @@ class YOLOSegmentation:
         
         segmentation_contours_idx = result.masks.xy
         return bboxes, class_ids, segmentation_contours_idx,  scores
-
-
