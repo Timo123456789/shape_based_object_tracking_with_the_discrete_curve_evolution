@@ -3,7 +3,16 @@ from YOLO.yolo_every_frame import *
 import time
 
 
+
+
 def main():
+    """
+    Main function that initializes an options dictionary at the beginning and then executes the respective YOLO version
+
+    "calc_K_with_Dist" Bool: (ATTENTION!; currently still erroneous for small scores). Calculate K Value at DCE only with distances (according to Latecki, Lakämper, Wolter)
+
+    "yolo_every_frame" is an alternative YOLO implementation where the entire video is not immediately analyzed with YOLO. The video is first split into individual frames and then the YOLO algorithm is applied to each frame individually. This is more resource efficient and saves memory that would otherwise overflow. The disadvantage is that this method takes longer than applying YOLO directly to the entire video.
+    """
     options = {
             "path_source_video": r'Code\vid_examples\right_Side\autobahn1s.mp4',
             "path_write_video": r'Code\YOLO\runs\videos_from_frames\autobahn1s_temp.mp4',
@@ -14,12 +23,12 @@ def main():
         	"NoP_Truck": 8, #Number of final Points for Trucks, first try: 8, second try:45
         	"NoP_other_Object": 20, #Number of final Points for other Objects, first try: 20, second try:60
 
-            "black_video": True,
-            "write_labels": True,
-            "calc_K_with_Dist": False,
-            "yolo_every_frame": True,
+            "black_video": True, #Bool that turns the whole video black, so that only white sillhouettes are shown in the video
+            "write_labels": True, #Bool that ensures that a label with scores is written to the video for each polygon
+            "calc_K_with_Dist": False, #Bool that allows an alternative DCE calculation method of the K value; (ATTENTION!; currently still erroneous for small scores)
+            "yolo_every_frame": True, #Boolean that enables an alternative YOLO application method
 
-            "save_timestamps": True,
+            "save_timestamps": True, #bool, which activates the saving of the timestamps
             "timestamp_prog_start": time.time(),
             "timestamp_prog_end": 0,
             "timestamp_yolo_start": 0,
@@ -34,10 +43,9 @@ def main():
             "timestamp_write_video_start": 0,
             "timestamp_write_video_end": 0,
             "timestamp_write_video_dur": 0
-
     }
    
-    if (options["yolo_every_frame"] == True):
+    if (options["yolo_every_frame"] == True): #if clause to run selected YOLO Version
         run_yolo_every_frame_version(options)
     else:
         run_yolo_result_version(options)
@@ -45,49 +53,59 @@ def main():
 
 
 
-
-
-
-   
 def run_yolo_every_frame_version(options):
+    """
+    start YOLO Version, which splitted the video in every frame
+
+    @param options: Dictionary with options set in main
+    """
     run_yolo_every_frame_version_intern(options)
-    if(options["save_timestamps"]==True):
+    if(options["save_timestamps"]==True): #if clause to save the timestamps
         if (options["yolo_every_frame"]== True):
             save_timestamps_as_file_yolo_every_frame(options)
         else:
-            save_timestamps_as_file(options)
+            return 0
     return 0
 
 
 
 
 def run_yolo_result_version(options):
+    """
+    start YOLO Version, which runs YOLO at the beginning
+
+    @param options: Dictionary with options set in main
+    """
     model = YOLO('yolov8n-seg.pt') 
     options["timestamp_yolo_start"] = time.time()
-    results = model.predict(options["path_source_video"], save=False)
+    results = model.predict(options["path_source_video"], save=False) #init and run YOLO
     options["timestamp_yolo_end"] = time.time()
 
     options["timestamp_write_outline_start"] = time.time()
-    res_outline = get_outline_for_every_object(results, options)
+    res_outline = get_outline_for_every_object(results, options) #write outlines with DCE in result file
     options["timestamp_write_outline_end"] = time.time()
 
     options["timestamp_write_video_start"] = time.time()
-    write_video(res_outline[0], options["path_write_video"], options["path_source_video"])
+    write_video(res_outline[0], options["path_write_video"], options["path_source_video"]) #saved video at the path in options variable
     options["timestamp_write_video_end"] = time.time()
 
-    if(options["save_timestamps"]==True):
-        save_timestamps_as_file(options)
+    if(options["save_timestamps"]==True): #if clause to save the timestamps
+        save_timestamps_as_file_yolo_result(options)
     return 0
 
 
 
 
 def save_timestamps_as_file_yolo_every_frame(options):
+    """
+    function to save timestamps when 'yolo_every_frame' is selected
+
+    @param options: Dictionary with options set in main
+    """
     f = open( options["path_write_timestamps"], 'w' )
     options["timestamp_prog_end"] = time.time()
     results = "Duration Program: " +ret_timestampline(options, "prog")+ '\n' +"Duration YOLO: " + str(round(options["timestamp_yolo_dur"],2))+" ms" +'\n'+"Duration write_Outline(exclude DCE Calculation) "+str(round((options["timestamp_write_outline_dur"]),2))+" ms" + '\n'+"Duration DCE: " +str(round(options["timestamp_DCE_dur"],2))+" ms" + '\n'+ "Duration write_video: """ + str(round((options["timestamp_write_video_dur"]),2))+ '\n'+ "Sum of individual variablels (must be the same as 'Duration Programm'): " +  str(round((options["timestamp_yolo_dur"]+options["timestamp_write_outline_dur"]+options["timestamp_DCE_dur"]+options["timestamp_write_video_dur"]),2)) + "sec." + '\n' + "Minimal deviations due to not exact timestamp setting"
         
-
     f.write(str(results))
     print("timestamps saved")
     print("Processing Time:"+ ret_timestampline(options, "prog"))
@@ -97,12 +115,16 @@ def save_timestamps_as_file_yolo_every_frame(options):
 
 
 
-def save_timestamps_as_file(options):
+def save_timestamps_as_file_yolo_result(options):
+    """
+    function to save timestamps when 'yolo_result_version' is selected
+
+    @param options: Dictionary with options set in main
+    """
     f = open( options["path_write_timestamps"], 'w' )
     options["timestamp_prog_end"] = time.time()
     results = "Duration Program: " +ret_timestampline(options, "prog")+ '\n' +"Duration YOLO: " +ret_timestampline(options, "yolo")+ '\n'+"Duration write_Outline(include DCE Calculation) "+str(round((options["timestamp_write_outline_end"]-options["timestamp_write_outline_start"]),2))+" ms" + '\n'+"Duration DCE: " +str(round(options["timestamp_DCE_dur"],2))+" ms" + '\n'+ "Duration write_video: """ +ret_timestampline(options, "write_video") + '\n'+ "Sum of individual variablels (must be the same as 'Duration Programm'): " +  str(round((options["timestamp_yolo_end"]-options["timestamp_yolo_start"])+(options["timestamp_write_outline_end"]-options["timestamp_write_outline_start"]-options["timestamp_DCE_dur"])+options["timestamp_DCE_dur"]+(options["timestamp_write_video_end"]-options["timestamp_write_video_start"]),2)) + "sec." + '\n' + "Minimal deviations due to not exact timestamp setting"
         
-
     f.write(str(results))
     print("timestamps saved")
     print("Processing Time:"+ ret_timestampline(options, "prog"))
@@ -113,6 +135,13 @@ def save_timestamps_as_file(options):
 
 
 def ret_timestampline(options, string):
+    """
+    function that returns a timestamp string; transform timestamps to ms and minutes 
+
+    @param options: Dictionary with options 
+    @param string: Value for given options variable 
+    @return string
+    """
     time_in_ms = round((options["timestamp_"+string+"_end"]-options["timestamp_"+string+"_start"]) * 100, 2)
     time_in_s = round((time_in_ms /100), 2)
     time_in_min = round((time_in_s/60),2)
@@ -121,8 +150,6 @@ def ret_timestampline(options, string):
     else:
         return str(time_in_ms) +" ms / "+str(time_in_s)+" sec," 
    
-    
-
 
 
 
