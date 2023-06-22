@@ -28,12 +28,14 @@ def test():
     print("framecounter")
     print(framecounter)
     img_arr=[]
+    
     for i in range(framecounter):
         img = get_specific_frame(path_source_video,i)
-      
+        
         img_analyzed = run_yolo(img)
         
         img_arr.append(img_analyzed)
+        
         #cv2.imwrite(r'Code\YOLO\frames\analyzed\frame'+str(i)+'.png', img_analyzed)  # save frame as JPEG file
 
 
@@ -45,7 +47,10 @@ def test():
 
 
 def run_yolo_every_frame_version_intern(options):
+    
+
     framecounter = get_number_of_frames(options["path_source_video"])
+    pbar = tqdm(desc= "DCE Progress", total = framecounter)
     # print("framecounter")
     # print(framecounter)
     img_arr=[]
@@ -58,9 +63,9 @@ def run_yolo_every_frame_version_intern(options):
         
 
         img_arr.append(img_analyzed)
-       
+        pbar.update(1)
         #cv2.imwrite(r'Code\YOLO\frames\analyzed\frame'+str(i)+'.png', img_analyzed)  # save frame as JPEG file
-
+    pbar.close()
 
           
 
