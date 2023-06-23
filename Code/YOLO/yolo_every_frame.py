@@ -67,7 +67,7 @@ def run_yolo(img, options):
         img_size = get_img_size(img)
         img = cv2.rectangle(img, (0,0),(img_size[0],img_size[1]), (0, 0, 0), -1)
 
-
+    
     for bbox, class_id, seg, score in zip(bboxes, classes, segmentations, scores): #Iterate over all YOLO results for drawing the polygons
        
         (x, y, x2, y2) = bbox

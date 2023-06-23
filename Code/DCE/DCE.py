@@ -33,6 +33,7 @@ def simplify_polygon_k_with_angle(arr, final_number_of_points):
 
         if final_number_of_points == get_number_of_points(DCE_Polygon): #if statement for return the simplified polygon at desired number of points
             return polygon_to_pixels(DCE_Polygon)
+         
         
 
 

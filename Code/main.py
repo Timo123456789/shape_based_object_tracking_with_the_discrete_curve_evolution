@@ -16,8 +16,9 @@ def main():
     init.py files are important for import DCE.py to yolo_every_frame.py and yolo_result_version.py
     """
     options = {
-            "path_source_video": r'Code\vid_examples\right_Side\autobahn1s.mp4',
-            "path_write_video": r'Code\YOLO\runs\videos_from_frames\autobahn1s_temp.mp4',
+            #"path_source_video": r'Code\vid_examples\right_Side\autobahn1s.mp4',
+            "path_source_video": r'Code\vid_examples\BusseDrubberholz.mp4',
+            "path_write_video": r'Code\YOLO\runs\videos_from_frames\autobahn1s_tempBD.mp4',
             "path_write_timestamps": r'Code\YOLO\runs\videos_from_frames\timestamps_temp.txt',
 
         	"NoP_Cars": 10, #Number of final Points for Cars, first try: 10, second try: 25
