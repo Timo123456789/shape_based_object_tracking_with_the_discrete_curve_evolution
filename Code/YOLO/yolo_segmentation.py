@@ -37,14 +37,15 @@ class YOLOSegmentation:
 
         results = self.model.predict(source=img.copy(), save=False, save_txt=False)
         result = results[0]
-        segmentation_contours_idx = []
-    
-
-        bboxes = np.array(result.boxes.xyxy.cpu(), dtype="int")
-        # Get class ids
-        class_ids = np.array(result.boxes.cls.cpu(), dtype="int")
-        # Get scores
-        scores = np.array(result.boxes.conf.cpu(), dtype="float").round(2)
+        if results is not None: #if clause when yolo detected no object
+            segmentation_contours_idx = []
         
-        segmentation_contours_idx = result.masks.xy
+
+            bboxes = np.array(result.boxes.xyxy.cpu(), dtype="int")
+            # Get class ids
+            class_ids = np.array(result.boxes.cls.cpu(), dtype="int")
+            # Get scores
+            scores = np.array(result.boxes.conf.cpu(), dtype="float").round(2)
+            
+            segmentation_contours_idx = result.masks.xy
         return bboxes, class_ids, segmentation_contours_idx,  scores
