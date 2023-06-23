@@ -13,13 +13,12 @@ def main():
 
     "yolo_every_frame" is an alternative YOLO implementation where the entire video is not immediately analyzed with YOLO. The video is first split into individual frames and then the YOLO algorithm is applied to each frame individually. This is more resource efficient and saves memory that would otherwise overflow. The disadvantage is that this method takes longer than applying YOLO directly to the entire video.
 
-    init.py files are important for import DCE.py to yolo_every_frame.py and yolo_result_version.py
+    init.py files are important for connecting DCE.py with yolo_every_frame.py and yolo_result_version.py
     """
     options = {
-            #"path_source_video": r'Code\vid_examples\right_Side\autobahn1s.mp4',
-            "path_source_video": r'Code\vid_examples\BusseDrubberholz.mp4',
-            "path_write_video": r'Code\YOLO\runs\videos_from_frames\autobahn1s_tempBD.mp4',
-            "path_write_timestamps": r'Code\YOLO\runs\videos_from_frames\timestamps_temp.txt',
+            "path_source_video": r'Code\vid_examples\right_Side\autobahn_2.mp4',
+            "path_write_video": r'Code\YOLO\runs\videos_from_frames\autobahn2_result_version.mp4',
+            "path_write_timestamps": r'Code\YOLO\runs\videos_from_frames\timestamps_autobahn2_result_version.txt',
 
         	"NoP_Cars": 10, #Number of final Points for Cars, first try: 10, second try: 25
         	"NoP_Motorcycle": 5, #Number of final Points for Motorcycles, first try: 5, second try: 20
@@ -29,7 +28,7 @@ def main():
             "black_video": True, #Bool that turns the whole video black, so that only white sillhouettes are shown in the video
             "write_labels": True, #Bool that ensures that a label with scores is written to the video for each polygon
             "calc_K_with_Dist": False, #Bool that allows an alternative DCE calculation method of the K value; (ATTENTION!; currently still erroneous for small scores)
-            "yolo_every_frame": True, #Boolean that enables an alternative YOLO application method
+            "yolo_every_frame": False, #Boolean that enables an alternative YOLO application method
 
             "save_timestamps": True, #bool, which activates the saving of the timestamps
             "timestamp_prog_start": time.time(),
