@@ -51,22 +51,14 @@ def get_lowest_k(p, options):
     for i in range(NoP):
         if i==0:
             k_array = calc_k_with_points(p,i,(NoP-1),1) 
-            #angle_val_arr.append(k_array[1])
             index_for_point_on_k = 0       
         else:
             if i==NoP:
                 break
             scnd_k_array = calc_k_with_points(p,i,(i+1),(i-1))
-            #angle_val_arr.append(scnd_k_array[1])
             if scnd_k_array[0]<=k_array[0]:        
                 k_array[0] = scnd_k_array[0]
                 index_for_point_on_k = i  
-    #print(angle_val_arr)
-    #sum_angle_p = sum(angle_val_arr)
-   # print(sum_angle_p)
-    #options["angle_sums_polygons"].append(sum_angle_p)
-
-    #print("stop")
 
     return [index_for_point_on_k,k_array[0]]
 
@@ -93,7 +85,15 @@ def calc_k_with_points(polygon,p,s1,s2):
     return [k, angle]
 
 
+
+
 def get_sum_of_angles(outline):
+    """
+    returns the sum of all angles in a given polygon
+
+    @param outline: 2 dim array, as tupel eg. [[2,1],[3,6],[5,8],..]
+    @returns sum_of_angles: as Int
+    """
     #print(outline)
     sum_of_angles = 0
     cop_outline = np.array(outline, dtype=  'int')

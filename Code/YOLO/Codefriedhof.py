@@ -165,3 +165,106 @@
 #             return NoP - options["NoP_Truck"]
 #         case _:
 #             return NoP - options["NoP_other_Object"]
+
+#test for calc shape similarity measure:
+
+# def run_test(options):
+#     shape_similarity_val = 0
+#     img_1 = get_specific_frame(options["path_source_video"],11)
+#     img_2 = get_specific_frame(options["path_source_video"],15)
+#     img_1_yolo = run_yolo(img_1, options)
+#     img_2_yolo = run_yolo(img_2, options)
+#     #img_1 = cv2.resize(img_1, fx = 0.5, fy = 0.5)
+#     #img_2 = cv2.resize(img_2, fx = 0.5, fy = 0.5)
+
+#     # cv2.imshow("image", img_1)       
+#     # cv2.waitKey(0) 
+#     # cv2.imshow("image", img_2)       
+#     # cv2.waitKey(0) 
+
+    
+#     # cv2.imshow("image", img_1_yolo)       
+#     # cv2.waitKey(0) 
+#     # print(options["angle_sums_polygons"])
+#     # print(len(options["angle_sums_polygons"]))
+  
+#     # print(len(options["angle_sums_polygons"]))
+#     print(options["angle_sums_images"])
+#     print(len(options["angle_sums_images"]))
+
+#     for i in range(len(options["angle_sums_images"])-1):
+#         shape_similarity_val +=  options["angle_sums_images"][i] - options["angle_sums_images"][i+1]
+
+#     print("shape_similarity_val")
+#     print(shape_similarity_val)
+#     cv2.imshow("image", img_1_yolo)       
+#     cv2.waitKey(0) 
+#     cv2.imshow("image", img_2_yolo)       
+#     cv2.waitKey(0) 
+
+#     return 0
+
+
+#Testfunction for yolo result version
+# def test():
+#     """
+#     testfunction for yolo_result_version.py; 
+#     use only when you would run yolo_result_version.py without main.py
+
+#     write some testdata
+#     """ 
+#     path_source_video = r'Code\vid_examples\right_Side\autobahn1s.mp4'
+#     path_write_video = r'Code\YOLO\runs\video_temp.mp4'
+
+
+#     model = YOLO('yolov8n-seg.pt') 
+#     results = model.predict(path_source_video, save=False)
+ 
+#     res_outline = get_outline_for_every_object(results)
+
+#     write_video(res_outline, path_write_video, path_source_video)
+
+
+
+
+# #test()
+
+
+
+
+
+#Testfunction for yolo every frame version
+# def test(): 
+#     """
+#     testfunction for yolo_every_frame.py; 
+#     use only when you would run yolo_every_frame.py without main.py
+
+#     write some testdata
+#     """ 
+#     #path_source_video = r'Code\vid_examples\right_Side\autobahn_2.mp4'
+#     path_source_video = r'Code\vid_examples\right_Side\autobahn_2.mp4'
+#     path_read_imgs = r'Code\YOLO\frames\analyzed\frame'
+#     path_write_video = r'Code\YOLO\runs\videos_from_frames\videotest_9.mp4'
+#     # 8n = sehr schnell, aber ungenau, 8m = schnell recht genau, 8x = langsam aber sehr genau
+
+#     framecounter = get_number_of_frames(path_source_video)
+#     fps = get_fps(path_source_video)
+#     print("framecounter")
+#     print(framecounter)
+
+#     print("fps")
+#     print(fps)
+#     img_arr=[]
+    
+#     for i in range(framecounter):
+#         img = get_specific_frame(path_source_video,i)
+#         img_analyzed = run_yolo(img)
+#         img_arr.append(img_analyzed)
+        
+#         #cv2.imwrite(r'Code\YOLO\frames\analyzed\frame'+str(i)+'.png', img_analyzed)  # save frame as JPEG file
+#     create_video_from_imgs(path_source_video,path_write_video,img_arr, framecounter)
+
+
+
+
+# #test()
