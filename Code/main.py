@@ -17,9 +17,9 @@ def main():
     init.py files are important for connecting DCE.py with yolo_every_frame.py and yolo_result_version.py
     """
     options = {
-            "path_source_video": r'Code\vid_examples\right_Side\autobahn1s.mp4',
-            "path_write_video": r'Code\YOLO\runs\videos_from_frames\autobahn1s_temp.mp4',
-            "path_write_timestamps": r'Code\YOLO\runs\videos_from_frames\timestamps_autobahn1s_temp_res_vers.txt',
+            "path_source_video": r'Code\vid_examples\right_Side\autobahn_2.mp4',
+            "path_write_video": r'Code\YOLO\runs\videos_from_frames\autobahn2_temp.mp4',
+            "path_write_timestamps": r'Code\YOLO\runs\videos_from_frames\timestamps_autobahn2_temp_res_vers.txt',
 
         	"NoP_Cars": 7, #Number of final Points for Cars, first try: 10, second try: 25
         	"NoP_Motorcycle": 5, #Number of final Points for Motorcycles, first try: 5, second try: 20
@@ -172,8 +172,9 @@ def calc_procent_deviation(options):
     W = options["shape_similarity_measure"]
     p = (W/G)*100
     value = round(p, 4)
-
-    string = "Percent Deviation: " +str(value) + "%"
+    if value < 0:
+        value = value*-1        
+    string = "Percent Deviation: " +str(value) + " %"
     return string
 
 
