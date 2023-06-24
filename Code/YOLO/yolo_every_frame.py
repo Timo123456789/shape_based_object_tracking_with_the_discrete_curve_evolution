@@ -19,7 +19,7 @@ def run_yolo_every_frame_version_intern(options):
     @param options: Dictionary with options set in main
     """
 
-    framecounter = get_fps(options["path_source_video"]) #get total number of frames from source video
+    framecounter = get_number_of_frames(options["path_source_video"]) #get total number of frames from source video
     pbar = tqdm(desc= "DCE Progress", total = framecounter) #init the progress bar
     img_arr=[] #image array (would be reassemblet into the video at the end)
   
@@ -89,11 +89,18 @@ def run_yolo(img, options):
         if(options["save_timestamps"]==True):
                 options["timestamp_write_outline_end"] = time.time()
                 options["timestamp_write_outline_dur"] = options["timestamp_write_outline_dur"] + (options["timestamp_write_outline_end"] - options["timestamp_write_outline_start"])
-
+        # print("class_id")
+        # print(class_id)
+        sum_of_angles = get_sum_of_angles(outline)
+        #print(sum_of_angles)
+        options["angle_sums_polygons"].append(sum_of_angles)
+        # print(sum_of_angles)
+    options["angle_sums_images"].append(sum(options["angle_sums_polygons"]))
+    options["angle_sums_polygons"] = []
     return img
         
 
-  
+
     
 def run_DCE(yolo_res_img, class_id, options):
     """
@@ -109,31 +116,17 @@ def run_DCE(yolo_res_img, class_id, options):
     cop_yolo_res_img = np.array(yolo_res_img, dtype=  'int')
     cop_yolo_res_img = cop_yolo_res_img[0]
  
-    match options["calc_K_with_Dist"]: #case for Using another k calculation method
-            case True:
-                    match class_id: #case case to distinguish the different CLass IDs; 2 = Car, 3 = motorcycle, 7 = Truck
-                        case 2:
-                            cop_yolo_res_img = simplify_polygon_k_with_dist(cop_yolo_res_img,options["NoP_Cars"])
-                        case 3:
-                            cop_yolo_res_img = simplify_polygon_k_with_dist(cop_yolo_res_img,options["NoP_Motorcycle"])
-                        case 7:
-                            cop_yolo_res_img = simplify_polygon_k_with_dist(cop_yolo_res_img,options["NoP_Truck"])
-                        case _:
-                            cop_yolo_res_img = simplify_polygon_k_with_dist(cop_yolo_res_img,options["NoP_other_Object"])
 
-            case False:
-                    match class_id:  #case case to distinguish the different CLass IDs; 2 = Car, 3 = motorcycle, 7 = Truck
-                        case 2:
-                            cop_yolo_res_img = simplify_polygon_k_with_angle(cop_yolo_res_img,options["NoP_Cars"])
-                        case 3:
-                            cop_yolo_res_img = simplify_polygon_k_with_angle(cop_yolo_res_img,options["NoP_Motorcycle"])
-                        case 7:
-                            cop_yolo_res_img = simplify_polygon_k_with_angle(cop_yolo_res_img,options["NoP_Truck"])
-                        case _:
-                            cop_yolo_res_img = simplify_polygon_k_with_angle(cop_yolo_res_img,options["NoP_other_Object"])
-            case _: #error exception, if the option variable is wrong
-                print("Error at 'calc_K_with_Dist' Options parameter; must be True or False!")
-                return None        
+    match class_id:  #case case to distinguish the different CLass IDs; 2 = Car, 3 = motorcycle, 7 = Truck
+        case 2:
+            cop_yolo_res_img = simplify_polygon_k_with_angle(cop_yolo_res_img,options["NoP_Cars"], options)
+        case 3:
+            cop_yolo_res_img = simplify_polygon_k_with_angle(cop_yolo_res_img,options["NoP_Motorcycle"], options)
+        case 7:
+            cop_yolo_res_img = simplify_polygon_k_with_angle(cop_yolo_res_img,options["NoP_Truck"], options)
+        case _:
+            cop_yolo_res_img = simplify_polygon_k_with_angle(cop_yolo_res_img,options["NoP_other_Object"], options)
+             
     return [cop_yolo_res_img]
         
    
@@ -193,12 +186,12 @@ def get_img_size(img):
 
 
 
-def get_fps(path):  
+def get_number_of_frames(path):  
     """
-    return the frames per second (fps)
+    return number of all frames in video
 
     @param path: path to identifiy the video
-    @return: length a int
+    @return: nt
 
     Source: https://stackoverflow.com/questions/49025795/python-opencv-video-getcv2-cap-prop-fps-returns-0-0-fps
     """
@@ -207,7 +200,24 @@ def get_fps(path):
     return length
 
 
-    
+
+def get_fps(path):
+    """
+    return the frames per second (fps)
+
+    @param path: path to identifiy the video
+    @return fps: int 
+
+    Source: #https://stackoverflow.com/questions/49025795/python-opencv-video-getcv2-cap-prop-fps-returns-0-0-fps
+    """
+      
+    cap = cv2.VideoCapture(path)
+    fps = cap.get(cv2.CAP_PROP_FPS)
+    return fps
+
+
+
+
 def get_specific_frame(path, frame_number): 
     """
     return a specific frame from the source path
@@ -240,15 +250,18 @@ def test():
     write some testdata
     """ 
     #path_source_video = r'Code\vid_examples\right_Side\autobahn_2.mp4'
-    path_source_video = r'Code\vid_examples\right_Side\autobahn1s.mp4'
+    path_source_video = r'Code\vid_examples\right_Side\autobahn_2.mp4'
     path_read_imgs = r'Code\YOLO\frames\analyzed\frame'
     path_write_video = r'Code\YOLO\runs\videos_from_frames\videotest_9.mp4'
     # 8n = sehr schnell, aber ungenau, 8m = schnell recht genau, 8x = langsam aber sehr genau
 
-    framecounter = get_fps(path_source_video)
-    fps = get_fps(path_read_imgs)
+    framecounter = get_number_of_frames(path_source_video)
+    fps = get_fps(path_source_video)
     print("framecounter")
     print(framecounter)
+
+    print("fps")
+    print(fps)
     img_arr=[]
     
     for i in range(framecounter):

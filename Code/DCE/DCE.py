@@ -8,7 +8,7 @@ import pandas
 
 
 
-def simplify_polygon_k_with_angle(arr, final_number_of_points):
+def simplify_polygon_k_with_angle(arr, final_number_of_points, options):
     """
     returns a polygon, which is simplified to a given number of points
     K Calculation with using angles and distances
@@ -23,7 +23,7 @@ def simplify_polygon_k_with_angle(arr, final_number_of_points):
         return polygon_to_pixels(DCE_Polygon) 
     
     for i in range(NoP): #iterate over all polygonpoints
-        calc_lowest_k = get_lowest_k(DCE_Polygon) # get index and  calculated value for the lowest k value wiht angles and distances
+        calc_lowest_k = get_lowest_k(DCE_Polygon, options) # get index and  calculated value for the lowest k value wiht angles and distances
         index_lowest_k = calc_lowest_k[0]    
 
         if i == (NoP-3): #Exception if Polygon is only triangle
@@ -37,37 +37,7 @@ def simplify_polygon_k_with_angle(arr, final_number_of_points):
         
 
 
-
-def simplify_polygon_k_with_dist(arr, final_number_of_points):
-    """
-    returns a polygon, which is simplified to a given number of points
-    K Calculation with using distances
-
-    @param arr: 2-dim Array with points as tupel, like [[1,2],[2,1],...]
-    @param final_number_of_points: int for the number of points of the returned polygon
-    @return array:  which was simplified to the given number of points
-    """
-    DCE_Polygon = create_Polygon_from_array(arr) #transform array to polygon for further calculations
-    NoP = get_number_of_points(DCE_Polygon) # variable to save the total numbers of points in the polygon
-    if final_number_of_points >= NoP: #direct return, if desired number of points is less than or equal to total number of points
-        return polygon_to_pixels(DCE_Polygon)
-
-    for i in range(NoP): #iterate over all polygonpoints
-        calc_lowest_k = get_lowest_k_dist_calc(DCE_Polygon) # get index and  calculated value for the lowest k value with distances
-        index_lowest_k = calc_lowest_k[0]
-
-        if i == (NoP-3): #Exception if Polygon is only triangle
-            return polygon_to_pixels(DCE_Polygon)
-            
-        DCE_Polygon = delete_point_from_polygon(DCE_Polygon, index_lowest_k) #Overwrite DCE Polygon with new Polygon, where is point on index k deleted
-        
-        if final_number_of_points == get_number_of_points(DCE_Polygon): #if statement for return the simplified polygon at desired number of points
-            return polygon_to_pixels(DCE_Polygon)
-
-
-
-
-def get_lowest_k(p):
+def get_lowest_k(p, options):
     """
     returns lowest k value for polygon p
 
@@ -75,47 +45,30 @@ def get_lowest_k(p):
     @return k: calculated lowest k value in p as int
     """
     NoP = get_number_of_points(p)
-    k_value = 0
+    #angle_val_arr = []
+    k_array = 0
     index_for_point_on_k = -1
     for i in range(NoP):
         if i==0:
-            k_value = calc_k_with_points(p,i,(NoP-1),1) 
+            k_array = calc_k_with_points(p,i,(NoP-1),1) 
+            #angle_val_arr.append(k_array[1])
             index_for_point_on_k = 0       
         else:
             if i==NoP:
                 break
-            scnd_k_value = calc_k_with_points(p,i,(i+1),(i-1))
-            if scnd_k_value<=k_value:        
-                k_value = scnd_k_value
+            scnd_k_array = calc_k_with_points(p,i,(i+1),(i-1))
+            #angle_val_arr.append(scnd_k_array[1])
+            if scnd_k_array[0]<=k_array[0]:        
+                k_array[0] = scnd_k_array[0]
                 index_for_point_on_k = i  
-    return [index_for_point_on_k,k_value]
+    #print(angle_val_arr)
+    #sum_angle_p = sum(angle_val_arr)
+   # print(sum_angle_p)
+    #options["angle_sums_polygons"].append(sum_angle_p)
 
+    #print("stop")
 
-
-
-def get_lowest_k_dist_calc(p):
-    """
-    returns lowest k value for polygon p
-    K Calculation only with distances
-
-    @param p: Polygon (as Geopanda.Geoseries Object)
-    @return k: calculated lowest k value in p as int
-    """
-    NoP = get_number_of_points(p)
-    k_value = 0
-    index_for_point_on_k = -1
-    for i in range(NoP):
-        if i==0:
-            k_value = calc_k_dist(p,i,(NoP-1),1) 
-            index_for_point_on_k = 0       
-        else:
-            if i==NoP:
-                break
-            scnd_k_value = calc_k_dist(p,i,(i+1),(i-1))
-            if scnd_k_value<=k_value:        
-                k_value = scnd_k_value
-                index_for_point_on_k = i  
-    return [index_for_point_on_k,k_value]
+    return [index_for_point_on_k,k_array[0]]
 
 
 
@@ -137,26 +90,28 @@ def calc_k_with_points(polygon,p,s1,s2):
     dist_between_p_s2 = calc_distance_between_two_points(polygon,p,s2)   
     
     k =  (angle*dist_between_p_s1*dist_between_p_s2)/(dist_between_p_s1+dist_between_p_s2)
-    return k
+    return [k, angle]
 
 
+def get_sum_of_angles(outline):
+    #print(outline)
+    sum_of_angles = 0
+    cop_outline = np.array(outline, dtype=  'int')
+    cop_outline = cop_outline[0]
+    #print(cop_outline)
+    p = create_Polygon_from_array(cop_outline)
+
+    NoP = get_number_of_points(p)
+    #print(NoP)
+    for i in range(NoP):
+        if i==0:
+            sum_of_angles += get_angle_two_lines(p,i, (NoP-1),1)
+        else:
+            sum_of_angles += get_angle_two_lines(p,i, (i+1), (i-1))
+    #print(sum_of_angles)
+    return sum_of_angles
 
 
-def calc_k_dist(p,p1,s1,s2):
-    """
-    returns K Value calculated based on Latecki, Lakaemper and Wolter, with three Points.
-
-    @param p: Polygon, created with Geopanda
-    @param p1: Point for which k is calculated
-    @param s1: Point which describes the end of the first line from p
-    @param s2: Point which describes the end of the second line from p
-    @returns k: as int; only positiv
-    """
-    k = calc_distance_between_two_points(p,s1,p1)+calc_distance_between_two_points(p,s2,p1) - calc_distance_between_two_points(p,s1,s2)
-    if k < 0:
-        return k * -1
-    else:
-        return k
 
 
 def delete_point_from_polygon(p,index_of_point):
@@ -249,23 +204,6 @@ def get_angle_two_lines(polygon,p,s1,s2):  #https://numpy.org/doc/stable/referen
     for i in range(len(val_arr)):
         val_arr_sum = val_arr_sum + val_arr[i]
     return np.deg2rad(val_arr_sum)
-
-
-
-
-def get_angle_two_points(p,point1,point2):
-    """
-    returns angel between two points (point1 and point2)
-
-    @param p: Polygon (as Geopanda.Geoseries Object)
-    @param point1: point1 from there the angle would be calculated
-    @param point2: point2 from there the angle would be calculated
-    @return: angle between point1 and point2 on Polygon p in radiant
-    """
-    p1 = Point(p[0].exterior.coords[point1])  
-    p2 = Point(p[0].exterior.coords[point2])
-    
-    return math.radians(math.atan2((p2.x-p1.x),(p2.y-p1.y)))
     
 
 

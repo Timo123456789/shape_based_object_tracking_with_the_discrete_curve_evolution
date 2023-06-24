@@ -48,6 +48,18 @@ def get_outline_for_every_object(res, options):
                 if(options["write_labels"] == True): #if clause to write the labels and scores to every polygon
                     res_cop[i] = cv2.putText(res_cop[i], get_text_string(class_id[b],scores[b]), (bbox[b][0], bbox[b][1] - 10), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
                 pbar.update(1) #set progress bar one step further
+                #print(outline_DCE[b])
+                sum_of_angles = get_sum_of_angles([outline_DCE[b]])
+                options["angle_sums_polygons"].append(sum_of_angles)
+                #print("stop")
+
+
+            #print(outline_DCE)
+           
+                
+
+            options["angle_sums_images"].append(sum(options["angle_sums_polygons"]))
+            options["angle_sums_polygons"] = []
 
             res_cop[i]= cv2.polylines(res[i], outline_DCE, True, (255, 255, 255), 1)  #draw simplified polygon on the specific frame
 
@@ -71,33 +83,17 @@ def run_DCE(outline, class_id, options):
     @param class_ID = array, which the class_IDs from all detected objects on the image saved; only ints
     @param options: Dictionary with options set in main
     @return: array with simplified olygons
-    """
-    match options["calc_K_with_Dist"]: #case for Using another k calculation method
-        case True:
-            for i in range(len(outline)): #iterate over all polygons in the outline array
-                match class_id[i]:  #case case to distinguish the different CLass IDs; 2 = Car, 3 = motorcycle, 7 = Truck
-                    case 2:
-                        outline[i] = simplify_polygon_k_with_dist(outline[i],options["NoP_Cars"])
-                    case 3:
-                        outline[i] = simplify_polygon_k_with_dist(outline[i],options["NoP_Motorcycle"])
-                    case 7:
-                        outline[i] = simplify_polygon_k_with_dist(outline[i],options["NoP_Truck"])
-                    case _:
-                        outline[i] = simplify_polygon_k_with_dist(outline[i],options["NoP_other_Object"])
-        case False:
-            for i in range(len(outline)): #iterate over all polygons in the outline array
-                match class_id[i]: #case case to distinguish the different CLass IDs; 2 = Car, 3 = motorcycle, 7 = Truck
-                    case 2:
-                        outline[i] = simplify_polygon_k_with_angle(outline[i],options["NoP_Cars"])
-                    case 3:
-                        outline[i] = simplify_polygon_k_with_angle(outline[i],options["NoP_Motorcycle"])
-                    case 7:
-                        outline[i] = simplify_polygon_k_with_angle(outline[i],options["NoP_Truck"])
-                    case _:
-                        outline[i] = simplify_polygon_k_with_angle(outline[i],options["NoP_other_Object"])
-        case _: #error exception, if the option variable is wrong
-            print("Error at 'calc_K_with_Dist' Options parameter; must be True or False!")
-            return None        
+    """         
+    for i in range(len(outline)): #iterate over all polygons in the outline array
+        match class_id[i]: #case case to distinguish the different CLass IDs; 2 = Car, 3 = motorcycle, 7 = Truck
+            case 2:
+                outline[i] = simplify_polygon_k_with_angle(outline[i],options["NoP_Cars"], options)
+            case 3:
+                outline[i] = simplify_polygon_k_with_angle(outline[i],options["NoP_Motorcycle"], options)
+            case 7:
+                outline[i] = simplify_polygon_k_with_angle(outline[i],options["NoP_Truck"], options)
+            case _:
+                outline[i] = simplify_polygon_k_with_angle(outline[i],options["NoP_other_Object"], options) 
     return outline
 
 
@@ -205,8 +201,9 @@ def test():
 
     write some testdata
     """ 
-    path_source_video = r'Code\vid_examples\right_Side\autobahn_2.mp4'
-    path_write_video = r'Code\YOLO\runs\videos_from_frames\video_results.mp4'
+    path_source_video = r'Code\vid_examples\right_Side\autobahn1s.mp4'
+    path_write_video = r'Code\YOLO\runs\video_temp.mp4'
+
 
     model = YOLO('yolov8n-seg.pt') 
     results = model.predict(path_source_video, save=False)
