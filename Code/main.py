@@ -48,7 +48,7 @@ def main():
 
             "angle_sums_polygons":[],
             "angle_sums_images":[],
-            "shape_similarity_measure":-99999999
+            "shape_similarity_measure":-9.9999
     }
 
 
@@ -57,49 +57,6 @@ def main():
         run_yolo_every_frame_version(options)
     else:
         run_yolo_result_version(options)
-
-
-def run_test(options):
-    shape_similarity_val = 0
-    img_1 = get_specific_frame(options["path_source_video"],11)
-    img_2 = get_specific_frame(options["path_source_video"],15)
-    img_1_yolo = run_yolo(img_1, options)
-    img_2_yolo = run_yolo(img_2, options)
-    #img_1 = cv2.resize(img_1, fx = 0.5, fy = 0.5)
-    #img_2 = cv2.resize(img_2, fx = 0.5, fy = 0.5)
-
-    # cv2.imshow("image", img_1)       
-    # cv2.waitKey(0) 
-    # cv2.imshow("image", img_2)       
-    # cv2.waitKey(0) 
-
-    
-    # cv2.imshow("image", img_1_yolo)       
-    # cv2.waitKey(0) 
-    # print(options["angle_sums_polygons"])
-    # print(len(options["angle_sums_polygons"]))
-  
-    # print(len(options["angle_sums_polygons"]))
-    print(options["angle_sums_images"])
-    print(len(options["angle_sums_images"]))
-
-    for i in range(len(options["angle_sums_images"])-1):
-        shape_similarity_val +=  options["angle_sums_images"][i] - options["angle_sums_images"][i+1]
-
-    print("shape_similarity_val")
-    print(shape_similarity_val)
-    cv2.imshow("image", img_1_yolo)       
-    cv2.waitKey(0) 
-    cv2.imshow("image", img_2_yolo)       
-    cv2.waitKey(0) 
-
-    return 0
-
-
-
-
-
-
 
 
 
@@ -151,11 +108,16 @@ def run_yolo_result_version(options):
 
 
 def calc_shape_similarity(options):
+    """
+    function that calculates the difference from the total angle sum of one image to the next. This difference is summed up and is the 'shape_similarity_measures'
+
+    @param options: Dictionary with options set in main
+    """
     shape_similarity_val = 0
     print(options["angle_sums_images"])
     print(len(options["angle_sums_images"]))
     for i in range(len(options["angle_sums_images"])-1):
-         shape_similarity_val +=  options["angle_sums_images"][i] - options["angle_sums_images"][i+1]
+         shape_similarity_val = shape_similarity_val +  options["angle_sums_images"][i] - options["angle_sums_images"][i+1]
     options["shape_similarity_measure"] = shape_similarity_val
     print("shape_similarity_measures calculated")
 
@@ -169,7 +131,7 @@ def save_timestamps_as_file_yolo_every_frame(options):
     """
     f = open( options["path_write_timestamps"], 'w' )
     options["timestamp_prog_end"] = time.time()
-    results = "Duration Program: " +ret_timestampline(options, "prog")+ '\n' +"Duration YOLO: " + str(round(options["timestamp_yolo_dur"],2))+" ms" +'\n'+"Duration write_Outline(exclude DCE Calculation) "+str(round((options["timestamp_write_outline_dur"]),2))+" ms" + '\n'+"Duration DCE: " +str(round(options["timestamp_DCE_dur"],2))+" ms" + '\n'+ "Duration write_video: """ + str(round((options["timestamp_write_video_dur"]),2))+ '\n'+ "Sum of individual variablels (must be the same as 'Duration Programm'): " +  str(round((options["timestamp_yolo_dur"]+options["timestamp_write_outline_dur"]+options["timestamp_DCE_dur"]+options["timestamp_write_video_dur"]),2)) + "sec." + '\n' + "Minimal deviations due to not exact timestamp setting" + '\n' + '\n' + "shape similarity measure (must be near 0): " + str(round(options["shape_similarity_measure"], 4)) + '\n' + "Total sum of the angles: " +str(round(sum(options["angle_sums_images"]),2))
+    results = "Duration Program: " +ret_timestampline(options, "prog")+ '\n' +"Duration YOLO: " + str(round(options["timestamp_yolo_dur"],2))+" ms" +'\n'+"Duration write_Outline(exclude DCE Calculation) "+str(round((options["timestamp_write_outline_dur"]),2))+" ms" + '\n'+"Duration DCE: " +str(round(options["timestamp_DCE_dur"],2))+" ms" + '\n'+ "Duration write_video: """ + str(round((options["timestamp_write_video_dur"]),2))+ '\n'+ "Sum of individual variablels (must be the same as 'Duration Programm'): " +  str(round((options["timestamp_yolo_dur"]+options["timestamp_write_outline_dur"]+options["timestamp_DCE_dur"]+options["timestamp_write_video_dur"]),2)) + "sec." + '\n' + "Minimal deviations due to not exact timestamp setting" + '\n' + '\n' + "shape similarity measure (must be near 0): " + str(round(options["shape_similarity_measure"], 4)) + '\n' + "Total sum of the angles: " +str(round(sum(options["angle_sums_images"]),2)) + '\n' 
         
     f.write(str(results))
     print("timestamps saved")
@@ -215,6 +177,7 @@ def ret_timestampline(options, string):
     else:
         return str(time_in_ms) +" ms / "+str(time_in_s)+" sec," 
    
+
 
 
 

@@ -48,18 +48,12 @@ def get_outline_for_every_object(res, options):
                 if(options["write_labels"] == True): #if clause to write the labels and scores to every polygon
                     res_cop[i] = cv2.putText(res_cop[i], get_text_string(class_id[b],scores[b]), (bbox[b][0], bbox[b][1] - 10), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
                 pbar.update(1) #set progress bar one step further
-                #print(outline_DCE[b])
-                sum_of_angles = get_sum_of_angles([outline_DCE[b]])
-                options["angle_sums_polygons"].append(sum_of_angles)
-                #print("stop")
-
-
-            #print(outline_DCE)
-           
+    
+                sum_of_angles = get_sum_of_angles([outline_DCE[b]]) #calculates the sum of angles in one polygon
+                options["angle_sums_polygons"].append(sum_of_angles)  #append sum of angles in one polygon to a array, where all angle sums of the polygons in the image saved      
                 
-
-            options["angle_sums_images"].append(sum(options["angle_sums_polygons"]))
-            options["angle_sums_polygons"] = []
+            options["angle_sums_images"].append(sum(options["angle_sums_polygons"])) #sum up all angle sums in the image and append it to an array, where all sum of angles from all images would be saved
+            options["angle_sums_polygons"] = [] # set for the next image the variable, which saved the sum of all angles from all polygon in the image,  to None/0
 
             res_cop[i]= cv2.polylines(res[i], outline_DCE, True, (255, 255, 255), 1)  #draw simplified polygon on the specific frame
 
@@ -190,29 +184,3 @@ def get_fps(path):
     cap = cv2.VideoCapture(path)
     fps = cap.get(cv2.CAP_PROP_FPS)
     return fps
-
-
-
-
-def test():
-    """
-    testfunction for yolo_result_version.py; 
-    use only when you would run yolo_result_version.py without main.py
-
-    write some testdata
-    """ 
-    path_source_video = r'Code\vid_examples\right_Side\autobahn1s.mp4'
-    path_write_video = r'Code\YOLO\runs\video_temp.mp4'
-
-
-    model = YOLO('yolov8n-seg.pt') 
-    results = model.predict(path_source_video, save=False)
- 
-    res_outline = get_outline_for_every_object(results)
-
-    write_video(res_outline, path_write_video, path_source_video)
-
-
-
-
-#test()

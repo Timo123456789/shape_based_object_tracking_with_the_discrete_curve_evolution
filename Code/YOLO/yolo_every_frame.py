@@ -89,14 +89,13 @@ def run_yolo(img, options):
         if(options["save_timestamps"]==True):
                 options["timestamp_write_outline_end"] = time.time()
                 options["timestamp_write_outline_dur"] = options["timestamp_write_outline_dur"] + (options["timestamp_write_outline_end"] - options["timestamp_write_outline_start"])
-        # print("class_id")
-        # print(class_id)
-        sum_of_angles = get_sum_of_angles(outline)
-        #print(sum_of_angles)
-        options["angle_sums_polygons"].append(sum_of_angles)
-        # print(sum_of_angles)
-    options["angle_sums_images"].append(sum(options["angle_sums_polygons"]))
-    options["angle_sums_polygons"] = []
+    
+        sum_of_angles = get_sum_of_angles(outline) #calculates the sum of angles in one polygon)
+        options["angle_sums_polygons"].append(sum_of_angles) #append sum of angles in one polygon to a array, where all angle sums of the polygons in the image saved 
+
+    options["angle_sums_images"].append(sum(options["angle_sums_polygons"])) #sum up all angle sums in the image and append it to an array, where all sum of angles from all images would be saved
+    options["angle_sums_polygons"] = [] # set for the next image the variable, which saved the sum of all angles from all polygon in the image,  to None/0
+
     return img
         
 
@@ -238,41 +237,3 @@ def get_specific_frame(path, frame_number):
     #cv2.imwrite(r'Code\YOLO\frames\raw\frame'+str(frame_number)+'.png', frame)  # save frame as JPEG file
 
     return frame   
-
-
-
-
-def test(): 
-    """
-    testfunction for yolo_every_frame.py; 
-    use only when you would run yolo_every_frame.py without main.py
-
-    write some testdata
-    """ 
-    #path_source_video = r'Code\vid_examples\right_Side\autobahn_2.mp4'
-    path_source_video = r'Code\vid_examples\right_Side\autobahn_2.mp4'
-    path_read_imgs = r'Code\YOLO\frames\analyzed\frame'
-    path_write_video = r'Code\YOLO\runs\videos_from_frames\videotest_9.mp4'
-    # 8n = sehr schnell, aber ungenau, 8m = schnell recht genau, 8x = langsam aber sehr genau
-
-    framecounter = get_number_of_frames(path_source_video)
-    fps = get_fps(path_source_video)
-    print("framecounter")
-    print(framecounter)
-
-    print("fps")
-    print(fps)
-    img_arr=[]
-    
-    for i in range(framecounter):
-        img = get_specific_frame(path_source_video,i)
-        img_analyzed = run_yolo(img)
-        img_arr.append(img_analyzed)
-        
-        #cv2.imwrite(r'Code\YOLO\frames\analyzed\frame'+str(i)+'.png', img_analyzed)  # save frame as JPEG file
-    create_video_from_imgs(path_source_video,path_write_video,img_arr, framecounter)
-
-
-
-
-#test()
