@@ -131,7 +131,7 @@ def save_timestamps_as_file_yolo_every_frame(options):
     """
     f = open( options["path_write_timestamps"], 'w' )
     options["timestamp_prog_end"] = time.time()
-    results = "Duration Program: " +ret_timestampline(options, "prog")+ '\n' +"Duration YOLO: " + str(round(options["timestamp_yolo_dur"],2))+" ms" +'\n'+"Duration write_Outline(exclude DCE Calculation) "+str(round((options["timestamp_write_outline_dur"]),2))+" ms" + '\n'+"Duration DCE: " +str(round(options["timestamp_DCE_dur"],2))+" ms" + '\n'+ "Duration write_video: """ + str(round((options["timestamp_write_video_dur"]),2))+ '\n'+ "Sum of individual variablels (must be the same as 'Duration Programm'): " +  str(round((options["timestamp_yolo_dur"]+options["timestamp_write_outline_dur"]+options["timestamp_DCE_dur"]+options["timestamp_write_video_dur"]),2)) + "sec." + '\n' + "Minimal deviations due to not exact timestamp setting" + '\n' + '\n' + "shape similarity measure (must be near 0): " + str(round(options["shape_similarity_measure"], 4)) + '\n' + "Total sum of the angles: " +str(round(sum(options["angle_sums_images"]),2)) + '\n' 
+    results = "Duration Program: " +ret_timestampline(options, "prog")+ '\n' +"Duration YOLO: " + str(round(options["timestamp_yolo_dur"],2))+" ms" +'\n'+"Duration write_Outline(exclude DCE Calculation) "+str(round((options["timestamp_write_outline_dur"]),2))+" ms" + '\n'+"Duration DCE: " +str(round(options["timestamp_DCE_dur"],2))+" ms" + '\n'+ "Duration write_video: """ + str(round((options["timestamp_write_video_dur"]),2))+ '\n'+ "Sum of individual variablels (must be the same as 'Duration Programm'): " +  str(round((options["timestamp_yolo_dur"]+options["timestamp_write_outline_dur"]+options["timestamp_DCE_dur"]+options["timestamp_write_video_dur"]),2)) + "sec." + '\n' + "Minimal deviations due to not exact timestamp setting" + '\n' + '\n' + "shape similarity measure (must be near 0): " + str(round(options["shape_similarity_measure"], 4)) + '\n' +calc_procent_deviation(options)+ '\n' + "Total sum of the angles: " +str(round(sum(options["angle_sums_images"]),2)) +'\n' 
         
     f.write(str(results))
     print("timestamps saved")
@@ -150,13 +150,31 @@ def save_timestamps_as_file_yolo_result(options):
     """
     f = open( options["path_write_timestamps"], 'w' )
     options["timestamp_prog_end"] = time.time()
-    results = "Duration Program: " +ret_timestampline(options, "prog")+ '\n' +"Duration YOLO: " +ret_timestampline(options, "yolo")+ '\n'+"Duration write_Outline(include DCE Calculation) "+str(round((options["timestamp_write_outline_end"]-options["timestamp_write_outline_start"]),2))+" ms" + '\n'+"Duration DCE: " +str(round(options["timestamp_DCE_dur"],2))+" ms" + '\n'+ "Duration write_video: """ +ret_timestampline(options, "write_video") + '\n'+ "Sum of individual variablels (must be the same as 'Duration Programm'): " +  str(round((options["timestamp_yolo_end"]-options["timestamp_yolo_start"])+(options["timestamp_write_outline_end"]-options["timestamp_write_outline_start"]-options["timestamp_DCE_dur"])+options["timestamp_DCE_dur"]+(options["timestamp_write_video_end"]-options["timestamp_write_video_start"]),2)) + "sec." + '\n' + "Minimal deviations due to not exact timestamp setting" + '\n' + '\n' + "shape similarity measure (must be near 0): " + str(round(options["shape_similarity_measure"], 4)) + '\n' + "Total sum of the angles: " +str(round(sum(options["angle_sums_images"]),2))
+    results = "Duration Program: " +ret_timestampline(options, "prog")+ '\n' +"Duration YOLO: " +ret_timestampline(options, "yolo")+ '\n'+"Duration write_Outline(include DCE Calculation) "+str(round((options["timestamp_write_outline_end"]-options["timestamp_write_outline_start"]),2))+" ms" + '\n'+"Duration DCE: " +str(round(options["timestamp_DCE_dur"],2))+" ms" + '\n'+ "Duration write_video: """ +ret_timestampline(options, "write_video") + '\n'+ "Sum of individual variablels (must be the same as 'Duration Programm'): " +  str(round((options["timestamp_yolo_end"]-options["timestamp_yolo_start"])+(options["timestamp_write_outline_end"]-options["timestamp_write_outline_start"]-options["timestamp_DCE_dur"])+options["timestamp_DCE_dur"]+(options["timestamp_write_video_end"]-options["timestamp_write_video_start"]),2)) + "sec." + '\n' + "Minimal deviations due to not exact timestamp setting" + '\n' + '\n' + "shape similarity measure (must be near 0): " + str(round(options["shape_similarity_measure"], 4)) + '\n'+ calc_procent_deviation(options) + '\n' + "Total sum of the angles: " +str(round(sum(options["angle_sums_images"]),2)) +'\n' 
         
     f.write(str(results))
     print("timestamps saved")
     print("Processing Time:"+ ret_timestampline(options, "prog"))
     f.close()
     return 0
+
+
+
+
+def calc_procent_deviation(options):
+    """
+    calculate the procent deviation and return this as string
+
+    @param options: Dictionary with options set in main
+    @return string
+    """
+    G = sum(options["angle_sums_images"]) #ground value
+    W = options["shape_similarity_measure"]
+    p = (W/G)*100
+    value = round(p, 4)
+
+    string = "Percent Deviation: " +str(value) + "%"
+    return string
 
 
 
