@@ -413,6 +413,7 @@ TSWLatexianTemp*
 *.pt
 Code/vid_examples/
 Code/YOLO/runs/
+Code/YOLO/temp/
 runs/
 
 
