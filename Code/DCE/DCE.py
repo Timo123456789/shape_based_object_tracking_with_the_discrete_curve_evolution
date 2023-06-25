@@ -182,7 +182,7 @@ def get_number_of_points(p):
 
 
 
-def get_angle_two_lines(polygon,p,s1,s2):  #https://numpy.org/doc/stable/reference/generated/numpy.arctan2.html#numpy.arctan2
+def get_angle_two_lines(polygon,p,s1,s2):  
     """
     returns angle in degree between two lines
 
@@ -191,6 +191,8 @@ def get_angle_two_lines(polygon,p,s1,s2):  #https://numpy.org/doc/stable/referen
     @param s1: Point Object from p1 to s1 from there the angle would be calculated
     @param s2: Point Object from p1 to s2 from there the angle would be calculated
     @return pointcounter: Number of points in Polygon p as int
+
+    Source: https://numpy.org/doc/stable/reference/generated/numpy.arctan2.html#numpy.arctan2
     """
     p = polygon[0].exterior.coords[p]
     s1 = polygon[0].exterior.coords[s1]
@@ -237,12 +239,14 @@ def calc_distance_between_two_points(p, point1, point2):
 
 
 
-def readtextfile(path):  #Quelle https://www.opengeodata.nrw.de/produkte/geobasis/vkg/dvg/dvg2/
+def readtextfile(path):  #
     """
     read a given textfile from path
 
     @param path: Path where the reading file is located
     @returns Geoseries Polygon: which are created from array
+
+    Source: Quelle https://www.opengeodata.nrw.de/produkte/geobasis/vkg/dvg/dvg2/
     """
     test = pandas.read_table(path, delimiter=';')
     array = convert_table_in_array(test)
@@ -328,85 +332,3 @@ def polygon_to_pixels(p):
         located_pixel = [p[0].exterior.coords[i][0], p[0].exterior.coords[i][1]]
         array_of_points.append(located_pixel) 
     return np.array(array_of_points, np.int32) #cast to get a integer and not floats
-
-
-
-
-def test():
-    """
-    testfunction for DCE.py; 
-    use only when you would run DCE.py without main.py
-
-    write some testdata
-    """       
-
-    #Paths for write and read files
-    read_path_very_small_NRW = r"Code\DCE\examples\dvg2bld_nw_vsmall.txt"
-    read_path_small_NRW = r"Code\DCE\examples\dvg2bld_nw_small.txt"
-    read_path_big_NRW = r"Code\DCE\examples\dvg2bld_nw.txt"
-    
-    write_path_very_small_NRW = r"Code\DCE\TestRuns\NRWPolyVSmall\testpng"
-    write_path_small_NRW = r"Code\DCE\TestRuns\NRWPolySmall\testpng"
-    write_path_big_NRW = r"Code\DCE\TestRuns\NRWPoly_big\testpng"
-    write_path_simplePolygon = r"Code\DCE\TestRuns\SimplePolygons\testpng"
-    write_path_temp = r"Code\DCE\TestRuns\temp\testpng"
-
-    #write_path = r"Code\DCE\TestRuns\SimplePolygons\testpng"
-    
-    read_path = read_path_very_small_NRW
-    write_path = write_path_temp
-    print_limiter = 5 #Limiter for saving file intervall
-    p = readtextfile(read_path)
-    polygon_in_arr = get_array_with_points(p)
-
-    final_number_poly = simplify_polygon_k_with_angle(polygon_in_arr,10) #simplify polygon to 10 points
-    plot_GS_polygon(create_Polygon_from_array(final_number_poly),-20,write_path) #write polygon
-  
-    NoP = get_number_of_points(p)
-    print("____________________________________")
-    print_limiter_var = 0
-    plot_GS_polygon(p, 0, write_path)
-    DCE_Polygon = p
-    
-    for i in range(NoP):  #iterate over all points in polygon
-       # print("Punkt", get_selected_point(p,i) )
-        calc_lowest_k = get_lowest_k(DCE_Polygon)
-        index_lowest_k = calc_lowest_k[0]
-        k_value=calc_lowest_k[1]
-        if index_lowest_k==-1:
-            print("Error; k = -1")
-            break
-        print(get_selected_point(p,i),"i: ",i," limiter:", (print_limiter-print_limiter_var), "verbl. P.:", (NoP-i), "kvalue", k_value)
-       
-        print_limiter_var = print_limiter_var +1
-        # if i == (NoP-800): #set limit with fixed number of points remaining (must be comment IN!)
-        #     print_limiter = 150
-        #     print_limiter_var = 150
-        # if i == (NoP-500):
-        #     print_limiter = 100
-        #     print_limiter_var = 100
-        # if i == (NoP-300):
-        #     print_limiter = 50
-        #     print_limiter_var = 50
-        # if k_value ==(NoP-100):
-        #     print_limiter = 10
-        #     print_limiter_var = 10
-        if i == (NoP-3):
-            plot_GS_polygon(DCE_Polygon,i,write_path)
-            print("finished")
-            break
-        if print_limiter_var == print_limiter:
-            plot_GS_polygon(DCE_Polygon,i, write_path)
-            print_limiter_var = 0
-        DCE_Polygon = delete_point_from_polygon(DCE_Polygon, index_lowest_k)
-        #plot_GS_polygon(DCE_Polygon)  
- 
-    #print(p[0].exterior.coords[0].distance())
-    #plot_GS_polygon(p)
-
-    return 0 
-
-
-
-
-#test()
