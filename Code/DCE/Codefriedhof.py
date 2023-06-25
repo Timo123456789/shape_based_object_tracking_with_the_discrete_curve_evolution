@@ -242,3 +242,81 @@
 #     return np.rad2deg((ang1 - ang2) % (2 * np.pi))
 
 
+# def test():
+#     """
+#     testfunction for DCE.py; 
+#     use only when you would run DCE.py without main.py
+
+#     write some testdata
+#     """       
+
+#     #Paths for write and read files
+#     read_path_very_small_NRW = r"Code\DCE\examples\dvg2bld_nw_vsmall.txt"
+#     read_path_small_NRW = r"Code\DCE\examples\dvg2bld_nw_small.txt"
+#     read_path_big_NRW = r"Code\DCE\examples\dvg2bld_nw.txt"
+    
+#     write_path_very_small_NRW = r"Code\DCE\TestRuns\NRWPolyVSmall\testpng"
+#     write_path_small_NRW = r"Code\DCE\TestRuns\NRWPolySmall\testpng"
+#     write_path_big_NRW = r"Code\DCE\TestRuns\NRWPoly_big\testpng"
+#     write_path_simplePolygon = r"Code\DCE\TestRuns\SimplePolygons\testpng"
+#     write_path_temp = r"Code\DCE\TestRuns\temp\testpng"
+
+#     #write_path = r"Code\DCE\TestRuns\SimplePolygons\testpng"
+    
+#     read_path = read_path_very_small_NRW
+#     write_path = write_path_temp
+#     print_limiter = 5 #Limiter for saving file intervall
+#     p = readtextfile(read_path)
+#     polygon_in_arr = get_array_with_points(p)
+
+#     final_number_poly = simplify_polygon_k_with_angle(polygon_in_arr,10) #simplify polygon to 10 points
+#     plot_GS_polygon(create_Polygon_from_array(final_number_poly),-20,write_path) #write polygon
+  
+#     NoP = get_number_of_points(p)
+#     print("____________________________________")
+#     print_limiter_var = 0
+#     plot_GS_polygon(p, 0, write_path)
+#     DCE_Polygon = p
+    
+#     for i in range(NoP):  #iterate over all points in polygon
+#        # print("Punkt", get_selected_point(p,i) )
+#         calc_lowest_k = get_lowest_k(DCE_Polygon)
+#         index_lowest_k = calc_lowest_k[0]
+#         k_value=calc_lowest_k[1]
+#         if index_lowest_k==-1:
+#             print("Error; k = -1")
+#             break
+#         print(get_selected_point(p,i),"i: ",i," limiter:", (print_limiter-print_limiter_var), "verbl. P.:", (NoP-i), "kvalue", k_value)
+       
+#         print_limiter_var = print_limiter_var +1
+#         # if i == (NoP-800): #set limit with fixed number of points remaining (must be comment IN!)
+#         #     print_limiter = 150
+#         #     print_limiter_var = 150
+#         # if i == (NoP-500):
+#         #     print_limiter = 100
+#         #     print_limiter_var = 100
+#         # if i == (NoP-300):
+#         #     print_limiter = 50
+#         #     print_limiter_var = 50
+#         # if k_value ==(NoP-100):
+#         #     print_limiter = 10
+#         #     print_limiter_var = 10
+#         if i == (NoP-3):
+#             plot_GS_polygon(DCE_Polygon,i,write_path)
+#             print("finished")
+#             break
+#         if print_limiter_var == print_limiter:
+#             plot_GS_polygon(DCE_Polygon,i, write_path)
+#             print_limiter_var = 0
+#         DCE_Polygon = delete_point_from_polygon(DCE_Polygon, index_lowest_k)
+#         #plot_GS_polygon(DCE_Polygon)  
+ 
+#     #print(p[0].exterior.coords[0].distance())
+#     #plot_GS_polygon(p)
+
+#     return 0 
+
+
+
+
+# #test()
