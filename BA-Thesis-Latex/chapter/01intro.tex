@@ -2,20 +2,43 @@
 \chapter{Einleitung}
 \label{ch:intro}
 
-\blindtext
 
-\section{Motivation}
-\blindtext
+\section{Motivation}{ PROPOSAL VERSION
+	Verkehrsüberwachung mit Kameras ist ein wichtiges Element um flüssigen Verkehr zu ermöglichen. \\
+	Eine Schwierigkeit bei Videoaufzeichnungen liegt im Datenschutz des einzelnen Autos.  \\
+	Eine Lösung für die Anonymisierung ist die Benutzung der Discrete Curve Evolution (DCE).\\
+	Im Rahmen dieser Bachelorarbeit soll beispielhaft eine Methode in Python implementiert werden, die eine Darstellung von vereinfachten Objekten ermöglicht. Außerdem soll evaluiert werden, inwieweit die DCE Tracking von Objekten in Videos unterstützen kann. \\
+	Die Idee ist, dass das Objekt detektiert, in eine Binärmaske umgewandelt, mit der DCE vereinfacht und wieder in einem Video ausgegeben wird.
 
-\section{Zielsetzung}
-Ein paar Zitate \cite{Hartley2004} und \cite{Bishop2006} Hier kommt noch ein Zitat 
-\cite{DorrChristopherH.2015SSBo}\todo{mehr TODOs}
-\blindmathpaper
-% \Blindtext
+	\begin{list}{-}{Notizen}
+		\item Leichtgewichtige, schnelle Methode zur Objektdetektierung entwicklen
+		\item in Verbindung mit ML; realtime Verarbeitung YOLO
+	\end{list}
+}
+%\blindtext
+
+\section{Zielsetzung}{
+Zum Testen wird Videomaterial von Autobahnen aufgenommen, welches im Rahmen der Bachelorarbeit analysiert wird. Ein beispielhafter Verlauf anhand eines einzelnen Bildes ist in Abb. \ref{Bsp_Dorr} zu sehen. \\
+Die folgenden Schritte werden für jeden Frame im Video ausgeführt. 
+Als ersten Schritt müssen die zu erkennenden Objekte detektiert werden. Dies kann mit der Schwellwertsegmentierung nach Otsu erfolgen, da die Objekte eindeutig zu erkennen sind \citep{Otsu1979}. Außerdem ist die Schwellwertsegmentierung sehr ressourcenschonend, da kein maschinelles Lernverfahren verwendet wird. Eine andere Methode mit einem maschinellen Lernverfahren wäre die Benutzung von YOLO zur Segmentierung. Beide Verfahren beinhalten das Umwandeln in eine Binärmaske als zweiten Schritt. Diese Binärmaske wird im dritten Schritt in ein Polygon umgewandelt, welches mit der DCE vereinfacht wird. \\
+Die DCE berechnet anhand eines Grenzwertes, welche Punkte für die Darstellung einer Form irrelevant sind, sodass diese ohne größeren Informationsverlust entfernt werden können \citep{Barkowsky2000}. Dadurch wird eine bedarfsbezogene Vereinfachung des Polygons ermöglicht. 
+Weiterhin kann die Vereinfachung die mit dem DCE Algorithmus erreicht wird, eine Überprüfung der Ergebnisse vereinfachen. Hierfür bietet sich Verwendung einer Ähnlichkeitsfunktion für Polygone an. \\
+Eine Ergebnisevaluation ist durch die Ausgabe der vereinfachten Frames  oder des gesamten vereinfachten Videos möglich, bei der vorher die einzelnen Bilder zu einem Video zusammengesetzt wurden. \\}
+\begin{figure}[ht]
+	\vspace{-0.5cm}
+	   \centering
+	   \includegraphics*[scale = 0.5, keepaspectratio, trim=2 2 2 2 ]{images/Example_bird.png}
+	   \caption[Beispielablauf der Segmentierung und DCE aus \citet{Dorr2017}]{Beispielablauf einer Vereinfachung mit der DCE \citep{Dorr2017}.}
+	   \label{Bsp_Dorr}
+   \end{figure}
 \section{Aufbau der Arbeit}
+{}
 
 Ein paar Zitate \cite{Hartley2004} und \cite{Bishop2006} Hier kommt noch ein Zitat 
-\cite{DorrChristopherH.2015SSBo}\todo{mehr TODOs}
+\cite{DorrChristopherH.2015SSBo}
+
+\todo{mehr TODOs hallo}
+\todo{mehr TODOs test}
 
 \begin{table}[ht]
 	\centering
