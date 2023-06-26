@@ -17,7 +17,7 @@ def main():
     init.py files are important for connecting DCE.py with yolo_every_frame.py and yolo_result_version.py
     """
     options = {
-            "path_source_video": r'Code\vid_examples\right_Side\autobahn_2.mp4',
+            "path_source_video": r'Code\vid_examples\right_Side\autobahn1s.mp4',
             "path_write_video": r'Code\YOLO\runs\videos_from_frames\autobahn2_temp.mp4',
             "path_write_timestamps": r'Code\YOLO\runs\videos_from_frames\timestamps_autobahn2_temp_res_vers.txt',
 
@@ -52,13 +52,48 @@ def main():
     }
 
 
-    #run_test(options)
-    if (options["yolo_every_frame"] == True): #if clause to run selected YOLO Version
-        run_yolo_every_frame_version(options)
-    else:
-        run_yolo_result_version(options)
+    run_test(options)
+    # if (options["yolo_every_frame"] == True): #if clause to run selected YOLO Version
+    #     run_yolo_every_frame_version(options)
+    # else:
+    #     run_yolo_result_version(options)
 
 
+def run_test(options):
+    shape_similarity_val = 0
+    img_1 = get_specific_frame(options["path_source_video"],11)
+    img_2 = get_specific_frame(options["path_source_video"],15)
+    img_1_yolo = run_yolo(img_1, options)
+    img_2_yolo = run_yolo(img_2, options)
+    #img_1 = cv2.resize(img_1, fx = 0.5, fy = 0.5)
+    #img_2 = cv2.resize(img_2, fx = 0.5, fy = 0.5)
+
+    # cv2.imshow("image", img_1)       
+    # cv2.waitKey(0) 
+    # cv2.imshow("image", img_2)       
+    # cv2.waitKey(0) 
+
+    
+    # cv2.imshow("image", img_1_yolo)       
+    # cv2.waitKey(0) 
+    # print(options["angle_sums_polygons"])
+    # print(len(options["angle_sums_polygons"]))
+  
+    # print(len(options["angle_sums_polygons"]))
+    print(options["angle_sums_images"])
+    print(len(options["angle_sums_images"]))
+
+    for i in range(len(options["angle_sums_images"])-1):
+        shape_similarity_val +=  options["angle_sums_images"][i] - options["angle_sums_images"][i+1]
+
+    print("shape_similarity_val")
+    print(shape_similarity_val)
+    cv2.imshow("image", img_1_yolo)       
+    cv2.waitKey(0) 
+    cv2.imshow("image", img_2_yolo)       
+    cv2.waitKey(0) 
+
+    return 0
 
 
 def run_yolo_every_frame_version(options):
