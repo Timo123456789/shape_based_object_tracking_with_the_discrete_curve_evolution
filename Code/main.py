@@ -1,5 +1,6 @@
 from YOLO.yolo_result_version import *
 from YOLO.yolo_every_frame import *
+from Shape_Similiarity.shape_sim_meas import *
 import cv2
 import time
 
@@ -18,8 +19,8 @@ def main():
     """
     options = {
             "path_source_video": r'Code\vid_examples\right_Side\autobahn1s.mp4',
-            "path_write_video": r'Code\YOLO\runs\videos_from_frames\autobahn2_temp.mp4',
-            "path_write_timestamps": r'Code\YOLO\runs\videos_from_frames\timestamps_autobahn2_temp_res_vers.txt',
+            "path_write_video": r'Code\YOLO\runs\videos_from_frames\autobahn1s_temp.mp4',
+            "path_write_timestamps": r'Code\YOLO\runs\videos_from_frames\timestamps_autobahn1s_temp_ever_vers.txt',
 
         	"NoP_Cars": 7, #Number of final Points for Cars, first try: 10, second try: 25
         	"NoP_Motorcycle": 5, #Number of final Points for Motorcycles, first try: 5, second try: 20
@@ -28,7 +29,7 @@ def main():
 
             "black_video": True, #Bool that turns the whole video black, so that only white sillhouettes are shown in the video
             "write_labels": True, #Bool that ensures that a label with scores is written to the video for each polygon
-            "yolo_every_frame": False, #Boolean that enables an alternative YOLO application method
+            "yolo_every_frame": True, #Boolean that enables an alternative YOLO application method
 
             "save_timestamps": True, #bool, which activates the saving of the timestamps
             "timestamp_prog_start": time.time(),
@@ -48,28 +49,47 @@ def main():
 
             "angle_sums_polygons":[],
             "angle_sums_images":[],
-            "shape_similarity_measure":-9.9999
+            "shape_similarity_measure":-9.9999,
+            "list_of_all_polygons":[],
+            "list_of_polygons_in_one_frame":[]
     }
 
 
-    run_test(options)
-    # if (options["yolo_every_frame"] == True): #if clause to run selected YOLO Version
-    #     run_yolo_every_frame_version(options)
-    # else:
-    #     run_yolo_result_version(options)
+    #run_test(options)
+    if (options["yolo_every_frame"] == True): #if clause to run selected YOLO Version
+        run_yolo_every_frame_version(options)
+    else:
+        run_yolo_result_version(options)
 
 
 def run_test(options):
     shape_similarity_val = 0
     img_1 = get_specific_frame(options["path_source_video"],11)
     img_2 = get_specific_frame(options["path_source_video"],15)
-    img_1_yolo = run_yolo(img_1, options)
-    img_2_yolo = run_yolo(img_2, options)
+    img_1_yolo = run_yolo(img_1, options, 11)
+    img_2_yolo = run_yolo(img_2, options, 15)
     #img_1 = cv2.resize(img_1, fx = 0.5, fy = 0.5)
     #img_2 = cv2.resize(img_2, fx = 0.5, fy = 0.5)
-
-    # cv2.imshow("image", img_1)       
-    # cv2.waitKey(0) 
+    #print(options["list_of_all_polygons"])
+    polygon_array = options["list_of_all_polygons"]
+    print(polygon_array)
+    print(polygon_array[0][0][2])
+    print(polygon_array[1][0][2])
+    print("  ")
+    print(polygon_array[0][0])
+    print(polygon_array[1][0])
+    
+    temp = 0
+  
+    for frame in range(len(polygon_array)-1):
+        print(len(polygon_array[0]))
+        print(polygon_array[0])
+        for polygon in range(len(polygon_array[0])):
+            temp = temp + (polygon_array[frame][polygon][2]-polygon_array[frame+1][polygon][2])
+    print("temp")            
+    print(temp)            
+    cv2.imshow("image", img_1)       
+    cv2.waitKey(0) 
     # cv2.imshow("image", img_2)       
     # cv2.waitKey(0) 
 
@@ -83,8 +103,10 @@ def run_test(options):
     print(options["angle_sums_images"])
     print(len(options["angle_sums_images"]))
 
-    for i in range(len(options["angle_sums_images"])-1):
-        shape_similarity_val +=  options["angle_sums_images"][i] - options["angle_sums_images"][i+1]
+
+
+    # for i in range(len(options["angle_sums_images"])-1):
+    #     shape_similarity_val +=  options["angle_sums_images"][i] - options["angle_sums_images"][i+1]
 
     print("shape_similarity_val")
     print(shape_similarity_val)
@@ -103,7 +125,9 @@ def run_yolo_every_frame_version(options):
     @param options: Dictionary with options set in main
     """
     run_yolo_every_frame_version_intern(options)
+
     calc_shape_similarity(options)
+    
     if(options["save_timestamps"]==True): #if clause to save the timestamps
         if (options["yolo_every_frame"]== True):
             save_timestamps_as_file_yolo_every_frame(options)
@@ -142,19 +166,9 @@ def run_yolo_result_version(options):
 
 
 
-def calc_shape_similarity(options):
-    """
-    function that calculates the difference from the total angle sum of one image to the next. This difference is summed up and is the 'shape_similarity_measures'
 
-    @param options: Dictionary with options set in main
-    """
-    shape_similarity_val = 0
-    print(options["angle_sums_images"])
-    print(len(options["angle_sums_images"]))
-    for i in range(len(options["angle_sums_images"])-1):
-         shape_similarity_val = shape_similarity_val +  options["angle_sums_images"][i] - options["angle_sums_images"][i+1]
-    options["shape_similarity_measure"] = shape_similarity_val
-    print("shape_similarity_measures calculated")
+
+
 
 
 

@@ -26,7 +26,7 @@ def run_yolo_every_frame_version_intern(options):
     for i in range(framecounter): #iterate over all frames
         img = get_specific_frame(options["path_source_video"],i) #get specific frame from source video
 
-        img_analyzed = run_yolo(img, options) #run yolo on specific frame
+        img_analyzed = run_yolo(img, options,i) #run yolo on specific frame
         
         img_arr.append(img_analyzed) #add analyzied image to array
         pbar.update(1) #set progress bar one step further
@@ -44,7 +44,7 @@ def run_yolo_every_frame_version_intern(options):
 
 
 
-def run_yolo(img, options):  
+def run_yolo(img, options,framenumber):  
     """
     run YOLO algorithm on a given image
 
@@ -67,7 +67,7 @@ def run_yolo(img, options):
         img_size = get_img_size(img)
         img = cv2.rectangle(img, (0,0),(img_size[0],img_size[1]), (0, 0, 0), -1)
 
-    
+    iterator = 0
     for bbox, class_id, seg, score in zip(bboxes, classes, segmentations, scores): #Iterate over all YOLO results for drawing the polygons
        
         (x, y, x2, y2) = bbox
@@ -92,6 +92,14 @@ def run_yolo(img, options):
     
         sum_of_angles = get_sum_of_angles(outline) #calculates the sum of angles in one polygon)
         options["angle_sums_polygons"].append(sum_of_angles) #append sum of angles in one polygon to a array, where all angle sums of the polygons in the image saved 
+        
+        options["list_of_polygons_in_one_frame"].append([framenumber,iterator,sum_of_angles,class_id,outline])
+        iterator+=1
+
+    options["list_of_all_polygons"].append(options["list_of_polygons_in_one_frame"])
+    options["list_of_polygons_in_one_frame"] = []
+
+
 
     options["angle_sums_images"].append(sum(options["angle_sums_polygons"])) #sum up all angle sums in the image and append it to an array, where all sum of angles from all images would be saved
     options["angle_sums_polygons"] = [] # set for the next image the variable, which saved the sum of all angles from all polygon in the image,  to None/0
