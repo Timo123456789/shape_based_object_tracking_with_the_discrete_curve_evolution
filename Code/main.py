@@ -19,17 +19,17 @@ def main():
     """
     options = {
             "path_source_video": r'Code\vid_examples\right_Side\autobahn1s.mp4',
-            "path_write_video": r'Code\YOLO\runs\videos_from_frames\autobahn1s_temp.mp4',
-            "path_write_timestamps": r'Code\YOLO\runs\videos_from_frames\timestamps_autobahn1s_temp_ever_vers.txt',
+            "path_write_video": r'Code\YOLO\runs\videos_from_frames\autobahn_temp.mp4',
+            "path_write_timestamps": r'Code\YOLO\runs\videos_from_frames\timestamps_autobahn_temp.txt',
 
-        	"NoP_Cars": 7, #Number of final Points for Cars, first try: 10, second try: 25
+        	"NoP_Cars": 10, #Number of final Points for Cars, first try: 10, second try: 25
         	"NoP_Motorcycle": 5, #Number of final Points for Motorcycles, first try: 5, second try: 20
         	"NoP_Truck": 8, #Number of final Points for Trucks, first try: 8, second try:45
-        	"NoP_other_Object": 10, #Number of final Points for other Objects, first try: 20, second try:60
+        	"NoP_other_Object": 20, #Number of final Points for other Objects, first try: 20, second try:60
 
             "black_video": True, #Bool that turns the whole video black, so that only white sillhouettes are shown in the video
             "write_labels": True, #Bool that ensures that a label with scores is written to the video for each polygon
-            "yolo_every_frame": True, #Boolean that enables an alternative YOLO application method
+            "yolo_every_frame": False, #Boolean that enables an alternative YOLO application method
 
             "save_timestamps": True, #bool, which activates the saving of the timestamps
             "timestamp_prog_start": time.time(),
@@ -51,16 +51,18 @@ def main():
             "angle_sums_images":[],
             "shape_similarity_measure":-9.9999,
             "list_of_all_polygons":[],
-            "list_of_polygons_in_one_frame":[]
+            "list_of_polygons_in_one_frame":[],
+            "number_of_polygons":0,
+            "number_of_angles":0
     }
+    test = 0
+    #get_sum_of_angles(test)
 
-
-    #run_test(options)
     if (options["yolo_every_frame"] == True): #if clause to run selected YOLO Version
         run_yolo_every_frame_version(options)
     else:
         run_yolo_result_version(options)
-
+   
 
 def run_test(options):
     shape_similarity_val = 0

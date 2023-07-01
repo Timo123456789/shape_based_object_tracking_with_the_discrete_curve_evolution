@@ -98,17 +98,30 @@ def get_sum_of_angles(outline):
     sum_of_angles = 0
     cop_outline = np.array(outline, dtype=  'int')
     cop_outline = cop_outline[0]
-    #print(cop_outline)
+    #cop_outline = [[0,0],[5,0],[5,5],[0,5]]
+    # print(cop_outline)
     p = create_Polygon_from_array(cop_outline)
-
+   
     NoP = get_number_of_points(p)
-    #print(NoP)
+    # print(np.rad2deg(get_angle_two_lines(p,0,3,1)))
+    # print(np.rad2deg(get_angle_two_lines(p,1,2,0)))
+    # print(np.rad2deg(get_angle_two_lines(p,2,3,1)))
+    # print(np.rad2deg(get_angle_two_lines(p,3,4,2)))
+
+    # print(get_angle_two_lines(p,0,2,1))
+    # print(get_angle_two_lines(p,1,2,0))
+    # print(get_angle_two_lines(p,2,3,1))
+    # print(NoP)
     for i in range(NoP):
         if i==0:
-            sum_of_angles += get_angle_two_lines(p,i, (NoP-1),1)
+            sum_of_angles = sum_of_angles + (get_angle_two_lines(p,i, (NoP-1),1))
         else:
-            sum_of_angles += get_angle_two_lines(p,i, (i+1), (i-1))
-    #print(sum_of_angles)
+            sum_of_angles = sum_of_angles + (get_angle_two_lines(p,i, (i+1), (i-1)))
+ 
+    # print(sum_of_angles)
+    # print(np.rad2deg(sum_of_angles))
+    # p.plot()
+    # plt.show()
     return sum_of_angles
 
 
@@ -190,7 +203,7 @@ def get_angle_two_lines(polygon,p,s1,s2):
     @param p1: Point Object from there the angle would be calculated
     @param s1: Point Object from p1 to s1 from there the angle would be calculated
     @param s2: Point Object from p1 to s2 from there the angle would be calculated
-    @return pointcounter: Number of points in Polygon p as int
+    @return radiant in int
 
     Source: https://numpy.org/doc/stable/reference/generated/numpy.arctan2.html#numpy.arctan2
     """
@@ -198,13 +211,26 @@ def get_angle_two_lines(polygon,p,s1,s2):
     s1 = polygon[0].exterior.coords[s1]
     s2 = polygon[0].exterior.coords[s2]
 
-    x = np.array([p[0],p[1],s1[0],s1[1]])
-    y = np.array([p[0],p[1],s2[0],s2[1]])
+    # print(p)
+    # print(s1)
+    # print(s2)
+
+    v1 = [s1[0]-p[0],s1[1]-p[1]]
+    v2 = [s2[0]-p[0],s2[1]-p[1]]
+    
+
+    angle = np.degrees(np.arctan2(np.cross(v1,v2), np.dot(v1,v2)))
+
+    x = np.array([p[1],p[0],s1[1],s1[0]])
+    y = np.array([p[1],p[0],s2[1],s2[0]])
 
     val_arr = np.arctan2(y,x)*180/np.pi
-    val_arr_sum = 0
-    for i in range(len(val_arr)):
-        val_arr_sum = val_arr_sum + val_arr[i]
+    # print(val_arr)
+    # print(angle)
+    if angle < 0:
+        angle = angle * -1
+    val_arr_sum = sum(val_arr)
+    return np.deg2rad(angle)
     return np.deg2rad(val_arr_sum)
     
 

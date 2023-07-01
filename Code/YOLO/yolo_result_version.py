@@ -51,10 +51,15 @@ def get_outline_for_every_object(res, options):
     
                 sum_of_angles = get_sum_of_angles([outline_DCE[b]]) #calculates the sum of angles in one polygon
                 options["angle_sums_polygons"].append(sum_of_angles)  #append sum of angles in one polygon to a array, where all angle sums of the polygons in the image saved    
-                options["list_of_all_polygons"].append([i,b,outline_DCE[b]])  
+
+                options["list_of_polygons_in_one_frame"].append([i,b,sum_of_angles,class_id[b],outline_DCE[b]])
                 
             options["angle_sums_images"].append(sum(options["angle_sums_polygons"])) #sum up all angle sums in the image and append it to an array, where all sum of angles from all images would be saved
             options["angle_sums_polygons"] = [] # set for the next image the variable, which saved the sum of all angles from all polygon in the image,  to None/0
+
+            options["list_of_all_polygons"].append(options["list_of_polygons_in_one_frame"])
+            options["list_of_polygons_in_one_frame"] = []
+            options["number_of_polygons"] = options["number_of_polygons"] + len(bbox)
 
             res_cop[i]= cv2.polylines(res[i], outline_DCE, True, (255, 255, 255), 1)  #draw simplified polygon on the specific frame
 

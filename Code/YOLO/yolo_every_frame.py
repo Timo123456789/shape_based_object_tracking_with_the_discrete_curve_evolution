@@ -95,9 +95,11 @@ def run_yolo(img, options,framenumber):
         
         options["list_of_polygons_in_one_frame"].append([framenumber,iterator,sum_of_angles,class_id,outline])
         iterator+=1
-
+    
     options["list_of_all_polygons"].append(options["list_of_polygons_in_one_frame"])
     options["list_of_polygons_in_one_frame"] = []
+
+    options["number_of_polygons"] = options["number_of_polygons"] + iterator
 
 
 

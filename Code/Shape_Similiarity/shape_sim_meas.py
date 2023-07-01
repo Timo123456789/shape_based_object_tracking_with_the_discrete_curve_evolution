@@ -1,5 +1,7 @@
+import numpy as np
 
 def calc_shape_similarity(options):
+
     calc_shape_similarity_compare_polygons(options)
     calc_shape_similarity_angles(options)
 
@@ -9,10 +11,14 @@ def calc_shape_similarity(options):
 def calc_shape_similarity_angles(options):
     shape_similarity_val = 0
     for i in range(len(options["angle_sums_images"])-1):
-         shape_similarity_val = shape_similarity_val +  options["angle_sums_images"][i] - options["angle_sums_images"][i+1]
+         temp =  options["angle_sums_images"][i] - options["angle_sums_images"][i+1]
+         if(temp<0):
+                    temp = temp * -1
+         shape_similarity_val = shape_similarity_val + temp
     options["shape_similarity_measure"] = shape_similarity_val
-    print("shape_similarity_measures_anlge calculated")
-    print(str(shape_similarity_val))
+    #print("shape_similarity_measures_angle calculated")
+    #print(str(round(shape_similarity_val,2))+ " rad / " + str(round(np.rad2deg(shape_similarity_val),2)) + " Degree ")
+    #print("Average Angle: " + str(round(shape_similarity_val / options["number_of_polygons"]),2)  +" / "+  str(round(np.rad2deg(shape_similarity_val / options["number_of_polygons"]),2)) + " Degree ")
 
 
 
@@ -25,17 +31,48 @@ def calc_shape_similarity_compare_polygons(options):
     """
     shape_similarity_val = 0
     polygon_array = options["list_of_all_polygons"]
-
-
+    # polygon_array = [
+    #      [[0,0,50,5],[0,1,80,5],[0,2,90,2],[0,3,25,5],[0,4,25,5]],
+    #      [[1,0,55,5],[1,1,85,5],[1,2,95,2],[1,3,20,5]],
+    #      [[2,0,50,5],[2,1,80,5],[2,2,90,2],[2,3,25,5]]]
+    # options["number_of_polygons"]=12
+    # write_results_file(polygon_array)
+    # print(polygon_array[0][0][2])
+    # print(polygon_array[1][0][2])
+    temp = 0
+    iterator = 0
     for frame in range(len(polygon_array)-1): 
-        if(len(polygon_array[frame]) == len(polygon_array[frame+1])):
-            for polygon in range(len(polygon_array[frame])):
+        if (len(polygon_array[frame])<= len(polygon_array[frame+1])):
+             compare_polys = len(polygon_array[frame])
+        else: 
+             if (len(polygon_array[frame])> len(polygon_array[frame+1])):
+                  compare_polys = len(polygon_array[frame+1])
+        for polygon in range(compare_polys):
+            if polygon_array[frame][polygon][3] == polygon_array[frame+1][polygon][3]:
                 temp = (polygon_array[frame][polygon][2]-polygon_array[frame+1][polygon][2])
-                shape_similarity_val = shape_similarity_val + temp
+                iterator += 1
+            # elif polygon_array[frame][polygon][3] == polygon_array[frame+2][polygon][3]:
+            #     temp = (polygon_array[frame][polygon][2]-polygon_array[frame+2][polygon][2])
+            #     iterator += 1
+           # print(str(polygon_array[frame][polygon][2])+ "-" + str(polygon_array[frame+1][polygon][2]))
+            if(temp<0):
+                temp = temp * -1
+            #print("temp"+str(temp))
+            shape_similarity_val = shape_similarity_val + temp
+            options["number_of_angles"]=  options["number_of_angles"] + compare_polys
+
     options["shape_similarity_measure"] = shape_similarity_val
     print("shape_similarity_measures_compare_polys calculated")
-    print(str(shape_similarity_val))
-
+    print("Sum of the angle differences over all frames and polygons: "+str(round(shape_similarity_val,2)) + " rad / " + str(round(np.rad2deg(shape_similarity_val),2)) + " Degree ")
+    print("Average Angular deviation (Sum divided by Number of Polygons): " + str(round((shape_similarity_val / options["number_of_polygons"]),2)) +" / "+  str(round(np.rad2deg(shape_similarity_val / options["number_of_polygons"]),2)) + " Degree ")
+    print(" ")
+    # print("detected angles: "+str(options["number_of_angles"]))
+    # print("deviation per angle: " + str(round((shape_similarity_val / options["number_of_angles"]),2))+ " rad")
+    # print(" ")
+    print("detected polygons: "+str(options["number_of_polygons"]))
+    print("Counter for same detected objects in two consecutive frames: " + str(iterator)) #Counter for the number of the same detected objects in two consecutive frames 
+    print(" ")
+    print(" ")
 
 
 
@@ -45,6 +82,6 @@ def calc_shape_similarity_compare_polygons(options):
 
 
 def write_results_file(results):
-    f = open( r'Code\YOLO\temp\temp.txt', 'w' )
+    f = open( r'Code\YOLO\temp\temp_polyarr_indiv.txt', 'w' )
     f.write(repr(results))
     f.close()
