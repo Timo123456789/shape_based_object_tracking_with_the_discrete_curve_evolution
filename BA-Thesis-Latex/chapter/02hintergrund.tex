@@ -6,12 +6,54 @@
 
 
 
-\section{You Only Look Once (YOLO)}
-{
+\section{Maschinelles Lernen}
+{	Vorbemerkungen hier Erklärung von Abkürzungen etc.
+	\subsection{Vorbemerkungen}
+	\subsection{You Only Look Once (YOLO)}
 	\begin{list}{-}{Quelle: \citet{Plastiras2018}}
-		\item Objekterkennung, -einordnung und -wirkung im Blick des Menschen ist intuitiv. unsere Augen im Zusammenspiel mit unserem Gehirn ermöglichen es uns schnell und genau zu sehen. Wir können daher schwierige Aufgaben, wie Fahrradfahren mit nur wenigen bewussten Gedanken ausüben.
-		\item Computern kann dies mit schnellen und genauen Algorithmen zur Objekterkennung beigebracht werden
-		\item 
+		\item Intro
+			\item Objekterkennung, -einordnung und -wirkung im Blick des Menschen ist intuitiv. unsere Augen im Zusammenspiel mit unserem Gehirn ermöglichen es uns schnell und genau zu sehen. Wir können daher schwierige Aufgaben, wie Fahrradfahren mit nur wenigen bewussten Gedanken ausüben.
+			\item Computern kann dies mit schnellen und genauen Algorithmen zur Objekterkennung beigebracht werden
+			\item Klassifikatoren werden von aktuellen Systemen eingesetzt
+			\item Diese nutzen einen Klassifikator zur Objekterkennung und dieser wird an verschieden Stellen in variablen Skalierungen im Testbild angewendet
+			\item Es gibt außerdem Systeme wie R-CNN sagen erst Regionnen voraus, um potentielle Bounding Boxen im Bild zu erzeugen, worauf dann ein Klassifikator angewendet wird. Diese Bounding Boxes werden feiner durch eine Nachprozessierung und durch das Eliminieren von doppelten Erkennungen und einer Einordnung basierend auf der Grundlage der anderen im Bild vorhandenen Objekterkennung 
+			\item Dies ist sehr langsam und nicht leicht auf Performance zu optimieren (da jeder Teilschritt einzeln trainiert werden muss)
+			\item YOLO nutzt Objekterkennung als ein einziges Regressionsproblem. Direkt von Bildpixel zu Bounding Box Koordinaten und Klassenwahrscheinlichkeiten
+			\item "You Only Look Once" (YOLO) analysiert nur einmal ein Bild und sagt sofort vorher, welche Objekte wo vorhanden sind
+			\item Dadurch ist YOLO sehr einfach, wie in Abb. 1 zu sehen. Ein "Single Convolutional Network"(S-CNN) berechnet gleichzeitig mehrere Bounding Boxen und Klassifizierungswahrscheinlichkeiten für diese
+			\item YOLO ist mit ganzen Bildern trainiert worden und optimiert dadurch direkt die Performance zur Objekterkennung
+			\item Durch das vereinheitlichte Modell entstehen mehrere Vorteile gegenüber den traditionellen Objekterkennungsmethoden
+			\item Erstens: Performance; YOLO ist sehr schnell, da Framedetection als Regresssionsproblem verstanden wird, benötigt man keine komplizierte Pipeline. Das Neuronale Netz wird zum Testzeitpunkt auf ein neues Bild angewendet, um Objekte zu erkennen. YOLO erreicht mehr als das Doppelte der durchschnittlichen Genauigkeit anderer Echtzeitobjekterkennungssysteme (Real Time?)
+			\item Zweitens: YOLO analysiert ein Bild global mit Vorhersagen zur Objekterkennung. Durch diese Gesamtbildanalyse kann YOLO während der Training- und Testzeit implizit kontextuelle Informationen über die Klassen und deren Aussehen sammeln. Die Anzahl der Fehler von YOLO beim Verwechselnl von Hintergrund und Objekten im Vordergrund ist weniger als halb so hoch wie bei Fast R-CNN, weil YOLO einen größeren Kontext hat
+			\item Drittens: YOLO ist mit  generalisierte Repräsentationen von Objekten trainiert. Die Fehlertoleranz ist bei der Anwendung auf neue Bereiche und unerwartete Eingaben sehr viel größer, da es in hohem Maße verallgemeinerbar ist.
+			\item Nachteil von YOLO ist die Genauigkeit. Es hat Schwierigkeiten einige Objekte, insbesondere kleinere, genau zu lokalisieren, obwohl es sonst sehr schnell ist.
+			\item Die Trainingsdaten und der Quellcode von YOLO sind Open Source. Es sind außerdem mehrere vortrainierte Modelle zum Download verfügbar.
+		\item Unified Detection
+			\item YOLO bündelt alle einzelnen Teile der Objektdetektion in ein einzelnes neuronales Netz. Um jede Bounding Box vorherzusagen, benutzt dieser Algorithmus Features vom gesamten Bild. Dadurch das alle Bounding Boxes für alle Klassen im gesamten Bild gleichzeitig vorhergesagt werden, detektiert das Netzwerk global über alle Objekte und im gesamten Bild. Dieses Algorithmendesign ermöglicht ein 'End to End' Training mit Real-Time Geschwindigkeit unter hoher durchschnittlicher Genauigkeit.
+			\item Bild wird in $S \times S$ Gitter unterteilt. Eine Gitterzelle ist für die Erkennung des Objektes zuständig, wenn der Mittelpunkt eines Objektes in diese fällt.
+			\item $B$ Bounding Boxen und  ihre jeweiligen Confidence Scores werden für jede Gitterzelle vorhergesagt. Der Confidence Score, wie sicher sich das Modell ist, dass die Bounding Box ein Objekt dieser Klasse enthält und für wie genau das Modell diese Vorhersage hält. Dieser Confidence Score ist formal folgendermaßen definiert: FORMEL. Dieser Wert ist 0, wenn kein Objekt in der Zelle existiert. Im anderen Fall ist der Confidence Score gleich zu der 'Intersection over Union' zwischen der vorhergesagten Box (predicted Box) und der Grundwahrheit (Ground Truth)
+			\item Jede Bounding Box besteht aus 5 Variablen, die vorhergesagt werden: x,y,w,h und der Confidence. Das Zentrum der Bounding Box wird durch die (x,y) Koordinate dargestellt, welche relativ zu den Grenzen der Gitterzelle sind. (w,h) werden relativ zum gesamten Bild berechnet. Die Confidence stellt, die IOU zwischen der vorhergesagten Box und einem beliebigen Teil der Grundwahrheit dar.
+			\item Die durch C bedingten Klassenwahrscheinlichkeiten, welche abhängig davon sind, ob eine Gitterzelle ein Objekt enthält, werden auch durch jede Zelle vorhergesagt: FORMEL. 
+			\item Pro Gitterzelle wird die Anzahl der Klassenwahrscheinlichkeiten unabhängig von der Bounding Box Anzahl B berechnet.
+			\item Die bedingten Klassenwahrscheinlichkeiten werden zum Testzeitpunkt mit den Confidence Scores der einzelnen Bounding Boxes multipliziert, was einen klassenspezifischen Confidence Score für jede Bounding Box ergibt. Dies geschieht mit folgender FORMEL. Dieser Wert enthält nicht nur die Wahrscheinlichkeit, dass diese Klasse in der Bounding Box vorkommt, sondern auch wie gut das die vorhergesagte Box mit dem detektierten Objekt übereinstimmt. Ein Beispielablauf ist in Abbildung 2 zu sehen
+			\item 
+			\item 
+			\item Network Design
+				\item Das vollständig Netzwerk ist in Abbildung 3 zu sehen. 
+				\item Dieses Model ist als CNN implementiert worden. Die Merkmale des Bildes werden in den ersten Schichten der CN Layer des Netzes detektiert. Die (Ausgabe-)Wahrscheinlichkeiten und Koordinaten werden von den 'Fully Connected Layers' vollständig verbundenen Layern generiert.
+				\item GoogLeNets Modell für Bildklassifizierung hat die Netzwerkarchitektur von YOLO beeinflusst. Das Netzwerk von YOLO hat 24 Convolutional Layers, an welche 2 'Fully Connected Layers' anschließen.
+				\item Es wird ein $1 /times 1$ 'Reduction Layer' gefolgt von  $3 /times 3$ 'Convolutional Layers' eingesetzt.
+				\item Außerdem existiert eine schnelle Version von YOLO, die ein neuronales Netz mit weniger Schichten (9 statt 24) und weniger Filtern in diesen verwendet. YOLO und Fast YOLO gleichen sich abgesehen ovn der Größe des Netzwerkes vollständig in den Trainings- und Testparametern.
+				\item Die finale Ausgabe dieses Netzes ist ein 7 x 7 x 30 Tensor mit Vorhersagen
+			\item Training 
+			\item Inference ?
+			\item Limitations of YOLO
+				\item Da jede Gitterzelle nur 2 Bounding Boxen vorhersagen und eine Klasse haben kann, unterliegt YOLO einer räumlichen Einschränkung. Dies begrenzt die Anzahl der benachbarten Objekte, die das Modell vorhersagen kann. Außerdem ist es für das Modell schwierig, kleine Objekte, die in Gruppen auftreten zu detektieren. Eine weitere Herausforderung ist, dass Objekte mit neuen oder ungewöhnlichen Formen auftreten können und dadurch die Vorhersage erschwert wird. Da die Netzwerkarchitektur aus mehreren 'Downsampling' Schichten besteht, benutzt das Modell relativ grobe Features zur Vorhersage der Bounding Boxen. Außerdem sorgt das Training mit einer Verlustfunktion, die die Erkennungsleistung annähert, dafür das Fehler bei kleinen Bounding Boxen genauso wie bei großen Bounding Boxen behandelt. Dies ist ein Nachteil, weil ein kleiner Fehler in einer großen Box meistens harmlos ist, aber ein kleiner Fehler in einer kleinen Box eine sehr viel größer Auswirkung auf die IOU hat. Falsche Lokalisierungen sind eine weitere Hauptfehlerquelle.
+				\item  
+		\item Comparison to Other Detection Systems (X)
+		\item Experiments (X)
+		\item Real-Time-Detection in the Wild (X)
+		\item Conclusion
 	\end{list}
 	
 }
@@ -20,7 +62,7 @@
 
 \section{Discrete Curve Evolution (DCE)}
 \label{sec:Discrete Curve Evolution}
-{Die \glqq Discrete Curve Evolution\grqq{} (DCE, \cite{Latecki1999a,Latecki1999c}) ist eine Methode zur Polygonvereinfachung, die die Formähnlichkeit des Polygons beibehält. Im Folgenden wird diese Methode genauer erläutert \citep{Barkowsky2000}. 
+{Die \glqq Discrete Curve Evolution\grqq{} (DCE, \cite{Latecki1999a,Latecki1999c}) ist eine Methode zur Polygonvereinfachung, die die Formähnlichkeit des Polygons beibehält und XXXX von YYYY vorgestellt wurde. Im Folgenden wird diese Methode genauer erläutert \citep{Barkowsky2000}. 
 \\
 Die Vereinfachung von Polygonen, während die Form der Polygone erkennbar bleibt und kleinere Knicke verschwinden, ist die wichtigste Eigenschaft der DCE. Dies basiert auf der schrittweisen Entfernung von Punkten, die den geringsten Beitrag zur Form des Polygons leisten. Dieser Beitrag des einzelnen Punktes zur Form des Polygons kann in einem Relevanzmaß gemessen werden \citep{Barkowsky2000}. 
 \\
