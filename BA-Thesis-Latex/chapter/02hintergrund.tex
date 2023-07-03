@@ -8,10 +8,12 @@
 
 \section{Maschinelles Lernen}
 {	Vorbemerkungen hier Erklärung von Abkürzungen etc.
+Rasterzelle Statt Gitterzelle benutzen!!
 	\subsection{Vorbemerkungen}
 	\subsection{You Only Look Once (YOLO)}
-	\begin{list}{-}{Quelle: \citet{Plastiras2018}}
+	\begin{itemize}
 		\item Intro
+		\begin{itemize}
 			\item Objekterkennung, -einordnung und -wirkung im Blick des Menschen ist intuitiv. unsere Augen im Zusammenspiel mit unserem Gehirn ermöglichen es uns schnell und genau zu sehen. Wir können daher schwierige Aufgaben, wie Fahrradfahren mit nur wenigen bewussten Gedanken ausüben.
 			\item Computern kann dies mit schnellen und genauen Algorithmen zur Objekterkennung beigebracht werden
 			\item Klassifikatoren werden von aktuellen Systemen eingesetzt
@@ -28,7 +30,9 @@
 			\item Drittens: YOLO ist mit  generalisierte Repräsentationen von Objekten trainiert. Die Fehlertoleranz ist bei der Anwendung auf neue Bereiche und unerwartete Eingaben sehr viel größer, da es in hohem Maße verallgemeinerbar ist.
 			\item Nachteil von YOLO ist die Genauigkeit. Es hat Schwierigkeiten einige Objekte, insbesondere kleinere, genau zu lokalisieren, obwohl es sonst sehr schnell ist.
 			\item Die Trainingsdaten und der Quellcode von YOLO sind Open Source. Es sind außerdem mehrere vortrainierte Modelle zum Download verfügbar.
+		\end{itemize}
 		\item Unified Detection
+		\begin{itemize}
 			\item YOLO bündelt alle einzelnen Teile der Objektdetektion in ein einzelnes neuronales Netz. Um jede Bounding Box vorherzusagen, benutzt dieser Algorithmus Features vom gesamten Bild. Dadurch das alle Bounding Boxes für alle Klassen im gesamten Bild gleichzeitig vorhergesagt werden, detektiert das Netzwerk global über alle Objekte und im gesamten Bild. Dieses Algorithmendesign ermöglicht ein 'End to End' Training mit Real-Time Geschwindigkeit unter hoher durchschnittlicher Genauigkeit.
 			\item Bild wird in $S \times S$ Gitter unterteilt. Eine Gitterzelle ist für die Erkennung des Objektes zuständig, wenn der Mittelpunkt eines Objektes in diese fällt.
 			\item $B$ Bounding Boxen und  ihre jeweiligen Confidence Scores werden für jede Gitterzelle vorhergesagt. Der Confidence Score, wie sicher sich das Modell ist, dass die Bounding Box ein Objekt dieser Klasse enthält und für wie genau das Modell diese Vorhersage hält. Dieser Confidence Score ist formal folgendermaßen definiert: FORMEL. Dieser Wert ist 0, wenn kein Objekt in der Zelle existiert. Im anderen Fall ist der Confidence Score gleich zu der 'Intersection over Union' zwischen der vorhergesagten Box (predicted Box) und der Grundwahrheit (Ground Truth)
@@ -39,22 +43,52 @@
 			\item 
 			\item 
 			\item Network Design
+			\begin{itemize}
 				\item Das vollständig Netzwerk ist in Abbildung 3 zu sehen. 
 				\item Dieses Model ist als CNN implementiert worden. Die Merkmale des Bildes werden in den ersten Schichten der CN Layer des Netzes detektiert. Die (Ausgabe-)Wahrscheinlichkeiten und Koordinaten werden von den 'Fully Connected Layers' vollständig verbundenen Layern generiert.
 				\item GoogLeNets Modell für Bildklassifizierung hat die Netzwerkarchitektur von YOLO beeinflusst. Das Netzwerk von YOLO hat 24 Convolutional Layers, an welche 2 'Fully Connected Layers' anschließen.
 				\item Es wird ein $1 /times 1$ 'Reduction Layer' gefolgt von  $3 /times 3$ 'Convolutional Layers' eingesetzt.
 				\item Außerdem existiert eine schnelle Version von YOLO, die ein neuronales Netz mit weniger Schichten (9 statt 24) und weniger Filtern in diesen verwendet. YOLO und Fast YOLO gleichen sich abgesehen ovn der Größe des Netzwerkes vollständig in den Trainings- und Testparametern.
 				\item Die finale Ausgabe dieses Netzes ist ein 7 x 7 x 30 Tensor mit Vorhersagen
+			\end{itemize}
 			\item Training 
+			\begin{itemize}
+				\item Die 'Convolutional Layer' wurden auf 'ImageNet 1000-Class Competition' trainiert
+				\item Pretraining mit den ersten 20 'Convolutional Layern' aus Abb. 3 und einem 'Average Pooling Layer', sowie einem 'fully connected' Layer
+				\item Konvertieren des Modells um die Objekterkennung durchzuführen
+				\item es werden nach Ren et al 4 'convoluted layer' und 2 'fully connected layer' mit zufällig initalisierten Gewichten hinzugefügt um die Leistung zu verbessern.  
+				\item Die 'Input Resolution' des Netzwerks wird von 224 * 224 auf 448 * 448 erhöht, da häufig feinkörnige visuelle Informationen analysiert werden sollen
+				\item letzte Schicht prognostiziert Klassenwahrscheinlichkeiten und Bounding Box Koordinaten
+				\begin{itemize}
+					\item Bouding Box Breite und Höhe werden normalisiert, indem Sie durch die Bildbreite und -höhe geteilt werden, damit diese zwischen 0 und 1 liegen
+					\item x und y Koordinate der Bounding Box werden so neu berechnet, dass Sie als Abstand zu einer bestimmten Gitterzelle lokalisiert werden können. Sie liegen also auch zwischen 0 und 1 
+				\end{itemize}
+				\item lineare Aktivierungsfunktion für den letzten Layer, alle anderen Layer verwenden folgende Formel FORMEL
+				\item Optimierung des Sum-Squared-Errors, da er einfach zu optimieren ist
+				\item Stimmt jedoch nicht exakt mit dem Ziel überein, die durchschnittliche Genauigkeit zu erhöhen, da er den Lokalisierungsfehler gleich mit dem Klassifizierungsfehler gewichtet und viele Gitterzellen in jedem Bild keine Objekte enthalten. Aus diesem Grund läuft der Confidence Score in diesen Zellen gegen 0 und überlagert damit benachbarte Zellen, die Objekte enthalten
+				\item kann zu einer früheren Abweichung des Trainings führen
+				\item Um das zu beheben, wird der Loss der Bounding Box Koordinatenvorhersagen erhöht und der Loss aus den Confidence Score für die Boxen, die keine Objekte enthalten verringert
+				\item Zwei Parameter (FORMEL) werden verwendet und mit diesen Werten besetzt um dies zu gewichten
+				\item Sum-Squared-Error gewichtet auch Fehler in großen und kleinen Bouding Boxen. Um dies teilweise zu berücksichtigen, dass kleine Fehler in großen Boxen weniger ins Gewicht fallen, wird die Quadratwurzel der Breite und Höhe der Bounding Box genutzt
+				\item Yolo kann mehrere Bounding Boxen pro Gitterzelle vorhersagen.
+				\item Ein Bounding Box Predictor soll für jedes Objekt möglich sein. Ein Predictor wird  der Vorhersage eines Objektes zugewiesen, abhängig davon welche Vorhersage die höchste IOU mit der Ground Truth hat. Dadurch wird eine Spezialisierung der Bounding Box Predictoren ermöglicht, welches wiederum dazu führt, dass jeder Predictor besser wrid bei der Vorhersage von bestimmten, Größen, Seitenverhältnissen und Objektklassen. Dies führt zu einem höhren Gesamterkennungswert
+				\item Die folgende mehrteilige Verlustfunktion wird während des Trainings optimiert: FORMEL
+				\item SIEHE PAPER FÜR Erklärung der Faktoren
+				\item Es ist zu beachten, dass diese Verlustfunktion den Klassifizierungsfehler nur dann veringert, wenn ein Objekt in der Rasterzelle vorhanden ist. Auch der Bounding Box Koordinatenfehler wird nur dann verringert, wenn dieser Predictor für die Ground Truth der Box, den höchsten IOU von allen Predictoren in dieser Rasterzelle hat.
+				\item SIEHE PAPER FÜR WEITERE BESCHREIBUNG VON TRAININGSVERLAUF
+			    \end{itemize}
 			\item Inference ?
 			\item Limitations of YOLO
-				\item Da jede Gitterzelle nur 2 Bounding Boxen vorhersagen und eine Klasse haben kann, unterliegt YOLO einer räumlichen Einschränkung. Dies begrenzt die Anzahl der benachbarten Objekte, die das Modell vorhersagen kann. Außerdem ist es für das Modell schwierig, kleine Objekte, die in Gruppen auftreten zu detektieren. Eine weitere Herausforderung ist, dass Objekte mit neuen oder ungewöhnlichen Formen auftreten können und dadurch die Vorhersage erschwert wird. Da die Netzwerkarchitektur aus mehreren 'Downsampling' Schichten besteht, benutzt das Modell relativ grobe Features zur Vorhersage der Bounding Boxen. Außerdem sorgt das Training mit einer Verlustfunktion, die die Erkennungsleistung annähert, dafür das Fehler bei kleinen Bounding Boxen genauso wie bei großen Bounding Boxen behandelt. Dies ist ein Nachteil, weil ein kleiner Fehler in einer großen Box meistens harmlos ist, aber ein kleiner Fehler in einer kleinen Box eine sehr viel größer Auswirkung auf die IOU hat. Falsche Lokalisierungen sind eine weitere Hauptfehlerquelle.
-				\item  
+			\begin{itemize}
+				\item Da jede Gitterzelle nur 2 Bounding Boxen vorhersagen und eine Klasse haben kann, unterliegt YOLO einer räumlichen Einschränkung. Dies begrenzt die Anzahl der benachbarten Objekte, die das Modell vorhersagen kann. Außerdem ist es für das Modell schwierig, kleine Objekte, die in Gruppen auftreten zu detektieren. Eine weitere Herausforderung ist, dass Objekte mit neuen oder ungewöhnlichen Formen auftreten können und dadurch die Vorhersage erschwert wird. Da die Netzwerkarchitektur aus mehreren 'Downsampling' Schichten besteht, benutzt das Modell relativ grobe Features zur Vorhersage der Bounding Boxen. Außerdem sorgt das Training mit einer Verlustfunktion, die die Erkennungsleistung annähert, dafür das Fehler bei kleinen Bounding Boxen genauso wie bei großen Bounding Boxen behandelt. Dies ist ein Nachteil, weil ein kleiner Fehler in einer großen Box meistens wenig Auswirkungen hat, aber ein kleiner Fehler in einer kleinen Box eine sehr viel größer Auswirkung auf die IOU hat. Falsche Lokalisierungen sind eine weitere Hauptfehlerquelle.
+			\end{itemize}	
+
+		\end{itemize}
 		\item Comparison to Other Detection Systems (X)
 		\item Experiments (X)
 		\item Real-Time-Detection in the Wild (X)
 		\item Conclusion
-	\end{list}
+	\end{itemize}
 	
 }
 
