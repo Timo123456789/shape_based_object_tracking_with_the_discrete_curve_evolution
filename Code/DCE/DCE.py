@@ -117,7 +117,7 @@ def get_sum_of_angles(outline):
             sum_of_angles = sum_of_angles + (get_angle_two_lines(p,i, (NoP-1),1))
         else:
             sum_of_angles = sum_of_angles + (get_angle_two_lines(p,i, (i+1), (i-1)))
- 
+    
     # print(sum_of_angles)
     # print(np.rad2deg(sum_of_angles))
     # p.plot()
@@ -214,13 +214,12 @@ def get_angle_two_lines(polygon,p,s1,s2):
     # print(p)
     # print(s1)
     # print(s2)
-
+    #Following is the answer of Bing Bot for get a python function to calculate Angels between two poinst (minor changes for this use case)
     v1 = [s1[0]-p[0],s1[1]-p[1]]
     v2 = [s2[0]-p[0],s2[1]-p[1]]
-    
-
     angle = np.degrees(np.arctan2(np.cross(v1,v2), np.dot(v1,v2)))
 
+    #this code is from Source above 
     x = np.array([p[1],p[0],s1[1],s1[0]])
     y = np.array([p[1],p[0],s2[1],s2[0]])
 
@@ -230,7 +229,9 @@ def get_angle_two_lines(polygon,p,s1,s2):
     if angle < 0:
         angle = angle * -1
     val_arr_sum = sum(val_arr)
-    return np.deg2rad(angle)
+
+    #here you can change which method is used
+    #return np.deg2rad(angle)
     return np.deg2rad(val_arr_sum)
     
 

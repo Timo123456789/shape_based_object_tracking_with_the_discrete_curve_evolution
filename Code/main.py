@@ -11,14 +11,13 @@ def main():
     """
     Main function that initializes an options dictionary at the beginning and then executes the respective YOLO version
 
-    "calc_K_with_Dist" Bool: (ATTENTION!; currently still erroneous for small scores). Calculate K Value at DCE only with distances (according to Latecki, Lakämper, Wolter)
-
     "yolo_every_frame" is an alternative YOLO implementation where the entire video is not immediately analyzed with YOLO. The video is first split into individual frames and then the YOLO algorithm is applied to each frame individually. This is more resource efficient and saves memory that would otherwise overflow. The disadvantage is that this method takes longer than applying YOLO directly to the entire video.
 
     init.py files are important for connecting DCE.py with yolo_every_frame.py and yolo_result_version.py
     """
     options = {
             "path_source_video": r'Code\vid_examples\right_Side\autobahn1s.mp4',
+            #"path_source_video": r'Code\vid_examples\left_Side\not_stabilized\autobahn_4.mp4',
             "path_write_video": r'Code\YOLO\runs\videos_from_frames\autobahn_temp.mp4',
             "path_write_timestamps": r'Code\YOLO\runs\videos_from_frames\timestamps_autobahn_temp.txt',
 
@@ -27,6 +26,7 @@ def main():
         	"NoP_Truck": 8, #Number of final Points for Trucks, first try: 8, second try:45
         	"NoP_other_Object": 20, #Number of final Points for other Objects, first try: 20, second try:60
 
+            "YOLO_model": 'yolov8n-seg.pt',  #set YOLO Model
             "black_video": True, #Bool that turns the whole video black, so that only white sillhouettes are shown in the video
             "write_labels": True, #Bool that ensures that a label with scores is written to the video for each polygon
             "yolo_every_frame": False, #Boolean that enables an alternative YOLO application method
@@ -146,7 +146,7 @@ def run_yolo_result_version(options):
 
     @param options: Dictionary with options set in main
     """
-    model = YOLO('yolov8n-seg.pt') 
+    model = YOLO(options["YOLO_model"])
     options["timestamp_yolo_start"] = time.time()
     results = model.predict(options["path_source_video"], save=False) #init and run YOLO
     options["timestamp_yolo_end"] = time.time()
