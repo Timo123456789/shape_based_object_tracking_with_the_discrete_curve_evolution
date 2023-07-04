@@ -8,20 +8,34 @@
 
 \section{Maschinelles Lernen}
 {	Vorbemerkungen hier Erklärung von Abkürzungen etc.
+Single Convolutional Network
+Klassifizierungswahrscheinlichkeiten
+Regressionmodell
+kurze andre Objekterkennungssysteme anschneiden ( R CNN etc. ?)?
+Pipeline
+Mean Average Precision (mAP)
+Fast-RCNN
 Rasterzelle Statt Gitterzelle benutzen!!
 	\subsection{Vorbemerkungen}
 	\subsection{You Only Look Once (YOLO)}
+	{Da der Blick des Menschen intuitiv Objekterkennung, -einordnung und -wirkung intuitiv ermöglicht, ist es unserem Gehirn im Zusammenspiel mit unseren Augen möglich, schnell und genau zu sehen. Durch diese Fähigkeiten können wir mit nur wenig bewussten Gedanken komplexe Aufgaben, wie Fahrradfahren bewältigen \citep{Plastiras2018}. \\
+	Dem Computer kann dies mit schnellen und genauen Algorithmen zur Objekterkennung beigebracht werden. Aktuelle Systeme nutzen Klassifikatoren zur Objekterkennung. Dieser wird an verschiedenen Stellen in variablen Skalierungen im Testbild angewendet, um eine Klassifizierung eines Objektes zu ermöglichen \citep{Plastiras2018}. \\ 
+	Außerdem existieren Systeme wie R-CNN, die erst Regionen vorhersagen, um potenzielle Boundingboxes im Bild zu erzeugen, auf welche dann ein Klassifikator angewendet wird. Aufgrund der Einordnung anderer im Bild detektierten Objekte können diese Boundingboxen mit einer Nachprozessierung und durch das Eliminieren doppelter Erkennungen feiner aufgelöst werden. Da jeder Teilschritt einzeln optimiert werden muss, sind diese Systeme sehr langsam und nicht leicht auf Performance zu optimieren. \citep{Plastiras2018}. \\
+	\begin{figure}[ht]
+		\centering
+		\includegraphics*[scale = 1, keepaspectratio, trim=2 2 2 2 ]{images/YOLO/YOLO_detection_system.png}
+		\caption[Das YOLO Objekterkennungsystem]{Das YOLO Objekterkennungsystem \citep{Plastiras2018}}
+		\label{YOLO_Objecterkennungssystem}
+ 	\end{figure}
+	\glqq You only Look Once\grqq{} (YOLO) betrachtet Objekterkennung als einzelnes Regressionsproblem, indem direkt von Bildpixel zu Boundingbox Koordinaten und Klassenwahrscheinlichkeiten berechnet wird. Dieser Algorithmus analysiert nur einmal ein Bild und sagt direkt vorher, welche Objekte wo vorhanden sind. Dadurch ist die Komplexität des  Aufbaus von YOLO sehr gering, wie in Abb. \ref{YOLO_Objecterkennungssystem} zu sehen \citep{Plastiras2018}. \\
+	Ein \glqq Single Convolutional Network\grqq{} berechnet gleichzeitig mehrere Boundingboxes und die jeweiligen Klassifizierungswahrscheinlichkeiten. Die Performance zur Objekterkennung wird durch das Training von YOLO mit vollständigen Bildern gesteigert. Durch dieses vereinheitlichte Modell entstehen mehrere Vorteile gegenüber den traditionellen Objekterkennungssystemen \citep{Plastiras2018}. \\
+	Der erste Vorteil von YOLO ist die gesteigerte Performance. Dies wird dadurch ermöglicht, dass Objekterkennung auf Bildern als Regressionproblem betrachtet wird und deshalb keine komplexe Pipeline die Verarbeitung eines Bildes verlangsamt. YOLO erreicht mehr als das Doppelte an mAP  im Vergleich zu Objekterkennungssystemen (ca. 45 fps) \citep{Plastiras2018}. \\
+	Zweitens analysiert YOLO ein Bild global mit Vorhersagen zur Objekterkennung. Dadurch kann YOLO beim Verwechseln von Hintergrund und Objekten im Vordergrund um die Hälfte im Vergleich hzu Fast R-CNN veringern. Dies geschieht vor allem durch den größeren Kontext, den YOLO durch die Gesamtbildanalyse gewinnt \citep{Plastiras2018}. \\
+	Der dritte Vorteil ist das YOLO mit generalisierten Repräsentationen von Objekten trainiert wurde um die Fehlertoleranz bei der Anwendung auf neue Bereiche und unerwartete Eingaben zu vergrößern, aufgrund der Möglichkeit der hohen Verallgemeinerung \citep{Plastiras2018}. \\
+	Ein Nachteil von YOLO liegt in der Genauigkeit. Der Algorithmus hat Schwierigkeiten einige, insbesondere kleine, Objekte genau zu lokalisieren \citep{Plastiras2018}. \\}
 	\begin{itemize}
 		\item Intro
 		\begin{itemize}
-			\item Objekterkennung, -einordnung und -wirkung im Blick des Menschen ist intuitiv. unsere Augen im Zusammenspiel mit unserem Gehirn ermöglichen es uns schnell und genau zu sehen. Wir können daher schwierige Aufgaben, wie Fahrradfahren mit nur wenigen bewussten Gedanken ausüben.
-			\item Computern kann dies mit schnellen und genauen Algorithmen zur Objekterkennung beigebracht werden
-			\item Klassifikatoren werden von aktuellen Systemen eingesetzt
-			\item Diese nutzen einen Klassifikator zur Objekterkennung und dieser wird an verschieden Stellen in variablen Skalierungen im Testbild angewendet
-			\item Es gibt außerdem Systeme wie R-CNN sagen erst Regionnen voraus, um potentielle Bounding Boxen im Bild zu erzeugen, worauf dann ein Klassifikator angewendet wird. Diese Bounding Boxes werden feiner durch eine Nachprozessierung und durch das Eliminieren von doppelten Erkennungen und einer Einordnung basierend auf der Grundlage der anderen im Bild vorhandenen Objekterkennung 
-			\item Dies ist sehr langsam und nicht leicht auf Performance zu optimieren (da jeder Teilschritt einzeln trainiert werden muss)
-			\item YOLO nutzt Objekterkennung als ein einziges Regressionsproblem. Direkt von Bildpixel zu Bounding Box Koordinaten und Klassenwahrscheinlichkeiten
-			\item "You Only Look Once" (YOLO) analysiert nur einmal ein Bild und sagt sofort vorher, welche Objekte wo vorhanden sind
 			\item Dadurch ist YOLO sehr einfach, wie in Abb. 1 zu sehen. Ein "Single Convolutional Network"(S-CNN) berechnet gleichzeitig mehrere Bounding Boxen und Klassifizierungswahrscheinlichkeiten für diese
 			\item YOLO ist mit ganzen Bildern trainiert worden und optimiert dadurch direkt die Performance zur Objekterkennung
 			\item Durch das vereinheitlichte Modell entstehen mehrere Vorteile gegenüber den traditionellen Objekterkennungsmethoden
@@ -88,6 +102,7 @@ Rasterzelle Statt Gitterzelle benutzen!!
 		\item Experiments (X)
 		\item Real-Time-Detection in the Wild (X)
 		\item Conclusion
+		Zusammenfassend ist YOLO durch die schnelle Verarbeitung von Eingabedaten sehr gut für den Anwendungsfall dieser Bachelorarbeit geeignet.
 	\end{itemize}
 	
 }
