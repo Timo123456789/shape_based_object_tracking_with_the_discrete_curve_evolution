@@ -15,6 +15,26 @@ kurze andre Objekterkennungssysteme anschneiden ( R CNN etc. ?)?
 Pipeline
 Mean Average Precision (mAP)
 Fast-RCNN
+Confidence Score ? 
+IOU
+Ground Truth
+Convolutional Neural Network
+PASCAL VOC
+CN Layer
+Layer
+Tensor?
+ImageNet 1000 Class Competition Datensatz
+Pretraining?
+Average Pooling Layern
+Fully Connected Layer (mit zufällig initialisierten Gewichten)
+Input Resolution?
+lineare Aktivierungfunktion?
+sum squarred error
+warum überhaupt auf obigen Error optimieren?
+Loss erklären
+Bounding Box Predictor
+
+
 Rasterzelle Statt Gitterzelle benutzen!!
 	\subsection{Vorbemerkungen}
 	\subsection{You Only Look Once (YOLO)}
@@ -27,83 +47,71 @@ Rasterzelle Statt Gitterzelle benutzen!!
 		\caption[Das YOLO Objekterkennungsystem]{Das YOLO Objekterkennungsystem \citep{Plastiras2018}}
 		\label{YOLO_Objecterkennungssystem}
  	\end{figure}
-	\glqq You only Look Once\grqq{} (YOLO) betrachtet Objekterkennung als einzelnes Regressionsproblem, indem direkt von Bildpixel zu Boundingbox Koordinaten und Klassenwahrscheinlichkeiten berechnet wird. Dieser Algorithmus analysiert nur einmal ein Bild und sagt direkt vorher, welche Objekte wo vorhanden sind. Dadurch ist die Komplexität des  Aufbaus von YOLO sehr gering, wie in Abb. \ref{YOLO_Objecterkennungssystem} zu sehen \citep{Plastiras2018}. \\
-	Ein \glqq Single Convolutional Network\grqq{} berechnet gleichzeitig mehrere Boundingboxes und die jeweiligen Klassifizierungswahrscheinlichkeiten. Die Performance zur Objekterkennung wird durch das Training von YOLO mit vollständigen Bildern gesteigert. Durch dieses vereinheitlichte Modell entstehen mehrere Vorteile gegenüber den traditionellen Objekterkennungssystemen \citep{Plastiras2018}. \\
+	\glqq You Only Look Once\grqq{} (YOLO) betrachtet Objekterkennung als einzelnes Regressionsproblem, indem direkt von Bildpixel zu Boundingbox Koordinaten und Klassenwahrscheinlichkeiten berechnet wird. Dieser Algorithmus analysiert nur einmal ein Bild und sagt direkt vorher, welche Objekte wo vorhanden sind. Dadurch ist die Komplexität des  Aufbaus von YOLO sehr gering, wie in Abb. \ref{YOLO_Objecterkennungssystem} zu sehen \citep{Plastiras2018}. \\
+	Ein 'Single Convolutional Network' berechnet gleichzeitig mehrere Boundingboxes und die jeweiligen Klassifizierungswahrscheinlichkeiten. Die Performance zur Objekterkennung wird durch das Training von YOLO mit vollständigen Bildern gesteigert. Durch dieses vereinheitlichte Modell entstehen mehrere Vorteile gegenüber den traditionellen Objekterkennungssystemen \citep{Plastiras2018}. \\
 	Der erste Vorteil von YOLO ist die gesteigerte Performance. Dies wird dadurch ermöglicht, dass Objekterkennung auf Bildern als Regressionproblem betrachtet wird und deshalb keine komplexe Pipeline die Verarbeitung eines Bildes verlangsamt. YOLO erreicht mehr als das Doppelte an mAP  im Vergleich zu Objekterkennungssystemen (ca. 45 fps) \citep{Plastiras2018}. \\
-	Zweitens analysiert YOLO ein Bild global mit Vorhersagen zur Objekterkennung. Dadurch kann YOLO beim Verwechseln von Hintergrund und Objekten im Vordergrund um die Hälfte im Vergleich hzu Fast R-CNN veringern. Dies geschieht vor allem durch den größeren Kontext, den YOLO durch die Gesamtbildanalyse gewinnt \citep{Plastiras2018}. \\
+	Zweitens analysiert YOLO ein Bild global mit Vorhersagen zur Objekterkennung. Dadurch kann YOLO beim Verwechseln von Hintergrund und Objekten im Vordergrund um die Hälfte im Vergleich zu Fast R-CNN verringern. Dies geschieht vor allem durch den größeren Kontext, den YOLO durch die Gesamtbildanalyse gewinnt \citep{Plastiras2018}. \\
 	Der dritte Vorteil ist das YOLO mit generalisierten Repräsentationen von Objekten trainiert wurde um die Fehlertoleranz bei der Anwendung auf neue Bereiche und unerwartete Eingaben zu vergrößern, aufgrund der Möglichkeit der hohen Verallgemeinerung \citep{Plastiras2018}. \\
-	Ein Nachteil von YOLO liegt in der Genauigkeit. Der Algorithmus hat Schwierigkeiten einige, insbesondere kleine, Objekte genau zu lokalisieren \citep{Plastiras2018}. \\}
-	\begin{itemize}
-		\item Intro
-		\begin{itemize}
-			\item Dadurch ist YOLO sehr einfach, wie in Abb. 1 zu sehen. Ein "Single Convolutional Network"(S-CNN) berechnet gleichzeitig mehrere Bounding Boxen und Klassifizierungswahrscheinlichkeiten für diese
-			\item YOLO ist mit ganzen Bildern trainiert worden und optimiert dadurch direkt die Performance zur Objekterkennung
-			\item Durch das vereinheitlichte Modell entstehen mehrere Vorteile gegenüber den traditionellen Objekterkennungsmethoden
-			\item Erstens: Performance; YOLO ist sehr schnell, da Framedetection als Regresssionsproblem verstanden wird, benötigt man keine komplizierte Pipeline. Das Neuronale Netz wird zum Testzeitpunkt auf ein neues Bild angewendet, um Objekte zu erkennen. YOLO erreicht mehr als das Doppelte der durchschnittlichen Genauigkeit anderer Echtzeitobjekterkennungssysteme (Real Time?)
-			\item Zweitens: YOLO analysiert ein Bild global mit Vorhersagen zur Objekterkennung. Durch diese Gesamtbildanalyse kann YOLO während der Training- und Testzeit implizit kontextuelle Informationen über die Klassen und deren Aussehen sammeln. Die Anzahl der Fehler von YOLO beim Verwechselnl von Hintergrund und Objekten im Vordergrund ist weniger als halb so hoch wie bei Fast R-CNN, weil YOLO einen größeren Kontext hat
-			\item Drittens: YOLO ist mit  generalisierte Repräsentationen von Objekten trainiert. Die Fehlertoleranz ist bei der Anwendung auf neue Bereiche und unerwartete Eingaben sehr viel größer, da es in hohem Maße verallgemeinerbar ist.
-			\item Nachteil von YOLO ist die Genauigkeit. Es hat Schwierigkeiten einige Objekte, insbesondere kleinere, genau zu lokalisieren, obwohl es sonst sehr schnell ist.
-			\item Die Trainingsdaten und der Quellcode von YOLO sind Open Source. Es sind außerdem mehrere vortrainierte Modelle zum Download verfügbar.
-		\end{itemize}
-		\item Unified Detection
-		\begin{itemize}
-			\item YOLO bündelt alle einzelnen Teile der Objektdetektion in ein einzelnes neuronales Netz. Um jede Bounding Box vorherzusagen, benutzt dieser Algorithmus Features vom gesamten Bild. Dadurch das alle Bounding Boxes für alle Klassen im gesamten Bild gleichzeitig vorhergesagt werden, detektiert das Netzwerk global über alle Objekte und im gesamten Bild. Dieses Algorithmendesign ermöglicht ein 'End to End' Training mit Real-Time Geschwindigkeit unter hoher durchschnittlicher Genauigkeit.
-			\item Bild wird in $S \times S$ Gitter unterteilt. Eine Gitterzelle ist für die Erkennung des Objektes zuständig, wenn der Mittelpunkt eines Objektes in diese fällt.
-			\item $B$ Bounding Boxen und  ihre jeweiligen Confidence Scores werden für jede Gitterzelle vorhergesagt. Der Confidence Score, wie sicher sich das Modell ist, dass die Bounding Box ein Objekt dieser Klasse enthält und für wie genau das Modell diese Vorhersage hält. Dieser Confidence Score ist formal folgendermaßen definiert: FORMEL. Dieser Wert ist 0, wenn kein Objekt in der Zelle existiert. Im anderen Fall ist der Confidence Score gleich zu der 'Intersection over Union' zwischen der vorhergesagten Box (predicted Box) und der Grundwahrheit (Ground Truth)
-			\item Jede Bounding Box besteht aus 5 Variablen, die vorhergesagt werden: x,y,w,h und der Confidence. Das Zentrum der Bounding Box wird durch die (x,y) Koordinate dargestellt, welche relativ zu den Grenzen der Gitterzelle sind. (w,h) werden relativ zum gesamten Bild berechnet. Die Confidence stellt, die IOU zwischen der vorhergesagten Box und einem beliebigen Teil der Grundwahrheit dar.
-			\item Die durch C bedingten Klassenwahrscheinlichkeiten, welche abhängig davon sind, ob eine Gitterzelle ein Objekt enthält, werden auch durch jede Zelle vorhergesagt: FORMEL. 
-			\item Pro Gitterzelle wird die Anzahl der Klassenwahrscheinlichkeiten unabhängig von der Bounding Box Anzahl B berechnet.
-			\item Die bedingten Klassenwahrscheinlichkeiten werden zum Testzeitpunkt mit den Confidence Scores der einzelnen Bounding Boxes multipliziert, was einen klassenspezifischen Confidence Score für jede Bounding Box ergibt. Dies geschieht mit folgender FORMEL. Dieser Wert enthält nicht nur die Wahrscheinlichkeit, dass diese Klasse in der Bounding Box vorkommt, sondern auch wie gut das die vorhergesagte Box mit dem detektierten Objekt übereinstimmt. Ein Beispielablauf ist in Abbildung 2 zu sehen
-			\item 
-			\item 
-			\item Network Design
-			\begin{itemize}
-				\item Das vollständig Netzwerk ist in Abbildung 3 zu sehen. 
-				\item Dieses Model ist als CNN implementiert worden. Die Merkmale des Bildes werden in den ersten Schichten der CN Layer des Netzes detektiert. Die (Ausgabe-)Wahrscheinlichkeiten und Koordinaten werden von den 'Fully Connected Layers' vollständig verbundenen Layern generiert.
-				\item GoogLeNets Modell für Bildklassifizierung hat die Netzwerkarchitektur von YOLO beeinflusst. Das Netzwerk von YOLO hat 24 Convolutional Layers, an welche 2 'Fully Connected Layers' anschließen.
-				\item Es wird ein $1 /times 1$ 'Reduction Layer' gefolgt von  $3 /times 3$ 'Convolutional Layers' eingesetzt.
-				\item Außerdem existiert eine schnelle Version von YOLO, die ein neuronales Netz mit weniger Schichten (9 statt 24) und weniger Filtern in diesen verwendet. YOLO und Fast YOLO gleichen sich abgesehen ovn der Größe des Netzwerkes vollständig in den Trainings- und Testparametern.
-				\item Die finale Ausgabe dieses Netzes ist ein 7 x 7 x 30 Tensor mit Vorhersagen
-			\end{itemize}
-			\item Training 
-			\begin{itemize}
-				\item Die 'Convolutional Layer' wurden auf 'ImageNet 1000-Class Competition' trainiert
-				\item Pretraining mit den ersten 20 'Convolutional Layern' aus Abb. 3 und einem 'Average Pooling Layer', sowie einem 'fully connected' Layer
-				\item Konvertieren des Modells um die Objekterkennung durchzuführen
-				\item es werden nach Ren et al 4 'convoluted layer' und 2 'fully connected layer' mit zufällig initalisierten Gewichten hinzugefügt um die Leistung zu verbessern.  
-				\item Die 'Input Resolution' des Netzwerks wird von 224 * 224 auf 448 * 448 erhöht, da häufig feinkörnige visuelle Informationen analysiert werden sollen
-				\item letzte Schicht prognostiziert Klassenwahrscheinlichkeiten und Bounding Box Koordinaten
-				\begin{itemize}
-					\item Bouding Box Breite und Höhe werden normalisiert, indem Sie durch die Bildbreite und -höhe geteilt werden, damit diese zwischen 0 und 1 liegen
-					\item x und y Koordinate der Bounding Box werden so neu berechnet, dass Sie als Abstand zu einer bestimmten Gitterzelle lokalisiert werden können. Sie liegen also auch zwischen 0 und 1 
-				\end{itemize}
-				\item lineare Aktivierungsfunktion für den letzten Layer, alle anderen Layer verwenden folgende Formel FORMEL
-				\item Optimierung des Sum-Squared-Errors, da er einfach zu optimieren ist
-				\item Stimmt jedoch nicht exakt mit dem Ziel überein, die durchschnittliche Genauigkeit zu erhöhen, da er den Lokalisierungsfehler gleich mit dem Klassifizierungsfehler gewichtet und viele Gitterzellen in jedem Bild keine Objekte enthalten. Aus diesem Grund läuft der Confidence Score in diesen Zellen gegen 0 und überlagert damit benachbarte Zellen, die Objekte enthalten
-				\item kann zu einer früheren Abweichung des Trainings führen
-				\item Um das zu beheben, wird der Loss der Bounding Box Koordinatenvorhersagen erhöht und der Loss aus den Confidence Score für die Boxen, die keine Objekte enthalten verringert
-				\item Zwei Parameter (FORMEL) werden verwendet und mit diesen Werten besetzt um dies zu gewichten
-				\item Sum-Squared-Error gewichtet auch Fehler in großen und kleinen Bouding Boxen. Um dies teilweise zu berücksichtigen, dass kleine Fehler in großen Boxen weniger ins Gewicht fallen, wird die Quadratwurzel der Breite und Höhe der Bounding Box genutzt
-				\item Yolo kann mehrere Bounding Boxen pro Gitterzelle vorhersagen.
-				\item Ein Bounding Box Predictor soll für jedes Objekt möglich sein. Ein Predictor wird  der Vorhersage eines Objektes zugewiesen, abhängig davon welche Vorhersage die höchste IOU mit der Ground Truth hat. Dadurch wird eine Spezialisierung der Bounding Box Predictoren ermöglicht, welches wiederum dazu führt, dass jeder Predictor besser wrid bei der Vorhersage von bestimmten, Größen, Seitenverhältnissen und Objektklassen. Dies führt zu einem höhren Gesamterkennungswert
-				\item Die folgende mehrteilige Verlustfunktion wird während des Trainings optimiert: FORMEL
-				\item SIEHE PAPER FÜR Erklärung der Faktoren
-				\item Es ist zu beachten, dass diese Verlustfunktion den Klassifizierungsfehler nur dann veringert, wenn ein Objekt in der Rasterzelle vorhanden ist. Auch der Bounding Box Koordinatenfehler wird nur dann verringert, wenn dieser Predictor für die Ground Truth der Box, den höchsten IOU von allen Predictoren in dieser Rasterzelle hat.
-				\item SIEHE PAPER FÜR WEITERE BESCHREIBUNG VON TRAININGSVERLAUF
-			    \end{itemize}
-			\item Inference ?[X]
-			\item Limitations of YOLO
-			\begin{itemize}
-				\item Da jede Gitterzelle nur 2 Bounding Boxen vorhersagen und eine Klasse haben kann, unterliegt YOLO einer räumlichen Einschränkung. Dies begrenzt die Anzahl der benachbarten Objekte, die das Modell vorhersagen kann. Außerdem ist es für das Modell schwierig, kleine Objekte, die in Gruppen auftreten zu detektieren. Eine weitere Herausforderung ist, dass Objekte mit neuen oder ungewöhnlichen Formen auftreten können und dadurch die Vorhersage erschwert wird. Da die Netzwerkarchitektur aus mehreren 'Downsampling' Schichten besteht, benutzt das Modell relativ grobe Features zur Vorhersage der Bounding Boxen. Außerdem sorgt das Training mit einer Verlustfunktion, die die Erkennungsleistung annähert, dafür das Fehler bei kleinen Bounding Boxen genauso wie bei großen Bounding Boxen behandelt. Dies ist ein Nachteil, weil ein kleiner Fehler in einer großen Box meistens wenig Auswirkungen hat, aber ein kleiner Fehler in einer kleinen Box eine sehr viel größer Auswirkung auf die IOU hat. Falsche Lokalisierungen sind eine weitere Hauptfehlerquelle.
-			\end{itemize}	
+	Ein Nachteil von YOLO liegt in der Genauigkeit. Der Algorithmus hat Schwierigkeiten einige, insbesondere kleine, Objekte genau zu lokalisieren \citep{Plastiras2018}. \\
+	Da der Quellcode, mehrere vortrainierte Modelle und die Trainingsdaten von YOLO Open Source sind und zum Download bereitstehen, ist dieser Algorithmus für den Rahmen dieser Arbeit leicht zugänglich und anwendbar \citep{Plastiras2018}. \\
 
-		\end{itemize}
-		\item Comparison to Other Detection Systems (X)
-		\item Experiments (X)
-		\item Real-Time-Detection in the Wild (X)
-		\item Conclusion
-		Zusammenfassend ist YOLO durch die schnelle Verarbeitung von Eingabedaten sehr gut für den Anwendungsfall dieser Bachelorarbeit geeignet.
-	\end{itemize}
+	Die einzelnen Teile der Objektdetektion werden von YOLO in ein neuronales Netz gebündelt. Das Algorithmendesign von YOLO ermöglicht ein 'End to End' Training mit Real-Time-Geschwindigkeit unter hoher durchschnittlicher Genauigkeit, da jede Boundingbox aufgrund von Features im gesamten Bild vorhergesagt wird. Dies wird ebenfalls durch die gleichzeitige Vorhersage aller Boundingboxen für alle Klassen im gesamten Bild unterstützt \citep{Plastiras2018}. \\
+	YOLO unterteilt in Bild in $S \times S $ Rasterzellen. Wenn der Mittelpunkt eines Objektes in eine Rasterzelle fällt, ist diese für die Erkennung des Objektes zuständig. Boundingboxen und ihre jeweiligen Confidence Scores werden für jede Rasterzelle vorhergesagt \citep{Plastiras2018}.
+	Der Confidence Score beschreibt, wie sicher sich das Modell ist, dass die Boundingbox ein Objekt dieser Klasse enthält und für wie genau das Modell diese Vorhersage hält. Formal ist dieser folgendermaßen definiert:  $Pr (Object) * IOU^{truth}_{pred}$. Dieser Wert ist 0, wenn kein Objekt in der Zelle existiert. Falls der Wert nicht 0 ist, ist der Confidence Score gleich zur IOU zwischen der vorhergesagten Box und der Ground Truth. \\
+	Jede Boundingbox besteht aus 5 Variablen, die vorhergesagt werden: $x, y, w, h$ und der Confidence. Das Zentrum der Boundingbox wird durch die $(x, y)$ Koordinate dargestellt, welche relativ zu den Grenzen der Rasterzelle ist. $w, h$ (Width, Height) werden relativ zum gesamten Bild berechnet. Die Confidence stellt die IOU zwischen der vorhergesagten Box und einem beliebigen Teil der Ground Truth dar. \\
+	Jede Rasterzelle berechnet die Anzahl der Klassenwahrscheinlichkeiten $C$ unabhängig von der Anzahl der Boundingboxen $B$. Diese bedingten Klassenwahrscheinlichkeiten $C$, die davon abhängig sind, ob eine Rasterzelle ein Objekt enthält werden mit $Pr(Class_i | Object)$ vorhergesagt \citep{Plastiras2018}. \\
+	Diese bedingten Klassenwahrscheinlichkeiten $C$ werden zum Testzeitpunkt mit der Confidence der einzelnen Boundingboxen multipliziert, um einen klassenspezifischen Confidence Score für jede Boundingbox zu berechnen. Dazu wird die folgende Formel angewendet: 
+	\begin{equation}
+	Pr(Class_i|Object) * Pr(Object) * IOU_{pred}^{truth} = Pr(Class_i) * IOU_{pred}^{truth}
+	\end{equation}
+	Der hier berechnete Wert enthält nicht nur die Wahrscheinlichkeit, dass diese Klasse in der Bounding Box vorkommt, sondern auch wie gut das die vorhergesagte Box mit dem detektierten Objekt übereinstimmt. Ein Beispielablauf ist in Abbildung \ref{YOLO_Model} zu sehen.
+	\begin{figure}[ht]
+		\centering
+		\includegraphics*[scale = 2, keepaspectratio, trim=2 2 2 2 ]{images/YOLO/YOLO_model.png}
+		\caption[Das YOLO Modell]{Das YOLO Modell\citep{Plastiras2018}}
+		\label{YOLO_Model}
+ 	\end{figure}
+
+	 \begin{figure}[h]
+		\centering
+		\includegraphics*[scale = 1.5, keepaspectratio]{images/YOLO/YOLO_network_arch.png}
+		\caption[Die Architektur von YOLO]{Die Architektur von YOLO\citep{Plastiras2018}}
+		\label{YOLO_Architecture}
+ 	\end{figure}
+
+	Abbildung \ref{YOLO_Architecture} zeigt die Architektur von YOLO \citep{Plastiras2018}. Diese wird im Folgenden genauer erläutert. \\
+	YOLO ist als 'Convolutional Neural Network' entwickelt worden, welches mit dem PASCAL VOC Datensatz getestet und von GoogleLeNet Modell für die Architektur inspiriert wurde. Die Features des Bildes werden in den ersten CN Layern extrahiert. Die Architektur umfasst 24 'Convolutional' Layer, an welche 2 'fully-connected' Layer anschließen. Außerdem wird ein $1 /times 1$ 'Reduction Layer' gefolgt von $3 /times 3$ 'Convolutional' Layer eingesetzt. Es gibt außerdem eine schnelle Version von YOLO, die ein neuronales Netz mit weniger Layern (9 statt 24) und Filtern verwendet. Abgesehen von diesen Änderungen gleichen sich beide Versionen vollständig in Trainings- und Testparametern \citep{Plastiras2018}. \\
+	Die finale Ausgabe von YOLO erfolgt in einem $7 \times 7 \times 30$ Tensor aus Vorhersagen. \todo{Letzten Satz überarbeiten}\\
+
+	Die CN Layer wurden auf dem \glqq ImageNet 1000 Class Competition \grqq{} Datensatz trainiert. Das Pretraining wurde mit den ersten 20 CN Layern aus Abb. \ref{YOLO_Architecture}, einem 'Average Pooling' Layer, sowie einem 'fully-connected' Layer durchgeführt. Dieses Modell wird danach durch das Hinzufügen von 4 'convoluted' Layern und 2 'fully-connected' Layern mit zufällig initialisierten Gewichten nach Ren et al \todo{Quelle verlinken} verbessert um eine bessere Performance zu erreichen . Außerdem wird die 'Input Resolution' von $224 \times 224$ auf $448  \times  448$ erhöht, da häufig feinkörnige visuelle Informationen analysiert werden sollen. Die letzte Schicht des Modells prognostiziert Boundingbox Koordinaten und Klassenwahrscheinlichkeiten \citep{Plastiras2018}. \\
+	Boudingboxbreite und -höhe werden normalisiert, indem diese durch die Bildbreite und -höhe geteilt werden. Dies erreicht, dass beide Werte zwischen 0 und 1 liegen. Außerdem werden die $x$ und $y$ Koordinate der Boundingbox neu berechnet, dass diese als Abstand zu einer bestimmten Rasterzelle lokalisiert werden können. Diese liegen auch zwischen 0 und 1 \citep{Plastiras2018}. \\
+	Der letzte Layer verwendet eine lineare Aktivierungfunktion. Alle anderen Layer nutzen die folgende Aktivierungfunktion: \todo{Nochmal in Paper gucken, mag die Übersetzung nicht, ist sehr ungenau}
+	\begin{equation}
+		\phi(x) = \begin{cases}
+			x & \text{if $x > 0$} \\
+			0.1x, & \text{otherwise} \\
+		\end{cases}
+	\end{equation} 
+	Im weiteren Verlauf wird der Sum-Squarred-Error aufgrund seiner geringen Komplexität optimiert. Da er jedoch den Klassifizierungsfehler gleich mit dem Lokaliserungsfehler gewichtet gewichtet und viele Rasterzellen in jedem Bild keine Objekte enthalten, kann eine Optimierung die durchschnittliche Genauigkeit lediglich leicht verbessern. Der Confidence Score läuft jedoch in Zellen, die keine Objekte enthalten, gegen 0 und überlagert damit benachbarte Zellen, die Objekte enthalten. Da dies zu einer früheren Abweichung \todo{Was heißt das? nochmal recherchieren} führt, wird dies behoben, indem der Loss der Boundingbox Koordinaten erhöht und der Loss aus dem Confidence Score für die Boxen, die keine Objekte enthalten, verringert wird \citep{Plastiras2018}. \todo{was heißt Loss vorher erklären}\\
+	Es werden die zwei Parameter $\lambda_{coord}$ und $\lambda_{noobj}$ verwendet und  mit den Werten  $\lambda_{coord} = 5$ und $\lambda_{noobj} = 0.5$ besetzt.
+	Da der Sum-Squarred-Error Fehler in großen und kleine Bounding Boxen teilweise gleich gewichtet, wird die Quadratwurzel der Breite und Höhe der Bouding Box genutzt \citep{Plastiras2018}. \\
+	Ein Bounding Box Predictor soll für jedes Objekt möglich sein. Ein Predictor wird  der Vorhersage eines Objektes zugewiesen, abhängig davon welche Vorhersage die höchste IOU mit der Ground Truth hat. Dadurch wird eine Spezialisierung der Bounding Box Predictoren ermöglicht, welches wiederum dazu führt, dass jeder Predictor besser wird bei der Vorhersage von bestimmten, Größen, Seitenverhältnissen und Objektklassen. Dies führt zu einem höheren Gesamterkennungswert des Algorithmus \citep{Plastiras2018}. \\
+	Die folgende mehrteilige Verlustfunktion wird während des Trainings optimiert:
+	\begin{multline}
+		\lambda_{coord} \sum_{i=0}^{s^2} \sum_{j=0}^{B} \mathbb{1}_{i j}^{obj}\left[(x_i-\hat{x}_i)^2 + (y_i - \hat{y}_i)^2\right]\\
+		+ \lambda_{coord} \sum_{i=0}^{s^2} \sum_{j=0}^{B} \mathbb{1}_{i j}^{obj}\left[\left(\sqrt{w_i} - \sqrt{\hat{w_i}}\right)^2 + \left(\sqrt{h_i}-\sqrt{\hat{h_i}}\right)^2\right]\\
+		+ \sum_{i=0}^{s^2} \sum_{j=0}^{B} \mathbb{1}_{i j}^{obj}\left(C_i - \hat{C_i}\right)^2\\
+		+ \lambda_{coord} \sum_{i=0}^{s^2} \sum_{j=0}^{B} \mathbb{1}_{i j}^{obj}\left(C_i - \hat{C_i}\right)^2\\
+		+ \sum_{i=0}^{s^2} \mathbb{1}_{i j}^{obj} \sum_{c \in classes } \left(p_i(c)-\hat{p_i}(c)\right)^2
+	\end{multline}
+
+
+
+	
+
+
+
+	} 
 	
 }
 
@@ -120,7 +128,8 @@ Die Vereinfachung von Polygonen, während die Form der Polygone erkennbar bleibt
 	   \includegraphics*[scale = 0.8, keepaspectratio, trim=2 2 2 2 ]{images/schem_maps_paper_kinks.png}
 	   \caption[Beispielpolygone für die Erläuterung der Relevanz des Knicks]{Beispielpolygone für die Erläuterung der Relevanz des Knicks. Die fettgedruckten Knicke stellen die betrachteten Liniensegmente dar \citep{Barkowsky2000}.} 
 	   \label{Bsp_Rev_Measur_K}
-\end{figure}In Abbildung \ref{Bsp_Rev_Measur_K} ist ein Beispiel zu sehen. Bei diesen Formen sind die Knicke durch den Fettdruck zu erkennen. Der Knick in (a) kann als irrelevante Formänderung interpretiert werden, während die Knicke in (b) und (c) deutlich stärker zu erkennen sind. Diese beiden Knicke leisten einen relevanten Beitrag zur Form des Polygons. Der Knick in (d) hat jedoch den größten Anteil an der Form des Beispielobjektes \citep{Barkowsky2000}. 
+\end{figure}
+In Abbildung \ref{Bsp_Rev_Measur_K} ist ein Beispiel zu sehen. Bei diesen Formen sind die Knicke durch den Fettdruck zu erkennen. Der Knick in (a) kann als irrelevante Formänderung interpretiert werden, während die Knicke in (b) und (c) deutlich stärker zu erkennen sind. Diese beiden Knicke leisten einen relevanten Beitrag zur Form des Polygons. Der Knick in (d) hat jedoch den größten Anteil an der Form des Beispielobjektes \citep{Barkowsky2000}. 
 \\
 Diese Unterschiede zum Beitrag eines einzelnen Punktes zur Form eines Polygons lässt sich durch existierende geometrische Konzepte erklären. Wenn man den Knick in Abbildung \ref{Bsp_Rev_Measur_K} (a) mit (b) vergleicht, ist zu erkennen, dass (b) den gleichen Winkel hat wie (a). Der Unterschied ist jedoch, dass die Strecken bei (b) länger sind. Dies erhöht den Beitrag des Punktes in (b) zur Form des Polygons im Vergleich zu dem Punkt in (a).
 Der Knick in (c) hat einen größeren Winkel im Vergleich zu (a). Die Länge der Strecken ist jedoch gleich. Bei dem Knick in (d) ist deutlich zu erkennen, dass dieser den signifikantesten Anteil zur Form des Polygons leistet. Dies ist durch den größten Winkel in Verbindung mit den längsten Strecken zwischen Punkten gegeben \citep{Barkowsky2000}.
