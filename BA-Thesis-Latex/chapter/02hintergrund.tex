@@ -104,6 +104,10 @@ Rasterzelle Statt Gitterzelle benutzen!!
 		+ \lambda_{coord} \sum_{i=0}^{s^2} \sum_{j=0}^{B} \mathbb{1}_{i j}^{obj}\left(C_i - \hat{C_i}\right)^2\\
 		+ \sum_{i=0}^{s^2} \mathbb{1}_{i j}^{obj} \sum_{c \in classes } \left(p_i(c)-\hat{p_i}(c)\right)^2
 	\end{multline}
+	In dieser Formel steht $\mathbb{1}_{i j}^{obj}$ dafür, ob ein Objekt in einer Rasterzelle $i$ detektiert wurde. $\mathbb{1}_{i j}^{obj}$ bedeutet, dass der $j$-te Boundingbox Predictor in Rasterzelle $i$ diese Vorhersage bewirkt. Es ist zu beachten, dass diese Verlustfunktion den Klassifizierungsfehler nur dann veringert, wenn ein Objekt in der Rasterzelle vorhanden ist. Auch der Bounding Box Koordinatenfehler wird nur dann verringert, wenn dieser Predictor für die Ground Truth der Box, den höchsten IOU von allen Predictoren in dieser Rasterzelle hat \citep{Plastiras2018}. \\
+	Da jede Gitterzelle nur 2 Bounding Boxen vorhersagen und eine Klasse haben kann, unterliegt YOLO einer räumlichen Einschränkung. Dies begrenzt die Anzahl der benachbarten Objekte, die das Modell vorhersagen kann. Außerdem ist es für das Modell schwierig, kleine Objekte, die in Gruppen auftreten zu detektieren. \\
+	Eine weitere Herausforderung ist, dass Objekte mit neuen oder ungewöhnlichen Formen auftreten können und dadurch die Vorhersage erschwert wird. Da die Netzwerkarchitektur aus mehreren 'Downsampling' Schichten besteht, benutzt das Modell relativ grobe Features zur Vorhersage der Bounding Boxen. \\ Außerdem sorgt das Training mit einer Verlustfunktion, die die Erkennungsleistung annähert, dafür das Fehler bei kleinen Bounding Boxen genauso wie bei großen Bounding Boxen behandelt. Dies ist ein Nachteil, weil ein kleiner Fehler in einer großen Box meistens wenig Auswirkungen hat, aber ein kleiner Fehler in einer kleinen Box eine sehr viel größer Auswirkung auf die IOU hat. Falsche Lokalisierungen sind eine weitere Hauptfehlerquelle \citep{Plastiras2018}.
+
 
 
 
