@@ -14,8 +14,8 @@ twoside,
 BCOR=12mm,
 cleardoublepage=empty,
 DIV=13,
-% draft=false,
-final
+%draft=false,
+%final
 ]{scrreprt}
 
 
@@ -34,6 +34,9 @@ final
 \usepackage[libertine,cmintegrals,bigdelims,varbb]{newtxmath}
 \usepackage[ngerman]{babel}
 \usepackage[babel=true, tracking=true,final]{microtype}
+\usepackage{listings}
+\lstset{language = Python, , commentstyle=\color{white}}
+\lstset{numbers=left, basicstyle=\footnotesize, stepnumber=2, numbersep=10pt, frame = lines}
 
 
 
@@ -103,7 +106,6 @@ psdextra
 \pagestyle{scrheadings}
 \clearpairofpagestyles % clear defaults
 \setkomafont{headsepline}{\color{gray}} % adds a gray line under the header
-
 % set section title on the right, and chapter title on the left page in a double page
 % document
 \automark[section]{chapter}

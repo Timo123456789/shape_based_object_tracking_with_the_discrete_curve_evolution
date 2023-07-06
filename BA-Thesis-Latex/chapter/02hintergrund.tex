@@ -1,43 +1,44 @@
 %!TEX root = ../thesis.tex
 \chapter{Theoretischer Hintergrund}
 \label{ch:Theoretischer Hintergrund}
-{Die Einführung in den theoretischen Hintergrund dieser Arbeit umfasst die Erläuterung der Aufbereitung der Daten mit einem Maschinellem Lernverfahren, namens YOLO, und eine Einführung in die \glqq Discrete Curve Evolution\grqq{}.
+{Die Einführung in den theoretischen Hintergrund dieser Arbeit umfasst die Erläuterung der Aufbereitung der Daten mit einem Maschinellem Lernverfahren, namens YOLO, und eine Einführung in die \glqq Discrete Curve Evolution\grqq{}. Beide Verfahren werden im Rahmen dieser Arbeit miteinander kombiniert.
 }
 
 
 
-\section{Maschinelles Lernen}
-{	Vorbemerkungen hier Erklärung von Abkürzungen etc.
-Single Convolutional Network
-Klassifizierungswahrscheinlichkeiten
-Regressionmodell
-kurze andre Objekterkennungssysteme anschneiden ( R CNN etc. ?)?
-Pipeline
-Mean Average Precision (mAP)
-Fast-RCNN
-Confidence Score ? 
-IOU
-Ground Truth
-Convolutional Neural Network
-PASCAL VOC
-CN Layer
-Layer
-Tensor?
-ImageNet 1000 Class Competition Datensatz
-Pretraining?
-Average Pooling Layern
-Fully Connected Layer (mit zufällig initialisierten Gewichten)
-Input Resolution?
-lineare Aktivierungfunktion?
-sum squarred error
-warum überhaupt auf obigen Error optimieren?
-Loss erklären
-Bounding Box Predictor
+\section{\glqq You Only Look Once \grqq (YOLO)}
+{
+	\subsection{Grundlagen im Maschinellen Lernen}
+	{ \todo{oder vielleicht doch lieber in den Text unten integrieren?, Loss noch erkären?  \\  Ground Truth?  \\Sum Squarred Error (Warum überhaupt optimiert werden muss?)? \\ Pascal VOC und ImageNET Datensatz?}
+	Im folgenden werden mehrere Begriffe und Abkürzungen für \Ref{Desc_YOLO_Alg} erklärt. \\
+	\begin{figure}[ht]
+		\centering
+		\includegraphics*[scale = 0.8, keepaspectratio, trim=2 2 2 2 ]{images/YOLO/YOLO_Preamble_Simple_CNN.png}
+		\caption[Ein einfaches Convolutional Neural Network]{Ein einfaches CNN, welches aus 5 Layern besteht \citep{OSheaRyan2022}}
+		\label{YOLO_simple_CNN}
+ 	\end{figure}
+
+	Ein Bereich im Maschinellem Lernen basiert auf Convolutional Neural Networks (CNN). Diese beschreiben ein künstliches neuronales Netz, welches von biologischen Konzepten beeinflusst wurde und gut für Mustererkennung geeignet ist \citep{Matsugu2003}. \\
+	CNNs bestehen aus 3 verschiedenen Arten von Layern, die aufeinander gelegt wurden. Ein einfaches CNN ist in Abb. \Ref{YOLO_simple_CNN} zu sehen. Dessen 4 Grundfunktionalitäten werden im Folgenden näher erläutert. \\
+	Der Input Layer speichert die Pixelwerte des eingegebenen Bildes und leitet diese an den nächsten Layer weiter. Ein Convolutional (CN) Layer berechnet den Output der Neuronen, die mit den lokalen Regionen des Input Layers verbunden sind. Dies geschieht, indem das Skalarprodukt zwischen den Gewichten und Regionen berechnet wird, die mit dem Input verbunden sind. Hier kann auch eine 'Rectified Linear Unit' (ReLu) eingesetzt werden, welche 'elementweise' eine Aktivierungfunktion auf die von der vorherigen Schicht erzeugten Ausgabe angewendet wird \citep{OSheaRyan2022}. \\
+	Ein Pooling Layer verringert dann die Komplexität der Eingabe entlang der räumlichen Dimension, um die Anzahl der Parameter zu reduzieren. Die letzte Schicht ist ein fully-connected Layer, der aus Aktivierungen Werte erzeugt, die für die Klassifizierung verwendet werden können. Hier kann man ebenfalls eine ReLu anwenden, um die Leistung zu verbessern \citep{OSheaRyan2022}. \\
+
+	% \begin{figure}[ht]
+	% 	\centering
+	% 	\includegraphics*[scale = 0.8, keepaspectratio, trim=2 2 2 2 ]{images/YOLO/YOLO_Preamble_PR_Curve.png}
+	% 	\caption[Precision-/Recall- Kurve]{Precision-/Recall- Kurve für eine Sequenz richtig-positver und falsch-positiver Detektionen \citep{Henderson2017}}
+	% 	\label{YOLO_PR_Curve}
+ 	% \end{figure}
+	% 'Mean Average Precision' (mAP) bezeichnet den Mittelwert über die Klassen der interpolierten Average Precision (AP). Diese AP pro Klasse ist die Fläche unter der Precision-/Recall- (PR) Kurve für die detektierten Objekte. In Abbildung \Ref{YOLO_PR_Curve} ist dies grafisch dargestellt \citep{Henderson2017}. 
+	
+	
+
+	'Intersection over Union' (IOU) ist eine Metrik zum Vergleich der Ähnlichkeit zwischen zwei beliebigen Formen. Hierfür werden die Maße normalisiert, sodass diese unabhängig von der Größe der zu vergleichenden Objekte sind \citep{Rezatofighi2019} \todo{mAP erläutern -> eher nicht, oder? \\ Eigentlich kann man die Abb. ganz rauslassen und das nur im Halbsatz im YOLO Text erklären... Ist jetzt im Text} \\
 
 
-Rasterzelle Statt Gitterzelle benutzen!!
-	\subsection{Vorbemerkungen}
-	\subsection{You Only Look Once (YOLO)}
+
+	}
+	\subsection{Der YOLO Algorithmus \label{Desc_YOLO_Alg}} 
 	{Da der Blick des Menschen intuitiv Objekterkennung, -einordnung und -wirkung intuitiv ermöglicht, ist es unserem Gehirn im Zusammenspiel mit unseren Augen möglich, schnell und genau zu sehen. Durch diese Fähigkeiten können wir mit nur wenig bewussten Gedanken komplexe Aufgaben, wie Fahrradfahren bewältigen \citep{Plastiras2018}. \\
 	Dem Computer kann dies mit schnellen und genauen Algorithmen zur Objekterkennung beigebracht werden. Aktuelle Systeme nutzen Klassifikatoren zur Objekterkennung. Dieser wird an verschiedenen Stellen in variablen Skalierungen im Testbild angewendet, um eine Klassifizierung eines Objektes zu ermöglichen \citep{Plastiras2018}. \\ 
 	Außerdem existieren Systeme wie R-CNN, die erst Regionen vorhersagen, um potenzielle Boundingboxes im Bild zu erzeugen, auf welche dann ein Klassifikator angewendet wird. Aufgrund der Einordnung anderer im Bild detektierten Objekte können diese Boundingboxen mit einer Nachprozessierung und durch das Eliminieren doppelter Erkennungen feiner aufgelöst werden. Da jeder Teilschritt einzeln optimiert werden muss, sind diese Systeme sehr langsam und nicht leicht auf Performance zu optimieren. \citep{Plastiras2018}. \\
@@ -45,11 +46,11 @@ Rasterzelle Statt Gitterzelle benutzen!!
 		\centering
 		\includegraphics*[scale = 1, keepaspectratio, trim=2 2 2 2 ]{images/YOLO/YOLO_detection_system.png}
 		\caption[Das YOLO Objekterkennungsystem]{Das YOLO Objekterkennungsystem \citep{Plastiras2018}}
-		\label{YOLO_Objecterkennungssystem}
+		\label{YOLO_Objectdetection}
  	\end{figure}
-	\glqq You Only Look Once\grqq{} (YOLO) betrachtet Objekterkennung als einzelnes Regressionsproblem, indem direkt von Bildpixel zu Boundingbox Koordinaten und Klassenwahrscheinlichkeiten berechnet wird. Dieser Algorithmus analysiert nur einmal ein Bild und sagt direkt vorher, welche Objekte wo vorhanden sind. Dadurch ist die Komplexität des  Aufbaus von YOLO sehr gering, wie in Abb. \ref{YOLO_Objecterkennungssystem} zu sehen \citep{Plastiras2018}. \\
-	Ein 'Single Convolutional Network' berechnet gleichzeitig mehrere Boundingboxes und die jeweiligen Klassifizierungswahrscheinlichkeiten. Die Performance zur Objekterkennung wird durch das Training von YOLO mit vollständigen Bildern gesteigert. Durch dieses vereinheitlichte Modell entstehen mehrere Vorteile gegenüber den traditionellen Objekterkennungssystemen \citep{Plastiras2018}. \\
-	Der erste Vorteil von YOLO ist die gesteigerte Performance. Dies wird dadurch ermöglicht, dass Objekterkennung auf Bildern als Regressionproblem betrachtet wird und deshalb keine komplexe Pipeline die Verarbeitung eines Bildes verlangsamt. YOLO erreicht mehr als das Doppelte an mAP  im Vergleich zu Objekterkennungssystemen (ca. 45 fps) \citep{Plastiras2018}. \\
+	\glqq You Only Look Once\grqq{} (YOLO) betrachtet Objekterkennung als einzelnes Regressionsproblem, indem direkt von Bildpixel zu Boundingbox Koordinaten und Klassenwahrscheinlichkeiten berechnet wird. Dieser Algorithmus analysiert nur einmal ein Bild und sagt direkt vorher, welche Objekte wo vorhanden sind. Dadurch ist die Komplexität des  Aufbaus von YOLO sehr gering, wie in Abb. \ref{YOLO_Objectdetection} zu sehen \citep{Plastiras2018}. \\
+	Ein 'Single Convolutional Neural Network' berechnet gleichzeitig mehrere Boundingboxes und die jeweiligen Klassifizierungswahrscheinlichkeiten. Die Performance zur Objekterkennung wird durch das Training von YOLO mit vollständigen Bildern gesteigert. Durch dieses vereinheitlichte Modell entstehen mehrere Vorteile gegenüber den traditionellen Objekterkennungssystemen \citep{Plastiras2018}. \\
+	Der erste Vorteil von YOLO ist die gesteigerte Performance. Dies wird dadurch ermöglicht, dass Objekterkennung auf Bildern als Regressionproblem betrachtet wird und deshalb keine komplexe Pipeline die Verarbeitung eines Bildes verlangsamt. YOLO erreicht mehr als das Doppelte an mAP  im Vergleich zu Objekterkennungssystemen (ca. 45 fps) \citep{Plastiras2018}. 'Mean Average Precision' (mAP) bezeichnet den Mittelwert über die Klassen der interpolierten Average Precision (AP). Diese AP pro Klasse ist die Fläche unter der Precision-/Recall- (PR) Kurve für die detektierten Objekte. \todo{vielleicht doch auslagern und genau erklären?}\\
 	Zweitens analysiert YOLO ein Bild global mit Vorhersagen zur Objekterkennung. Dadurch kann YOLO beim Verwechseln von Hintergrund und Objekten im Vordergrund um die Hälfte im Vergleich zu Fast R-CNN verringern. Dies geschieht vor allem durch den größeren Kontext, den YOLO durch die Gesamtbildanalyse gewinnt \citep{Plastiras2018}. \\
 	Der dritte Vorteil ist das YOLO mit generalisierten Repräsentationen von Objekten trainiert wurde um die Fehlertoleranz bei der Anwendung auf neue Bereiche und unerwartete Eingaben zu vergrößern, aufgrund der Möglichkeit der hohen Verallgemeinerung \citep{Plastiras2018}. \\
 	Ein Nachteil von YOLO liegt in der Genauigkeit. Der Algorithmus hat Schwierigkeiten einige, insbesondere kleine, Objekte genau zu lokalisieren \citep{Plastiras2018}. \\
@@ -57,7 +58,7 @@ Rasterzelle Statt Gitterzelle benutzen!!
 
 	Die einzelnen Teile der Objektdetektion werden von YOLO in ein neuronales Netz gebündelt. Das Algorithmendesign von YOLO ermöglicht ein 'End to End' Training mit Real-Time-Geschwindigkeit unter hoher durchschnittlicher Genauigkeit, da jede Boundingbox aufgrund von Features im gesamten Bild vorhergesagt wird. Dies wird ebenfalls durch die gleichzeitige Vorhersage aller Boundingboxen für alle Klassen im gesamten Bild unterstützt \citep{Plastiras2018}. \\
 	YOLO unterteilt in Bild in $S \times S $ Rasterzellen. Wenn der Mittelpunkt eines Objektes in eine Rasterzelle fällt, ist diese für die Erkennung des Objektes zuständig. Boundingboxen und ihre jeweiligen Confidence Scores werden für jede Rasterzelle vorhergesagt \citep{Plastiras2018}.
-	Der Confidence Score beschreibt, wie sicher sich das Modell ist, dass die Boundingbox ein Objekt dieser Klasse enthält und für wie genau das Modell diese Vorhersage hält. Formal ist dieser folgendermaßen definiert:  $Pr (Object) * IOU^{truth}_{pred}$. Dieser Wert ist 0, wenn kein Objekt in der Zelle existiert. Falls der Wert nicht 0 ist, ist der Confidence Score gleich zur IOU zwischen der vorhergesagten Box und der Ground Truth. \\
+	Der Confidence Score beschreibt, wie sicher sich das Modell ist, dass die Boundingbox ein Objekt dieser Klasse enthält und für wie genau das Modell diese Vorhersage hält. Formal ist dieser folgendermaßen definiert:  $Pr (Object) * IOU^{truth}_{pred}$. Dieser Wert ist 0, wenn kein Objekt in der Zelle existiert. Falls der Wert nicht 0 ist, ist der Confidence Score gleich zur IOU zwischen der vorhergesagten Box und der Ground Truth berechnet. \\
 	Jede Boundingbox besteht aus 5 Variablen, die vorhergesagt werden: $x, y, w, h$ und der Confidence. Das Zentrum der Boundingbox wird durch die $(x, y)$ Koordinate dargestellt, welche relativ zu den Grenzen der Rasterzelle ist. $w, h$ (Width, Height) werden relativ zum gesamten Bild berechnet. Die Confidence stellt die IOU zwischen der vorhergesagten Box und einem beliebigen Teil der Ground Truth dar. \\
 	Jede Rasterzelle berechnet die Anzahl der Klassenwahrscheinlichkeiten $C$ unabhängig von der Anzahl der Boundingboxen $B$. Diese bedingten Klassenwahrscheinlichkeiten $C$, die davon abhängig sind, ob eine Rasterzelle ein Objekt enthält werden mit $Pr(Class_i | Object)$ vorhergesagt \citep{Plastiras2018}. \\
 	Diese bedingten Klassenwahrscheinlichkeiten $C$ werden zum Testzeitpunkt mit der Confidence der einzelnen Boundingboxen multipliziert, um einen klassenspezifischen Confidence Score für jede Boundingbox zu berechnen. Dazu wird die folgende Formel angewendet: 
@@ -72,17 +73,15 @@ Rasterzelle Statt Gitterzelle benutzen!!
 		\label{YOLO_Model}
  	\end{figure}
 
-	 \begin{figure}[h]
+	Abbildung \ref{YOLO_Architecture} zeigt die Architektur von YOLO \citep{Plastiras2018}. \\
+	YOLO ist als 'Convolutional Neural Network' entwickelt worden, welches mit dem PASCAL VOC Datensatz getestet und von GoogleLeNet Modell für die Architektur inspiriert wurde. Die Features des Bildes werden in den ersten CN Layern extrahiert. Die Architektur umfasst 24 'Convolutional' Layer, an welche 2 'fully-connected' Layer anschließen. Außerdem wird ein $1 \times 1$ 'Reduction Layer' gefolgt von $3 \times 3$ 'Convolutional' Layer eingesetzt. Es gibt außerdem eine schnelle Version von YOLO, die ein neuronales Netz mit weniger Layern (9 statt 24) und Filtern verwendet. Abgesehen von diesen Änderungen gleichen sich beide Versionen vollständig in Trainings- und Testparametern \citep{Plastiras2018}. \\
+	\begin{figure}[h]
 		\centering
 		\includegraphics*[scale = 1.5, keepaspectratio]{images/YOLO/YOLO_network_arch.png}
 		\caption[Die Architektur von YOLO]{Die Architektur von YOLO\citep{Plastiras2018}}
 		\label{YOLO_Architecture}
  	\end{figure}
-
-	Abbildung \ref{YOLO_Architecture} zeigt die Architektur von YOLO \citep{Plastiras2018}. Diese wird im Folgenden genauer erläutert. \\
-	YOLO ist als 'Convolutional Neural Network' entwickelt worden, welches mit dem PASCAL VOC Datensatz getestet und von GoogleLeNet Modell für die Architektur inspiriert wurde. Die Features des Bildes werden in den ersten CN Layern extrahiert. Die Architektur umfasst 24 'Convolutional' Layer, an welche 2 'fully-connected' Layer anschließen. Außerdem wird ein $1 /times 1$ 'Reduction Layer' gefolgt von $3 /times 3$ 'Convolutional' Layer eingesetzt. Es gibt außerdem eine schnelle Version von YOLO, die ein neuronales Netz mit weniger Layern (9 statt 24) und Filtern verwendet. Abgesehen von diesen Änderungen gleichen sich beide Versionen vollständig in Trainings- und Testparametern \citep{Plastiras2018}. \\
-	Die finale Ausgabe von YOLO erfolgt in einem $7 \times 7 \times 30$ Tensor aus Vorhersagen. \todo{Letzten Satz überarbeiten}\\
-
+	Die finale Vorhersage von YOLO erfolgt in einem $7 \times 7 \times 30$ Tensor \citep{Plastiras2018}.
 	Die CN Layer wurden auf dem \glqq ImageNet 1000 Class Competition \grqq{} Datensatz trainiert. Das Pretraining wurde mit den ersten 20 CN Layern aus Abb. \ref{YOLO_Architecture}, einem 'Average Pooling' Layer, sowie einem 'fully-connected' Layer durchgeführt. Dieses Modell wird danach durch das Hinzufügen von 4 'convoluted' Layern und 2 'fully-connected' Layern mit zufällig initialisierten Gewichten nach Ren et al \todo{Quelle verlinken} verbessert um eine bessere Performance zu erreichen . Außerdem wird die 'Input Resolution' von $224 \times 224$ auf $448  \times  448$ erhöht, da häufig feinkörnige visuelle Informationen analysiert werden sollen. Die letzte Schicht des Modells prognostiziert Boundingbox Koordinaten und Klassenwahrscheinlichkeiten \citep{Plastiras2018}. \\
 	Boudingboxbreite und -höhe werden normalisiert, indem diese durch die Bildbreite und -höhe geteilt werden. Dies erreicht, dass beide Werte zwischen 0 und 1 liegen. Außerdem werden die $x$ und $y$ Koordinate der Boundingbox neu berechnet, dass diese als Abstand zu einer bestimmten Rasterzelle lokalisiert werden können. Diese liegen auch zwischen 0 und 1 \citep{Plastiras2018}. \\
 	Der letzte Layer verwendet eine lineare Aktivierungfunktion. Alle anderen Layer nutzen die folgende Aktivierungfunktion: \todo{Nochmal in Paper gucken, mag die Übersetzung nicht, ist sehr ungenau}
@@ -106,17 +105,9 @@ Rasterzelle Statt Gitterzelle benutzen!!
 	\end{multline}
 	In dieser Formel steht $\mathbb{1}_{i j}^{obj}$ dafür, ob ein Objekt in einer Rasterzelle $i$ detektiert wurde. $\mathbb{1}_{i j}^{obj}$ bedeutet, dass der $j$-te Boundingbox Predictor in Rasterzelle $i$ diese Vorhersage bewirkt. Es ist zu beachten, dass diese Verlustfunktion den Klassifizierungsfehler nur dann veringert, wenn ein Objekt in der Rasterzelle vorhanden ist. Auch der Bounding Box Koordinatenfehler wird nur dann verringert, wenn dieser Predictor für die Ground Truth der Box, den höchsten IOU von allen Predictoren in dieser Rasterzelle hat \citep{Plastiras2018}. \\
 	Da jede Gitterzelle nur 2 Bounding Boxen vorhersagen und eine Klasse haben kann, unterliegt YOLO einer räumlichen Einschränkung. Dies begrenzt die Anzahl der benachbarten Objekte, die das Modell vorhersagen kann. Außerdem ist es für das Modell schwierig, kleine Objekte, die in Gruppen auftreten zu detektieren. \\
-	Eine weitere Herausforderung ist, dass Objekte mit neuen oder ungewöhnlichen Formen auftreten können und dadurch die Vorhersage erschwert wird. Da die Netzwerkarchitektur aus mehreren 'Downsampling' Schichten besteht, benutzt das Modell relativ grobe Features zur Vorhersage der Bounding Boxen. \\ Außerdem sorgt das Training mit einer Verlustfunktion, die die Erkennungsleistung annähert, dafür das Fehler bei kleinen Bounding Boxen genauso wie bei großen Bounding Boxen behandelt. Dies ist ein Nachteil, weil ein kleiner Fehler in einer großen Box meistens wenig Auswirkungen hat, aber ein kleiner Fehler in einer kleinen Box eine sehr viel größer Auswirkung auf die IOU hat. Falsche Lokalisierungen sind eine weitere Hauptfehlerquelle \citep{Plastiras2018}.
-
-
-
-
-	
-
-
-
+	Eine weitere Herausforderung ist, dass Objekte mit neuen oder ungewöhnlichen Formen auftreten können und dadurch die Vorhersage erschwert wird. Da die Netzwerkarchitektur aus mehreren 'Downsampling' Schichten besteht, benutzt das Modell relativ grobe Features zur Vorhersage der Bounding Boxen. \\ Außerdem sorgt das Training mit einer Verlustfunktion, die die Erkennungsleistung annähert, dafür das Fehler bei kleinen Bounding Boxen genauso wie bei großen Bounding Boxen behandelt. Dies ist ein Nachteil, weil ein kleiner Fehler in einer großen Box meistens wenig Auswirkungen hat, aber ein kleiner Fehler in einer kleinen Box eine sehr viel größer Auswirkung auf die IOU hat. Falsche Lokalisierungen sind eine weitere Hauptfehlerquelle \citep{Plastiras2018}. \\
+	YOLO ist für den Anwendungszweck dieser Arbeit geeignet, weil der Algorithmus die entsprechende Performance und einfache Verfügbarkeit von trainierten Modellen bietet.
 	} 
-	
 }
 
 
@@ -156,7 +147,7 @@ Eine formale Definition dieser Funktion kann folgendermaßen erfolgen. Zwei kons
  Ein weiterer Vorteil dieses Algorithmus ist, dass er immer terminiert, da in jedem Iterationsschritt die Zahl der Punkte um eins reduziert wird. Die DCE konvergiert für geschlossene Polygone gegen einen Zustand, wo nur noch drei Liniensegmente im Polygon vorhanden sind. Durch einen Abbruch des Prozesses ist es jedoch möglich, ein Polygon auf eine bestimmte vorgegebenen Punktanzahl zu reduzieren, sodass man ein konvexes Polygon erhält \citep{Barkowsky2000}.
  \begin{figure}[ht]
 	   \centering
-	   \includegraphics*[scale = 1, keepaspectratio, trim=2 2 2 2 ]{images/schem_maps_paper_DCE.png}
+	   \includegraphics*[scale = 0.65, keepaspectratio, trim=2 2 2 2 ]{images/schem_maps_paper_DCE.png}
 	   \caption[Anwendungsbeispiele für die \glqq Discrete Curve Evolution\grqq{}]{Anwendungsbeispiele für die \glqq Discrete Curve Evolution\grqq{}  \citep{Barkowsky2000}.}
 	   \label{Bsp_DCE_Bark_Paper}
 \end{figure}
