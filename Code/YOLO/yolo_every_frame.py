@@ -56,7 +56,7 @@ def run_yolo(img, options,framenumber):
     """
 
     options["timestamp_yolo_start"] = time.time() 
-    ys = YOLOSegmentation(options["Yolo_model"]) #Selection of Yolo Algorithm
+    ys = YOLOSegmentation(options["YOLO_model"]) #Selection of Yolo Algorithm
     if(options["save_timestamps"]==True):
                 options["timestamp_yolo_end"] = time.time()
                 options["timestamp_yolo_dur"] = options["timestamp_yolo_dur"] + (options["timestamp_yolo_end"] - options["timestamp_yolo_start"])

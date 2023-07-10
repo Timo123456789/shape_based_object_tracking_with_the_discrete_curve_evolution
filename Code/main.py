@@ -16,10 +16,10 @@ def main():
     init.py files are important for connecting DCE.py with yolo_every_frame.py and yolo_result_version.py
     """
     options = {
-            "path_source_video": r'Code\vid_examples\right_Side\autobahn1s.mp4',
-            #"path_source_video": r'Code\vid_examples\left_Side\not_stabilized\autobahn_4.mp4',
-            "path_write_video": r'Code\YOLO\runs\videos_from_frames\autobahn_temp.mp4',
-            "path_write_timestamps": r'Code\YOLO\runs\videos_from_frames\timestamps_autobahn_temp.txt',
+            #"path_source_video": r'Code\vid_examples\right_Side\autobahn1s.mp4',
+            "path_source_video": r'Code\vid_examples\autobahn_long_shot_135s.mp4',
+            "path_write_video": r'Code\YOLO\runs\autobahn_ls_135_ev_vers.mp4',
+            "path_write_timestamps": r'Code\YOLO\runs\timestamps_autobahn_ls_135_ev_vers.txt',
 
         	"NoP_Cars": 10, #Number of final Points for Cars, first try: 10, second try: 25
         	"NoP_Motorcycle": 5, #Number of final Points for Motorcycles, first try: 5, second try: 20
@@ -29,7 +29,7 @@ def main():
             "YOLO_model": 'yolov8n-seg.pt',  #set YOLO Model
             "black_video": True, #Bool that turns the whole video black, so that only white sillhouettes are shown in the video
             "write_labels": True, #Bool that ensures that a label with scores is written to the video for each polygon
-            "yolo_every_frame": False, #Boolean that enables an alternative YOLO application method
+            "yolo_every_frame": True, #Boolean that enables an alternative YOLO application method
 
             "save_timestamps": True, #bool, which activates the saving of the timestamps
             "timestamp_prog_start": time.time(),

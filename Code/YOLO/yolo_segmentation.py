@@ -37,7 +37,7 @@ class YOLOSegmentation:
 
         results = self.model.predict(source=img.copy(), save=False, save_txt=False)
         result = results[0]
-        if results is not None: #if clause when yolo detected no object
+        if results is not None and result is not None: #if clause when yolo detected no object
             segmentation_contours_idx = []
         
 
