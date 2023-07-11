@@ -10,7 +10,7 @@
 {
 	\subsection{Grundlagen im Maschinellen Lernen}
 	{ \todo{oder vielleicht doch lieber in den Text unten integrieren?, Loss noch erkären?  \\  Ground Truth?  \\Sum Squarred Error (Warum überhaupt optimiert werden muss?)? \\ Pascal VOC und ImageNET Datensatz?}
-	Im folgenden werden mehrere Begriffe und Abkürzungen für \Ref{Desc_YOLO_Alg} erklärt. \\
+	Im folgenden werden mehrere Begriffe und Abkürzungen für \Ref{Subsec:YOLO_Alg} erklärt. \\
 	\begin{figure}[ht]
 		\centering
 		\includegraphics*[scale = 0.8, keepaspectratio, trim=2 2 2 2 ]{images/YOLO/YOLO_Preamble_Simple_CNN.png}
@@ -38,7 +38,7 @@
 
 
 	}
-	\subsection{Der YOLO Algorithmus \label{Desc_YOLO_Alg}} 
+	\subsection{Der YOLO Algorithmus \label{subsec:YOLO_Alg}} 
 	{Da der Blick des Menschen intuitiv Objekterkennung, -einordnung und -wirkung intuitiv ermöglicht, ist es unserem Gehirn im Zusammenspiel mit unseren Augen möglich, schnell und genau zu sehen. Durch diese Fähigkeiten können wir mit nur wenig bewussten Gedanken komplexe Aufgaben, wie Fahrradfahren bewältigen \citep{Plastiras2018}. \\
 	Dem Computer kann dies mit schnellen und genauen Algorithmen zur Objekterkennung beigebracht werden. Aktuelle Systeme nutzen Klassifikatoren zur Objekterkennung. Dieser wird an verschiedenen Stellen in variablen Skalierungen im Testbild angewendet, um eine Klassifizierung eines Objektes zu ermöglichen \citep{Plastiras2018}. \\ 
 	Außerdem existieren Systeme wie R-CNN, die erst Regionen vorhersagen, um potenzielle Boundingboxes im Bild zu erzeugen, auf welche dann ein Klassifikator angewendet wird. Aufgrund der Einordnung anderer im Bild detektierten Objekte können diese Boundingboxen mit einer Nachprozessierung und durch das Eliminieren doppelter Erkennungen feiner aufgelöst werden. Da jeder Teilschritt einzeln optimiert werden muss, sind diese Systeme sehr langsam und nicht leicht auf Performance zu optimieren. \citep{Plastiras2018}. \\
@@ -118,7 +118,7 @@
 	Im Rahmen dieser Arbeit wird YOLOv8 von Ultralytics verwendet. Diese bietet Vorteile in der Performance und Genauigkeit der Objektdetektierung.
 	} 
 
-	\subsection{YOLOv8}{
+	\subsection{YOLOv8}{ \label{subsec:YOLOv8_theoretic}
 	\begin{figure}[h]
 		\centering
 		\includegraphics*[scale = 0.15, keepaspectratio]{images/YOLO/YOLO_timeline_vers.png}
