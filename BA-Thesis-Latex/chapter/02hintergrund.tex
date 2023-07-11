@@ -84,7 +84,7 @@
 	Die finale Vorhersage von YOLO erfolgt in einem $7 \times 7 \times 30$ Tensor \citep{Plastiras2018}.
 	Die CN Layer wurden auf dem \glqq ImageNet 1000 Class Competition \grqq{} Datensatz trainiert. Das Pretraining wurde mit den ersten 20 CN Layern aus Abb. \ref{YOLO_Architecture}, einem 'Average Pooling' Layer, sowie einem 'fully-connected' Layer durchgeführt. Dieses Modell wird danach durch das Hinzufügen von 4 'convoluted' Layern und 2 'fully-connected' Layern mit zufällig initialisierten Gewichten nach Ren et al \todo{Quelle verlinken} verbessert um eine bessere Performance zu erreichen . Außerdem wird die 'Input Resolution' von $224 \times 224$ auf $448  \times  448$ erhöht, da häufig feinkörnige visuelle Informationen analysiert werden sollen. Die letzte Schicht des Modells prognostiziert Boundingbox Koordinaten und Klassenwahrscheinlichkeiten \citep{Plastiras2018}. \\
 	Boudingboxbreite und -höhe werden normalisiert, indem diese durch die Bildbreite und -höhe geteilt werden. Dies erreicht, dass beide Werte zwischen 0 und 1 liegen. Außerdem werden die $x$ und $y$ Koordinate der Boundingbox neu berechnet, dass diese als Abstand zu einer bestimmten Rasterzelle lokalisiert werden können. Diese liegen auch zwischen 0 und 1 \citep{Plastiras2018}. \\
-	Der letzte Layer verwendet eine lineare Aktivierungfunktion. Alle anderen Layer nutzen die folgende Aktivierungfunktion: \todo{Nochmal in Paper gucken, mag die Übersetzung nicht, ist sehr ungenau}
+	Der letzte Layer verwendet eine lineare Aktivierungfunktion. Alle anderen Layer nutzen die folgende Aktivierungfunktion: \todo{Nochmal in Paper gucken}
 	\begin{equation}
 		\phi(x) = \begin{cases}
 			x & \text{if $x > 0$} \\
@@ -148,8 +148,8 @@
 		\centering
 		\includegraphics*[scale = 0.35, keepaspectratio]{images/YOLO/YOLOv8_Arch.png}
 		\caption[Die Architektur von YOLOv8]{Die Architektur von YOLOv8 \citep{Terven2023}}
-		\label{YOLO_timeline_vers}
-	\end{figure}Da YOLOv8 auf YOLOv5 basiert, wird in diesem ein ähnlicher Backbone genutzt. Die Änderungen am Backbone betreffen den CSP Layer, welcher jetzt C2f-Modul ('cross-stage partial Bottleneck with two convolutions') genannt wird. Hier werden High-Level-Features mit Kontextinformationen kombiniert, um die Erkennungsgenauigkeit zu verbessern \citep{Terven2023}. \\
+		\label{YOLOv8_Arch}
+	\end{figure}Da YOLOv8 auf YOLOv5 basiert, wird in diesem ein ähnlicher Backbone genutzt. Für die Architektur von YOLOv8 siehe Abb. \ref{YOLOv8_Arch}. Die Änderungen am Backbone betreffen den CSP Layer, welcher jetzt C2f-Modul ('cross-stage partial Bottleneck with two convolutions') genannt wird. Hier werden High-Level-Features mit Kontextinformationen kombiniert, um die Erkennungsgenauigkeit zu verbessern \citep{Terven2023}. \\
 	Um unabhängig voneinander Objektivitäts-, Klassifzierungs- und Regressionsaufgaben lösen zu können, benutzt YOLOv8 ein verankerungsfreies Modell mit entkoppeltem Kopf \todo{detaillierter erläutern? Recherchieren!}. Dies ermöglicht, dass sich jeder Branch mit seiner spezifischen Aufgabe beschäftigt und verbessert damit die Gesamtgenauigkeit des Modells \citep{Terven2023}. \\
 	Der Output Layer verwendet die Sigmoidfunktion als Aktivierungfunktion für die Objektdetektion, welche die Wahrscheinlichkeit widerspiegelt, dass eine Boundingbox ein Objekt enthält. Die Klassenwahrscheinlichkeiten werden mit der Softmax-Funktion berechnet, welche die Wahrscheinlichkeit der Zugehörigkeit eines Objekts zu jeder möglichen Klasse berechnet \citep{Terven2023}. \\
 
