@@ -13,77 +13,63 @@ In dieser Arbeit wird Anaconda als Entwicklungs- und Installationsumgebung genut
 
 \section{Externe Bibliotheken}
 	\subsection{GeoPandas}
-	{Das Geopandas Project wurde 2013 von Kelsey Jordahl gegründet. Version 0.1.0 ist im Juli 2014 veröffentlicht worden . Es ist ein Open-Source Projekt um die Unterstützung von geographischen Daten zu Pandas Objekten hinzuzufügen. \citep{kelsey_jordahl_2020_3946761}. Pandas ist eine Bibliothek zur Datenmanipulation- und -analyse \citep{reback2020pandas}.  \\
-	Geopandas wird für diese Arbeit als geeignet betrachtet, weil es sich bei Polygonen in Videos um räumliche Daten handelt, die im Laufe der Arbeit mit DCE manipuliert werden.
+	{ \label{subsec:Geopandas}
+		Das Geopandas Project wurde 2013 von Kelsey Jordahl gegründet. Version 0.1.0 ist im Juli 2014 veröffentlicht worden . Es ist ein Open-Source Projekt um die Unterstützung von geographischen Daten zu Pandas Objekten hinzuzufügen. \citep{kelsey_jordahl_2020_3946761}. Pandas ist eine Bibliothek zur Datenmanipulation- und -analyse \citep{reback2020pandas}.  \\
+		Geopandas wird für diese Arbeit als geeignet betrachtet, weil es sich bei Polygonen in Videos um räumliche Daten handelt, die im Laufe der Arbeit mit DCE manipuliert werden.
 	}
-	\subsection{Numpy}
-	{
+	\subsection{NumPy}
+	{ \label{subsec:NumPy}
 	NumPy ist ein Open-Source Projekt, welches 2005 gegründet wurde, um numerische Operationen in Python zu ermöglichen \citep{numpy_about}. Die aktuelle Version 1.25.0 wurde am 17.06.2023 veröffentlicht \citep{numpy_main_web}. \\
 	Diese Bibliothek bietet nicht nur mehrdimensionale Arrays sondern auch diveres numerische Operationen an. Außerdem ist NumPy durch effiziente Implementierung sehr performant \citep{numpy_main_web}. \\
 	}
 	\subsection{Computer Vision 2}
-	{
+	{ \label{subsec:Computer_Vision_2}
 	Computer Vision 2 (CV2) ist ein Teil der 'Open Source Computer Vision' Bibliothek \citep{opencv_about}. Die aktuelle Version 4.8.0 wurde am 02.07.2023 veröffentlicht \citep{opencv_release}. \\
 	Diese Bibliothek beinhaltet Algorithmen zur Bild- und Videobearbeitung. In dieser Arbeit wird diese Bibliothek zur Manipulation von Frames in Videos genutzt, die zuvor mit YOLO analysiert wurden. 
 	}
 	\subsection{YOLOv8\label{YOLOv8_Ultralytics}}
-	{
+	{ 
 	 Es wird in dieser Arbeit das Modell YOLOv8n-seq benutzt, da dies bereits eine Segmentierung der Objekte integriert hat. Für eine detallierte Beschreibung siehe \ref{subsec:YOLOv8_theoretic}. \\
 	 Die Implementierung basiert auf \citeauthor{Canu_pysource}, da dieser eine Einführung in Bildbearbeitung mit Python unter der Benutzung von YOLO gegeben hat \citep{Canu_pysource}.
 	}
 \section{Meta-Ablauf im Programm}{
-	
+	Der Programmablauf ist folgendermaßen geplant. Der erste Schritt besteht darin, dass Video einzulesen und dann mit YOLO zu analysieren. Danach wird im zweiten Schritt auf alle von YOLO segmentierten Objektumrisse die DCE angewendet. Diese werden bis zu einer bestimmten vorher festgelegten Punktanzahl vereinfacht. Als letzten Schritt werden diese vereinfachten Umrisse ins Video eingefügt, um das Ursprungspolygon zu überschreiben.
+	\todo{vielleicht noch ausführlicher machen? wird ja eigentlich in \ref{implementation_in_python} gemacht}
 }
 
 \section{Implementierung in Python}{\label{implementation_in_python}}
 \subsection{Main File}
-\subsection{Discrete Curve Evolution}
-\subsection{1. YOLO Variante}
-\subsection{2. YOLO Variante}
-\subsection{Shape Similarity Measure}
+{
+	Das Main File importiert alle Unterskripte, da es auf die Funktionen zugreifen muss, um das Video zu verarbeiten und zu schreiben. Diese Unterskripte sind: 
+	\begin{itemize}
+		\item yolo\_every\_frame (siehe \ref{py:YOLO_every_frame})
+		\item yolo\_result\_version (siehe \ref{py:YOLO_res_vers})
+		\item DCE.py (siehe \ref{py:DCE})
+		\item shape\_sim\_meas.py (siehe \ref{py:Shape_Sim_Meas})
+	\end{itemize}
+	Dazu wird die Erweiterung CV2 (siehe \ref{subsec:Computer_Vision_2}) eingelesen, um das Video aus einzelnen Frames zu generieren.
+	Außerdem wird die externe Library \textit{timer} importiert, damit innerhalb des Programmablaufes Timestamps (Zeitstempel) gesetzt werden können, um einzelne Schritte des Programmes zu messen.  \\
+	
+}
+\subsection{1. YOLO Variante (Jeder Frame einzeln)} {
+	\label{py:YOLO_every_frame}
+	}
+
+\subsection{2. YOLO Variante (direkte Verarbeitung)}{
+	\label{py:YOLO_res_vers}
+	}
+
+\subsection{Discrete Curve Evolution}{
+	\label{py:DCE}
+}
+\subsection{Shape Similarity Measure}{
+	\label{py:Shape_Sim_Meas}
+
+}
 \lstinputlisting[firstline = 10, lastline=20]{../Code/main.py}
 \lstinputlisting[firstline = 18, lastline = 34, firstnumber = last, caption = {test}]{../Code/main.py}
 
 
-	
-Ein paar Zitate \cite{Hartley2004} und \cite{Bishop2006} Hier kommt noch ein Zitat 
-\cite{DorrChristopherH.2015SSBo}
-\blindmathpaper
-% \Blindtext
-
-
-Ein paar Zitate \cite{Hartley2004} und \cite{Bishop2006} Hier kommt noch ein Zitat 
-\cite{DorrChristopherH.2015SSBo}
-
-\begin{table}[ht]
-	\centering
-	\begin{tabular}{c|c|c}
-		a & b & c \\ \hline
-		1 & 2 & 3 \\
-		1 & 2 & 3 \\
-		1 & 2 & 3
-	\end{tabular}
-	\caption{Eine Tabelle}
-\end{table}
-
-\begin{figure}[ht]
-	\centering
-	\includegraphics[width=0.3\textwidth]{example-image-a}
-	\caption{Eine Unterschrift}
-\end{figure}
-
-\begin{figure}[ht]
-	\centering
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[width=\textwidth]{example-image-a}
-		\caption{Eine Unterschrift}
-	\end{subfigure} \hfill
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[width=\textwidth]{example-image-b}
-		\caption{Noch eine Unterschrift}
-	\end{subfigure}
-	\caption{Mehr Unterschriften}
-\end{figure}
 
 
 
