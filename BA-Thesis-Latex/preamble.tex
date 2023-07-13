@@ -34,9 +34,26 @@ DIV=13,
 \usepackage[libertine,cmintegrals,bigdelims,varbb]{newtxmath}
 \usepackage[ngerman]{babel}
 \usepackage[babel=true, tracking=true,final]{microtype}
+
+%eigene Packages hinzgefügt für Listings und Courier New als Schriftart für Variablen
+\usepackage{courier}
 \usepackage{listings}
-\lstset{language = Python, breaklines = true , commentstyle=\color{white}}
-\lstset{numbers=left, basicstyle=\footnotesize, stepnumber=2, numbersep=10pt, frame = lines}
+\lstset{
+        basicstyle=\ttfamily\scriptsize,
+        language = Python,
+        breaklines = true,
+        numbers=left,
+        stepnumber=1,
+        numbersep=10pt,
+        frame = lines,
+        commentstyle = \color{white},
+        %morecomment  = [l][\nullfont]{\#}, 
+        %morecomment  = [is]{\"""}{\"""},
+        breakatwhitespace = false,
+        }
+ 
+
+
 
 
 

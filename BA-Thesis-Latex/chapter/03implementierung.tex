@@ -38,6 +38,7 @@ In dieser Arbeit wird Anaconda als Entwicklungs- und Installationsumgebung genut
 }
 
 \section{Implementierung in Python}{\label{implementation_in_python}}
+	Im Folgenden wird die Implementierung anhand von Codebeispielen erläutert. Die angegebenen Listings sind zum einfachen Verständnis gekürzt und ohne Kommentare. Für ein Listing des gesamten Codes mit Kommentaren siehe Anhang \ref{cd:gesamt_listing}.
 \subsection{Main File}
 {
 	Das Main File importiert alle Unterskripte, da es auf die Funktionen zugreifen muss, um das Video zu verarbeiten und zu schreiben. Diese Unterskripte sind: 
@@ -49,25 +50,92 @@ In dieser Arbeit wird Anaconda als Entwicklungs- und Installationsumgebung genut
 	\end{itemize}
 	Dazu wird die Erweiterung CV2 (siehe \ref{subsec:Computer_Vision_2}) eingelesen, um das Video aus einzelnen Frames zu generieren.
 	Außerdem wird die externe Library \textit{timer} importiert, damit innerhalb des Programmablaufes Timestamps (Zeitstempel) gesetzt werden können, um einzelne Schritte des Programmes zu messen.  \\
-	
+	Die Main Methode besteht zu aus einer Dictionary Variable \lstinline|options|, in der alle Einstellungen für die Verarbeitung des Videos gesetzt werden. Hier werden auch die einzelnen Zeitstempel gespeichert. Ein Ausschnitt ist in Listing \ref{cd:part_of_options_var} zu sehen. \\
+	In diesem wird die Lese- und Schreibpfade für das Quell- und Ergebnisvideo festgelegt, sowie der Pfad für die Textdatei, die die Timestamps enthält. In den nächsten Zeilen kann festgelegt werden, auf bis viele Punkte die von YOLO detektierten Objekte reduziert werden. Diese werden in 4 unterschiedliche Objekttypen unterteilt: Auto (Car), Motorrad (Motorcycle), LKW (Truck) und andere Objekte (other\_Object). \\
+	Des Weiteren wird das genutzte YOLO Modell definiert und festgesetzt, ob nur die vereinfachten Umrisse der erkannten Objekte ausgegeben werden. Hier kann die Ausgabe der Labels gesteuert werden, diese beinhalten die Information, was für eine Klasse, bzw. Objekt, detektiert wurde und wie hoch der Confidence Score ist. \\
+	Standardmäßig ist die Version des Codes ausgewählt, die das Video erst vollständig von YOLO analysieren lässt, dies lässt sich mit der \lstinline|yolo_every_frame| Boolean umstellen. Die letzte Boolean beschreibt, ob Zeitstempel gesetzt werden sollen. Dieses Dictionary hat noch weitere Einträge, die jedoch lediglich der Verwaltung der verschiedenen Zeitstempel dienen. \\
+	\lstinputlisting[linerange={18,19-21,23-26,28-31,33,49-56}, caption={Ausschnitt aus der \protect\lstinline|options| Variable in  Main.py}, label = {cd:part_of_options_var}]{../Code/main.py}
+
+	Im weiteren Verlauf wird dann ausgewählte Version des Codes gestartet und beim Abschluss das Video und die Textdatei in die entsprechenden Pfade geschrieben.
 }
+
+
+
 \subsection{1. YOLO Variante (Jeder Frame einzeln)} {
 	\label{py:YOLO_every_frame}
+	In dieser Variante wird das Video in einzelne Frames mit CV2 zerlegt, auf die dann jeweils der ausgewählte YOLO Algorithmus angewendet wird. 
+	Es wird über alle Frames des Videos iteriert, in der das jeweilige Frame aus dem Video extrahiert wird und dann an die Methode übergeben wird, die YOLO anwendet.
+	\lstinputlisting[firstline = 22, lastline=37, caption={Ausschnitt aus yolo\_every\_frame.py}, label = {cd:part_of_yolo_every_frame.py}]{../Code/YOLO/yolo_every_frame.py}
+	Dies geschieht indem zuerst die Gesamtanzahl der Frames in der \lstinline|framecounter| Variablen gespeichert wird, welche den Iterator für die Schleife limitiert (siehe Listing \ref{cd:part_of_yolo_every_frame.py}). \\ 
+	In der Schleife wird das jeweilige Frame an der i-ten Stelle als Bilddatei in der \lstinline|img| Variablen gespeichert. Dieses wird dann im nächsten Schritt der Funktion übergeben, die das Bild mit YOLO analysiert und zurückgibt. Ein vorher festgelegtes Array speichert dann alle analysierten Bilder. \\ 
+	Wenn die Schleife terminiert, wird das Array aus Bildern zu einem Video zusammengesetzt und gespeichert. \\
+
+	
+	\lstinputlisting[linerange={59,64,71,73,76,83,84,86,87,93-97}, caption={Verkürzter Ausschnitt aus der \protect\lstinline|run_yolo| Funktion in yolo\_every\_frame.py}, label = {cd:run_yolo_func_in_yolo_every_frame.py}]{../Code/YOLO/yolo_every_frame.py}
+	
+	Ausschnitte der \lstinline|run_yolo| Funktion sind in Listing \ref{cd:run_yolo_func_in_yolo_every_frame.py} zu sehen. Zuerst wird hier das YOLO Modell festgelegt. Danach wird der Frame von YOLO analysiert, welches in der yolo\_segmentation.py erfolgt. Hier wird ein Objekt zurückgeben, welches die Boundingboxen der detektierten Objekte, die jeweiligen Klassen, die segmentierten Umrisse und den jeweiligen Confidence Score enthält. \\
+	Dieses Objekt wird in der darauffolgenden Schleife durchlaufen. Hier werden zunächst die Koordinaten der jeweiligen Boundingbox gesetzt und im nächsten Schritt werden die Umrisse mit der DCE vereinfacht (für eine genauere Beschreibung in der Theorie siehe \ref{sec:Discrete Curve Evolution} und im Code siehe \ref{py:DCE}). Mit CV2 werden danach die Boundingbox gezeichnet und die Umrisse der Polygone gezeichnet. Für den Fall, dass die \lstinline|write_Labels| Variable im \lstinline|options| Dictionary auf True gesetzt ist, werden im nächsten Schritt der Confidence Score und die Class ID an die Boundingbox geschrieben. \\
+	Zur Evaluation werden im nächsten Schritt die Winkelsummen für jedes Polygon summiert und in einem Array im  \lstinline|options| Dictionary gespeichert. \\
+	Wenn alle Frames des Videos durchlaufen wurden, werden die einzelnen Frames wieder zu einem Video zusammengesetzt und statistische Auswertungen (siehe \ref{py:Shape_Sim_Meas}) durchgeführt. Damit ist das Programm abgeschlossen.
+
+	\lstinputlisting[linerange={13,22-24,36,38-41,44,46,48,50,51}, caption={Ausschnitt aus  yolo\_segementation.py}, label = {cd:yolo_in_yolo_segmentation.py}]{../Code/YOLO/yolo_segmentation.py}
+	YOLO\_segmenation.py basiert auf einer Entwicklung von \citeauthor{Canu_pysource} \citep{Canu_pysource} und beinhaltet einige Abänderungen. Der Code auf den sich im Folgenden bezogen wird, ist in Listing \ref{cd:yolo_in_yolo_segmentation.py} zu sehen. Hier wird nach der Initialisierung des YOLO Modells die Detektionsfunktion ausgeführt. Diese beinhaltet die Prediction in Zeile 6 und eine IF Abfrage, wenn keine Objekte von YOLO erkannt wurden. Wenn Objekte erkannt wurden, werden deren Boundingboxen, ClassIDs, Umrisse und Confidence Scores zurückgeben. 
+
+	
+
 	}
 
 \subsection{2. YOLO Variante (direkte Verarbeitung)}{
 	\label{py:YOLO_res_vers}
+	Diese Variante des Codes analysiert das Video direkt am Anfang. Dies bietet den Vorteil, dass durch die effiziente Implementierung von YOLO die Gesamtdauer des Programmes verringert wird. Die Anwendung von YOLO findet direkt in main.py statt. Dies ist in Listing \ref{cd:yolo_result_main.py} zu sehen.
+	\lstinputlisting[linerange={86,92,94,98,102,105,107-109}, caption={Ausschnitt aus \protect\lstinline|run_yolo_version| in main.py}, label = {cd:yolo_result_main.py}]{../Code/main.py}
+	Da hier das gesamte Video in dem von YOLO generierten \lstinline|results| Objekt gespeichert wird, benötigt die Funktion, die das Video verändert nur dieses Objekt und das \lstinline|options| Dictionary. \\
+	
+
+	Die \lstinline|get_outline_for_every_object| Funktion (siehe \ref{cd:yolo_result_get_outline_for_every_object.py}) läuft folgendermaßen ab. \\
+	Die Schleife iteriert über die Gesamtanzahl der Frames im Video. Durch die IF Abfrage wird der Fall abgefangen, dass kein Objekt im Frame erkannt wurde. Wenn ein Objekt erkannt wurde, werden mit der \lstinline|get_data| Funktion die Daten der detektierten Objekte aus dem Frame exportiert. Ansonsten wird das Frame ohne Veränderung überschrieben, wenn das Video im \lstinline|options| Dictionary nicht auf schwarz gesetzt wurde. Die \lstinline|get_data|Funktion basiert auf \citeauthor{Canu_pysource} \citep{Canu_pysource}. \\
+	Diese Daten werden in einzelne Variablen abgespeichert. Danach wird auf die Umrisse die DCE (siehe \ref{py:DCE}) angewendet. Mit CV2 werden die vereinfachten Umrisse dann in das Frame gespeichtert, indem das gerade analysierte Frame überschrieben wird. \\
+	Die zweite FOR Schleife zeichnet für jedes erkannte Objekt im Frame die Boundingbox und die Labels, falls dies im \lstinline|options| Dictionary gesetzt wurde. Außerdem wird noch die Gesamtsumme der Winkel  zur späteren statistischen Auswertung für jedes Polygon berechnet.
+	\lstinputlisting[linerange={11,18-20,23-25,27-30,33,39,41,42,44-46,48,49,52,64,66,67,69,70,73}, caption={Ausschnitt aus \protect\lstinline|get_outline_for_every_object| Funktion in yolo\_result\_version.py}, label = {cd:yolo_result_get_outline_for_every_object.py}]{../Code/YOLO/yolo_result_version.py}
+	Wenn die Schleifen durchgelaufen sind, wird das veränderte \lstinline|result| Objekt und das \lstinline|options| Dictionary zurückgeben. \\
+	Danach wird das Video an dem angegebenen Pfad gespeichert. Es werden statistische Auswertungen (siehe \ref{py:Shape_Sim_Meas}) durchgeführt und die Timestamps gespeichert. Damit ist das Programm abgeschlossen. \\
 	}
 
 \subsection{Discrete Curve Evolution}{
 	\label{py:DCE}
+	Die folgende Implementierung basiert auf \citeauthor{Barkowsky2000} \citep{Barkowsky2000} (siehe Kap. \ref{sec:Discrete Curve Evolution}). Die DCE wird durch ähnlich implementierte Funktionen in beiden YOLO Implementierungen gestartet. Als Beispiel wird hier die Implementierung aus yolo\_result\_version.py genutzt. Diese ist in Listing \ref{cd:yolo_result_run_DCE.py} zu sehen. \\
+	Hier wird anhand der erkannten Klassen Auto, Motorrad und LKW die Methode zur Polygonvereinfachung mit einer festen Punktgrenze ausgeführt. Dies passiert auch, falls das detektierte Objekt nicht zu diesen drei Klassen gehört. \\ 
+	\lstinputlisting[linerange={78,89-97}, caption={Ausschnitt aus \protect\lstinline|run_DCE| Funktion in yolo\_result\_version.py}, label = {cd:yolo_result_run_DCE.py}]{../Code/YOLO/yolo_result_version.py}
+	Zurückgegeben wird ein Array, welches die vereinfachten Umrisse von jedem Objekt enthält, da das Ursprungspolygon immer mit dem vereinfachten Umriss überschrieben wird. \todo{klare Benennung! entweder Umriss, oder Polygon}\\
+
+	Nun wird der Prozess innerhalb der DCE.py Datei genauer erläutert. Da die DCE in dieser Arbeit mit GeoPandas (siehe \ref{subsec:Geopandas}) implementiert wurde, muss das Array zuerst in ein \lstinline|Geopandas.Geoseries| Objekt transformiert werden. Danach kann von diesem Polygon die Gesamtpunktanzahl berechnet werden, die die Begrenzung des folgenden Iterators in der Schleife darstellt. Zuvor kann der Fall abgefangen werden, dass ein Polygon bereits weniger Punkte als die Punktanzahl auf die das Polygon reduziert werden soll, hat. \\
+	\lstinputlisting[linerange={11,20-23,25-27,29,30,32,34,35}, caption={Ausschnitt aus \protect\lstinline|simplify_polygon_k_with_angle| Funktion in DCE.py}, label = {cd:DCE_simplify_polygon.py}]{../Code/DCE/DCE.py}
+	Die Schleife iteriert über alle Punkte im Polygon und berechnet dabei zuerst den niedrigsten K Wert. Diese Funktion wirft auch den Index des niedrigsten Wertes zurück. Dann wird überprüft, ob das Polygon bereits ein Dreieck ist. In diesem Fall wird die Schleife abgebrochen und das Polygon wird als Array zurückgegeben. Falls dies nicht passiert, wird das Polygon mit einem neuen Polygon überschrieben, bei welchem der Punkt an dem Index des geringsten K Wertes entfernt worden ist. Danach wird abgefragt, ob bereits die gewünschte Anzahl der Punkte erreicht worden ist. Wenn in diese Abfrage gegangen wird, wird das Polygon als Array zurückgegeben, ansonsten beginnt die Schleife von vorne. \\
+
+	Dies \lstinline|get_lowest_k| Funktion ist in Listing \ref{cd:DCE_get_lowest_k.py} abgebildet. Diese Funktion iteriert über alle Punkte des gegebenen Polygons und berechnet für jeden Punkt den K Wert. Wenn der betrachtete Punkt der erste Punkt im Polygon ist, wird der K Wert mit diesem Punkt, dem nächsten Punkt und dem letzten Punkt berechnet. Falls dies nicht der Fall ist, wird überprüft ob \lstinline|i| der Gesamtpunktanzahl entspricht. Dies bedeutet, dass der K Wert für jeden Punkt im Polygon berechnet wurde, woraus folgt, dass die Schleife abgebrochen werden kann. \\
+	Falls dies nicht der Fall ist, wird der zweite K Wert berechnet, indem der betrachtete Punkt, der nächste und der vorherige Punkt genutzt wird. Dieser zweite K Wert wird mit dem ersten K Wert verglichen um den Geringeren der beiden zu erfassen. Der geringere Wert wird im ersten K Wert gespeichert und der \lstinline|index_for_point_on_k| auf \lstinline|i| gesetzt. \\
+	\lstinputlisting[linerange={40,47,49-61,63}, caption={Ausschnitt aus \protect\lstinline|get_lowest_k| Funktion in DCE.py}, label = {cd:DCE_get_lowest_k.py}]{../Code/DCE/DCE.py}
+	Wenn die Schleife abgebrochen worden ist, wird der Index des geringsten K Wertes und der K Wert selbst in einem Array zurückgegeben.\\
+
+	Der K Wert wird in folgender Funktion \lstinline|calc_k_with_points| berechnet. Diese Methode basiert auf der Formel \ref{Equ_K_Bark} und ist dahingehend abgeändert worden, dass diese nicht mit Liniensegmenten, sondern mit drei Punkten berechnet werden kann. Die abgeänderte Formel lautet :
+	\begin{equation}
+		K(p,S_1,S_2) = \frac{\beta(p, S_1, S_2)l(p, S_1)l(p, S_2)}{l(p, S_1) + l(p, S_2)} 
+		\label{equ_K_DCE_points}
+	\end{equation}
+	Im Programmcode ist dies folgendermaßen implementiert (siehe \ref{cd:DCE_calc_k_with_points.py}). Es wird zunächst der Winkel $\beta$ berechnet, indem alle drei Punkte und das Polygon übergeben werden. Danach werden die beiden Distanzen zwischen $p, S_1$ und $p, S_2$ berechnet. 
+	\lstinputlisting[linerange={68,80-82,84,85}, caption={Ausschnitt aus \protect\lstinline|calc_k_with_points| Funktion in DCE.py}, label = {cd:DCE_calc_k_with_points.py}]{../Code/DCE/DCE.py}
+	Diese drei Werte werden dann analog zur Formel \ref{equ_K_DCE_points} zum Wert K berechnet. Als letzten Schritt wird dieser Wert und der Winkel als Array zurückgegeben.
+		
 }
+
+
 \subsection{Shape Similarity Measure}{
 	\label{py:Shape_Sim_Meas}
+	Beide Versionen der YOLO Implementierung erzeugen ein mehrdimensionales Array, welches für jedes Frame jedes Polygon mit Gesamtwinkelsumme, Class ID und Umriss enthält. Dieses mehrdimensionale Array wird ausgewertet, um einzuschätzen, ob die DCE zum Objekttracking geeignet ist. 
 
 }
-\lstinputlisting[firstline = 10, lastline=20]{../Code/main.py}
-\lstinputlisting[firstline = 18, lastline = 34, firstnumber = last, caption = {test}]{../Code/main.py}
+
+
 
 
 

@@ -20,7 +20,7 @@ def main():
             "path_write_video": r'Code\YOLO\runs\autobahn_ls_135_ev_vers.mp4',
             "path_write_timestamps": r'Code\YOLO\runs\timestamps_autobahn_ls_135_ev_vers.txt',
 
-        	"NoP_Cars": 10, #Number of final Points for Cars, first try: 10, second try: 25
+        	"NoP_Cars": 10, #Number of final Points for Cars, first try: 10, second try: 25:
         	"NoP_Motorcycle": 5, #Number of final Points for Motorcycles, first try: 5, second try: 20
         	"NoP_Truck": 8, #Number of final Points for Trucks, first try: 8, second try:45
         	"NoP_other_Object": 20, #Number of final Points for other Objects, first try: 20, second try:60
