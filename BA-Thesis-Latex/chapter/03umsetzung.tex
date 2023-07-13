@@ -71,7 +71,7 @@ In dieser Arbeit wird Anaconda als Entwicklungs- und Installationsumgebung genut
 	Wenn die Schleife terminiert, wird das Array aus Bildern zu einem Video zusammengesetzt und gespeichert. \\
 
 	
-	\lstinputlisting[linerange={59,64,71,73,76,83,84,86,87,93-97}, caption={Verkürzter Ausschnitt aus der \protect\lstinline|run_yolo| Funktion in yolo\_every\_frame.py}, label = {cd:run_yolo_func_in_yolo_every_frame.py}]{../Code/YOLO/yolo_every_frame.py}
+	\lstinputlisting[linerange={59,64,71,73,76,83,84,86,87,93-97}, caption={Ausschnitt aus der \protect\lstinline|run_yolo| Funktion in yolo\_every\_frame.py}, label = {cd:run_yolo_func_in_yolo_every_frame.py}]{../Code/YOLO/yolo_every_frame.py}
 	
 	Ausschnitte der \lstinline|run_yolo| Funktion sind in Listing \ref{cd:run_yolo_func_in_yolo_every_frame.py} zu sehen. Zuerst wird hier das YOLO Modell festgelegt. Danach wird der Frame von YOLO analysiert, welches in der yolo\_segmentation.py erfolgt. Hier wird ein Objekt zurückgeben, welches die Boundingboxen der detektierten Objekte, die jeweiligen Klassen, die segmentierten Umrisse und den jeweiligen Confidence Score enthält. \\
 	Dieses Objekt wird in der darauffolgenden Schleife durchlaufen. Hier werden zunächst die Koordinaten der jeweiligen Boundingbox gesetzt und im nächsten Schritt werden die Umrisse mit der DCE vereinfacht (für eine genauere Beschreibung in der Theorie siehe \ref{sec:Discrete Curve Evolution} und im Code siehe \ref{py:DCE}). Mit CV2 werden danach die Boundingbox gezeichnet und die Umrisse der Polygone gezeichnet. Für den Fall, dass die \lstinline|write_Labels| Variable im \lstinline|options| Dictionary auf True gesetzt ist, werden im nächsten Schritt der Confidence Score und die Class ID an die Boundingbox geschrieben. \\
@@ -97,8 +97,7 @@ In dieser Arbeit wird Anaconda als Entwicklungs- und Installationsumgebung genut
 	Diese Daten werden in einzelne Variablen abgespeichert. Danach wird auf die Umrisse die DCE (siehe \ref{py:DCE}) angewendet. Mit CV2 werden die vereinfachten Umrisse dann in das Frame gespeichtert, indem das gerade analysierte Frame überschrieben wird. \\
 	Die zweite FOR Schleife zeichnet für jedes erkannte Objekt im Frame die Boundingbox und die Labels, falls dies im \lstinline|options| Dictionary gesetzt wurde. Außerdem wird noch die Gesamtsumme der Winkel  zur späteren statistischen Auswertung für jedes Polygon berechnet.
 	\lstinputlisting[linerange={11,18-20,23-25,27-30,33,39,41,42,44-46,48,49,52,64,66,67,69,70,73}, caption={Ausschnitt aus \protect\lstinline|get_outline_for_every_object| Funktion in yolo\_result\_version.py}, label = {cd:yolo_result_get_outline_for_every_object.py}]{../Code/YOLO/yolo_result_version.py}
-	Wenn die Schleifen durchgelaufen sind, wird das veränderte \lstinline|result| Objekt und das \lstinline|options| Dictionary zurückgeben. \\
-	Danach wird das Video an dem angegebenen Pfad gespeichert. Es werden statistische Auswertungen (siehe \ref{py:Shape_Sim_Meas}) durchgeführt und die Timestamps gespeichert. Damit ist das Programm abgeschlossen. \\
+	Wenn die Schleifen durchgelaufen sind, wird das veränderte \lstinline|result| Objekt und das \lstinline|options| Dictionary zurückgeben. Danach wird das Video an dem angegebenen Pfad gespeichert. Es werden statistische Auswertungen (siehe \ref{py:Shape_Sim_Meas}) durchgeführt und die Timestamps gespeichert. Damit ist das Programm abgeschlossen. \\
 	}
 
 \subsection{Discrete Curve Evolution}{
@@ -117,7 +116,7 @@ In dieser Arbeit wird Anaconda als Entwicklungs- und Installationsumgebung genut
 	\lstinputlisting[linerange={40,47,49-61,63}, caption={Ausschnitt aus \protect\lstinline|get_lowest_k| Funktion in DCE.py}, label = {cd:DCE_get_lowest_k.py}]{../Code/DCE/DCE.py}
 	Wenn die Schleife abgebrochen worden ist, wird der Index des geringsten K Wertes und der K Wert selbst in einem Array zurückgegeben.\\
 
-	Der K Wert wird in folgender Funktion \lstinline|calc_k_with_points| berechnet. Diese Methode basiert auf der Formel \ref{Equ_K_Bark} und ist dahingehend abgeändert worden, dass diese nicht mit Liniensegmenten, sondern mit drei Punkten berechnet werden kann. Die abgeänderte Formel lautet :
+	Der K Wert wird in folgender Funktion \lstinline|calc_k_with_points| berechnet. Diese Methode basiert auf der Formel \ref{Equ_K_Bark} und ist dahingehend abgeändert worden, dass diese nicht mit Liniensegmenten, sondern mit drei Punkten berechnet werden kann. Die abgeänderte Formel lautet:
 	\begin{equation}
 		K(p,S_1,S_2) = \frac{\beta(p, S_1, S_2)l(p, S_1)l(p, S_2)}{l(p, S_1) + l(p, S_2)} 
 		\label{equ_K_DCE_points}
