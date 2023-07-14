@@ -16,9 +16,6 @@ def calc_shape_similarity_angles(options):
                     temp = temp * -1
          shape_similarity_val = shape_similarity_val + temp
     options["shape_similarity_measure"] = shape_similarity_val
-    #print("shape_similarity_measures_angle calculated")
-    #print(str(round(shape_similarity_val,2))+ " rad / " + str(round(np.rad2deg(shape_similarity_val),2)) + " Degree ")
-    #print("Average Angle: " + str(round(shape_similarity_val / options["number_of_polygons"]),2)  +" / "+  str(round(np.rad2deg(shape_similarity_val / options["number_of_polygons"]),2)) + " Degree ")
 
 
 
@@ -31,14 +28,8 @@ def calc_shape_similarity_compare_polygons(options):
     """
     shape_similarity_val = 0
     polygon_array = options["list_of_all_polygons"]
-    # polygon_array = [
-    #      [[0,0,50,5],[0,1,80,5],[0,2,90,2],[0,3,25,5],[0,4,25,5]],
-    #      [[1,0,55,5],[1,1,85,5],[1,2,95,2],[1,3,20,5]],
-    #      [[2,0,50,5],[2,1,80,5],[2,2,90,2],[2,3,25,5]]]
-    # options["number_of_polygons"]=12
+
     write_results_file(polygon_array)
-    # print(polygon_array[0][0][2])
-    # print(polygon_array[1][0][2])
     temp = 0
     iterator = 0
     number_of_compared_polygons = 0
@@ -55,13 +46,8 @@ def calc_shape_similarity_compare_polygons(options):
             if polygon_array[frame][polygon][3] == polygon_array[frame+1][polygon][3]:
                 temp = (polygon_array[frame][polygon][2]-polygon_array[frame+1][polygon][2])
                 iterator += 1
-            # elif polygon_array[frame][polygon][3] == polygon_array[frame+2][polygon][3]:
-            #     temp = (polygon_array[frame][polygon][2]-polygon_array[frame+2][polygon][2])
-            #     iterator += 1
-           # print(str(polygon_array[frame][polygon][2])+ "-" + str(polygon_array[frame+1][polygon][2]))
             if(temp<0):
                 temp = temp * -1
-            #print("temp"+str(temp))
             shape_similarity_val = shape_similarity_val + temp
             
     options["number_of_angles"]=  ret_NoP(polygon_array)
@@ -83,6 +69,12 @@ def calc_shape_similarity_compare_polygons(options):
 
 
 def ret_NoP(polygon_array):
+    """
+    returns Number of points from all polygons in polygon array
+    
+    @param polygon_array: multidimensional array with data
+    @return: NoP: integer
+    """
     NoP = 0
     for frame in range(len(polygon_array)):
          for polygon in range(len(polygon_array[frame])):
@@ -93,6 +85,11 @@ def ret_NoP(polygon_array):
 
 
 def write_results_file(results):
+    """
+    write a txt file with the given result variable at a path.
+
+    @param results: string
+    """
     f = open( r'Code\YOLO\temp\temp_polyarr_indiv.txt', 'w' )
     f.write(repr(results))
     f.close()

@@ -211,23 +211,18 @@ def get_angle_two_lines(polygon,p,s1,s2):
     s1 = polygon[0].exterior.coords[s1]
     s2 = polygon[0].exterior.coords[s2]
 
-    # print(p)
-    # print(s1)
-    # print(s2)
     #Following is the answer of Bing Bot for get a python function to calculate Angels between two poinst (minor changes for this use case)
     v1 = [s1[0]-p[0],s1[1]-p[1]]
     v2 = [s2[0]-p[0],s2[1]-p[1]]
     angle = np.degrees(np.arctan2(np.cross(v1,v2), np.dot(v1,v2)))
+    if angle < 0:
+        angle = angle * -1
 
     #this code is from Source above 
     x = np.array([p[1],p[0],s1[1],s1[0]])
     y = np.array([p[1],p[0],s2[1],s2[0]])
 
     val_arr = np.arctan2(y,x)*180/np.pi
-    # print(val_arr)
-    # print(angle)
-    if angle < 0:
-        angle = angle * -1
     val_arr_sum = sum(val_arr)
 
     #here you can change which method is used
