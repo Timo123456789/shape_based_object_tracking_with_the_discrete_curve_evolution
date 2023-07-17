@@ -91,14 +91,14 @@ def run_yolo(img, options,framenumber):
                 options["timestamp_write_outline_dur"] = options["timestamp_write_outline_dur"] + (options["timestamp_write_outline_end"] - options["timestamp_write_outline_start"])
     
         sum_of_angles = get_sum_of_angles(outline) #calculates the sum of angles in one polygon)
-        options["angle_sums_polygons"].append(sum_of_angles) #append sum of angles in one polygon to a array, where all angle sums of the polygons in the image saved 
+        options["angle_sums_polygons"].append(sum_of_angles) #append sum of angles in one polygon to a array, where all angle sums of the polygons in the image saved
         
-        options["list_of_polygons_in_one_frame"].append([framenumber,iterator,sum_of_angles,class_id,outline])
+        options["list_of_polygons_in_one_frame"].append([framenumber,iterator,sum_of_angles,class_id,outline[0]])
         iterator+=1
     
     options["list_of_all_polygons"].append(options["list_of_polygons_in_one_frame"])
     options["list_of_polygons_in_one_frame"] = []
-
+    
     options["number_of_polygons"] = options["number_of_polygons"] + iterator
 
 
