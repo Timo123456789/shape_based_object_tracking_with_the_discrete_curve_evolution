@@ -17,31 +17,36 @@
 	Laptop ist an Strom (65 Watt Netzteil angeschlossen), weitere Specs
 }
 \section{Testfälle}
-{Vergleich von Dauer etc. anderen timestamp variablen, vielleicht auch andere Endpunktzahlen bei den Polygonen}
+{Vergleich von Dauer etc. anderen timestamp variablen, vielleicht auch andere Endpunktzahlen bei den Polygonen
+\begin{table}[]
+	\caption{Vergleich der verschiedenen YOLO Modelle bei 1 Sekunde Video (30 Frames)}
+	\label{tab:YOLO_Modell_A1s}
+	\begin{tabular}{|l|l|l|l|l|l|l|}
+	\hline
+	\textit{} & {\ul \textit{\textbf{8n (EFV)}}} & {\ul \textit{\textbf{8n (RV)}}} & {\ul \textit{\textbf{8m (EFV)}}} & {\ul \textit{\textbf{8m (RV)}}} & {\ul \textit{\textbf{8x (EFV)}}} & {\ul \textit{\textbf{8x(RV)}}} \\ \hline
+	\textit{\begin{tabular}[c]{@{}l@{}}Durchschn. Abweichung\\ p. Polygon (in Deg.)\end{tabular}} & 26,49 & 26,97 & 35,19 & 35,04 & 44,33 & 48,12 \\ \hline
+	\textit{\begin{tabular}[c]{@{}l@{}}Durchschn. Abweichung \\ p. Winkel (in Deg.)\end{tabular}} & 2,04 & 2,09 & 3,59 & 3,56 & 5,05 & 5,46 \\ \hline
+	{\ul \textit{}} &  &  &  &  &  &  \\ \hline
+	\textit{\begin{tabular}[c]{@{}l@{}}Gesamtwinkelsumme\\ (in Deg.)\end{tabular}} & 3894,53 & 3910,4 & 7354,98 & 7358,55 & 9398,12 & 10298,28 \\ \hline
+	\textit{erkannte Punkte/Winkel} & 1912 & 1873 & 2050 & 2065 & 1860 & 1885 \\ \hline
+	\textit{erkannte Polygone} & 147 & 145 & 209 & 210 & 212 & 214 \\ \hline
+	\textit{verglichene Polygone} & 131 & 129 & 188 & 189 & 193 & 194 \\ \hline
+	\textit{\begin{tabular}[c]{@{}l@{}}Zahl gleicher Objekte \\ in 2 Frames erkannt\end{tabular}} & 87 & 82 & 101 & 100 & 131 & 130 \\ \hline
+	\textit{Prozessierungszeit (in Sek.)} & 92,9 & 91,97 & 112,21 & 102,73 & 132,66 & 102,32 \\ \hline
+	\end{tabular}
+	\end{table}
+	}
 \subsection{yolo8n}
 {black video immer an, yolo8n}
-\subsubsection{1. Fall} {1 Sec Video; every Frame}
-\subsubsection{2. Fall} {1 Sec Video; result version}
-\subsubsection{3. Fall} {10 Sec Video; every frame}
-\subsubsection{4. Fall} {10 Sec Video; result version}
-\subsubsection{5. Fall} {60 Sec Video; every frame}
-\subsubsection{6. Fall} {60 Sec Video; result version}
-\subsection{yolo8m}
+\
+
 {black video immer an, yolo8m}
-\subsubsection{1. Fall} {1 Sec Video; every Frame}
-\subsubsection{2. Fall} {1 Sec Video; result version}
-\subsubsection{3. Fall} {10 Sec Video; every frame}
-\subsubsection{4. Fall} {10 Sec Video; result version}
-\subsubsection{5. Fall} {60 Sec Video; every frame}
-\subsubsection{6. Fall} {60 Sec Video; result version}
+
+
 \subsection{yolo8x}
 {black video immer an, yolo8x}
-\subsubsection{1. Fall} {1 Sec Video; every Frame}
-\subsubsection{2. Fall} {1 Sec Video; result version}
-\subsubsection{3. Fall} {10 Sec Video; every frame}
-\subsubsection{4. Fall} {10 Sec Video; result version}
-\subsubsection{5. Fall} {60 Sec Video; every frame}
-\subsubsection{6. Fall} {60 Sec Video; result version}
+
+
 
 
 \section{Bewertung der Testfälle im Vergleich}

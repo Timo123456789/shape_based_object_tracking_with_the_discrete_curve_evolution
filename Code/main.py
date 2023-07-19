@@ -16,16 +16,21 @@ def main():
     init.py files are important for connecting DCE.py with yolo_every_frame.py and yolo_result_version.py
     """
     options = {
-            "path_source_video": r'Code\vid_examples\evaluation\Autobahn10s.mp4',
-            "path_write_video": r'Code\vid_examples\evaluation\03Yolo8x\Autobahn10s_result_vers_8x.mp4',
-            "path_write_timestamps": r'Code\vid_examples\evaluation\03Yolo8x\timestamps_Autobahn10s_result_vers_8x.txt',
+            "path_directory": r'Code\vid_examples\evaluation',
+            "source_video": r'\Autobahn1s.mp4',
+            "write_video": r'\A1s_temp.mp4',
+            "timestamps": r'\A1s_timestamps_temp.txt',
 
-        	"NoP_Cars": 30, #Number of final Points for Cars, first try: 10, second try: 25:
-        	"NoP_Motorcycle": 15, #Number of final Points for Motorcycles, first try: 5, second try: 20
-        	"NoP_Truck": 24, #Number of final Points for Trucks, first try: 8, second try:45
-        	"NoP_other_Object": 60, #Number of final Points for other Objects, first try: 20, second try:60
+            "path_source_video": r'temp',
+            "path_write_video": r'temp',
+            "path_write_timestamps": r'temp',
 
-            "YOLO_model": 'yolov8x-seg.pt',  #set YOLO Model
+        	"NoP_Cars": 10, #Number of final Points for Cars, first try: 10, second try: 25:
+        	"NoP_Motorcycle": 5, #Number of final Points for Motorcycles, first try: 5, second try: 20
+        	"NoP_Truck": 8, #Number of final Points for Trucks, first try: 8, second try:45
+        	"NoP_other_Object": 20, #Number of final Points for other Objects, first try: 20, second try:60
+
+            "YOLO_model": 'yolov8n-seg.pt',  #set YOLO Model
             "black_video": True, #Bool that turns the whole video black, so that only white sillhouettes are shown in the video
             "write_labels": True, #Bool that ensures that a label with scores is written to the video for each polygon
             "yolo_every_frame": False, #Boolean that enables an alternative YOLO application method
@@ -54,7 +59,8 @@ def main():
             "number_of_polygons":0,
             "number_of_angles":0
     }
-  
+    options = setpaths(options)
+ 
     if (options["yolo_every_frame"] == True): #if clause to run selected YOLO Version
         run_yolo_every_frame_version(options)
     else:
@@ -72,12 +78,7 @@ def run_yolo_every_frame_version(options):
     run_yolo_every_frame_version_intern(options)
 
     calc_shape_similarity(options)
-    
-    if(options["save_timestamps"]==True): #if clause to save the timestamps
-        if (options["yolo_every_frame"]== True):
-            save_timestamps_as_file_yolo_every_frame(options)
-        else:
-            return 0
+
     return 0
 
 
@@ -104,85 +105,8 @@ def run_yolo_result_version(options):
 
     calc_shape_similarity(options)
 
-    if(options["save_timestamps"]==True): #if clause to save the timestamps
-        save_timestamps_as_file_yolo_result(options)
     return 0
 
-
-
-
-def save_timestamps_as_file_yolo_every_frame(options):
-    """
-    function to save timestamps when 'yolo_every_frame' is selected
-
-    @param options: Dictionary with options set in main
-    """
-    f = open( options["path_write_timestamps"], 'w' )
-    options["timestamp_prog_end"] = time.time()
-    results = "Duration Program: " +ret_timestampline(options, "prog")+ '\n' +"Duration YOLO: " + str(round(options["timestamp_yolo_dur"],2))+" ms" +'\n'+"Duration write_Outline(exclude DCE Calculation) "+str(round((options["timestamp_write_outline_dur"]),2))+" ms" + '\n'+"Duration DCE: " +str(round(options["timestamp_DCE_dur"],2))+" ms" + '\n'+ "Duration write_video: """ + str(round((options["timestamp_write_video_dur"]),2))+ '\n'+ "Sum of individual variablels (must be the same as 'Duration Programm'): " +  str(round((options["timestamp_yolo_dur"]+options["timestamp_write_outline_dur"]+options["timestamp_DCE_dur"]+options["timestamp_write_video_dur"]),2)) + "sec." + '\n' + "Minimal deviations due to not exact timestamp setting" + '\n' + '\n' + "shape similarity measure (must be near 0): " + str(round(options["shape_similarity_measure"], 4)) + '\n' +calc_procent_deviation(options)+ '\n' + "Total sum of the angles: " +str(round(sum(options["angle_sums_images"]),2)) +'\n' 
-        
-    f.write(str(results))
-    print("timestamps saved")
-    print("Processing Time:"+ ret_timestampline(options, "prog"))
-    f.close()
-    return 0
-
-
-
-
-def save_timestamps_as_file_yolo_result(options):
-    """
-    function to save timestamps when 'yolo_result_version' is selected
-
-    @param options: Dictionary with options set in main
-    """
-    f = open( options["path_write_timestamps"], 'w' )
-    options["timestamp_prog_end"] = time.time()
-    results = "Duration Program: " +ret_timestampline(options, "prog")+ '\n' +"Duration YOLO: " +ret_timestampline(options, "yolo")+ '\n'+"Duration write_Outline(include DCE Calculation) "+str(round((options["timestamp_write_outline_end"]-options["timestamp_write_outline_start"]),2))+" ms" + '\n'+"Duration DCE: " +str(round(options["timestamp_DCE_dur"],2))+" ms" + '\n'+ "Duration write_video: """ +ret_timestampline(options, "write_video") + '\n'+ "Sum of individual variablels (must be the same as 'Duration Programm'): " +  str(round((options["timestamp_yolo_end"]-options["timestamp_yolo_start"])+(options["timestamp_write_outline_end"]-options["timestamp_write_outline_start"]-options["timestamp_DCE_dur"])+options["timestamp_DCE_dur"]+(options["timestamp_write_video_end"]-options["timestamp_write_video_start"]),2)) + "sec." + '\n' + "Minimal deviations due to not exact timestamp setting" + '\n' + '\n' + "shape similarity measure (must be near 0): " + str(round(options["shape_similarity_measure"], 4)) + '\n'+ calc_procent_deviation(options) + '\n' + "Total sum of the angles: " +str(round(sum(options["angle_sums_images"]),2)) +'\n' 
-        
-    f.write(str(results))
-    print("timestamps saved")
-    print("Processing Time:"+ ret_timestampline(options, "prog"))
-    f.close()
-    return 0
-
-
-
-
-def calc_procent_deviation(options):
-    """
-    calculate the procent deviation and return this as string
-
-    @param options: Dictionary with options set in main
-    @return string
-    """
-    G = sum(options["angle_sums_images"]) #ground value
-    W = options["shape_similarity_measure"]
-    p = (W/G)*100
-    value = round(p, 4)
-    if value < 0:
-        value = value*-1        
-    string = "Percent Deviation: " +str(value) + " %"
-    return string
-
-
-
-
-def ret_timestampline(options, string):
-    """
-    function that returns a timestamp string; transform timestamps to ms and minutes 
-
-    @param options: Dictionary with options 
-    @param string: Value for given options variable 
-    @return string
-    """
-    time_in_ms = round((options["timestamp_"+string+"_end"]-options["timestamp_"+string+"_start"]) * 100, 2)
-    time_in_s = round((time_in_ms /100), 2)
-    time_in_min = round((time_in_s/60),2)
-    if (time_in_s > 180):
-        return str(time_in_ms) +" ms / "+str(time_in_s)+" sec /" + str(time_in_min)+" min," 
-    else:
-        return str(time_in_ms) +" ms / "+str(time_in_s)+" sec," 
 
 
 
@@ -215,23 +139,6 @@ def run_test(options):
     print(temp)            
     cv2.imshow("image", img_1)       
     cv2.waitKey(0) 
-    # cv2.imshow("image", img_2)       
-    # cv2.waitKey(0) 
-
-    
-    # cv2.imshow("image", img_1_yolo)       
-    # cv2.waitKey(0) 
-    # print(options["angle_sums_polygons"])
-    # print(len(options["angle_sums_polygons"]))
-  
-    # print(len(options["angle_sums_polygons"]))
-    print(options["angle_sums_images"])
-    print(len(options["angle_sums_images"]))
-
-
-
-    # for i in range(len(options["angle_sums_images"])-1):
-    #     shape_similarity_val +=  options["angle_sums_images"][i] - options["angle_sums_images"][i+1]
 
     print("shape_similarity_val")
     print(shape_similarity_val)
@@ -243,7 +150,13 @@ def run_test(options):
     return 0
 
 
-
-
+def setpaths(options):
+    string_source_vid = options["path_directory"] + options["source_video"]
+    string_write_vid = options["path_directory"] + options["write_video"]
+    string_timestamps = options["path_directory"] + options["timestamps"]
+    options["path_source_video"] = string_source_vid
+    options["path_write_video"] = string_write_vid
+    options["path_write_timestamps"] = string_timestamps
+    return options
 
 main()
