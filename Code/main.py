@@ -17,9 +17,9 @@ def main():
     """
     options = {
             "path_directory": r'Code\vid_examples\evaluation',
-            "source_video": r'\Autobahn1s.mp4',
-            "write_video": r'\A1s_temp.mp4',
-            "timestamps": r'\A1s_timestamps_temp.txt',
+            "source_video": r'\Autobahn10s.mp4',
+            "write_video": r'\A10s_temp.mp4',
+            "results": r'\A10s_results.txt',
 
             "path_source_video": r'temp',
             "path_write_video": r'temp',
@@ -31,7 +31,7 @@ def main():
         	"NoP_other_Object": 20, #Number of final Points for other Objects, first try: 20, second try:60
 
             "YOLO_model": 'yolov8n-seg.pt',  #set YOLO Model
-            "black_video": True, #Bool that turns the whole video black, so that only white sillhouettes are shown in the video
+            "black_video": False, #Bool that turns the whole video black, so that only white sillhouettes are shown in the video
             "write_labels": True, #Bool that ensures that a label with scores is written to the video for each polygon
             "yolo_every_frame": False, #Boolean that enables an alternative YOLO application method
 
@@ -153,7 +153,7 @@ def run_test(options):
 def setpaths(options):
     string_source_vid = options["path_directory"] + options["source_video"]
     string_write_vid = options["path_directory"] + options["write_video"]
-    string_timestamps = options["path_directory"] + options["timestamps"]
+    string_timestamps = options["path_directory"] + options["results"]
     options["path_source_video"] = string_source_vid
     options["path_write_video"] = string_write_vid
     options["path_write_timestamps"] = string_timestamps
