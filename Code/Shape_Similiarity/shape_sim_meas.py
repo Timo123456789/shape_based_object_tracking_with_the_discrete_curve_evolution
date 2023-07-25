@@ -23,24 +23,24 @@ def calc_shape_sim_compare_classes_in_one_frame(options, rD):
     val_arr_motorcycle = []
     val_arr_trucks = []
     val_arr_oO = []
+    detected_cars = []
+    detected_motorcycle = []
+    detected_trucks = []
     for frame in range(len(polygon_array)):
         res = compare_polygons_in_frame(polygon_array[frame],rD)
-        # print(res)
-    
-        # print(res[0][0])
-        # print(res[1][0])
-        # print(res[2][0])
-        # print(res[3][0])
    
         val_arr_cars.append(sum(res[0][0]))
+        detected_cars.append(len(res[0][0]))
     
         val_arr_motorcycle.append(sum(res[1][0]))
-       
+        detected_motorcycle.append(len(res[1][0]))       
+
         val_arr_trucks.append(sum(res[2][0]))
-        print(frame)
-        print("detectet oO")
-        print(calc_SSM_oO(res[3][0], polygon_array[frame]))
+        detected_trucks.append(len(res[2][0]))
+      
+        #print(calc_SSM_oO(res[3][0], polygon_array[frame]))
         val_arr_oO.append(calc_SSM_oO(res[3][0], polygon_array[frame]))
+      
         # print(frame)
         # print("oO")
        # print(res[3][0])
@@ -59,43 +59,66 @@ def calc_shape_sim_compare_classes_in_one_frame(options, rD):
     print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
     #print(val_arr_oO)
     print("vallar")
-    sorted_array_OO = sort_oO_arr(val_arr_oO)
-    write_SSM_CPF(val_arr_cars,2,rD,fps)
-    write_SSM_CPF(val_arr_motorcycle,3,rD,fps)
-    write_SSM_CPF(val_arr_trucks,7,rD,fps)
 
+    detected_cars = sum(detected_cars)
+
+    detected_motorcycle = sum(detected_motorcycle)
+
+    detected_trucks = sum(detected_trucks)
+
+
+    sorted_array_OO = sort_oO_arr(val_arr_oO)
+    write_SSM_CPF(val_arr_cars,2,rD,fps, detected_cars)
+    write_SSM_CPF(val_arr_motorcycle,3,rD,fps, detected_motorcycle)
+    write_SSM_CPF(val_arr_trucks,7,rD,fps, detected_trucks)
+
+    print(sorted_array_OO)
+    print("Stop")
     for e in range(len(sorted_array_OO)):
-        write_SSM_CPF([sorted_array_OO[e][1]], sorted_array_OO[e][0],rD,fps)
+        write_SSM_CPF([sorted_array_OO[e][2]], sorted_array_OO[e][0],rD,fps,sorted_array_OO[e][1])
     rD["el17"] = "emptyline"
     rD["el18"] = "emptyline"
     return 0   
 
 def sort_oO_arr(val_arr_OO):
-    print(val_arr_OO[0])
+    print("val_arr_o")
+    print(val_arr_OO)
     buckets = []
     for i in range(len(val_arr_OO)):
         for c in range(len(val_arr_OO[i])):
              if classbucket_exists(buckets, val_arr_OO[i][c][0]):
                 buckets.append([val_arr_OO[i][c][0]])
 
-    # print("buckets")
-    # print(buckets)
-    # print("start filling buckets")
     for i in range(len(val_arr_OO)):
-        for c in range(len(val_arr_OO[i])):
-            for b in range(len(buckets)):
-                if buckets[b][0] == val_arr_OO[i][c][0]:
-                    buckets[b].append(val_arr_OO[i][c][1])
-    # print("buckets filled")
-    # print(buckets)
-    # print("stop")
+            for c in range(len(val_arr_OO[i])):
+                for b in range(len(buckets)):
+                    if buckets[b][0] == val_arr_OO[i][c][0]:
+                        buckets[b].append(val_arr_OO[i][c][1])
+
     for i in range(len(buckets)):
         temp = buckets[i][0]
         temp_sum = sum(buckets[i][1:len(buckets[i])])
         buckets[i] = [temp]
         buckets[i].append(temp_sum)
-    # print(buckets)
-    # print("stop")
+    print("buckets")
+    print(buckets)
+    print("start filling buckets")
+    for i in range(len(val_arr_OO)):
+        for c in range(len(val_arr_OO[i])):
+            for b in range(len(buckets)):
+                if buckets[b][0] == val_arr_OO[i][c][0]:
+                    buckets[b].append(val_arr_OO[i][c][2])
+    print("buckets filled")
+    print(buckets)
+    print("stop1")
+    for i in range(len(buckets)):
+        temp = buckets[i][0]
+        number_obj = buckets[i][1]
+        temp_sum = sum(buckets[i][2:len(buckets[i])])
+        buckets[i] = [temp, number_obj]
+        buckets[i].append(temp_sum)
+    print(buckets)
+    print("stop")
     return buckets
             
 
@@ -107,19 +130,43 @@ def classbucket_exists(buckets_arr, classid):
             return False
     return True
 
-def write_SSM_CPF(arr, classid,rD,fps):
-    string = "Shape Similarity Measure (per FPS and Class) " + str(get_text_string(classid)) + " "
+def write_SSM_CPF(arr, classid,rD,fps, detected):
+    # print("classid")
+    # print(classid)
+    # print("detected")
+    # print(detected)
+
+    if sum(arr) == 0 or detected == 0:
+        string_not_right = " (Result is WRONG, because SSM is 0) "
+    else:
+        string_not_right = " "
+
+    string = "Shape Similarity Measure (per FPS and Class) " + str(get_text_string(classid)) + " " + string_not_right
+    string_2 = "Shape Similarity Measure (per detected " + str(get_text_string(classid)) + ")" + string_not_right
+    string_3 = "detected " + str(get_text_string(classid)) + string_not_right 
     # print("arr")
     # print(arr)
     # print("sumarr")
     # print(sum(arr))
-    res = round((sum(arr)/fps),4)
-    rD[string] = str(res) + "rad / " + str(round(np.rad2deg(sum(arr)/fps),4)) + " Degree"
+    if detected != 0:
+        res_per_frame = round((sum(arr)/fps),4)
+        res_per_obj = round((sum(arr)/detected),4)
+        string_empty_1 = str(np.random.randint(10000))
+        string_empty_2 = str(np.random.randint(10000))
+
+
+        rD[string] = str(res_per_frame) + "rad / " + str(round(np.rad2deg(sum(arr)/fps),4)) + " Degree"
+        rD[string_2] = str(res_per_obj) + "rad / " + str(round(np.rad2deg(sum(arr)/detected),4)) + " Degree"
+        rD[string_3] = str(detected) + " per frame:"+ str(round(detected/fps,2))
+        rD[string_empty_1] = "emptyline"
+        rD[string_empty_2] = "emptyline"
+
 
 
 def calc_SSM_oO(res, frame):
     piof = get_indizes_and_classes(frame)
-   # print(res)
+    #print("res in frame" + str(frame))
+    #print(res)
     sum_oO= create_buckets(piof)
     for i in range(len(res)):
         if check_if_class_exists(res[i][1],piof):
@@ -129,9 +176,21 @@ def calc_SSM_oO(res, frame):
     for i in range(len(sum_oO)):
         temp = sum_oO[i][0]
         temp_sum = sum(sum_oO[i][1:len(sum_oO[i])])
-        sum_oO[i] = [temp]
+        sum_oO[i] = [temp, calc_number(temp, res)]
+        print("class id "+ str(temp))
+        print(calc_number(temp, res))
         sum_oO[i].append(temp_sum)
+    #print(sum_oO)
     return sum_oO
+
+
+def calc_number(classid, res):
+    temp = 0
+    for i in range(len(res)):
+        if classid == res[i][1]:
+            temp = temp + 1
+    return temp
+
 
 def create_buckets(piof):
     buckets = []
@@ -161,10 +220,13 @@ def calc_measure_in_one_frame(frame, polys_in_one_frame,rD):
     # print(polys_in_one_frame[0][3])
     temp_Cars = get_anglevalue_by_class(2,polys_in_one_frame)
     SSM_Cars = []
+
     temp_Motorcycle = get_anglevalue_by_class(3,polys_in_one_frame)
     SSM_Motorcycle =[]
+
     temp_Trucks = get_anglevalue_by_class(7,polys_in_one_frame)
     SSM_Truck = []
+
     temp_oO = 0
     SSM_oO=[]
 
