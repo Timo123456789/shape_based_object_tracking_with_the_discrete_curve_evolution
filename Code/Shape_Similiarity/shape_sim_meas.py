@@ -19,6 +19,54 @@ def calc_shape_similarity(options):
 
 
 
+def calc_shape_similarity_compare_polygons(options, rD):
+    """
+    function that calculates the difference from the total angle sum of one image to the next. This difference is summed up and is the 'shape_similarity_measures' at the results dictionary.
+    This difference is calculated from the comparision from every polygon to exact this polygon on the next frame.
+
+    @param options: Dictionary with options set in main
+    @param rD: Dictionary with all statistics data by the result video
+    """
+    shape_similarity_val = 0
+    polygon_array = options["list_of_all_polygons"]
+
+    temp = 0
+    iterator = 0
+    number_of_compared_polygons = 0
+    for frame in range(len(polygon_array)-1): #iterate over all frames
+        
+        if (len(polygon_array[frame])<= len(polygon_array[frame+1])): #if in the next frame more polygons than in the actual frame, the length must be setted to the minor number
+             compare_polys = len(polygon_array[frame])
+             number_of_compared_polygons = number_of_compared_polygons + len(polygon_array[frame])
+        else: 
+             if (len(polygon_array[frame])> len(polygon_array[frame+1])): #if in the actual frame more polygons than in the next frame, the length must be setted to the minor number
+                  compare_polys = len(polygon_array[frame+1])
+                  number_of_compared_polygons = number_of_compared_polygons + len(polygon_array[frame+1])
+        for polygon in range(compare_polys): #iterate over all polygon, range at the minor polygons numb er
+            if polygon_array[frame][polygon][3] == polygon_array[frame+1][polygon][3]: #check if class id is the same
+                temp = (polygon_array[frame][polygon][2]-polygon_array[frame+1][polygon][2]) #calculate Shape sim Mesaure
+                iterator += 1
+            if(temp<0): #set SSM to positive if its negative
+                temp = temp * -1
+            shape_similarity_val = shape_similarity_val + temp #sum up all differences for SSM
+    #save the results at the rd Dictionary        
+    options["number_of_angles"]=  ret_NoP(polygon_array) 
+    options["shape_similarity_measure"] = shape_similarity_val 
+
+    rD["number of angles/points"] = str(ret_NoP(polygon_array)) 
+    rD["Sum of the angle differences over all frames and polygons"] = str(round(shape_similarity_val,2)) + " rad / " + str(round(np.rad2deg(shape_similarity_val),2)) + " Degree " 
+    rD["Average Angular deviation (SSM/Number_of_Polygons)"] =  str(round((shape_similarity_val / options["number_of_polygons"]),2)) +" / "+  str(round(np.rad2deg(shape_similarity_val / options["number_of_polygons"]),2)) + " Degree " 
+    rD["deviation per angle (SSM/Number_of_angles)"] =  str(round((shape_similarity_val / options["number_of_angles"]),2))+ " rad / " + str(round(np.rad2deg(shape_similarity_val / options["number_of_angles"]),2)) + " Degree" 
+    rD["el1"] = "emptyline"
+    rD["detected polygons"] = str(options["number_of_polygons"]) 
+    rD["number of compared polygons"] = str(number_of_compared_polygons)
+    rD["Counter for same detected objects in two consecutive frames per frame"]: str(iterator)
+    rD["el2"] = "emptyline"
+    rD["el3"] = "emptyline"  
+
+
+
+
 def calc_shape_sim_compare_classes_in_one_frame(options, rD):
     """
     calculate SSM in (one) Frame. iterate over all frames and runs other methods to calculate the SSM
@@ -71,6 +119,9 @@ def calc_shape_sim_compare_classes_in_one_frame(options, rD):
     rD["el18"] = "emptyline"
     return 0   
 
+
+
+
 def sort_oO_arr(val_arr_OO):
     """
     sorted a val array from other Object detections to different buckets, to calculate one SSM for every class
@@ -110,22 +161,6 @@ def sort_oO_arr(val_arr_OO):
         buckets[i].append(temp_sum)
     return buckets #return buckets, example [[2,10,78.25]]; [Class, Detections, SSM]
             
-
-
-
-def classbucket_exists(buckets_arr, classid):
-    """
-    check if a class in buckets array exists and returns a bool
-
-    @param classid: int; selected class which anglesum would be returned
-    @param buckets: array with different classids
-    @returns boolean
-    """
-    for b in range(len(buckets_arr)):
-        if buckets_arr[b] == classid:
-            return False
-    return True
-
 
 
 
@@ -170,10 +205,6 @@ def calc_SSM_oO(res, frame):
     @param  res: array from OO Method, which includes sum uped diffences for every class in every frame; would be sorted in this method
     @param frame:  array with all detected classids and objects
     """
-    print("res")
-    print(res)
-    print("frame")
-    print(frame)
     piof = get_indizes_and_classes(frame) #get example anglesums
     sum_oO= create_buckets(piof) #create buckes for sorting elements
     for i in range(len(res)): #iterate over result array
@@ -191,58 +222,7 @@ def calc_SSM_oO(res, frame):
     return sum_oO 
 
 
-def calc_number(classid, res):
-    """
-    calculates number of classids in a given result array (for counting the number of tracked objects)
 
-    @param classid: int
-    @param: res: result array with all detected classids and objects
-    @returns temp: int 
-    """
-    temp = 0
-    for i in range(len(res)):
-        if classid == res[i][1]:
-            temp = temp + 1
-    return temp
-
-
-def create_buckets(piof):
-    """
-    create buckets in a 2 dim array; a bucket for every classid; not for 2 (car), 3 (motorcycle), 7 (truck)
-
-    @param piof: array with FrameNumber, Polygonnumer [at selected Frame], Anglesum, ClassID
-    @returns buckets: 2 dim array
-    """
-    buckets = []
-    for i in range(len(piof)):
-        if piof[i][3] != 2 and piof[i][3] != 3 and piof[i][3] != 7:
-            buckets.append([piof[i][3]])
-    return buckets
-
-def check_if_class_exists(classid, piof):
-    """
-    check if a class in polygon_in_one_frame exists and returns a bool
-
-    @param classid: int; selected class which anglesum would be returned
-    @param piof: array with FrameNumber, Polygonnumer [at selected Frame], Anglesum, ClassID
-    @returns boolean
-    """
-    for i in range(len(piof)):
-        if piof[i][3] == classid:
-            return True
-    return False
-
-def compare_polygons_in_frame(frame):
-    """
-    this method calculates the example polygons for further calculation and gives this value to another method, that calculate this
-
-    @param frame: frame array
-    @param rD: results dictionary
-    @return: res array from another method
-    """
-    polys_in_one_frame = get_indizes_and_classes(frame)
-    res = calc_measure_in_one_frame(frame,polys_in_one_frame)
-    return res
 
 def calc_measure_in_one_frame(frame, polys_in_one_frame):
     """
@@ -300,106 +280,6 @@ def calc_measure_in_one_frame(frame, polys_in_one_frame):
 
 
 
-def get_text_string(class_id):
-    """
-    return a text string from a given class id with the individual score for every polygon 
-
-    @param class_id = int to identify the class
-    @return: string
-    """
-    category_list = {0: 'person', 1: 'bicycle', 2: 'car', 3: 'motorcycle', 4: 'airplane', 5: 'bus', 6: 'train', 7: 'truck', 8: 'boat', 9: 'traffic light', 10: 'fire hydrant', 11: 'stop sign', 12: 'parking meter', 13: 'bench', 14: 'bird', 15: 'cat', 16: 'dog', 17: 'horse', 18: 'sheep', 19: 'cow', 20: 'elephant', 21: 'bear', 22: 'zebra', 23: 'giraffe', 24: 'backpack', 25: 'umbrella', 26: 'handbag', 27: 'tie', 28: 'suitcase', 29: 'frisbee', 30: 'skis', 31: 'snowboard', 32: 'sports ball', 33: 'kite', 34: 'baseball bat', 35: 'baseball glove', 36: 'skateboard', 37: 'surfboard', 38: 'tennis racket', 39: 'bottle', 40: 'wine glass', 41: 'cup', 42: 'fork', 43: 'knife', 44: 'spoon', 45: 'bowl', 46: 'banana', 47: 'apple', 48: 'sandwich', 49: 'orange', 50: 'broccoli', 51: 'carrot', 52: 'hot dog', 53: 'pizza', 54: 'donut', 55: 'cake', 56: 'chair', 57: 'couch', 58: 'potted plant', 59: 'bed', 60: 'dining table', 61: 'toilet', 62: 'tv', 63: 'laptop', 64: 'mouse', 65: 'remote', 66: 'keyboard', 67: 'cell phone', 68: 'microwave', 69: 'oven', 70: 'toaster', 71: 'sink', 72: 'refrigerator', 73: 'book', 74: 'clock', 75: 'vase', 76: 'scissors', 77: 'teddy bear', 78: 'hair drier', 79: 'toothbrush'}
-    category = category_list[class_id]
-    return (category)
-
-
-def get_anglevalue_by_class(classID, piof):
-    """
-    returns anglesum from a given class for a polygon_in_one_frame array
-
-    @param classid: int; selected class which anglesum would be returned
-    @param piof: array with FrameNumber, Polygonnumer [at selected Frame], Anglesum, ClassID
-    @returns int: anglesum
-    """
-    for i in range(len(piof)):
-        if piof[i][3] == classID:
-            return piof[i][2]
-    return -1
-
-def get_indizes_and_classes(frame):
-    """
-    returns example/first element of every class from a given frame 
-
-    @param frame: array with classes and another values (FrameNumber, Polygonnumer [at selected Frame], Anglesum, ClassID, outline [for polygon])
-    @return: array with following values FrameNumber, Polygonnumer [at selected Frame], Anglesum, ClassID
-    """
-    class_and_ind = []
-    for poly in range(len(frame)):
-        temp = [frame[poly][0],frame[poly][1],frame[poly][2],frame[poly][3]]
-        if(check_if_in_arr(temp,class_and_ind) == False):
-            class_and_ind.append(temp)
-    return class_and_ind
-
-def check_if_in_arr(temp, class_and_ind):
-    """
-    returns false if an integer (class_id) is already in array, else return true
-
-    @param: class_and_ind: array with data from frame, classid is at the third element
-    @param: temp: int; classid, which would be checked if it available in class_and_ind param
-    @return: boolean
-    """
-    if len(class_and_ind) == 0:
-        return False
-    else:
-        for i in range(len(class_and_ind)):
-            if temp[3] == class_and_ind[i][3]:
-                return True
-        return False    
-
-
-def calc_shape_similarity_compare_polygons(options, rD):
-    """
-    function that calculates the difference from the total angle sum of one image to the next. This difference is summed up and is the 'shape_similarity_measures' at the results dictionary.
-    This difference is calculated from the comparision from every polygon to exact this polygon on the next frame.
-
-    @param options: Dictionary with options set in main
-    @param rD: Dictionary with all statistics data by the result video
-    """
-    shape_similarity_val = 0
-    polygon_array = options["list_of_all_polygons"]
-
-    temp = 0
-    iterator = 0
-    number_of_compared_polygons = 0
-    for frame in range(len(polygon_array)-1): #iterate over all frames
-        
-        if (len(polygon_array[frame])<= len(polygon_array[frame+1])): #if in the next frame more polygons than in the actual frame, the length must be setted to the minor number
-             compare_polys = len(polygon_array[frame])
-             number_of_compared_polygons = number_of_compared_polygons + len(polygon_array[frame])
-        else: 
-             if (len(polygon_array[frame])> len(polygon_array[frame+1])): #if in the actual frame more polygons than in the next frame, the length must be setted to the minor number
-                  compare_polys = len(polygon_array[frame+1])
-                  number_of_compared_polygons = number_of_compared_polygons + len(polygon_array[frame+1])
-        for polygon in range(compare_polys): #iterate over all polygon, range at the minor polygons numb er
-            if polygon_array[frame][polygon][3] == polygon_array[frame+1][polygon][3]: #check if class id is the same
-                temp = (polygon_array[frame][polygon][2]-polygon_array[frame+1][polygon][2]) #calculate Shape sim Mesaure
-                iterator += 1
-            if(temp<0): #set SSM to positive if its negative
-                temp = temp * -1
-            shape_similarity_val = shape_similarity_val + temp #sum up all differences for SSM
-    #save the results at the rd Dictionary        
-    options["number_of_angles"]=  ret_NoP(polygon_array) 
-    options["shape_similarity_measure"] = shape_similarity_val 
-
-    rD["number of angles/points"] = str(ret_NoP(polygon_array)) 
-    rD["Sum of the angle differences over all frames and polygons"] = str(round(shape_similarity_val,2)) + " rad / " + str(round(np.rad2deg(shape_similarity_val),2)) + " Degree " 
-    rD["Average Angular deviation (SSM/Number_of_Polygons)"] =  str(round((shape_similarity_val / options["number_of_polygons"]),2)) +" / "+  str(round(np.rad2deg(shape_similarity_val / options["number_of_polygons"]),2)) + " Degree " 
-    rD["deviation per angle (SSM/Number_of_angles)"] =  str(round((shape_similarity_val / options["number_of_angles"]),2))+ " rad / " + str(round(np.rad2deg(shape_similarity_val / options["number_of_angles"]),2)) + " Degree" 
-    rD["el1"] = "emptyline"
-    rD["detected polygons"] = str(options["number_of_polygons"]) 
-    rD["number of compared polygons"] = str(number_of_compared_polygons)
-    rD["Counter for same detected objects in two consecutive frames per frame"]: str(iterator)
-    rD["el2"] = "emptyline"
-    rD["el3"] = "emptyline"  
 
 
 def write_settings(rD, options):
@@ -425,40 +305,6 @@ def write_settings(rD, options):
     rD["Save Timestamps"] = options["save_timestamps"]
     rD["Black Video"] = options["black_video"]
     rD["write_labels"] = options["write_labels"]
-
-
-
-def ret_NoP(polygon_array):
-    """
-    returns Number of points from all polygons in polygon array
-    
-    @param polygon_array: multidimensional array with data
-    @return: NoP: integer
-    """
-    NoP = 0
-    for frame in range(len(polygon_array)):
-         for polygon in range(len(polygon_array[frame])):
-              NoP = NoP + len(polygon_array[frame][polygon][4])
-    return NoP
-
-
-
-
-def write_results_file(results_dictionary, path):
-    """
-    write a txt file with the given result variable at a path.
-
-    @param results: string
-    """
-    with open(path, 'w') as f: 
-        for key, value in results_dictionary.items(): 
-            if value == "emptyline":
-                f.write('\n')
-            else:
-                f.write('%s:%s\n' % (key, value))
-    print("result successfully written")
-
-
 
 
 
@@ -536,3 +382,179 @@ def ret_timestampline(options, string):
         return str(time_in_ms) +" ms / "+str(time_in_s)+" sec /" + str(time_in_min)+" min," 
     else:
         return str(time_in_ms) +" ms / "+str(time_in_s)+" sec," 
+    
+
+
+    
+def calc_number(classid, res):
+    """
+    calculates number of classids in a given result array (for counting the number of tracked objects)
+
+    @param classid: int
+    @param: res: result array with all detected classids and objects
+    @returns temp: int 
+    """
+    temp = 0
+    for i in range(len(res)):
+        if classid == res[i][1]:
+            temp = temp + 1
+    return temp
+
+
+
+
+def create_buckets(piof):
+    """
+    create buckets in a 2 dim array; a bucket for every classid; not for 2 (car), 3 (motorcycle), 7 (truck)
+
+    @param piof: array with FrameNumber, Polygonnumer [at selected Frame], Anglesum, ClassID
+    @returns buckets: 2 dim array
+    """
+    buckets = []
+    for i in range(len(piof)):
+        if piof[i][3] != 2 and piof[i][3] != 3 and piof[i][3] != 7:
+            buckets.append([piof[i][3]])
+    return buckets
+
+
+
+
+def check_if_class_exists(classid, piof):
+    """
+    check if a class in polygon_in_one_frame exists and returns a bool
+
+    @param classid: int; selected class which anglesum would be returned
+    @param piof: array with FrameNumber, Polygonnumer [at selected Frame], Anglesum, ClassID
+    @returns boolean
+    """
+    for i in range(len(piof)):
+        if piof[i][3] == classid:
+            return True
+    return False
+
+
+
+
+def compare_polygons_in_frame(frame):
+    """
+    this method calculates the example polygons for further calculation and gives this value to another method, that calculate this
+
+    @param frame: frame array
+    @param rD: results dictionary
+    @return: res array from another method
+    """
+    polys_in_one_frame = get_indizes_and_classes(frame)
+    res = calc_measure_in_one_frame(frame,polys_in_one_frame)
+    return res
+
+
+
+def get_text_string(class_id):
+    """
+    return a text string from a given class id with the individual score for every polygon 
+
+    @param class_id = int to identify the class
+    @return: string
+    """
+    category_list = {0: 'person', 1: 'bicycle', 2: 'car', 3: 'motorcycle', 4: 'airplane', 5: 'bus', 6: 'train', 7: 'truck', 8: 'boat', 9: 'traffic light', 10: 'fire hydrant', 11: 'stop sign', 12: 'parking meter', 13: 'bench', 14: 'bird', 15: 'cat', 16: 'dog', 17: 'horse', 18: 'sheep', 19: 'cow', 20: 'elephant', 21: 'bear', 22: 'zebra', 23: 'giraffe', 24: 'backpack', 25: 'umbrella', 26: 'handbag', 27: 'tie', 28: 'suitcase', 29: 'frisbee', 30: 'skis', 31: 'snowboard', 32: 'sports ball', 33: 'kite', 34: 'baseball bat', 35: 'baseball glove', 36: 'skateboard', 37: 'surfboard', 38: 'tennis racket', 39: 'bottle', 40: 'wine glass', 41: 'cup', 42: 'fork', 43: 'knife', 44: 'spoon', 45: 'bowl', 46: 'banana', 47: 'apple', 48: 'sandwich', 49: 'orange', 50: 'broccoli', 51: 'carrot', 52: 'hot dog', 53: 'pizza', 54: 'donut', 55: 'cake', 56: 'chair', 57: 'couch', 58: 'potted plant', 59: 'bed', 60: 'dining table', 61: 'toilet', 62: 'tv', 63: 'laptop', 64: 'mouse', 65: 'remote', 66: 'keyboard', 67: 'cell phone', 68: 'microwave', 69: 'oven', 70: 'toaster', 71: 'sink', 72: 'refrigerator', 73: 'book', 74: 'clock', 75: 'vase', 76: 'scissors', 77: 'teddy bear', 78: 'hair drier', 79: 'toothbrush'}
+    category = category_list[class_id]
+    return (category)
+
+
+def get_anglevalue_by_class(classID, piof):
+    """
+    returns anglesum from a given class for a polygon_in_one_frame array
+
+    @param classid: int; selected class which anglesum would be returned
+    @param piof: array with FrameNumber, Polygonnumer [at selected Frame], Anglesum, ClassID
+    @returns int: anglesum
+    """
+    for i in range(len(piof)):
+        if piof[i][3] == classID:
+            return piof[i][2]
+    return -1
+
+
+
+
+def get_indizes_and_classes(frame):
+    """
+    returns example/first element of every class from a given frame 
+
+    @param frame: array with classes and another values (FrameNumber, Polygonnumer [at selected Frame], Anglesum, ClassID, outline [for polygon])
+    @return: array with following values FrameNumber, Polygonnumer [at selected Frame], Anglesum, ClassID
+    """
+    class_and_ind = []
+    for poly in range(len(frame)):
+        temp = [frame[poly][0],frame[poly][1],frame[poly][2],frame[poly][3]]
+        if(check_if_in_arr(temp,class_and_ind) == False):
+            class_and_ind.append(temp)
+    return class_and_ind
+
+
+
+
+def check_if_in_arr(temp, class_and_ind):
+    """
+    returns false if an integer (class_id) is already in array, else return true
+
+    @param: class_and_ind: array with data from frame, classid is at the third element
+    @param: temp: int; classid, which would be checked if it available in class_and_ind param
+    @return: boolean
+    """
+    if len(class_and_ind) == 0:
+        return False
+    else:
+        for i in range(len(class_and_ind)):
+            if temp[3] == class_and_ind[i][3]:
+                return True
+        return False    
+    
+
+def classbucket_exists(buckets_arr, classid):
+    """
+    check if a class in buckets array exists and returns a bool
+
+    @param classid: int; selected class which anglesum would be returned
+    @param buckets: array with different classids
+    @returns boolean
+    """
+    for b in range(len(buckets_arr)):
+        if buckets_arr[b] == classid:
+            return False
+    return True
+
+
+
+
+
+
+def ret_NoP(polygon_array):
+    """
+    returns Number of points from all polygons in polygon array
+    
+    @param polygon_array: multidimensional array with data
+    @return: NoP: integer
+    """
+    NoP = 0
+    for frame in range(len(polygon_array)):
+         for polygon in range(len(polygon_array[frame])):
+              NoP = NoP + len(polygon_array[frame][polygon][4])
+    return NoP
+
+
+
+
+def write_results_file(results_dictionary, path):
+    """
+    write a txt file with the given result variable at a path.
+
+    @param results: string
+    """
+    with open(path, 'w') as f: 
+        for key, value in results_dictionary.items(): 
+            if value == "emptyline":
+                f.write('\n')
+            else:
+                f.write('%s:%s\n' % (key, value))
+    print("result successfully written")
