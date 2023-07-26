@@ -16,14 +16,14 @@ def main():
     init.py files are important for connecting DCE.py with yolo_every_frame.py and yolo_result_version.py
     """
     options = {
-            "path_directory": r'Code\vid_examples\evaluation',
-            "source_video": r'\Autobahn10s.mp4',
-            "write_video": r'\A10s_temp.mp4',
-            "results": r'\A10s_results.txt',
+            "path_directory": r'Code\vid_examples\evaluation',  #main path for storing files
+            "source_video": r'\Autobahn5F.mp4', #name for source video
+            "write_video": r'\temp.mp4', #storing name for result video
+            "results": r'\temp_results.txt', # storing name for statistics
 
-            "path_source_video": r'temp',
-            "path_write_video": r'temp',
-            "path_write_timestamps": r'temp',
+            "path_source_video": r'temp', #temp variable for storing path for source video
+            "path_write_video": r'temp', #temp variable for storing path for write video
+            "path_write_timestamps": r'temp', #temp variable for storing path for statistics txt
 
         	"NoP_Cars": 10, #Number of final Points for Cars, first try: 10, second try: 25:
         	"NoP_Motorcycle": 5, #Number of final Points for Motorcycles, first try: 5, second try: 20
@@ -111,6 +111,25 @@ def run_yolo_result_version(options):
 
 
 
+
+
+def setpaths(options):
+    """
+    set temp path variable in options files to exact paths in directory variable
+
+    @param: options: Dictionary with options set in main
+    """
+    string_source_vid = options["path_directory"] + options["source_video"]
+    string_write_vid = options["path_directory"] + options["write_video"]
+    string_timestamps = options["path_directory"] + options["results"]
+    options["path_source_video"] = string_source_vid
+    options["path_write_video"] = string_write_vid
+    options["path_write_timestamps"] = string_timestamps
+    return options
+
+
+
+
 def run_test(options):
     shape_similarity_val = 0
     img_1 = get_specific_frame(options["path_source_video"],11)
@@ -121,12 +140,6 @@ def run_test(options):
     #img_2 = cv2.resize(img_2, fx = 0.5, fy = 0.5)
     #print(options["list_of_all_polygons"])
     polygon_array = options["list_of_all_polygons"]
-    print(polygon_array)
-    print(polygon_array[0][0][2])
-    print(polygon_array[1][0][2])
-    print("  ")
-    print(polygon_array[0][0])
-    print(polygon_array[1][0])
     
     temp = 0
   
@@ -148,15 +161,5 @@ def run_test(options):
     cv2.waitKey(0) 
 
     return 0
-
-
-def setpaths(options):
-    string_source_vid = options["path_directory"] + options["source_video"]
-    string_write_vid = options["path_directory"] + options["write_video"]
-    string_timestamps = options["path_directory"] + options["results"]
-    options["path_source_video"] = string_source_vid
-    options["path_write_video"] = string_write_vid
-    options["path_write_timestamps"] = string_timestamps
-    return options
 
 main()
