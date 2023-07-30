@@ -40,9 +40,9 @@ def get_outline_for_every_object(res, options):
 
             if(options["black_video"] == True): #If clause to set the result video to black
                 res_cop[i] = cv2.rectangle(res_cop[i], (0,0),(img_size[0],img_size[1]), (0, 0, 0), -1)
-
+          
             for b in range(len(bbox)): #iterate over every polygon to write a individual label for all polygons on the frame
-                NoP = NoP-1 #reduce number of points for progress bar
+               
                 res_cop[i] = cv2.rectangle(res_cop[i], (bbox[b][0],bbox[b][1]),(bbox[b][2],bbox[b][3]), (0, 0, 0), -1)
 
                 if(options["write_labels"] == True): #if clause to write the labels and scores to every polygon
@@ -56,7 +56,7 @@ def get_outline_for_every_object(res, options):
                 
             options["angle_sums_images"].append(sum(options["angle_sums_polygons"])) #sum up all angle sums in the image and append it to an array, where all sum of angles from all images would be saved
             options["angle_sums_polygons"] = [] # set for the next image the variable, which saved the sum of all angles from all polygon in the image,  to None/0
-
+          
             options["list_of_all_polygons"].append(options["list_of_polygons_in_one_frame"])
             options["list_of_polygons_in_one_frame"] = []
             options["number_of_polygons"] = options["number_of_polygons"] + len(bbox)

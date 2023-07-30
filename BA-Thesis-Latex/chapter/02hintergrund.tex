@@ -155,9 +155,7 @@
 	Um die Performance insbesondere bei der Objekterkennung von kleineren Objekten zu verbessern, nutzt YOLOv8 CloU \citep{Zheng2020} und DFL \citep{Li2020} Verlustfunktionen für Boundingboxloss und binäre Kreuzentropie für Klassifizierungsloss \citep{Terven2023}. \\
 
 	Mit dem YOLOv8-Seg Modell wird auch eine Variante angeboten, die semantische Segmentierung ermöglicht. Ein CSPDarknet53 Feature Extractor als Backbone wird gefolgt von einem C2f Modul eingesetzt. Diesem C2f Modul sind zwei Header für Segmentierung angeschlossen, die lernen die semantischen Segmentierungsmasken für das Eingabebild vorhersagen. Die Header dieses Modells ähneln denen in  YOLOv8, bestehen aber aus 5 Detektierungsmodulen und einem Prediction Layer. Eine hohe Performance und Effizienz hat dieses Modell bei verschiedenen Benchmarks zur Objekterkennung und semantischen Segmentierung gezeigt \citep{Terven2023}. \\
-	Bei einer Evaluation auf dem 'Microsoft COCO-Dataset test-dev 2017' konnte YOLOv8x eine AP von 53,9 \% auf einer Bildgröße von 640 Pixel erreichen. YOLOv5 erreichte bei gleicher Eingabegröße 50,7 \%. Die Geschwindigkeit von YOLOv8x betrug 280 FPS auf einer NVIDIA A100 und TensorRT \citep{Terven2023}.\\
-
-	Diese Arbeit benutzt YOLOv8n-seg als Modell, da es die entsprechende Geschwindigkeit und Genauigkeit besitzt.
+	Bei einer Evaluation auf dem 'Microsoft COCO-Dataset test-dev 2017' konnte YOLOv8x eine AP von 53,9 \% auf einer Bildgröße von 640 Pixel erreichen. YOLOv5 erreichte bei gleicher Eingabegröße 50,7 \%. Die Geschwindigkeit von YOLOv8x betrug 280 FPS auf einer NVIDIA A100 und TensorRT \citep{Terven2023}.
 	}
 }
 

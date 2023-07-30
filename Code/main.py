@@ -13,13 +13,13 @@ def main():
 
     "yolo_every_frame" is an alternative YOLO implementation where the entire video is not immediately analyzed with YOLO. The video is first split into individual frames and then the YOLO algorithm is applied to each frame individually. This is more resource efficient and saves memory that would otherwise overflow. The disadvantage is that this method takes longer than applying YOLO directly to the entire video.
 
-    init.py files are important for connecting DCE.py with yolo_every_frame.py and yolo_result_version.py
+    __init__.py files are important for connecting DCE.py with yolo_every_frame.py and yolo_result_version.py
     """
     options = {
             "path_directory": r'Code\vid_examples\evaluation',  #main path for storing files
-            "source_video": r'\Autobahn5F.mp4', #name for source video
-            "write_video": r'\temp.mp4', #storing name for result video
-            "results": r'\temp_results.txt', # storing name for statistics
+            "source_video": r'Code\vid_examples\evaluation\Autobahn5F.mp4', #name for source video
+            "write_video": r'\A5F_temp.mp4', #storing name for result video
+            "results": r'\A5F_temp.txt', # storing name for statistics
 
             "path_source_video": r'temp', #temp variable for storing path for source video
             "path_write_video": r'temp', #temp variable for storing path for write video
@@ -31,9 +31,9 @@ def main():
         	"NoP_other_Object": 20, #Number of final Points for other Objects, first try: 20, second try:60
 
             "YOLO_model": 'yolov8n-seg.pt',  #set YOLO Model
-            "black_video": False, #Bool that turns the whole video black, so that only white sillhouettes are shown in the video
+            "black_video": True, #Bool that turns the whole video black, so that only white sillhouettes are shown in the video
             "write_labels": True, #Bool that ensures that a label with scores is written to the video for each polygon
-            "yolo_every_frame": False, #Boolean that enables an alternative YOLO application method
+            "yolo_every_frame": True, #Boolean that enables an alternative YOLO application method
 
             "save_timestamps": True, #bool, which activates the saving of the timestamps
             "timestamp_prog_start": time.time(),
@@ -119,7 +119,7 @@ def setpaths(options):
 
     @param: options: Dictionary with options set in main
     """
-    string_source_vid = options["path_directory"] + options["source_video"]
+    string_source_vid = options["source_video"]
     string_write_vid = options["path_directory"] + options["write_video"]
     string_timestamps = options["path_directory"] + options["results"]
     options["path_source_video"] = string_source_vid
@@ -131,35 +131,38 @@ def setpaths(options):
 
 
 def run_test(options):
-    shape_similarity_val = 0
-    img_1 = get_specific_frame(options["path_source_video"],11)
-    img_2 = get_specific_frame(options["path_source_video"],15)
-    img_1_yolo = run_yolo(img_1, options, 11)
-    img_2_yolo = run_yolo(img_2, options, 15)
-    #img_1 = cv2.resize(img_1, fx = 0.5, fy = 0.5)
-    #img_2 = cv2.resize(img_2, fx = 0.5, fy = 0.5)
-    #print(options["list_of_all_polygons"])
-    polygon_array = options["list_of_all_polygons"]
+    # shape_similarity_val = 0
+    # img_1 = get_specific_frame(options["path_source_video"],11)
+    # img_2 = get_specific_frame(options["path_source_video"],15)
+    # img_1_yolo = run_yolo(img_1, options, 11)
+    # img_2_yolo = run_yolo(img_2, options, 15)
+    # #img_1 = cv2.resize(img_1, fx = 0.5, fy = 0.5)
+    # #img_2 = cv2.resize(img_2, fx = 0.5, fy = 0.5)
+    # #print(options["list_of_all_polygons"])
+    # polygon_array = options["list_of_all_polygons"]
     
-    temp = 0
+    # temp = 0
   
-    for frame in range(len(polygon_array)-1):
-        print(len(polygon_array[0]))
-        print(polygon_array[0])
-        for polygon in range(len(polygon_array[0])):
-            temp = temp + (polygon_array[frame][polygon][2]-polygon_array[frame+1][polygon][2])
-    print("temp")            
-    print(temp)            
-    cv2.imshow("image", img_1)       
-    cv2.waitKey(0) 
+    # for frame in range(len(polygon_array)-1):
+    #     print(len(polygon_array[0]))
+    #     print(polygon_array[0])
+    #     for polygon in range(len(polygon_array[0])):
+    #         temp = temp + (polygon_array[frame][polygon][2]-polygon_array[frame+1][polygon][2])
+    # print("temp")            
+    # print(temp)            
+    # cv2.imshow("image", img_1)       
+    # cv2.waitKey(0) 
 
-    print("shape_similarity_val")
-    print(shape_similarity_val)
-    cv2.imshow("image", img_1_yolo)       
-    cv2.waitKey(0) 
-    cv2.imshow("image", img_2_yolo)       
-    cv2.waitKey(0) 
+    # print("shape_similarity_val")
+    # print(shape_similarity_val)
+    # cv2.imshow("image", img_1_yolo)       
+    # cv2.waitKey(0) 
+    # cv2.imshow("image", img_2_yolo)       
+    # cv2.waitKey(0) 
 
     return 0
+
+
+
 
 main()

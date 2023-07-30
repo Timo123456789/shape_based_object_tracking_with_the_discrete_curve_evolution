@@ -32,10 +32,6 @@ In dieser Arbeit wird Anaconda als Entwicklungs- und Installationsumgebung genut
 	 Es wird in dieser Arbeit das Modell YOLOv8n-seq benutzt, da dies bereits eine Segmentierung der Objekte integriert hat. Für eine detaillierte Beschreibung siehe Kap. \ref{subsec:YOLOv8_theoretic}. \\
 	 Die Implementierung basiert auf \citeauthor{Canu_pysource}, da dieser eine Einführung in Bildbearbeitung mit Python unter der Benutzung von YOLO gegeben hat \citep{Canu_pysource}.
 	}
-	\subsection{timer}
-	{
-		\blindtext
-	}
 \section{Meta-Ablauf im Programm}{
 	Der Programmablauf ist folgendermaßen geplant. Der erste Schritt besteht darin, dass Video einzulesen und dann mit YOLO zu analysieren. Danach wird im zweiten Schritt auf alle von YOLO segmentierten Objektumrisse die DCE angewendet. Diese werden bis zu einer bestimmten vorher festgelegten Punktanzahl vereinfacht. Als letzten Schritt werden diese vereinfachten Umrisse ins Video eingefügt, um das Ursprungspolygon zu überschreiben.
 	\todo{vielleicht noch ausführlicher machen? wird ja eigentlich in \ref{implementation_in_python} gemacht}
@@ -44,7 +40,7 @@ In dieser Arbeit wird Anaconda als Entwicklungs- und Installationsumgebung genut
 \section{Implementierung in Python}{\label{implementation_in_python}}
 	Im Folgenden wird die Implementierung anhand von Codebeispielen erläutert. Die angegebenen Listings sind zum einfachen Verständnis gekürzt und ohne Kommentare. Für ein Listing des gesamten Codes mit Kommentaren siehe Anhang \ref{cd:gesamt_listing}.
 \subsection{Main File}
-{ \todo{Alle Listings überprüfen!!!!}
+{ \todo{main.py und shape\_sim\_meas Listings überprüfen!!!!}
 	Das Main File importiert alle Unterskripte, da es auf die Funktionen zugreifen muss, um das Video zu verarbeiten und zu schreiben. Diese Unterskripte sind: 
 	\begin{itemize}
 		\item yolo\_every\_frame (siehe \ref{py:YOLO_every_frame})
@@ -58,7 +54,7 @@ In dieser Arbeit wird Anaconda als Entwicklungs- und Installationsumgebung genut
 	In diesem wird die Lese- und Schreibpfade für das Quell- und Ergebnisvideo festgelegt, sowie der Pfad für die Textdatei, die die Timestamps enthält. In den nächsten Zeilen kann festgelegt werden, auf bis viele Punkte die von YOLO detektierten Objekte reduziert werden. Diese werden in 4 unterschiedliche Objekttypen unterteilt: Auto (Car), Motorrad (Motorcycle), LKW (Truck) und andere Objekte (other\_Object). \\
 	Des Weiteren wird das genutzte YOLO Modell definiert und festgesetzt, ob nur die vereinfachten Umrisse der erkannten Objekte ausgegeben werden. Hier kann die Ausgabe der Labels gesteuert werden, diese beinhalten die Information, was für eine Klasse, bzw. Objekt, detektiert wurde und wie hoch der Confidence Score ist. \\
 	Standardmäßig ist die Version des Codes ausgewählt, die das Video erst vollständig von YOLO analysieren lässt, dies lässt sich mit der \lstinline|yolo_every_frame| Boolean umstellen. Die letzte Boolean beschreibt, ob Zeitstempel gesetzt werden sollen. Dieses Dictionary hat noch weitere Einträge, die jedoch lediglich der Verwaltung der verschiedenen Zeitstempel dienen. \\
-	\lstinputlisting[linerange={18,19-21,23-26,28-31,33,49-56}, caption={Ausschnitt aus der \protect\lstinline|options| Variable in  Main.py}, label = {cd:part_of_options_var}]{../Code/main.py}
+	\lstinputlisting[linerange={18,19-22,28-31,33-36,38,54-61}, caption={Ausschnitt aus der \protect\lstinline|options| Variable in  Main.py}, label = {cd:part_of_options_var}]{../Code/main.py}
 
 	Im weiteren Verlauf wird dann ausgewählte Version des Codes gestartet und beim Abschluss das Video und die Textdatei in die entsprechenden Pfade geschrieben.
 }
@@ -92,7 +88,7 @@ In dieser Arbeit wird Anaconda als Entwicklungs- und Installationsumgebung genut
 \subsection{2. YOLO Variante (direkte Verarbeitung)}{
 	\label{py:YOLO_res_vers}
 	Diese Variante des Codes analysiert das Video direkt am Anfang. Dies bietet den Vorteil, dass durch die effiziente Implementierung von YOLO die Gesamtdauer des Programmes verringert wird. Die Anwendung von YOLO findet direkt in main.py statt. Dies ist in Listing \ref{cd:yolo_result_main.py} zu sehen.
-	\lstinputlisting[linerange={86,92,94,98,102,105,107-109}, caption={Ausschnitt aus \protect\lstinline|run_yolo_version| in main.py}, label = {cd:yolo_result_main.py}]{../Code/main.py}
+	\lstinputlisting[linerange={87,93,95,99,103,106,108}, caption={Ausschnitt aus \protect\lstinline|run_yolo_result_version| in main.py}, label = {cd:yolo_result_main.py}]{../Code/main.py}
 	Da hier das gesamte Video in dem von YOLO generierten \lstinline|results| Objekt gespeichert wird, benötigt die Funktion, die das Video verändert nur dieses Objekt und das \lstinline|options| Dictionary. \\
 	
 
@@ -140,20 +136,31 @@ In dieser Arbeit wird Anaconda als Entwicklungs- und Installationsumgebung genut
 	\label{py:Shape_Sim_Meas}
 	Beide Versionen der YOLO Implementierung erzeugen ein mehrdimensionales Array, welches für jedes Frame jedes Polygon mit Gesamtwinkelsumme, Class ID und Umriss enthält. Dieses mehrdimensionale Array wird ausgewertet, um einzuschätzen, ob die DCE zum Objekttracking geeignet ist. 
 
-	In Listing \ref{cd:shape_sim_meas_angle.py} wird die Gesamtwinkelsumme aller Polygone in jedem Frame berechnet. Dies ist dadurch möglich, dass im \lstinline|options| Dictionary ein Array liegt, wo die Winkelsummen jedes Frames gespeichert sind. Das Array wird mit einer Schleife durchlaufen und die Differenz zwischen einer Framewinkelsumme und der nächsten aufsummiert. Dieser Wert sollte gegen 0 gehen, da die Polygone so ähnlich wie möglich sein sollen.
-	\lstinputlisting[linerange={11-18}, caption={Ausschnitt aus \protect\lstinline|calc_shape_similarity_angles| Funktion in shape\_sim\_meas.py}, label = {cd:shape_sim_meas_angle.py}]{../Code/Shape_Similiarity/shape_sim_meas.py}
-	Zum Abschluss wird dieser Messwert dann im \lstinline|options| Dictionary gespeichert.\\
-	Die folgende Methode vergleicht die Winkelsummen jedes einzelnen Polygon mit dem ähnlichen Polygon im nächsten Frame. Dies geschieht, indem bei der Detektion der Objekte nach dem Vereinfachen mit DCE ein mehrdimensionales Objekt mit den Daten [Framenummer, Polygonnummer, Gesamtwinkelsumme (im Polygon), ClassID, [Umrisskoordinaten]] angelegt wird, welches dann zu einem weiteren Array hinzugefügt wird. Dadurch ist jedes Polygon in jedem Frame einzeln identifzier- und vergleichbar. 
+	Die Ergebnisse werden in einem weiteren Dictionary gespeichert, welches als letzten Schritt in eine Textdatei geschrieben wird, um alle Ergebnisse und Einstellungen zentral zu speichern. In Listing \ref{cd:SSM_main.py} ist zu sehen, in welcher Reihenfolge die Analysemethoden aufgerufen werden. 
+	\lstinputlisting[linerange={4,11-17}, caption={Ausschnitt aus \protect\lstinline|calc_shape_similarity| Funktion in shape\_sim\_meas.py}, label = {cd:SSM_main.py}]{../Code/Shape_Similiarity/shape_sim_meas.py}
+	Nachdem die Zeitstempel berechnet und im Results Dictionary gespeichert wurden, wird die erste Analysemethode aufgerufen. Dies geschieht im Detail folgendermaßen.
+
+	Die folgende Methode \lstinline|calc_shape_similarity_compare_polygons| vergleicht die Winkelsummen jedes einzelnen Polygon mit dem ähnlichen Polygon im nächsten Frame. Dies geschieht, indem bei der Detektion der Objekte nach dem Vereinfachen mit DCE ein mehrdimensionales Objekt mit den Daten [Framenummer, Polygonnummer, Gesamtwinkelsumme (im Polygon), ClassID, [Umrisskoordinaten]] angelegt wird, welches dann zu einem weiteren Array hinzugefügt wird. Dadurch ist jedes Polygon in jedem Frame einzeln identifzier- und vergleichbar. 
 	Die Auswertung dieses mehrdimensionalen Arrays erfolgt ähnlich zu Listing \ref{cd:shape_sim_meas_compare_poly.py}.\\
 
 	Die Schleife iteriert über alle Frames. Innerhalb dieser wird abgefragt, ob im nächsten Frame mehr Objekte detektiert wurden, als im betrachteten Frame. Dies ist wichtig, damit die nächste Schleife nur über so viele Polygone iteriert, wie das Frame mit der geringeren Anzahl hat. Wenn das nächste Frame jedoch weniger Polygone als das betrachtete Frame hat, dürfen nur so viele Polygone betrachtet werden, wie im nächsten Frame vorhanden sind. \\
-	\lstinputlisting[linerange={23,29,30,33-36,38-44}, caption={Ausschnitt 1 aus \protect\lstinline|calc_shape_similarity_compare_polygons| Funktion in shape\_sim\_meas.py}, label = {cd:shape_sim_meas_compare_poly.py}]{../Code/Shape_Similiarity/shape_sim_meas.py}
+	\lstinputlisting[linerange={22,30,31,33-36,38-44}, caption={Ausschnitt 1 aus \protect\lstinline|calc_shape_similarity_compare_polygons| Funktion in shape\_sim\_meas.py}, label = {cd:shape_sim_meas_compare_poly.py}]{../Code/Shape_Similiarity/shape_sim_meas.py}
 	Die integrierte FOR Schleife (siehe Listing \ref{cd:shape_sim_meas_compare_poly_second.py}) vergleicht die Winkelsummen der einzelnen Polygone. Dies wird dadurch ermöglicht, dass die temporäre Variable (\lstinline|temp|) nur dann berechnet wird, wenn das Polygon im betracheten Frame an der gleichen Stelle im Array steht, wie das Polygon im nächsten Frame. 
-	\lstinputlisting[firstnumber=15, linerange={45-51,53,54}, caption={Ausschnitt 2 aus \protect\lstinline|calc_shape_similarity_compare_polygons| Funktion in shape\_sim\_meas.py}, label = {cd:shape_sim_meas_compare_poly_second.py}]{../Code/Shape_Similiarity/shape_sim_meas.py}
-	Diese temporäre Variable muss immer positiv sein, was durch die IF Abfrage sichergestellt ist. Danach wird die Differenzvariable mit der temporären Variable addiert. Es wird nun die Gesamtanzahl der Punkte berechnet, welche identisch mit der Anzahl der berechneten Winkel ist. Zuletzt wird diese mit der Differenzvariable im \lstinline|options| Dictionary gespeichert. 
-	\lstinputlisting[firstnumber=24, linerange={57,58,60,61}, caption={Ausschnitt 3 aus \protect\lstinline|calc_shape_similarity_compare_polygons| Funktion in shape\_sim\_meas.py}, label = {cd:shape_sim_meas_compare_poly_third.py}]{../Code/Shape_Similiarity/shape_sim_meas.py} 
-	Die statistischen Auswertungen, werden alle im Terminal (siehe Listing \ref{cd:shape_sim_meas_compare_poly_third.py}) in Radiant und Degree generiert. Hier wird  die Winkeldifferenz über alle Frames und Polygone, die durchschnittliche Winkelabweichung der pro Polygon und pro Winkel ausgeben. Außerdem wird noch die Gesamtanzahl der erkannten Punkte im Terminal angezeigt. Diese entspricht auch der Anzahl der Winkel, da zu jedem Punkt in den Polygonen ein Winkel berechnet wurde. \\
-	Mit diesen Ausgaben ist das Programm abgeschlossen.
+	\lstinputlisting[firstnumber=15, linerange={45-51}, caption={Ausschnitt 2 aus \protect\lstinline|calc_shape_similarity_compare_polygons| Funktion in shape\_sim\_meas.py}, label = {cd:shape_sim_meas_compare_poly_second.py}]{../Code/Shape_Similiarity/shape_sim_meas.py}
+	Diese temporäre Variable muss immer positiv sein, was durch die IF Abfrage sichergestellt ist, da dies sonst die Differenzvariable verfälscht. Danach wird die Differenzvariable mit der temporären Variable addiert. Es wird nun die Gesamtanzahl der Punkte berechnet, welche identisch mit der Anzahl der berechneten Winkel ist. Zuletzt wird diese mit der Differenzvariable im \lstinline|options| Dictionary gespeichert. 
+	\lstinputlisting[firstnumber=22, linerange={53,54,56-59,61-63}, caption={Ausschnitt 3 aus \protect\lstinline|calc_shape_similarity_compare_polygons| Funktion in shape\_sim\_meas.py}, label = {cd:shape_sim_meas_compare_poly_third.py}]{../Code/Shape_Similiarity/shape_sim_meas.py} 
+	Die statistischen Auswertungen, werden alle im Dictionary (siehe Listing \ref{cd:shape_sim_meas_compare_poly_third.py}) in Radiant und Degree gespeichert. Hier wird  die Winkeldifferenz über alle Frames und Polygone, die durchschnittliche Winkelabweichung der pro Polygon und pro Winkel in das Dictionary geschrieben. Außerdem wird noch die Gesamtanzahl der erkannten Punkte gespeichert, die der Anzahl der Winkel entspricht, da zu jedem Punkt in den Polygonen ein Winkel berechnet wurde. \\
+	
+	Danach wird die Winkelabweichung mit der Methode \lstinline|calc_shape_sim_compare_classes_in_one_frame| berechnet, welche alle Polygone der gleichen Klasse in einem Frame miteinander vergleicht. Der Messwert wird dadurch berechnet, dass über alle Frames iteriert wird (siehe Listing \ref{cd:shape_sim_meas_one_frame_first.py}).
+	\lstinputlisting[linerange={70,92,93,95,96,98,99,101,102,104}, caption={Ausschnitt 1 aus \protect\lstinline|calc_shape_sim_compare_classes_in_one_frame| Funktion in shape\_sim\_meas.py}, label = {cd:shape_sim_meas_one_frame_first.py}]{../Code/Shape_Similiarity/shape_sim_meas.py} 
+	Die Methode \lstinline|compare_polygons_in_frame| gibt ein Array zurück, welches die aufsummierten Abweichungen enthält. Dies geschieht indem mit der \lstinline|get_inidzes_and_classes| Methode die Winkelsumme des ersten Polygons jeder Klasse extrahiert wird und in der nächsten Methode \lstinline|calc_measures_in_one_frame| diese mit allen anderen Polygonen der gleichen Klasse im Frame verglichen wird. Das Array mit den extrahierten Winkelsummen jeder Klasse wird im folgenden als Referenzklasse bezeichnet.\\
+	Das Vergleichen geschieht indem, wie in Listing \ref{cd:shape_sim_meas_calc_SSM_one_frame_first.py} als Beispielausschnitt zu sehen, indem über alle Polygone im Frame iteriert wird. Wenn die ClassID, in diesem Fall 2 für Car, mit der des Polygons im Frame übereinstimmt, kann die Differenzvariable berechnet werden. 
+	\lstinputlisting[linerange={235,236,247-254}, caption={Ausschnitt 1 aus \protect\lstinline|calc_measure_in_one_frame| Funktion in shape\_sim\_meas.py}, label = {cd:shape_sim_meas_calc_SSM_one_frame_first.py}]{../Code/Shape_Similiarity/shape_sim_meas.py} Diese wird in einem Array gespeichert, welches am Ende zurückgeben wird. Analog geschieht dies für die Klassen Truck und Motorcycle. Wenn keine dieser Klassen erkannt wurde, wird folgende Ausnahme behandelt (siehe Listing \ref{cd:shape_sim_meas_calc_SSM_one_frame_second.py}). 
+	\lstinputlisting[firstnumber=11, linerange={267-275}, caption={Ausschnitt 2 aus \protect\lstinline|calc_measure_in_one_frame| Funktion in shape\_sim\_meas.py}, label = {cd:shape_sim_meas_calc_SSM_one_frame_second.py}]{../Code/Shape_Similiarity/shape_sim_meas.py} 
+	Aus dem Array mit den Referenzvariablen wird, falls vorhanden, die Winkelsumme abgerufen. Wenn diese Winkelsumme nicht vorhanden ist, wird dem Array der Differenzvariable 0 addiert um diese nicht zu ändern. Sonst wird analog zum obigen Verfahren der Messwert berechnet, nur mit der Änderung das die ClassID zu jedem Wert gespeichert wird, um die Vergleichbarkeit zu gewährleisten. \\
+	Damit ist das Erstellen der Arrays und die Schleife in Listing \ref{cd:shape_sim_meas_calc_SSM_one_frame_first.py} abgeschlossen. Diese Arrays werden aufsummiert. Bei Objekten, welche nicht den drei Hauptklassen entsprachen, wird mit einer Methode, welche die berechneten Werte in einzelne Arrays für jede detektierte Klasse sortiert (ähnlich zu Bucketsort), die Winkelabweichung berechnet. Für eine nähere Beschreibung siehe Anhang \ref{cd:listing_shape_sim_meas.py} ab Zeile 125. Eine Berechnung ist falsch, wenn nur ein Element einer Klasse pro Frame detektiert wurde, da die Winkeldifferenz dann immer 0 beträgt. Falls dies der Fall ist, wird dies im Results Dictionary für die jeweilige Klasse mitgeteilt.
+	Wenn alle Werte in das Result Dictionary geschrieben wurden, wird dieses als Textdatei abgespeichert und das Programm ist vollständig abgeschlossen.
+
 
 }
 
