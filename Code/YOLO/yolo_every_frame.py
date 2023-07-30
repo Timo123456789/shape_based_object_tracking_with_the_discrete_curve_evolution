@@ -82,10 +82,10 @@ def run_yolo(img, options,framenumber):
 
         cv2.rectangle(img, (x, y), (x2, y2), (255, 0, 0), 2)
         cv2.polylines(img, outline, True, (255, 255, 255), 1)
-      
+        
         if(options["write_labels"] == True): #if clause to write the labels and scores to every polygon
             img = cv2.putText(img, get_text_string(class_id,score), (x, y - 10), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
-        #cv2.putText(img, str(class_id), (x, y - 10), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
+        
         if(options["save_timestamps"]==True):
                 options["timestamp_write_outline_end"] = time.time()
                 options["timestamp_write_outline_dur"] = options["timestamp_write_outline_dur"] + (options["timestamp_write_outline_end"] - options["timestamp_write_outline_start"])
