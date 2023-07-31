@@ -19,23 +19,88 @@
 \section{Testfälle}
 {Vergleich von Dauer etc. anderen timestamp variablen, vielleicht auch andere Endpunktzahlen bei den Polygonen
 \begin{table}[]
-	\caption{Vergleich der verschiedenen YOLO Modelle bei 1 Sekunde Video (30 Frames)}
-	\label{tab:YOLO_Modell_A1s}
-	\begin{tabular}{|l|l|l|l|l|l|l|}
-	\hline
-	\textit{} & {\ul \textit{\textbf{8n (EFV)}}} & {\ul \textit{\textbf{8n (RV)}}} & {\ul \textit{\textbf{8m (EFV)}}} & {\ul \textit{\textbf{8m (RV)}}} & {\ul \textit{\textbf{8x (EFV)}}} & {\ul \textit{\textbf{8x(RV)}}} \\ \hline
+	\caption{Vergleich der verschiedenen YOLO8 bei 1 Sekunde Video (30 Frames)}
+	\label{tab:YOLO8_A1s}
+	\begin{tabular}{l|l|l|l|l|l|l}
+	 & \textbf{8n (EFV)} & \textbf{8n (RV)} & \textbf{8m (EFV)} & \textbf{8m (RV)} & \textbf{8x (EFV)} & \textbf{8x (RV)} \\ \hline
 	\textit{\begin{tabular}[c]{@{}l@{}}Durchschn. Abweichung\\ p. Polygon (in Deg.)\end{tabular}} & 26,49 & 26,97 & 35,19 & 35,04 & 44,33 & 48,12 \\ \hline
-	\textit{\begin{tabular}[c]{@{}l@{}}Durchschn. Abweichung \\ p. Winkel (in Deg.)\end{tabular}} & 2,04 & 2,09 & 3,59 & 3,56 & 5,05 & 5,46 \\ \hline
-	{\ul \textit{}} &  &  &  &  &  &  \\ \hline
-	\textit{\begin{tabular}[c]{@{}l@{}}Gesamtwinkelsumme\\ (in Deg.)\end{tabular}} & 3894,53 & 3910,4 & 7354,98 & 7358,55 & 9398,12 & 10298,28 \\ \hline
+	\textit{\begin{tabular}[c]{@{}l@{}}Durchschn. Abweichung  \\ p. Winkel (in Deg.)\end{tabular}} & 2,04 & 2,09 & 3,59 & 3,56 & 5,05 & 5,46 \\ \hline
+	\textit{} &  &  &  &  &  &  \\ \hline
+	\textit{\begin{tabular}[c]{@{}l@{}}absolute Abweichung  \\ (in Deg)\end{tabular}} & 3894,53 & 3910,4 & 7354,98 & 7358,55 & 9398,12 & 10298,28 \\ \hline
 	\textit{erkannte Punkte/Winkel} & 1912 & 1873 & 2050 & 2065 & 1860 & 1885 \\ \hline
 	\textit{erkannte Polygone} & 147 & 145 & 209 & 210 & 212 & 214 \\ \hline
 	\textit{verglichene Polygone} & 131 & 129 & 188 & 189 & 193 & 194 \\ \hline
-	\textit{\begin{tabular}[c]{@{}l@{}}Zahl gleicher Objekte \\ in 2 Frames erkannt\end{tabular}} & 87 & 82 & 101 & 100 & 131 & 130 \\ \hline
-	\textit{Prozessierungszeit (in Sek.)} & 92,9 & 91,97 & 112,21 & 102,73 & 132,66 & 102,32 \\ \hline
+	\textit{Prozessierungszeit (in Sek.)} & 92,52 & 81,51 & 111,6 & 100,03 & 134,9 & 102,46
 	\end{tabular}
 	\end{table}
 	}
+
+	\begin{table}[]
+		\caption{Vergleich der verschiedenen YOLO8 bei 10 Sekunde Video (300 Frames)}
+		\label{tab:YOLO8_A10s}
+		\begin{tabular}{l|l|l|l|l|l|l}
+		 & \textbf{8n (EFV)} & \textbf{8n (RV)} & \textbf{8m (EFV)} & \textbf{8m (RV)} & \textbf{8x (EFV)} & \textbf{8x (RV)} \\ \hline
+		\textit{\begin{tabular}[c]{@{}l@{}}Durchschn. Abw.\\ p. Polygon (in Deg.)\end{tabular}} & 53,07 & 53,11 & 49,76 & 49,79 & 57,93 & 58,04 \\ \hline
+		\textit{\begin{tabular}[c]{@{}l@{}}Durchschn. Abw.  \\ p. Winkel (in Deg.)\end{tabular}} & 4,29 & 4,29 & 5,21 & 5,21 & 6,59 & 6,6 \\ \hline
+		\textit{} &  &  &  &  &  &  \\ \hline
+		\textit{\begin{tabular}[c]{@{}l@{}}absolute Abw. \\ (in Deg)\end{tabular}} & 73.075,23 & 73.075,23 & 100.561,26 & 100.579,53 & 122.111,04 & 122.133,17 \\ \hline
+		\textit{erk. Punkte/Winkel} & 17.043 & 17.042 & 19.298 & 19.298 & 18.534 & 18.498 \\ \hline
+		\textit{erk.  Polygone} & 1.377 & 1.376 & 2.021 & 2.020 & 2.108 & 2.104 \\ \hline
+		\textit{verglichene Polygone} & 1.235 & 1.234 & 1.871 & 1.870 & 1.964 & 1960 \\ \hline
+		\textit{\begin{tabular}[c]{@{}l@{}}Prozessierungszeit\\ (in Min.)\end{tabular}} & 23,56 & 22,16 & 26,39 & 22.25 & 28,48 & 23,84
+		\end{tabular}
+		\end{table}
+
+
+		\begin{table}[]
+			\caption{Vergleich der SSMs bei verschiedenen YOLO8 bei 1 Sekunde Video (30 Frames)}
+			\label{tab:YOLO8_A10s}
+			\begin{tabular}{ll|l|l|l|l|l}
+			\multicolumn{1}{l|}{} & \textbf{8n (EFV)} & \textbf{8n (RV)} & \textbf{8m (EFV)} & \textbf{8m (RV)} & \textbf{8x (EFV)} & \textbf{8x (RV)} \\ \hline
+			\multicolumn{1}{l|}{\textit{SSM pro Fr. und Kl. Auto}} & 55,67 & 55,69 & 258,55 & 270,58 & 343,47 & 355,41 \\ \hline
+			\multicolumn{1}{l|}{\textit{SSM pro detektiertes Auto}} & 30,93 & 30,94 & 95,76 & 100,22 & 101,02 & 102,52 \\ \hline
+			\multicolumn{1}{l|}{\textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ Autos (in Klam. pro Fr.)\end{tabular}}} & 54 (1,8) & 54 (1,8)) & 81 (2,7) & 81 (2,7) & 102 (3,4) & 104 (3,47) \\ \hline
+			\multicolumn{1}{l|}{} &  &  &  &  &  &  \\ \hline
+			\textit{SSM pro Fr. und Kl. LKW} & 1,40 & 1,40 & 15,66 & 15,38 & 14,32 & 14,19 \\ \hline
+			\multicolumn{1}{l|}{\textit{SSM pro detektierter LKW}} & 1,14 & 1,14 & 4,75 & 4,66 & 4,17 & 4,09 \\ \hline
+			\multicolumn{1}{l|}{\textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ LKW (in Klam. pro Fr.)\end{tabular}}} & 37 (1,23) & 37 (1,23) & 99 (3,3) & 99 (3,3) & 103 (3,43) & 104 (3,47) \\ \hline
+			\multicolumn{1}{l|}{} &  &  &  &  &  &  \\ \hline
+			\multicolumn{1}{l|}{\textit{SSM pro Fr. und Kl. Zug}} & 125,37 & 119,29 & - & - & - & - \\ \hline
+			\multicolumn{1}{l|}{\textit{SSM pro detektierten Zug}} & 70,96 & 70,17 & - & - & - & - \\ \hline
+			\multicolumn{1}{l|}{\textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ Züge (in Klam. pro Fr.)\end{tabular}}} & 53 (1,77) & 51 (1,7) & - & - & - & - \\ \hline
+			\multicolumn{1}{l|}{} &  &  &  &  &  &  \\ \hline
+			\multicolumn{1}{l|}{SSM pro Fr. und Kl. Bus} & - & - & 71,83 & 71,83 & - & - \\ \hline
+			\multicolumn{1}{l|}{SSM pro detektiertem Bus} & - & - & 126,77 & 126,77 & - & - \\ \hline
+			\multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ Busse (in Klam. pro Fr.)\end{tabular}} & - & - & 17 (0,57) & 17 (0,57) & - & -
+			\end{tabular}
+			\end{table}
+
+			\begin{table}[]
+				\caption{Vergleich der SSMs bei verschiedenen YOLO8 bei 10 Sekunde Video (300 Frames)}
+				\label{tab:YOLO8_A10s}
+				\begin{tabular}{l|l|l|l|l|l|l}
+				 & \textbf{8n (EFV)} & \textbf{8n (RV)} & \textbf{8m (EFV)} & \textbf{8m (RV)} & \textbf{8x (EFV)} & \textbf{8x (RV)} \\ \hline
+				\textit{SSM pro Fr. und Kl. Auto} & 34,25 & 34,24 & 232,00 & 232,00 & 344,68 & 344,68 \\ \hline
+				\textit{SSM pro detektiertes Auto} & 21,31 & 21,36 & 87,00 & 87,22 & 114,13 & 114,38 \\ \hline
+				\textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ Autos (in Klam. pro Fr.)\end{tabular}} & \begin{tabular}[c]{@{}l@{}}482 \\ (1,61)\end{tabular} & \begin{tabular}[c]{@{}l@{}}481 \\ (1,6)\end{tabular} & \begin{tabular}[c]{@{}l@{}}800\\ (2,67)\end{tabular} & \begin{tabular}[c]{@{}l@{}}798 \\ (2,66)\end{tabular} & \begin{tabular}[c]{@{}l@{}}906\\ (3,02)\end{tabular} & \begin{tabular}[c]{@{}l@{}}904 \\ (3,63)\end{tabular} \\ \hline
+				 &  &  &  &  &  &  \\ \hline
+				\textit{SSM pro Fr. und Kl. LKW} & 1,90 & 1,90 & 9,01 & 9,00 & 12,86 & 12,86 \\ \hline
+				\textit{SSM pro detektierter LKW} & 1,47 & 1,47 & 2,96 & 2,95 & 3,55 & 3,54 \\ \hline
+				\textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ LKW (in Klam. pro Fr.)\end{tabular}} & \begin{tabular}[c]{@{}l@{}}388 \\ (1,29)\end{tabular} & \begin{tabular}[c]{@{}l@{}}387\\ (1,29)\end{tabular} & \begin{tabular}[c]{@{}l@{}}914 \\ (3,05)\end{tabular} & \begin{tabular}[c]{@{}l@{}}914\\ (3,05)\end{tabular} & \begin{tabular}[c]{@{}l@{}}1088\\ (3,63)\end{tabular} & \begin{tabular}[c]{@{}l@{}}1088 \\ (3,63)\end{tabular} \\ \hline
+				 &  &  &  &  &  &  \\ \hline
+				\textit{SSM pro Fr. und Kl. Zug} & 14,86 & 14,28 & - & - & F & F \\ \hline
+				\textit{SSM pro detektierten Zug} & 20,44 & 19,65 & - & - & F & F \\ \hline
+				\textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ Züge (in Klam. pro Fr.)\end{tabular}} & \begin{tabular}[c]{@{}l@{}}218 \\ (0,73)\end{tabular} & \begin{tabular}[c]{@{}l@{}}218\\ (0,73)\end{tabular} & - & - & \begin{tabular}[c]{@{}l@{}}7\\ (0,02)\end{tabular} & \begin{tabular}[c]{@{}l@{}}7\\ (0,02)\end{tabular} \\ \hline
+				 &  &  &  &  &  &  \\ \hline
+				\textit{SSM pro Fr. und Kl. Bus} & 0,0004 & 0,0004 & 8,41 & 8,41 & F & F \\ \hline
+				\textit{SSM pro detektiertem Bus} & 0,0023 & 0,0023 & 37,10 & 36,56 & F & F \\ \hline
+				\textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ Busse (in Klam. pro Fr.)\end{tabular}} & \begin{tabular}[c]{@{}l@{}}58 \\ (0,19)\end{tabular} & \begin{tabular}[c]{@{}l@{}}58\\ (0,19)\end{tabular} & \begin{tabular}[c]{@{}l@{}}68 \\ (0,23)\end{tabular} & \begin{tabular}[c]{@{}l@{}}69 \\ (0,23)\end{tabular} & \begin{tabular}[c]{@{}l@{}}7\\ (0,02)\end{tabular} & \begin{tabular}[c]{@{}l@{}}7\\ (0,02)\end{tabular} \\ \hline
+				\textit{} &  &  &  &  &  &  \\ \hline
+				\textit{\begin{tabular}[c]{@{}l@{}}SSM pro Fr. und Kl. \\ Motorrad\end{tabular}} & - & - & 0,02 & 0,02 & - & - \\ \hline
+				\textit{\begin{tabular}[c]{@{}l@{}}SSM pro detektiertes \\ Motorrad\end{tabular}} & - & - & 1,30 & 1,30 & - & - \\ \hline
+				\textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ Motorräder (in Kl. pro Fr.)\end{tabular}} & - & - & \begin{tabular}[c]{@{}l@{}}4\\ (0,01)\end{tabular} & \begin{tabular}[c]{@{}l@{}}4 \\ (0,01)\end{tabular} & - & -
+				\end{tabular}
+				\end{table}
 \subsection{yolo8n}
 {black video immer an, yolo8n}
 \
