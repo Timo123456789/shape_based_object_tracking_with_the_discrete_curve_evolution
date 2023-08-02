@@ -31,13 +31,14 @@
 Alle Angaben in den Tabellen, außer bei den absoluten Anzahlen, sind in Grad (Deg.).}
 \subsection{Winkelabweichung ohne Klassenunterscheidung}
 {	\todo{klare Benennung von YOLO oder Yolo; bzw. Yolov8n oder 8n etc.}
+	\todo{Yolo Modelle ebenfalls durchgehend klar benennen}
 	In der Tabelle \ref{tab:YOLO8_A1s} sind die durchnittlichen Winkelabweichungen pro Polygon und pro Winkel zu sehen. Diese Abweichung wurde über das gesamte Video berechnet für alle Polygone ohne Klassenunterscheidung berechnet.  EFV steht für die 1. YOLO Version, in der jeder Frame extrahiert wird (siehe Kap. \ref{py:YOLO_every_frame}) und RV für die 2. YOLO Version (siehe Kap. \ref{py:YOLO_res_vers}), wo YOLO zuerst das Video insgesamt analysiert. Beide Implementierungen unterscheiden sich von den statistischen Auswertungen nur marginal.\\
 	Es ist auffällig, dass die durchschnittliche  Winkelabweichung steigt, je größer der Trainingsdatensatz des verwendeten Modells ist. Dies könnte daran liegen, dass bei einem größeren Trainingsdatensatz mehr Detektionen möglich sind, welche damit  die Abweichung erhöhen. Auch an dem steigenden Wert der absoluten Abweichung ist zu sehen, dass es Unterschiede zwischen den Modellen gibt. Die absolute Winkelabweichung steigt insbesondere im Vergleich von Yolov8n mit 3910,4 Grad (RV Version) zu Yolov8m mit 7358,55 Grad (RV Version) ebenfalls an. Dies ist auch im Vergleich zu Yolov8x zu sehen. \\
 	Die erkannte Punktanzahl nach der Vereinfachung mit der DCE bleibt relativ konstant zwischen den Modellen, abgesehen von den Punkten bei Yolov8m. Dies ist damit zu erklären, dass die Vereinfachung mit der DCE zu konstanten und gleich bleibenden Punkt- und Polygonanzahlen führt. \\
 	Der Unterschied zwischen Yolov8n und Yolov8m ist auch in der Zahl der verglichenen Polygone sichtbar. Dieser Wert gibt an, wie viel Polygone mit gleicher Klasse verglichen zum nächsten Frame in die Berechnung der absoluten Abweichung einfließen. Es wurden bei der Berechnung der absoluten Abweichung die Differenzen zwischen dieser Anzahl an Polygonen summiert. Im Vergleich zu Yolov8m und Yolov8x ergibt sich nur eine gering ansteigende Zahl verglichener und erkannter Polygone. \\
 	Die Prozessierungszeit steigt mit der Verwendung komplexerer YOLO Modelle an. Im Vergleich zwischen den Implementierungen ist zu erkennen, dass die zweite Variante performanter ist.
 	\begin{table}[ht]
-	\caption{Vergleich der verschiedenen YOLO8 bei 1 Sekunde Video (30 Frames) (Quelle: eigene Darstellung; \ref{cd:listing_A1s_EF_results.txt(Y8n)}; \ref{cd:listing_A1s_RV_results.txt(Y8n)}; \ref{cd:listing_A1s_EF_results.txt(Y8m)}; \ref{cd:listing_A1s_RV_results.txt(Y8m)}; \ref{cd:listing_A1s_EF_results.txt(Y8x)}; \ref{cd:listing_A1s_RV_results.txt(Y8x)})}
+	\caption[Vergleich der verschiedenen YOLO8 bei 1 Sekunde Video (30 Frames) (Quelle: eigene Darstellung)]{Vergleich der verschiedenen YOLO8 bei 1 Sekunde Video (30 Frames) (Quelle: eigene Darstellung; \ref{cd:listing_A1s_EF_results.txt(Y8n)}; \ref{cd:listing_A1s_RV_results.txt(Y8n)}; \ref{cd:listing_A1s_EF_results.txt(Y8m)}; \ref{cd:listing_A1s_RV_results.txt(Y8m)}; \ref{cd:listing_A1s_EF_results.txt(Y8x)}; \ref{cd:listing_A1s_RV_results.txt(Y8x)})}
 	\label{tab:YOLO8_A1s}
 	\begin{tabular}{l|l|l|l|l|l|l}
 	 & \textbf{8n (EFV)} & \textbf{8n (RV)} & \textbf{8m (EFV)} & \textbf{8m (RV)} & \textbf{8x (EFV)} & \textbf{8x (RV)} \\ \hline
@@ -52,7 +53,7 @@ Alle Angaben in den Tabellen, außer bei den absoluten Anzahlen, sind in Grad (D
 	\end{tabular}
 	\end{table}
 	\begin{table}[ht]
-		\caption{Vergleich der verschiedenen YOLO8 bei 10 Sekunde Video (300 Frames) (Quelle: eigene Darstellung; \ref{cd:listing_A10s_EF_results.txt(Y8n)}; \ref{cd:listing_A10s_RV_results.txt(Y8n)}; \ref{cd:listing_A10s_EF_results.txt(Y8m)}; \ref{cd:listing_A10s_RV_results.txt(Y8m)}; \ref{cd:listing_A10s_EF_results.txt(Y8x)}; \ref{cd:listing_A10s_RV_results.txt(Y8x)})}
+		\caption[Vergleich der verschiedenen YOLO8 bei 10 Sekunde Video (300 Frames) (Quelle: eigene Darstellung)]{Vergleich der verschiedenen YOLO8 bei 10 Sekunde Video (300 Frames) (Quelle: eigene Darstellung; \ref{cd:listing_A10s_EF_results.txt(Y8n)}; \ref{cd:listing_A10s_RV_results.txt(Y8n)}; \ref{cd:listing_A10s_EF_results.txt(Y8m)}; \ref{cd:listing_A10s_RV_results.txt(Y8m)}; \ref{cd:listing_A10s_EF_results.txt(Y8x)}; \ref{cd:listing_A10s_RV_results.txt(Y8x)})}
 		\label{tab:YOLO8_A10s}
 		\begin{tabular}{l|l|l|l|l|l|l}
 		 & \textbf{8n (EFV)} & \textbf{8n (RV)} & \textbf{8m (EFV)} & \textbf{8m (RV)} & \textbf{8x (EFV)} & \textbf{8x (RV)} \\ \hline
@@ -74,7 +75,7 @@ Alle Angaben in den Tabellen, außer bei den absoluten Anzahlen, sind in Grad (D
 	Die Prozessierungszeit sinkt jedoch im Verhältnis zur steigenden Framezahl mit den größeren Modellen langsam ab.
 
 	\begin{table}[ht]
-	\caption{Anstieg der verschiedenen YOLO8 Modelle im Vergleich von  1 Sekunde Video (30 Frames) zu 10 Sekunden Video (300 Frames) als Faktor}
+	\caption[Anstieg der verschiedenen YOLO8 Modelle im Vergleich von  1 Sekunde Video (30 Frames) zu 10 Sekunden Video (300 Frames) als Faktor]{Anstieg der verschiedenen YOLO8 Modelle im Vergleich von  1 Sekunde Video (30 Frames) zu 10 Sekunden Video (300 Frames) als Faktor (Quelle: eigene Darstellung; \ref{cd:listing_A1s_EF_results.txt(Y8n)}-\ref{cd:listing_A1s_RV_results.txt(Y8x)} )}
 	\label{tab:YOLO8_A1s_A10s_Comp}
 	\begin{tabular}{l|l|l|l|l|l|l}
 	& \textbf{8n (EFV)} & \textbf{8n (RV)} & \textbf{8m (EFV)} & \textbf{8m (RV)} & \textbf{8x (EFV)} & \textbf{8x (RV)} \\ \hline
@@ -88,12 +89,13 @@ Alle Angaben in den Tabellen, außer bei den absoluten Anzahlen, sind in Grad (D
 	\textit{\begin{tabular}[c]{@{}l@{}}Anstieg \\ Prozessierungszeit\end{tabular}} & 15,28 & 16,31 & 14,19 & 13,35 & 12,66 & 13,96
 	\end{tabular}
 	\end{table}
-}
+} 
+\clearpage
 	\subsection{Winkelabweichung mit Klassenunterscheidung}
 	{
 		
 	\begin{table}[ht]
-		\caption{Vergleich der SSMs bei verschiedenen YOLO8 bei 1 Sekunde Video (30 Frames)}
+		\caption[Vergleich der SSMs bei verschiedenen YOLO8 bei 1 Sekunde Video (30 Frames)]{Vergleich der SSMs bei verschiedenen YOLO8 bei 1 Sekunde Video (30 Frames) (Alle Angaben in Grad) (Quelle: eigene Darstellung; \ref{cd:listing_A1s_EF_results.txt(Y8n)}; \ref{cd:listing_A1s_RV_results.txt(Y8n)}; \ref{cd:listing_A1s_EF_results.txt(Y8m)}; \ref{cd:listing_A1s_RV_results.txt(Y8m)}; \ref{cd:listing_A1s_EF_results.txt(Y8x)}; \ref{cd:listing_A1s_RV_results.txt(Y8x)})}
 		\label{tab:YOLO8_A1s_SSM}
 		\begin{tabular}{l|l|l|l|l|l|l}
 		 & \textbf{8n (EFV)} & \textbf{8n (RV)} & \textbf{8m (EFV)} & \textbf{8m (RV)} & \textbf{8x (EFV)} & \textbf{8x (RV)} \\ \hline
@@ -115,55 +117,49 @@ Alle Angaben in den Tabellen, außer bei den absoluten Anzahlen, sind in Grad (D
 		\end{tabular}
 	\end{table}
 		Bei dieser Berechnung wird die Winkelabweichung auch als \glqq Shape Similarity Measure \grqq{} (SSM, Formähnlichkeitsmaß) bezeichnet, da dieses sich auf den Vergleich einzelner Klassen miteinander bezieht. Dieses Maß ist in einzelne Klassen aufschlüsselbar. Das SSM wird für jede Klasse pro Frame (SSM pro Fr. und Kl.), aber auch für alle detektierten Klassen (SSM pro Klasse) berechnet. Da ersteres jedoch ein Referenzmaß jeder Klasse in jedem Frame benötigt, wird das Ergebnis bei exakt einem Objekt einer Klasse in einem Frame ungültig. Die Ergebnisse sind in den Tabellen mit \glqq F\grqq{} gekennzeichnet, da diese immer 0 ergeben.  \\
+		Die absolute Anzahl detektierter Klassenobjekte ist nicht gleichzusetzen mit der Anzahl der sich durch das Video bewegenden Objekte (bspw. als Zähler der durch das Video fahrenden Autos). Dies ist der Fall, weil die Zahl für jedes Frame berechnet wird und diese Zahl immer weiter aufsummiert wird. Die Zahl der detektierten Objekte pro Frame entspricht ca. der durchschnittlich getrackten Anzahl der jeweiligen Objekte, bzw. Klassen.
 		Zwischen den beiden Implementierungen von YOLO ist in beiden Tabellen \ref{tab:YOLO8_A1s_SSM} und \ref{tab:YOLO8_A10s_SSM} nur ein marginaler Unterschied zu erkennen. Das in Tabelle \ref{tab:YOLO8_A10s_SSM} zwischen den Versionen teilweise kein Unterschied bei den Werten vorhanden ist, liegt an der Rundung der Werte auf 2 Nachkommastellen, da der Unterschied bei der Menge von 300 Frames marginal ist.
 		
 		In Tabelle \ref{tab:YOLO8_A1s_SSM} ist zu sehen, dass die Abweichung pro Frame und Klasse bei der Klasse Auto den Yolo Versionen 8n und 8m um das ca. 5-fache steigt. Der Anstieg bei der Klasse LKW ist hingegen der Anstieg noch stärker mit dem ca. 11 fachen. Dies kann daran liegen, dass weniger LKW als Autos erkannt wurden, was sich auch in der absoluten Anzahl und in der durchschnittlichen Anzahl pro Frame niederschlägt. Der Anstieg innerhalb der Klassen zwischen den Yolo Versionen 8n und 8m kann durch die höhere Anzahl detektierter LKW und Auto erklärt werden.
 		Im Vergleich zu YOLO 8n liegt 8m detektiert die größere YOLO Version weniger Züge als LKW falsch. Dies erklärt, weshalb bei YOLO 8m und 8x keine Züge mehr detektiert wurden. 51 Züge wurden in YOLO 8n (RV) erkannt, was ungefähr der Differenz an mehr detektierten Autos in YOLO 8m (RV) mit 99 entspricht. Die hohen SSM bei Zügen und Bussen sind durch die hohen Punktzahlen von 20 pro Polygon zu erklären, da diese beiden Klassen zu den \glqq  anderen Objekten\grqq{} gezählt werden. \\
-		Yolo 8m detektiert LKW als Busse falsch, dies ist im Vergleich zu 8x zu sehen wo weder Züge noch Busse detektiert wurden. YOLO 8x verfügt durch den größten Trainingsdatensatz über die beste Erkennungsrate, was jedoch zu einer hohen SSM pro Frame und Klasse, sowie pro Klasse allgemein führt.
-		
-		Bei dem Testvideo mit 300 Frames erhöhen 
-
-
-
-
-		
-
-
-
-
-		
-			
-
-			\begin{table}[ht]
-				\caption{Vergleich der SSMs bei verschiedenen YOLO8 bei 10 Sekunde Video (300 Frames)}
-				\label{tab:YOLO8_A10s_SSM}
-				\begin{tabular}{l|l|l|l|l|l|l}
-				& \textbf{8n (EFV)} & \textbf{8n (RV)} & \textbf{8m (EFV)} & \textbf{8m (RV)} & \textbf{8x (EFV)} & \textbf{8x (RV)} \\ \hline
-				\textit{SSM pro Fr. und Kl. Auto} & 34,25 & 34,24 & 232,00 & 232,00 & 344,68 & 344,68 \\ \hline
-				\textit{SSM pro detektiertes Auto} & 21,31 & 21,36 & 87,00 & 87,22 & 114,13 & 114,38 \\ \hline
-				\textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ Autos (in Klam. pro Fr.)\end{tabular}} & \begin{tabular}[c]{@{}l@{}}482 \\ (1,61)\end{tabular} & \begin{tabular}[c]{@{}l@{}}481 \\ (1,6)\end{tabular} & \begin{tabular}[c]{@{}l@{}}800\\ (2,67)\end{tabular} & \begin{tabular}[c]{@{}l@{}}798 \\ (2,66)\end{tabular} & \begin{tabular}[c]{@{}l@{}}906\\ (3,02)\end{tabular} & \begin{tabular}[c]{@{}l@{}}904 \\ (3,63)\end{tabular} \\ \hline
-				&  &  &  &  &  &  \\ \hline
-				\textit{SSM pro Fr. und Kl. LKW} & 1,90 & 1,90 & 9,01 & 9,00 & 12,86 & 12,86 \\ \hline
-				\textit{SSM pro detektierter LKW} & 1,47 & 1,47 & 2,96 & 2,95 & 3,55 & 3,54 \\ \hline
-				\textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ LKW (in Klam. pro Fr.)\end{tabular}} & \begin{tabular}[c]{@{}l@{}}388 \\ (1,29)\end{tabular} & \begin{tabular}[c]{@{}l@{}}387\\ (1,29)\end{tabular} & \begin{tabular}[c]{@{}l@{}}914 \\ (3,05)\end{tabular} & \begin{tabular}[c]{@{}l@{}}914\\ (3,05)\end{tabular} & \begin{tabular}[c]{@{}l@{}}1088\\ (3,63)\end{tabular} & \begin{tabular}[c]{@{}l@{}}1088 \\ (3,63)\end{tabular} \\ \hline
-				&  &  &  &  &  &  \\ \hline
-				\textit{SSM pro Fr. und Kl. Zug} & 14,86 & 14,28 & - & - & F & F \\ \hline
-				\textit{SSM pro detektierten Zug} & 20,44 & 19,65 & - & - & F & F \\ \hline
-				\textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ Züge (in Klam. pro Fr.)\end{tabular}} & \begin{tabular}[c]{@{}l@{}}218 \\ (0,73)\end{tabular} & \begin{tabular}[c]{@{}l@{}}218\\ (0,73)\end{tabular} & - & - & \begin{tabular}[c]{@{}l@{}}7\\ (0,02)\end{tabular} & \begin{tabular}[c]{@{}l@{}}7\\ (0,02)\end{tabular} \\ \hline
-				&  &  &  &  &  &  \\ \hline
-				\textit{SSM pro Fr. und Kl. Bus} & 0,0004 & 0,0004 & 8,41 & 8,41 & F & F \\ \hline
-				\textit{SSM pro detektiertem Bus} & 0,0023 & 0,0023 & 37,10 & 36,56 & F & F \\ \hline
-				\textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ Busse (in Klam. pro Fr.)\end{tabular}} & \begin{tabular}[c]{@{}l@{}}58 \\ (0,19)\end{tabular} & \begin{tabular}[c]{@{}l@{}}58\\ (0,19)\end{tabular} & \begin{tabular}[c]{@{}l@{}}68 \\ (0,23)\end{tabular} & \begin{tabular}[c]{@{}l@{}}69 \\ (0,23)\end{tabular} & \begin{tabular}[c]{@{}l@{}}7\\ (0,02)\end{tabular} & \begin{tabular}[c]{@{}l@{}}7\\ (0,02)\end{tabular} \\ \hline
-				\textit{} &  &  &  &  &  &  \\ \hline
-				\textit{\begin{tabular}[c]{@{}l@{}}SSM pro Fr. und Kl. \\ Motorrad\end{tabular}} & - & - & 0,02 & 0,02 & - & - \\ \hline
-				\textit{\begin{tabular}[c]{@{}l@{}}SSM pro detektiertes \\ Motorrad\end{tabular}} & - & - & 1,30 & 1,30 & - & - \\ \hline
-				\textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ Motorräder (in Kl. pro Fr.)\end{tabular}} & - & - & \begin{tabular}[c]{@{}l@{}}4\\ (0,01)\end{tabular} & \begin{tabular}[c]{@{}l@{}}4 \\ (0,01)\end{tabular} & - & -
-				\end{tabular}
-			\end{table}
-					
-
+		Yolo 8m detektiert LKW als Busse falsch, dies ist im Vergleich zu 8x zu sehen wo weder Züge noch Busse detektiert wurden. YOLO 8x verfügt durch den größten Trainingsdatensatz über die beste Erkennungsrate, was jedoch zu einer hohen SSM pro Frame und Klasse, sowie pro Klasse allgemein führt. \\
+		Bei dem Testvideo mit 300 Frames sinkt die SSM, weil durch die erhöhte Frameanzahl die Bedeutung des einzelnen Frames für die Berechnung geringer wird. Auch bei diesem Video ist ein großer Unterschied zwischen den Yolo Versionen 8n und 8m zu sehen. Dies hängt, wie beim 1-sekündigen Testvideo mit den Trainingsdaten der Yolo Modelle zusammen. Der Unterschied zwischen Yolo 8m und 8x ist mit ca. 100 Grad, bzw. ca. 100 mehr erkannten Objekten, gering. \\
+		Die Klasse Bus wird von allen 3 Modellen erkannt. Dies ist bei Yolo 8n noch sehr gering vorhanden, es liegt voraussichtlich daran, dass zwischendurch einzelne Frames einen oder mehrere als Busse erkannte LKW enthalten. Die SSM hat sich bei Yolo 8m erhöht, trotz des größeren Trainingsdatensatzes. Wenn man jedoch die absolute Anzahl von detektierten Bussen (68 Busse in 8m zu 58 Busse in 8n) oder die Anzahl der Busse pro Frame (0,23 in 8m zu 0,19 in 8m) vergleicht, ist der Anstieg sehr gering. Bei dem 8x Modell werden mit 7 Bussen, bzw. 0,02 Bussen pro Frame deutlich weniger detektiert. Dies kann am größten Traingsdatensatz des Modells liegen. Hier wird jedoch der Fehler bei der SSM angezeigt, dies bedeutet, dass immer nur ein Bus pro Frame detektiert wurde. 
+		\begin{table}[ht]
+			\caption[Vergleich der SSMs bei verschiedenen YOLO8 bei 10 Sekunde Video (300 Frames)]{Vergleich der SSMs bei verschiedenen YOLO8 bei 10 Sekunde Video (300 Frames) (Angaben in Grad) (Quelle: eigene Darstellung; \ref{cd:listing_A10s_EF_results.txt(Y8n)}; \ref{cd:listing_A10s_RV_results.txt(Y8n)}; \ref{cd:listing_A10s_EF_results.txt(Y8m)}; \ref{cd:listing_A10s_RV_results.txt(Y8m)}; \ref{cd:listing_A10s_EF_results.txt(Y8x)}; \ref{cd:listing_A10s_RV_results.txt(Y8x)})}
+			\label{tab:YOLO8_A10s_SSM}
+			\begin{tabular}{l|l|l|l|l|l|l}
+			& \textbf{8n (EFV)} & \textbf{8n (RV)} & \textbf{8m (EFV)} & \textbf{8m (RV)} & \textbf{8x (EFV)} & \textbf{8x (RV)} \\ \hline
+			\textit{SSM pro Fr. und Kl. Auto} & 34,25 & 34,24 & 232,00 & 232,00 & 344,68 & 344,68 \\ \hline
+			\textit{SSM pro detektiertes Auto} & 21,31 & 21,36 & 87,00 & 87,22 & 114,13 & 114,38 \\ \hline
+			\textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ Autos (in Klam. pro Fr.)\end{tabular}} & \begin{tabular}[c]{@{}l@{}}482 \\ (1,61)\end{tabular} & \begin{tabular}[c]{@{}l@{}}481 \\ (1,6)\end{tabular} & \begin{tabular}[c]{@{}l@{}}800\\ (2,67)\end{tabular} & \begin{tabular}[c]{@{}l@{}}798 \\ (2,66)\end{tabular} & \begin{tabular}[c]{@{}l@{}}906\\ (3,02)\end{tabular} & \begin{tabular}[c]{@{}l@{}}904 \\ (3,63)\end{tabular} \\ \hline
+			&  &  &  &  &  &  \\ \hline
+			\textit{SSM pro Fr. und Kl. LKW} & 1,90 & 1,90 & 9,01 & 9,00 & 12,86 & 12,86 \\ \hline
+			\textit{SSM pro detektierter LKW} & 1,47 & 1,47 & 2,96 & 2,95 & 3,55 & 3,54 \\ \hline
+			\textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ LKW (in Klam. pro Fr.)\end{tabular}} & \begin{tabular}[c]{@{}l@{}}388 \\ (1,29)\end{tabular} & \begin{tabular}[c]{@{}l@{}}387\\ (1,29)\end{tabular} & \begin{tabular}[c]{@{}l@{}}914 \\ (3,05)\end{tabular} & \begin{tabular}[c]{@{}l@{}}914\\ (3,05)\end{tabular} & \begin{tabular}[c]{@{}l@{}}1088\\ (3,63)\end{tabular} & \begin{tabular}[c]{@{}l@{}}1088 \\ (3,63)\end{tabular} \\ \hline
+			&  &  &  &  &  &  \\ \hline
+			\textit{SSM pro Fr. und Kl. Zug} & 14,86 & 14,28 & - & - & F & F \\ \hline
+			\textit{SSM pro detektierten Zug} & 20,44 & 19,65 & - & - & F & F \\ \hline
+			\textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ Züge (in Klam. pro Fr.)\end{tabular}} & \begin{tabular}[c]{@{}l@{}}218 \\ (0,73)\end{tabular} & \begin{tabular}[c]{@{}l@{}}218\\ (0,73)\end{tabular} & - & - & \begin{tabular}[c]{@{}l@{}}7\\ (0,02)\end{tabular} & \begin{tabular}[c]{@{}l@{}}7\\ (0,02)\end{tabular} \\ \hline
+			&  &  &  &  &  &  \\ \hline
+			\textit{SSM pro Fr. und Kl. Bus} & 0,0004 & 0,0004 & 8,41 & 8,41 & F & F \\ \hline
+			\textit{SSM pro detektiertem Bus} & 0,0023 & 0,0023 & 37,10 & 36,56 & F & F \\ \hline
+			\textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ Busse (in Klam. pro Fr.)\end{tabular}} & \begin{tabular}[c]{@{}l@{}}58 \\ (0,19)\end{tabular} & \begin{tabular}[c]{@{}l@{}}58\\ (0,19)\end{tabular} & \begin{tabular}[c]{@{}l@{}}68 \\ (0,23)\end{tabular} & \begin{tabular}[c]{@{}l@{}}69 \\ (0,23)\end{tabular} & \begin{tabular}[c]{@{}l@{}}7\\ (0,02)\end{tabular} & \begin{tabular}[c]{@{}l@{}}7\\ (0,02)\end{tabular} \\ \hline
+			\textit{} &  &  &  &  &  &  \\ \hline
+			\textit{\begin{tabular}[c]{@{}l@{}}SSM pro Fr. und Kl. \\ Motorrad\end{tabular}} & - & - & 0,02 & 0,02 & - & - \\ \hline
+			\textit{\begin{tabular}[c]{@{}l@{}}SSM pro detektiertes \\ Motorrad\end{tabular}} & - & - & 1,30 & 1,30 & - & - \\ \hline
+			\textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ Motorräder (in Kl. pro Fr.)\end{tabular}} & - & - & \begin{tabular}[c]{@{}l@{}}4\\ (0,01)\end{tabular} & \begin{tabular}[c]{@{}l@{}}4 \\ (0,01)\end{tabular} & - & -
+			\end{tabular}
+		\end{table}
+		Dass das Yolo 8m Modell als einziges Motorräder detektiert, kann mit Fehldetektierungen, wie Straßenschildern oder Leitpfosten als Motorrad, erklärt werden. Diese Fehldetektierung muss jedoch bei mehr als einem Objekt in einem Frame geschehen sein, sonst wäre der SSM, wie bei Yolo 8x und der Bus Klasse, 0.
+		Weitere falsche Detektierungen betreffen unter anderem die Klassen Person, Ampel und Bank. Diese sind als Fehldetektierung zu erklären und deshalb nicht in Tabelle \ref{tab:YOLO8_A10s_SSM} aufgelistet. Für die SSMs dieser Klassen siehe Anhang \ref{ls:result_txts}.
 	}
+	\subsection{Bewertung}
+	{ %Zusammenfassen kann man sagen, dass die durchschnittliche Abweichung pro Polygon nach der Vereinfachung von DCE zu hoch ist, um ein Tracking zu ermöglichen. Beim Einsatz der größeren Modelle steigt die Winkelabweichung und SSM an, dies ist aber zu vernachlässigen, da die Klassifizierung der Objekte genauer erfolgt. Insbesondere der Vergleich der SSM innerhalb einer Klasse  ist die Abweichung sehr hoch. \\
+	%Die Implementierung der YOLO Version in der Variante, dass das Video in einzelne Frames zerlegt wird und diese einzeln analysiert werden, hat sich im Vergleich zur direkten vollständigen Analyse mit YOLO als zu ineffektiv herausgestellt und kann damit verworfen werden. 
 	
+	Zusammenfassen kann man sagen, dass die durchschnittliche Abweichung pro Polygon nach der Vereinfachung von DCE gering genug ist, um ein Tracking zu ermöglichen. Beim Einsatz der größeren Modelle steigt die Winkelabweichung und SSM an, dies ist aber zu vernachlässigen, da die Klassifizierung der Objekte genauer erfolgt.  \\
+	Die Implementierung der YOLO Version in der Variante, dass das Video in einzelne Frames zerlegt wird und diese einzeln analysiert werden, hat sich im Vergleich zur direkten vollständigen Analyse mit YOLO als zu ineffektiv herausgestellt und kann damit verworfen werden. }
 
 		
 	
