@@ -4,12 +4,20 @@
 {Im Folgenden wird die Implementierung beschrieben. Diese erfolgte in der Programmiersprache Python, da diese weitverbreitet ist und eine einfache Einbindung weiterer Bibliotheken erlaubt \citep{Millman2011}. Durch diese leichte Erweiterungsmöglichkeit ergibt sich die Möglichkeit komplexen Programmcode zu schreiben, welcher den Rahmen dieser Arbeit nicht überschreitet.
 
 }
-%\blindtext
-\section{Datensammlung und Grundlage}
-{
-	\todo{WICHTIG muss noch gemacht werden}
+% \section{Datensammlung und Grundlage}
+% {
+% 	\todo{WICHTIG muss noch gemacht werden}
+% 	Die Datengrundlage zur Analyse bilden Videos im MP4 Format in der Auflösung 1920 \texttimes 1080 Pixeln. Diese wurden an der Autobahnbrücke zur A1 in Münster-Nienberge gefilmt \citep{GMaps}. Das Wetter war bedeckt, somit konnte die Sonne nicht einzelne Objekte überstrahlen. Das Videomaterial mit dem evaluiert wurde, stammt vom 17.07.2023 und wurde mittags (12:53 Uhr) aufgenommen. Es zeigt primär die beiden Fahrspuren der Autobahn (siehe Abb. \ref{Bsp_Evaluations_Vidmat}). \\
+% 	Am unteren Rand ist im Vordergrund rechts das Geländer der Autobahnbrücke zu erkennen. Links unten im Bild ist ein Warnkegel zu sehen. Der mittlere Bereich des Bildes wird von den Fahrspuren dominiert, rechts mittig sind zwei Verkehrsschilder. Im Hintergrund ist ein weiteres Verkehrschild zu erkennen, welches über die sich vom Betrachter entfernende führende Fahrspur ragt. Umrahmt sind die beiden Fahrspuren von Bäumen. \\
+% 	Das Videomaterial wurde mit der Software DaVinci Resolve \citep{davinciresolve} geschnitten um die für die Evaluation wichtige Vergleichbarkeit und Frameanzahl zu erhalten.
+% 	\begin{figure}[ht]
+% 		\centering
+% 		\includegraphics*[scale = 0.35, keepaspectratio ]{images/Umsetzung/Screenshot_Video_A10s.png}
+% 		\caption[Beispielframe aus Videomaterial]{Beispielframe aus Videomaterial (Quelle: eigene Darstellung)} 
+% 		\label{Bsp_Evaluations_Vidmat}
+%  \end{figure}
 
-}
+% }
 %\section{Verwendete Technologien}
 \section{Python}
 { \label{sec:Python}
@@ -166,7 +174,6 @@ In dieser Arbeit wird Anaconda als Entwicklungs- und Installationsumgebung genut
 	Aus dem Array mit den Referenzvariablen wird, falls vorhanden, die Winkelsumme abgerufen. Wenn diese Winkelsumme nicht vorhanden ist, wird dem Array der Differenzvariable 0 addiert um diese nicht zu ändern. Sonst wird analog zum obigen Verfahren der Messwert berechnet, nur mit der Änderung das die ClassID zu jedem Wert gespeichert wird, um die Vergleichbarkeit zu gewährleisten. \\
 	Damit ist das Erstellen der Arrays und die Schleife in Listing \ref{cd:shape_sim_meas_calc_SSM_one_frame_first.py} abgeschlossen. Diese Arrays werden aufsummiert. Bei Objekten, welche nicht den drei Hauptklassen entsprachen, wird mit einer Methode, welche die berechneten Werte in einzelne Arrays für jede detektierte Klasse sortiert (ähnlich zu Bucketsort), die Winkelabweichung berechnet. Für eine nähere Beschreibung siehe Anhang \ref{cd:listing_shape_sim_meas.py} ab Zeile 125. Eine Berechnung ist falsch, wenn nur ein Element einer Klasse pro Frame detektiert wurde, da die Winkeldifferenz dann immer 0 beträgt. Falls dies der Fall ist, wird dies im Results Dictionary für die jeweilige Klasse mitgeteilt.
 	Wenn alle Werte in das Result Dictionary geschrieben wurden, wird dieses als Textdatei abgespeichert und das Programm ist vollständig abgeschlossen.
-
 
 }
 

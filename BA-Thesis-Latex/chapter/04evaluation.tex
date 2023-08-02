@@ -1,9 +1,26 @@
 %!TEX root = ../thesis.tex
 \chapter{Evaluation}
 \label{ch:Evaluation}
-
+\todo{Satz noch schreiben?}
+\section{Datensammlung und Grundlage}
 {
-	% \begin{itemize}
+	Die Datengrundlage zur Analyse bilden Videos im MP4 Format in der Auflösung 1920 \texttimes 1080 Pixeln. Diese wurden an der Autobahnbrücke zur A1 in Münster-Nienberge gefilmt \citep{GMaps}. Das Wetter war bedeckt, somit konnte die Sonne nicht einzelne Objekte überstrahlen. Das Videomaterial mit dem evaluiert wurde, stammt vom 17.07.2023 und wurde mittags (12:53 Uhr) aufgenommen. Es zeigt primär die beiden Fahrspuren der Autobahn (siehe Abb. \ref{Bsp_Evaluations_Vidmat}). \\
+	Am unteren Rand ist im Vordergrund rechts das Geländer der Autobahnbrücke zu erkennen. Links unten im Bild ist ein Warnkegel zu sehen. Der mittlere Bereich des Bildes wird von den Fahrspuren dominiert, rechts mittig sind zwei Verkehrsschilder. Im Hintergrund ist ein weiteres Verkehrschild zu erkennen, welches über die sich vom Betrachter entfernende führende Fahrspur ragt. An den Seiten der beiden Fahrspuren sind Bäume. \\
+	Das Videomaterial wurde mit der Software DaVinci Resolve \citep{davinciresolve} geschnitten um die für die Evaluation wichtige Vergleichbarkeit und Frameanzahl zu erhalten.
+	\begin{figure}[ht]
+		\centering
+		\includegraphics*[scale = 0.35, keepaspectratio ]{images/Evaluation/Screenshot_Video_A10s.png}
+		\caption[Beispielframe aus Videomaterial]{Beispielframe aus Videomaterial (Quelle: eigene Darstellung)} 
+		\label{Bsp_Evaluations_Vidmat}
+ \end{figure}
+}
+
+
+\section{Testumgebung}{
+	Das Testsystem besteht aus einem Lenovo Thinkpad P14s. Dieses besitzt einen AMD Ryzen 7 PRO 5850U Prozessor mit 8 Kernen und 16 Threads bei einem Basistakt von 1,9 GHz und einem Höchsttakt von 4,4 GHz. Die integrierte Grafikeinheit AMD Radeon Graphics Einheit kann auf 8 GB VRAM zugreifen, sodass der effektive verfügbare Arbeitsspeicher des Systems bei 39,8 GB liegt \citep{PSREF21}. Die Entwicklungsumgebung 'Visual Studio Code' ist auf einer 64-bit Windows 11 Pro Installation in der Version 22H2 installiert. Für Details in der Python Konfiguration siehe Kap. \ref{sec:Python}. Für die Testdurchläufe ist der Laptop an ein 65 Watt Netzteil angeschlossen, um ein Throttling der CPU zu verhindern.
+}
+\section{Evaluationskriterien}
+{% \begin{itemize}
 	% 	\item Evaluation mit verschiedenen Testvideos
 	% 	\item immer das gleiche Video nur mit verschiedenen Längen
 	% 	\item Dann verschiedene Berechnungsmethode (YOLO every frame, yolo result)
@@ -23,12 +40,15 @@
 	Objekte, welche nicht den drei Hauptklassen entsprechen werden pauschal auf 20 Punkte vereinfacht. Das Video wird  schwarz gerendert, sodass sich nur weiße Polygone im Video bewegen. Außerdem werden für jedes Polygon die detektierte Klasse und der Confidence Score in jedem Frame angezeigt.
 
 }
-\section{Testumgebung}{
-	Das Testsystem besteht aus einem Lenovo Thinkpad P14s. Dieses besitzt einen AMD Ryzen 7 PRO 5850U Prozessor mit 8 Kernen und 16 Threads bei einem Basistakt von 1,9 GHz und einem Höchsttakt von 4,4 GHz. Die integrierte Grafikeinheit AMD Radeon Graphics Einheit kann auf 8 GB VRAM zugreifen, sodass der effektive verfügbare Arbeitsspeicher des Systems bei 39,8 GB liegt \citep{PSREF21}. Die Entwicklungsumgebung 'Visual Studio Code' ist auf einer 64-bit Windows 11 Pro Installation in der Version 22H2 installiert. Für Details in der Python Konfiguration siehe Kap. \ref{sec:Python}. Für die Testdurchläufe ist der Laptop an ein 65 Watt Netzteil angeschlossen, um ein Throttling der CPU zu verhindern.
-}
 \section{Ergebnisse}
-{ Die Winkelabweichung der einzelnen Polygone zueinander wird mit verschiedenen Methoden  (siehe Kap. \ref{py:Shape_Sim_Meas}) berechnet. Es wird zunächst auf die allgemeinen Ergebnisse ohne Klassenunterscheidung eingegangen und danach werden die Ergebnisse mit Klassenunterscheidung erläutert.\\
-Alle Angaben in den Tabellen, außer bei den absoluten Anzahlen, sind in Grad (Deg.).}
+{ Die Winkelabweichung der einzelnen Polygone zueinander wird mit verschiedenen Methoden  (siehe Kap. \ref{py:Shape_Sim_Meas}) berechnet. Es wird zunächst auf die allgemeinen Ergebnisse ohne Klassenunterscheidung eingegangen und danach werden die Ergebnisse mit Klassenunterscheidung erläutert. Ein Beispielframe aus dem 10-sekündigen Datensatz ist in Abb. \ref{Bsp_ErgebRVA10s_Vidmat} zu sehen.\\
+Alle Angaben in den Tabellen, außer bei den absoluten Anzahlen und in Tab. \ref{tab:YOLO8_A1s_A10s_Comp}, sind in Grad (Deg.).}
+\begin{figure}[ht]
+	\centering
+	\includegraphics*[scale = 0.35, keepaspectratio ]{images/Evaluation/Screenshot_A10s_RV.png}
+	\caption{Beispielframe aus mit der direkten YOLO Anwendung analysiertem Videomaterial (Quelle: eigene Darstellung)} 
+	\label{Bsp_ErgebRVA10s_Vidmat}
+\end{figure}
 \subsection{Winkelabweichung ohne Klassenunterscheidung}
 {	\todo{klare Benennung von YOLO oder Yolo; bzw. Yolov8n oder 8n etc.}
 	\todo{Yolo Modelle ebenfalls durchgehend klar benennen}
