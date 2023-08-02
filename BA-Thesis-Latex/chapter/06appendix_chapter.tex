@@ -1,9 +1,62 @@
 %!TEX root = ../thesis.tex
 \chapter{Anhang}
+\section{Weitere Abbildungen}
+\subsection{Theoretischer Hintergrund}{
+  
+    \begin{figure}[h]
+		\centering
+		\includegraphics*[scale = 0.4, keepaspectratio]{images/YOLO/YOLO_loss_function_detail_expl.png}
+		\caption[Detaillierte Erklärung der YOLO Loss Funktion]{Detaillierte Erklärung der YOLO Loss Funktion\citep{Terven2023}}
+		\label{YOLO_loss_function_detail}
+ 	\end{figure}
 
+    \begin{figure}[h]
+		\centering
+		\includegraphics*[scale = 0.15, keepaspectratio]{images/YOLO/YOLO_timeline_vers.png}
+		\caption[Übersicht über verschiedene YOLO Versionen im Zeitverlauf]{Übersicht über verschiedene YOLO-Versionen im Zeitverlauf \citep{Terven2023}}
+		\label{YOLO_timeline_vers}
+		\end{figure}
+
+    \begin{figure}[h]
+        \centering
+        \includegraphics*[scale = 0.35, keepaspectratio]{images/YOLO/YOLOv8_Arch.png}
+        \caption[Die Architektur von YOLOv8]{Die Architektur von YOLOv8 \citep{Terven2023}}
+        \label{YOLOv8_Arch}
+    \end{figure}
+
+
+    \begin{figure}[ht]
+        \centering
+        \includegraphics*[scale = 0.65, keepaspectratio, trim=2 2 2 2 ]{images/DCE/schem_maps_paper_DCE.png}
+        \caption[Anwendungsbeispiele für die \glqq Discrete Curve Evolution\grqq{}]{Anwendungsbeispiele für die \glqq Discrete Curve Evolution\grqq{}  \citep{Barkowsky2000}.}
+        \label{Bsp_DCE_Bark_Paper}
+    \end{figure}
+    \clearpage
+
+}
+\lstset{commentstyle=\color{black}, stepnumber=2} 
+\section{Evaluation}
+\subsection{Listing der Result Textdaten für YOLO8n Testdurchläufe}{
+    \lstinputlisting[caption={A1s\_EF\_results.txt (YoloV8n)}, label = {cd:listing_A1s_EF_results.txt(Y8n)}, language={}]{../Code/vid_examples/evaluation/01Yolo8n/A1s_EF_results.txt}
+    \lstinputlisting[caption={A1s\_RV\_results.txt (YoloV8n)}, label = {cd:listing_A1s_RV_results.txt(Y8n)}, language={}]{../Code/vid_examples/evaluation/01Yolo8n/A1s_RV_results.txt}
+    \lstinputlisting[caption={A10s\_EF\_results.txt (YoloV8n)}, label = {cd:listing_A10s_EF_results.txt(Y8n)}, language={}]{../Code/vid_examples/evaluation/01Yolo8n/A10s_EV_results.txt}
+    \lstinputlisting[caption={A10s\_RV\_results.txt (YoloV8n)}, label = {cd:listing_A10s_RV_results.txt(Y8n)}, language={}]{../Code/vid_examples/evaluation/01Yolo8n/A10s_RV_results.txt}
+}
+\subsection{Listing der Result Texdaten für YOLO8m Testdurchläufe}{
+    \lstinputlisting[caption={A1s\_EF\_results.txt (YoloV8m)}, label = {cd:listing_A1s_EF_results.txt(Y8m)}, language={}]{../Code/vid_examples/evaluation/02Yolo8m/A1s_EV_results.txt}
+    \lstinputlisting[caption={A1s\_RV\_results.txt (YoloV8m)}, label = {cd:listing_A1s_RV_results.txt(Y8m)}, language={}]{../Code/vid_examples/evaluation/02Yolo8m/A1s_RV_results.txt}
+    \lstinputlisting[caption={A10s\_EF\_results.txt (YoloV8m)}, label = {cd:listing_A10s_EF_results.txt(Y8m)}, language={}]{../Code/vid_examples/evaluation/02Yolo8m/A10s_EV_results.txt}
+    \lstinputlisting[caption={A10s\_RV\_results.txt (YoloV8m)}, label = {cd:listing_A10s_RV_results.txt(Y8m)}, language={}]{../Code/vid_examples/evaluation/02Yolo8m/A10s_RV_results.txt}
+}
+\subsection{Listing der Result Texdaten für YOLO8x Testdurchläufe}{
+    \lstinputlisting[caption={A1s\_EF\_results.txt (YoloV8x)}, label = {cd:listing_A1s_EF_results.txt(Y8x)}, language={}]{../Code/vid_examples/evaluation/03Yolo8x/A1s_EV_results.txt}
+    \lstinputlisting[caption={A1s\_RV\_results.txt (YoloV8x)}, label = {cd:listing_A1s_RV_results.txt(Y8x)}, language={}]{../Code/vid_examples/evaluation/03Yolo8x/A1s_RV_results.txt}
+    \lstinputlisting[caption={A10s\_EF\_results.txt (YoloV8x)}, label = {cd:listing_A10s_EF_results.txt(Y8x)}, language={}]{../Code/vid_examples/evaluation/03Yolo8x/A10s_EV_results.txt}
+    \lstinputlisting[caption={A10s\_RV\_results.txt (YoloV8x)}, label = {cd:listing_A10s_RV_results.txt(Y8x)}, language={}]{../Code/vid_examples/evaluation/03Yolo8x/A10s_RV_results.txt}
+}
 \section{Listing mit Dokumentation und Kommentaren im Code}{\label{cd:gesamt_listing}}
 
-\lstset{commentstyle=\color{black}, stepnumber=2} 
+
 \todo{More Comment auf Default setzen noch einbauen, oder doch oben kommentare nur weiß setzten nach lattenzaun}
 
 
