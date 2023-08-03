@@ -19,7 +19,7 @@
 \section{Testumgebung}{
 	Das Testsystem besteht aus einem Lenovo Thinkpad P14s. Dieses besitzt einen AMD Ryzen 7 PRO 5850U Prozessor mit 8 Kernen und 16 Threads bei einem Basistakt von 1,9 GHz und einem Höchsttakt von 4,4 GHz. Die integrierte Grafikeinheit AMD Radeon Graphics Einheit kann auf 8 GB VRAM zugreifen, sodass der effektive verfügbare Arbeitsspeicher des Systems bei 39,8 GB liegt \citep{PSREF21}. Die Entwicklungsumgebung 'Visual Studio Code' ist auf einer 64-bit Windows 11 Pro Installation in der Version 22H2 installiert. Für Details in der Python Konfiguration siehe Kap. \ref{sec:Python}. Für die Testdurchläufe ist der Laptop an ein 65 Watt Netzteil angeschlossen, um ein Throttling der CPU zu verhindern.
 }
-\section{Evaluationskriterien}
+\section{Einstellungen und Testdatensätze}
 {% \begin{itemize}
 	% 	\item Evaluation mit verschiedenen Testvideos
 	% 	\item immer das gleiche Video nur mit verschiedenen Längen
@@ -27,7 +27,6 @@
 	% 	\item mit und ohne schwarzes video ?
 	% 	\item mit verschiedenen YOLO Modellen (v8n, v8x, v8)
 	% \end{itemize}
-	Die Evaluation erfolgt anhand der vom Programm berechneten statistischen Auswertungen für verschiedene Videos mit den beiden Berechnungsmethoden. \\
 	Es werden 2 Videodaten genommen, die sich jeweils in der Länge unterscheiden. Beide Testdatensätze basieren auf dem gleichen Video. Die Länge unterscheidet sich, da das erste Video 1 Sekunde, bzw. 30 Frames, lang ist und das zweite Video 10 Sekunden dauert, bzw. 300 Frames besitzt. Hier überschneidet sich die erste Sekunde. \\
 	Es werden 3 YOLO Modelle benutzt: YOLO8n, YOLOv8n (small), YOLOv8m (medium) und YOLOv8x (extra large). Diese sind mit verschieden großen Datensätzen trainiert worden, für Details siehe Kapitel \ref{subsec:YOLOv8_theoretic}.
 	Die Einstellungen des Programms für die Grenze der Punktsubstitution der DCE sind, dass Autos auf 10 Punkte, Motorräder auf 5 und Lkw auf 8 Punkte reduziert werden.
@@ -174,42 +173,23 @@ Alle Angaben in den Tabellen, außer bei den absoluten Anzahlen und in Tab. \ref
 		Dass das Yolo 8m Modell als einziges Motorräder detektiert, kann mit Fehldetektierungen, wie Straßenschildern oder Leitpfosten als Motorrad, erklärt werden. Diese Fehldetektierung muss jedoch bei mehr als einem Objekt in einem Frame geschehen sein, sonst wäre der SSM, wie bei Yolo 8x und der Bus Klasse, 0.
 		Weitere falsche Detektierungen betreffen unter anderem die Klassen Person, Ampel und Bank. Diese sind als Fehldetektierung zu erklären und deshalb nicht in Tabelle \ref{tab:YOLO8_A10s_SSM} aufgelistet. Für die SSMs dieser Klassen siehe Anhang \ref{ls:result_txts}.
 	}
-	\subsection{Bewertung}
-	{ %Zusammenfassen kann man sagen, dass die durchschnittliche Abweichung pro Polygon nach der Vereinfachung von DCE zu hoch ist, um ein Tracking zu ermöglichen. Beim Einsatz der größeren Modelle steigt die Winkelabweichung und SSM an, dies ist aber zu vernachlässigen, da die Klassifizierung der Objekte genauer erfolgt. Insbesondere der Vergleich der SSM innerhalb einer Klasse  ist die Abweichung sehr hoch. \\
-	%Die Implementierung der YOLO Version in der Variante, dass das Video in einzelne Frames zerlegt wird und diese einzeln analysiert werden, hat sich im Vergleich zur direkten vollständigen Analyse mit YOLO als zu ineffektiv herausgestellt und kann damit verworfen werden. 
+% 	\section{Bewertung}
+% 	{ %Zusammenfassen kann man sagen, dass die durchschnittliche Abweichung pro Polygon nach der Vereinfachung von DCE zu hoch ist, um ein Tracking zu ermöglichen. Beim Einsatz der größeren Modelle steigt die Winkelabweichung und SSM an, dies ist aber zu vernachlässigen, da die Klassifizierung der Objekte genauer erfolgt. Insbesondere der Vergleich der SSM innerhalb einer Klasse  ist die Abweichung sehr hoch. \\
+% 	%Die Implementierung der YOLO Version in der Variante, dass das Video in einzelne Frames zerlegt wird und diese einzeln analysiert werden, hat sich im Vergleich zur direkten vollständigen Analyse mit YOLO als zu ineffektiv herausgestellt und kann damit verworfen werden. 
 	
-	Zusammenfassen kann man sagen, dass die durchschnittliche Abweichung pro Polygon nach der Vereinfachung von DCE gering genug ist, um ein Tracking zu ermöglichen. Beim Einsatz der größeren Modelle steigt die Winkelabweichung und SSM an, dies ist aber zu vernachlässigen, da die Klassifizierung der Objekte genauer erfolgt.  \\
-	Die Implementierung der YOLO Version in der Variante, dass das Video in einzelne Frames zerlegt wird und diese einzeln analysiert werden, hat sich im Vergleich zur direkten vollständigen Analyse mit YOLO als zu ineffektiv herausgestellt und kann damit verworfen werden. }
+% 	Zusammenfassen kann man sagen, dass die durchschnittliche Abweichung pro Polygon nach der Vereinfachung von DCE gering genug ist, um ein Tracking zu ermöglichen. Beim Einsatz der größeren Modelle steigt die Winkelabweichung und SSM an, dies ist aber zu vernachlässigen, da die Klassifizierung der Objekte genauer erfolgt.  \\
+% 	Die Implementierung der YOLO Version in der Variante, dass das Video in einzelne Frames zerlegt wird und diese einzeln analysiert werden, hat sich im Vergleich zur direkten vollständigen Analyse mit YOLO als zu ineffektiv herausgestellt und kann damit verworfen werden. }
 
-		
+% \section{Ausblick}
+%  { 
+% %	\begin{enumerate}
+% % 	\item DCE Abbruchbedingung nicht fest implementieren sondern einen Wert einführen, der immer im Vergleich zur Ähnlichkeit des Ursprungspolygons gemessen wird. Ermöglicht eine bedarfsbezogene Vereinfachung des Polygons, individuell für jeden erkannten Umriss
+% % 	\item Implementierung der DCE; bzw. anderer Programmteile in schnellerer Programmiersprache wie C/C++; bzw. hardwarenah(er)
+% % \end{enumerate}
 	
-		
 
 
-			
-			
-				
-
-
-
-
-
-
-
-
-
-
-\section{Ausblick}
-\begin{enumerate}
-	\item DCE Abbruchbedingung nicht fest implementieren sondern einen Wert einführen, der immer im Vergleich zur Ähnlichkeit des Ursprungspolygons gemessen wird. Ermöglicht eine bedarfsbezogene Vereinfachung des Polygons, individuell für jeden erkannten Umriss
-	\item Implementierung der DCE; bzw. anderer Programmteile in schnellerer Programmiersprache wie C/C++; bzw. hardwarenah(er)
-\end{enumerate}
-{
-	Wenn das Ergebnis der Anwendung von DCE für Objekttracking erfolgreich ist und die getrackten Objekte erkennbar bleiben, kann eine hardwarenahe Programmierung erfolgen. Diese könnte in C oder C++ gemacht werden, um schnellere Ergebnisse liefern zu können, da die Prozessierungsgeschwindigkeit von Python begrenzt ist.\newline
-Durch die hardwarenahe Implementierung der DCE könnte eine Anonymisierung direkt am Aufzeichnungsort stattfinden. Auch ein vereinfachtes Objekttracking ist durch eine erfolgreiche Anwendung der DCE möglich.
-
-
-}
+% }
 
 
 

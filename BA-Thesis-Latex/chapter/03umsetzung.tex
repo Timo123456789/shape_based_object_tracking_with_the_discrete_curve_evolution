@@ -43,7 +43,7 @@ In dieser Arbeit wird Anaconda als Entwicklungs- und Installationsumgebung genut
 	}
 	\subsection{YOLOv8 von \citeauthor{Canu_pysource}}
 	{ \label{YOLOv8_canu}
-	 Es wird in dieser Arbeit das Modell YOLOv8n-seq benutzt, da dies bereits eine Segmentierung der Objekte integriert hat. Für eine detaillierte Beschreibung siehe Kap. \ref{subsec:YOLOv8_theoretic}. \\
+	 Es wird in dieser Arbeit werden die \glqq-seq\grqq{} Modelle von YOLO benutzt, da diese bereits eine Segmentierung der Objekte mit deren Umrissen integriert haben. Für eine detaillierte Beschreibung siehe Kap. \ref{subsec:YOLOv8_theoretic}. \\
 	 Die Implementierung basiert auf \citeauthor{Canu_pysource}, da dieser eine Einführung in Bildbearbeitung mit Python unter der Benutzung von YOLO gegeben hat \citep{Canu_pysource}.
 	}
 \section{Meta-Ablauf im Programm}{
@@ -108,7 +108,7 @@ In dieser Arbeit wird Anaconda als Entwicklungs- und Installationsumgebung genut
 
 	Die \lstinline|get_outline_for_every_object| Funktion (siehe Listing \ref{cd:yolo_result_get_outline_for_every_object.py}) läuft folgendermaßen ab. \\
 	Die Schleife iteriert über die Gesamtanzahl der Frames im Video. Durch die IF Abfrage wird der Fall abgefangen, dass kein Objekt im Frame erkannt wurde. Wenn ein Objekt erkannt wurde, werden mit der \lstinline|get_data| Funktion die Daten der detektierten Objekte aus dem Frame exportiert. Ansonsten wird das Frame ohne Veränderung überschrieben, wenn das Video im \lstinline|options| Dictionary nicht auf schwarz gesetzt wurde. Die \lstinline|get_data| Funktion basiert auf \citeauthor{Canu_pysource} \citep{Canu_pysource}. \\
-	Diese Daten werden in einzelne Variablen abgespeichert. Danach wird auf die Umrisse die DCE (siehe \ref{py:DCE}) angewendet. Mit CV2 werden die vereinfachten Umrisse dann in das Frame gespeichtert, indem das gerade analysierte Frame überschrieben wird. \\
+	Diese Daten werden in einzelne Variablen abgespeichert. Danach wird auf die Umrisse die DCE (siehe \ref{py:DCE}) angewendet. Mit CV2 werden die vereinfachten Umrisse dann in das Frame gespeichert, indem das gerade analysierte Frame überschrieben wird. \\
 	\lstinputlisting[linerange={11,18-20,23-25,27-30,33,39,41,42}, caption={Ausschnitt 1 aus \protect\lstinline|get_outline_for_every_object| Funktion in yolo\_result\_version.py}, label = {cd:yolo_result_get_outline_for_every_object.py}]{../Code/YOLO/yolo_result_version.py}
 	Die zweite FOR Schleife (siehe Listing \ref{cd:yolo_result_get_outline_for_every_object_second.py}) zeichnet für jedes erkannte Objekt im Frame die Boundingbox und die Labels, falls dies im \lstinline|options| Dictionary gesetzt wurde. Außerdem wird noch die Gesamtsumme der Winkel  zur späteren statistischen Auswertung für jedes Polygon berechnet.
 	\lstinputlisting[firstnumber = 16,linerange={44-46,48,49,52,64,66,67,69,70,73}, caption={Ausschnitt 2 aus \protect\lstinline|get_outline_for_every_object| Funktion in yolo\_result\_version.py}, label = {cd:yolo_result_get_outline_for_every_object_second.py}]{../Code/YOLO/yolo_result_version.py}

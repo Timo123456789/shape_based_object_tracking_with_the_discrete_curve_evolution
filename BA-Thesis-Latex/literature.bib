@@ -110,20 +110,32 @@ title = {{A Threshold Selection Method from Gray-Level Histogram}},
 volume = {C},
 year = {1979}
 }
-@article{Plastiras2018,
-abstract = {Many applications utilizing Unmanned Aerial Vehicles (UAVs) require the use of computer vision algorithms to analyze the information captured from their on-board camera. Recent advances in deep learning have made it possible to use single-shot Convolutional Neural Network (CNN) detection algorithms that process the input image to detect various objects of interest. To keep the computational demands low these neural networks typically operate on small image sizes which, however, makes it difficult to detect small objects. This is further emphasized when considering UAVs equipped with cameras where due to the viewing range, objects tend to appear relatively small. This paper therefore, explores the trade-offs involved when maintaining the resolution of the objects of interest by extracting smaller patches (tiles) from the larger input image and processing them using a neural network. Specifically, we introduce an attention mechanism to focus on detecting objects only in some of the tiles and a memory mechanism to keep track of information for tiles that are not processed. Through the analysis of different methods and experiments we show that by carefully selecting which tiles to process we can considerably improve the detection accuracy while maintaining comparable performance to CNNs that resize and process a single image which makes the proposed approach suitable for UAV applications.},
-archivePrefix = {arXiv},
-arxivId = {1911.06073},
-author = {Plastiras, George and Kyrkou, Christos and Theocharides, Theocharis},
-doi = {10.1145/3243394.3243692},
-eprint = {1911.06073},
-file = {:C\:/Users/timol/OneDrive - Universit{\"{a}}t M{\"{u}}nster/10. Fachsemester_SS_2023/BA Vorbereitung/Moratz_Thema/Literatur/unkategorisiert/YOLO Algorithm Paper.pdf:pdf},
-isbn = {9781450365116},
-journal = {ACM International Conference Proceeding Series},
-keywords = {Aerial cameras,Convolutional neural networks,Object detection,Pedestrian detection},
-mendeley-groups = {Proposal/Small},
-title = {{Efficient convnet-based object detection for unmanned aerial vehicles by selective tile processing}},
-year = {2018}
+% @article{Redmon2016,
+% abstract = {Many applications utilizing Unmanned Aerial Vehicles (UAVs) require the use of computer vision algorithms to analyze the information captured from their on-board camera. Recent advances in deep learning have made it possible to use single-shot Convolutional Neural Network (CNN) detection algorithms that process the input image to detect various objects of interest. To keep the computational demands low these neural networks typically operate on small image sizes which, however, makes it difficult to detect small objects. This is further emphasized when considering UAVs equipped with cameras where due to the viewing range, objects tend to appear relatively small. This paper therefore, explores the trade-offs involved when maintaining the resolution of the objects of interest by extracting smaller patches (tiles) from the larger input image and processing them using a neural network. Specifically, we introduce an attention mechanism to focus on detecting objects only in some of the tiles and a memory mechanism to keep track of information for tiles that are not processed. Through the analysis of different methods and experiments we show that by carefully selecting which tiles to process we can considerably improve the detection accuracy while maintaining comparable performance to CNNs that resize and process a single image which makes the proposed approach suitable for UAV applications.},
+% archivePrefix = {arXiv},
+% arxivId = {1911.06073},
+% author = {Plastiras, George and Kyrkou, Christos and Theocharides, Theocharis},
+% doi = {10.1145/3243394.3243692},
+% eprint = {1911.06073},
+% file = {:C\:/Users/timol/OneDrive - Universit{\"{a}}t M{\"{u}}nster/10. Fachsemester_SS_2023/BA Vorbereitung/Moratz_Thema/Literatur/unkategorisiert/YOLO Algorithm Paper.pdf:pdf},
+% isbn = {9781450365116},
+% journal = {ACM International Conference Proceeding Series},
+% keywords = {Aerial cameras,Convolutional neural networks,Object detection,Pedestrian detection},
+% mendeley-groups = {Proposal/Small},
+% title = {{Efficient convnet-based object detection for unmanned aerial vehicles by selective tile processing}},
+% year = {2018}
+% }
+
+@incollection{Redmon2016,
+author = {Redmon, Joseph and Divvala, Santosh and Girshick, Ross and Farhadi, Ali},
+booktitle = {2016 IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
+doi = {10.1109/CVPR.2016.91},
+isbn = {978-1-4673-8852-8},
+keywords = {Computer Vision and Pattern Recognition (cs.CV),FOS: Computer and information sciences},
+pages = {779--788},
+publisher = {IEEE},
+title = {{You Only Look Once: Unified, Real-Time Object Detection}},
+year = {2016}
 }
 
 @misc{Metz2022,
@@ -417,4 +429,97 @@ mendeley-groups = {BA Thesis},
 title = {{DaVinci Resolve 18 | Blackmagic Design}},
 url = {https://www.blackmagicdesign.com/de/products/davinciresolve},
 urldate = {2023-08-02}
+}
+
+
+@article{Latecki2003,
+abstract = {Human perception of shape is based on visual parts of objects to a point that a single, significant visual part is sufficient to recognize the whole object. For example, if you see a hand in the door, you expect a human behind the door. Therefore, a cognitively motivated shape similarity measure for recognition applications should be based on visual parts. This cognitive assumption leads to two related problems of scale selection and subpart selection. To find a given query part Q as part of an object C, Q needs to have a correct size with regards to C (scale selection). Assuming that the correct size is selected, the part Q must be compared to all possible subparts of C (subpart selection). For global, contour-based similarity measures, scaling the whole contour curves of both objects to the same length usually solves the problem of scale selection. Although this is not an optimal solution, it works if the whole contour curves are 'sufficiently' similar. Subpart selection problem does not occur in the implementation of global similarity measures. In this paper we present a shape similarity system that is based on correspondence of visual parts, and apply it to robot localization and mapping. This is a particularly interesting application, since the scale selection problem does not occur here and visual parts can be obtained in a very simple way. Therefore, only the problem of subpart selection needs to be solved. Our solution to this problem is based on a contour based shape similarity measure supplemented by a structural arrangement information of visual parts. {\textcopyright} Springer-Verlag Berlin Heidelberg 2003.},
+author = {Latecki, Longin Jan and Lak{\"{a}}mper, Rolf and Wolter, Diedrich},
+doi = {10.1007/978-3-540-39966-7_3},
+file = {:C\:/Users/timol/OneDrive - Universit{\"{a}}t M{\"{u}}nster/10. Fachsemester_SS_2023/BA Vorbereitung/Moratz_Thema/Literatur/Shape_Similarity_and_Visual_Parts.pdf:pdf},
+isbn = {3540204997},
+issn = {16113349},
+journal = {Lecture Notes in Computer Science (including subseries Lecture Notes in Artificial Intelligence and Lecture Notes in Bioinformatics)},
+mendeley-groups = {BA Thesis},
+pages = {34--51},
+title = {{Shape similarity and visual parts}},
+volume = {2886},
+year = {2003}
+}
+
+
+@misc{loss_google,
+mendeley-groups = {BA Thesis},
+title = {{Descending into ML: Training and Loss  |  Machine Learning  |  Google for Developers}},
+url = {https://developers.google.com/machine-learning/crash-course/descending-into-ml/training-and-loss?hl=en},
+urldate = {2023-08-03}
+}
+
+
+@article{Hosang2017,
+abstract = {Object detectors have hugely profited from moving towards an end-to-end learning paradigm: proposals, features, and the classifier becoming one neural network improved results two-fold on general object detection. One indispensable component is non-maximum suppression (NMS), a post-processing algorithm responsible for merging all detections that belong to the same object. The de facto standard NMS algorithm is still fully hand-crafted, suspiciously simple, and - being based on greedy clustering with a fixed distance threshold - forces a trade-off between recall and precision. We propose a new network architecture designed to perform NMS, using only boxes and their score. We report experiments for person detection on PETS and for general object categories on the COCO dataset. Our approach shows promise providing improved localization and occlusion handling.},
+archivePrefix = {arXiv},
+arxivId = {1705.02950},
+author = {Hosang, Jan and Benenson, Rodrigo and Schiele, Bernt},
+doi = {10.1109/CVPR.2017.685},
+eprint = {1705.02950},
+file = {:C\:/Users/timol/OneDrive - Universit{\"{a}}t M{\"{u}}nster/10. Fachsemester_SS_2023/BA Vorbereitung/Moratz_Thema/Literatur/Learning non-maximum suppression.pdf:pdf},
+isbn = {9781538604571},
+journal = {Proceedings - 30th IEEE Conference on Computer Vision and Pattern Recognition, CVPR 2017},
+mendeley-groups = {BA Thesis},
+pages = {6469--6477},
+title = {{Learning non-maximum suppression}},
+volume = {2017-January},
+year = {2017}
+}
+
+
+@misc{Ground_truth_desc,
+mendeley-groups = {BA Thesis},
+title = {{What is Ground Truth - Machine Learning | MLOps Wiki}},
+url = {https://censius.ai/wiki/ground-truth},
+urldate = {2023-08-03}
+}
+
+
+@misc{SOSQE_desc,
+mendeley-groups = {BA Thesis},
+title = {{Error Sum of Squares}},
+url = {https://hlab.stanford.edu/brian/error_sum_of_squares.html},
+urldate = {2023-08-03}
+}
+
+
+@article{Russakovsky2015,
+abstract = {The ImageNet Large Scale Visual Recognition Challenge is a benchmark in object category classification and detection on hundreds of object categories and millions of images. The challenge has been run annually from 2010 to present, attracting participation from more than fifty institutions. This paper describes the creation of this benchmark dataset and the advances in object recognition that have been possible as a result. We discuss the challenges of collecting large-scale ground truth annotation, highlight key breakthroughs in categorical object recognition, provide a detailed analysis of the current state of the field of large-scale image classification and object detection, and compare the state-of-the-art computer vision accuracy with human accuracy. We conclude with lessons learned in the 5 years of the challenge, and propose future directions and improvements.},
+archivePrefix = {arXiv},
+arxivId = {1409.0575},
+author = {Russakovsky, Olga and Deng, Jia and Su, Hao and Krause, Jonathan and Satheesh, Sanjeev and Ma, Sean and Huang, Zhiheng and Karpathy, Andrej and Khosla, Aditya and Bernstein, Michael and Berg, Alexander C. and Fei-Fei, Li},
+doi = {10.1007/S11263-015-0816-Y},
+eprint = {1409.0575},
+file = {:C\:/Users/timol/AppData/Local/Mendeley Ltd./Mendeley Desktop/Downloaded/Russakovsky et al. - 2015 - ImageNet Large Scale Visual Recognition Challenge.pdf:pdf},
+issn = {15731405},
+journal = {International Journal of Computer Vision},
+keywords = {Benchmark,Dataset,Large-scale,Object detection,Object recognition},
+mendeley-groups = {BA Thesis},
+month = {dec},
+number = {3},
+pages = {211--252},
+publisher = {Springer New York LLC},
+title = {{ImageNet Large Scale Visual Recognition Challenge}},
+volume = {115},
+year = {2015}
+}
+@misc{imageNET_about,
+mendeley-groups = {BA Thesis},
+title = {{ImageNet}},
+url = {https://www.image-net.org/about.php},
+urldate = {2023-08-03}
+}
+
+@misc{pascal_voc,
+mendeley-groups = {BA Thesis},
+title = {{The PASCAL Visual Object Classes Homepage}},
+url = {http://host.robots.ox.ac.uk/pascal/VOC/},
+urldate = {2023-08-03}
 }
