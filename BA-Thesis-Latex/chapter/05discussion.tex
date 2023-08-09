@@ -1,0 +1,29 @@
+%!TEX root = ../thesis.tex
+\chapter{Diskussion}
+\label{ch:Diskussion}
+{
+	Die beiden verschiedenen YOLO Implementierungen in der EF und RV Version sind sehr ähnlich im Ergebnis und Aufbau. Es zeigt sich jedoch in der Evaluation , dass die EF Variante länger für die Berechnung benötigt und damit ineffektiver ist (siehe Kap. \ref{sec:Ergebnisse}). Dies liegt daran, dass die EF Variante das Video erst in einzelne Frames zerlegt und erst dann YOLO anwendet. Dadurch ist die Prozessierung mit YOLO ineffektiver aber möglicherweise ressourcenschonender im RAM Verbrauch. \todo{das muss überprüft werden; muss mal in die längeren Evaluationsvideos gucken, wie da die Statistik ist} Das Zusammensetzen der einzelnen analysierten Frames zu einem Video verlängert die Prozessierungszeit zusätzlich, dies geschieht jedoch auch in der RV Version. \\
+	Die RV Version besitzt den Vorteil, dass durch die direkte Verarbeitung des Videos mit dem sehr effiziente geschriebenen YOLO Algorithmus alle Prozessorkerne mitsamt der Grafikkarte vollständig ausgelastet werden können. Zusätzlich steigt jedoch der RAM Verbrauch stark an, da YOLO dort jedes Frame speichert und analysiert. Dies sorgt für eine Zeitersparnis beim Programm. \\ 
+	Die DCE Implementierung ist relativ ineffizient, da der K Wert für jeden Punkt im Polygon neu berechnet werden muss, nachdem ein Punkt entfernt wurde. Dies könnte optimiert werden, indem mehrere Punkte eines Polygons gleichzeitig während einer DCE Iteration entfernt werden. Weitere Möglichkeiten wären effizientere Schleifenstrukturen oder Multithreading bei der Berechnung des K Wertes. \\
+	Es ist außerdem zu erkennen, dass unterschiedliche YOLO Modelle nur geringe Auswirkungen auf die Gesamtlaufzeit des Programmes haben. Die DCE hat deutlich höheren Einfluss. \\
+	
+	Mit einem besseren YOLO Modell steigt die SSM für jede Klasse pro Polygon an, weil die Anzahl der erkannten Objekte steigt. Dies kann durch die größeren Trainingsdaten erklärt werden. Die steigende Abweichung, beispielsweise von ca. 20 über ca. 90. bis zu ca. 114 Grad pro detektiertes Auto kann man auch durch die unterschiedlichen Vereinfachung der DCE erklärt werden. Ein Auto ist im ersten Frame anders vereinfacht worden, als im nächsten Frame, wo möglicherweise andere Punkte zum Polygon hinzugekommen sind oder entfernt wurden. Diese Vereinfachung kann für jedes Polygon anders verlaufen, da die DCE die Relevanz von jedem Punkt in jedem neuen Polygon neu berechnet und YOLO die Umrisse mit kleineren Abweichungen ausgibt.
+
+	Bei Objekten, die bei der DCE Vereinfachung als \glqq other Object\grqq{} behandelt werden, können die deutlich höheren SSMs durch die deutlich höheren Punktzahlen, auf die die DCE am Ende reduziert, erklärt werden. Diese führt zu einer steigenden Gesamtwinkelsumme pro Polygon, welches auch zu einer höheren Abweichung der Gesamtwinkelsumme im nächsten Frame führt. Dies kann die gleichen Ursachen wie im obigen Abschnitt haben. \\
+	
+	Auswirkungen auf die absolute Anzahl von Autos können LKW, die Autos transportieren haben. Einer dieser Autotransporter ist im Testdatensatz zu sehen, was zu einer Erhöhung der absoluten Anzahl von Autos führt, als dieser teilweise aus dem Bild fährt, wodurch nur noch die auf dem Anhänger stehenden Autos von YOLO detektiert werden. Weitere falsche Detektierungen können durch Schilder und andere Objekte verursacht werden. \\
+
+
+}
+% {
+% 	\begin{itemize}
+		
+% 		\item höhere SSMs bei als 'andere Objekte' deklarierte Polygone, da die Punktzahlen auf die diese reduziert werden höher ist, was zu einer höheren Gesamtwinkelsumme pro Polygon führt und damit die Abweichung zur nächsten Gesamtwinkelsumme im nächsten Frame steigt
+% 		\item LKW werden aufgrund der langen Form mit recht monotonem Aussehen als Zug oder Bus Fehldetektiert
+% 		\item LKW, die Autos transportieren können die absolute Anzahl der PKW stark verfälschen
+% 		\item Falsche Detektierungen von Yolo werden durch Schilder und andere Objekte verursacht
+% 	\end{itemize}
+
+% }
+
+

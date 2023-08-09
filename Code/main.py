@@ -17,9 +17,9 @@ def main():
     """
     options = {
             "path_directory": r'Code\vid_examples\evaluation',  #main path for storing files
-            "source_video": r'Code\vid_examples\evaluation\Autobahn5F.mp4', #name for source video
-            "write_video": r'\A5F_temp.mp4', #storing name for result video
-            "results": r'\A5F_temp.txt', # storing name for statistics
+            "source_video": r'Code\vid_examples\Seadrone.mp4', #name for source video
+            "write_video": r'\seadrone_temp.mp4', #storing name for result video
+            "results": r'\seadrone_temp.txt', # storing name for statistics
 
             "path_source_video": r'temp', #temp variable for storing path for source video
             "path_write_video": r'temp', #temp variable for storing path for write video
@@ -30,10 +30,10 @@ def main():
         	"NoP_Truck": 8, #Number of final Points for Trucks, first try: 8, second try:45
         	"NoP_other_Object": 20, #Number of final Points for other Objects, first try: 20, second try:60
 
-            "YOLO_model": 'yolov8n-seg.pt',  #set YOLO Model
-            "black_video": True, #Bool that turns the whole video black, so that only white sillhouettes are shown in the video
+            "YOLO_model": 'yolov8x-seg.pt',  #set YOLO Model
+            "black_video": False, #Bool that turns the whole video black, so that only white sillhouettes are shown in the video
             "write_labels": True, #Bool that ensures that a label with scores is written to the video for each polygon
-            "yolo_every_frame": True, #Boolean that enables an alternative YOLO application method
+            "yolo_every_frame": False, #Boolean that enables an alternative YOLO application method
 
             "save_timestamps": True, #bool, which activates the saving of the timestamps
             "timestamp_prog_start": time.time(),

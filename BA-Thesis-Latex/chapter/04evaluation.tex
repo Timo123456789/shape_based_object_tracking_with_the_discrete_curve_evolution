@@ -1,11 +1,10 @@
 %!TEX root = ../thesis.tex
 \chapter{Evaluation}
 \label{ch:Evaluation}
-\todo{Satz noch schreiben?}
 \section{Datensammlung und Grundlage}
-{
-	Die Datengrundlage zur Analyse bilden Videos im MP4 Format in der Auflösung 1920 \texttimes 1080 Pixeln. Diese wurden an der Autobahnbrücke zur A1 in Münster-Nienberge gefilmt \citep{GMaps}. Das Wetter war bedeckt, somit konnte die Sonne nicht einzelne Objekte überstrahlen. Das Videomaterial mit dem evaluiert wurde, stammt vom 17.07.2023 und wurde mittags (12:53 Uhr) aufgenommen. Es zeigt primär die beiden Fahrspuren der Autobahn (siehe Abb. \ref{Bsp_Evaluations_Vidmat}). \\
-	Am unteren Rand ist im Vordergrund rechts das Geländer der Autobahnbrücke zu erkennen. Links unten im Bild ist ein Warnkegel zu sehen. Der mittlere Bereich des Bildes wird von den Fahrspuren dominiert, rechts mittig sind zwei Verkehrsschilder. Im Hintergrund ist ein weiteres Verkehrschild zu erkennen, welches über die sich vom Betrachter entfernende führende Fahrspur ragt. An den Seiten der beiden Fahrspuren sind Bäume. \\
+{ \label{sec:datengrundlage}
+	Die Datengrundlage zur Analyse bilden Videos im MP4 Format in der Auflösung 1920 \texttimes 1080 Pixeln. Diese wurden an der Autobahnbrücke zur A1 in Münster-Nienberge aufgenommen \citep{GMaps}. Das Wetter war bedeckt, somit konnte die Sonne nicht einzelne Objekte überstrahlen. Das Videomaterial mit dem evaluiert wurde, stammt vom 17.07.2023 und wurde mittags (12:53 Uhr) aufgenommen. Es zeigt primär die beiden Fahrspuren der Autobahn (siehe Abb. \ref{Bsp_Evaluations_Vidmat}). \\
+	Am unteren Rand ist im Vordergrund rechts das Geländer der Autobahnbrücke zu erkennen. Links unten im Bild ist ein Warnkegel zu sehen. Der mittlere Bereich des Bildes wird von den Fahrspuren dominiert, rechts mittig sind zwei Verkehrsschilder. Im Hintergrund ist ein weiteres Verkehrsschild zu erkennen, welches über die sich vom Betrachter entfernende führende Fahrspur ragt. An den Seiten der beiden Fahrspuren sind Bäume. \\
 	Das Videomaterial wurde mit der Software DaVinci Resolve \citep{davinciresolve} geschnitten um die für die Evaluation wichtige Vergleichbarkeit und Frameanzahl zu erhalten.
 	\begin{figure}[ht]
 		\centering
@@ -39,62 +38,62 @@
 	Objekte, welche nicht den drei Hauptklassen entsprechen werden pauschal auf 20 Punkte vereinfacht. Das Video wird  schwarz gerendert, sodass sich nur weiße Polygone im Video bewegen. Außerdem werden für jedes Polygon die detektierte Klasse und der Confidence Score in jedem Frame angezeigt.
 
 }
-\section{Ergebnisse}
-{ Die Winkelabweichung der einzelnen Polygone zueinander wird mit verschiedenen Methoden  (siehe Kap. \ref{py:Shape_Sim_Meas}) berechnet. Es wird zunächst auf die allgemeinen Ergebnisse ohne Klassenunterscheidung eingegangen und danach werden die Ergebnisse mit Klassenunterscheidung erläutert. Ein Beispielframe aus dem 10-sekündigen Datensatz ist in Abb. \ref{Bsp_ErgebRVA10s_Vidmat} zu sehen.\\
-Alle Angaben in den Tabellen, außer bei den absoluten Anzahlen und in Tab. \ref{tab:YOLO8_A1s_A10s_Comp}, sind in Grad (Deg.).}
+\section{Ergebnisse\label{sec:Ergebnisse}} 
+{Die Winkelabweichung der einzelnen Polygone zueinander wird mit verschiedenen Methoden  (siehe Kap. \ref{py:Shape_Sim_Meas}) berechnet. Es wird zunächst auf die allgemeinen Ergebnisse ohne Klassenunterscheidung eingegangen und danach werden die Ergebnisse mit Klassenunterscheidung erläutert. Ein Beispielframe aus dem 10-sekündigen Datensatz ist in Abb. \ref{Bsp_ErgebRVA10s_Vidmat} zu sehen.\\
+Alle Angaben in den Tabellen, außer bei den absoluten Anzahlen und in Tab. \ref{tab:YOLO8_A1s_A10s_Comp}, sind in Grad (Deg.). Die Modelle von YOLO werden mit 8n, 8m, 8x entsprechend abgekürzt und werden immer in der Version \glqq -seq \grqq{} genutzt.}
 \begin{figure}[ht]
 	\centering
 	\includegraphics*[scale = 0.35, keepaspectratio ]{images/Evaluation/Screenshot_A10s_RV.png}
-	\caption{Beispielframe aus mit der direkten YOLO Anwendung analysiertem Videomaterial (Quelle: eigene Darstellung)} 
+	\caption[Beispielframe aus mit der direkten YOLO Anwendung analysiertem Videomaterial]{Beispielframe aus mit der direkten YOLO Anwendung analysiertem Videomaterial (Quelle: eigene Darstellung)} 
 	\label{Bsp_ErgebRVA10s_Vidmat}
 \end{figure}
 \subsection{Winkelabweichung ohne Klassenunterscheidung}
 {	\todo{klare Benennung von YOLO oder Yolo; bzw. Yolov8n oder 8n etc.}
 	\todo{Yolo Modelle ebenfalls durchgehend klar benennen}
 	In der Tabelle \ref{tab:YOLO8_A1s} sind die durchnittlichen Winkelabweichungen pro Polygon und pro Winkel zu sehen. Diese Abweichung wurde über das gesamte Video berechnet für alle Polygone ohne Klassenunterscheidung berechnet.  EFV steht für die 1. YOLO Version, in der jeder Frame extrahiert wird (siehe Kap. \ref{py:YOLO_every_frame}) und RV für die 2. YOLO Version (siehe Kap. \ref{py:YOLO_res_vers}), wo YOLO zuerst das Video insgesamt analysiert. Beide Implementierungen unterscheiden sich von den statistischen Auswertungen nur marginal.\\
-	Es ist auffällig, dass die durchschnittliche  Winkelabweichung steigt, je größer der Trainingsdatensatz des verwendeten Modells ist. Dies könnte daran liegen, dass bei einem größeren Trainingsdatensatz mehr Detektionen möglich sind, welche damit  die Abweichung erhöhen. Auch an dem steigenden Wert der absoluten Abweichung ist zu sehen, dass es Unterschiede zwischen den Modellen gibt. Die absolute Winkelabweichung steigt insbesondere im Vergleich von Yolov8n mit 3910,4 Grad (RV Version) zu Yolov8m mit 7358,55 Grad (RV Version) ebenfalls an. Dies ist auch im Vergleich zu Yolov8x zu sehen. \\
-	Die erkannte Punktanzahl nach der Vereinfachung mit der DCE bleibt relativ konstant zwischen den Modellen, abgesehen von den Punkten bei Yolov8m. Dies ist damit zu erklären, dass die Vereinfachung mit der DCE zu konstanten und gleich bleibenden Punkt- und Polygonanzahlen führt. \\
-	Der Unterschied zwischen Yolov8n und Yolov8m ist auch in der Zahl der verglichenen Polygone sichtbar. Dieser Wert gibt an, wie viel Polygone mit gleicher Klasse verglichen zum nächsten Frame in die Berechnung der absoluten Abweichung einfließen. Es wurden bei der Berechnung der absoluten Abweichung die Differenzen zwischen dieser Anzahl an Polygonen summiert. Im Vergleich zu Yolov8m und Yolov8x ergibt sich nur eine gering ansteigende Zahl verglichener und erkannter Polygone. \\
+	Es ist auffällig, dass die durchschnittliche  Winkelabweichung steigt, je größer der Trainingsdatensatz des verwendeten Modells ist. Dies könnte daran liegen, dass bei einem größeren Trainingsdatensatz mehr Detektionen möglich sind, welche damit  die Abweichung erhöhen. Auch an dem steigenden Wert der absoluten Abweichung ist zu sehen, dass es Unterschiede zwischen den Modellen gibt. Die absolute Winkelabweichung steigt insbesondere im Vergleich von 8n mit 3910,4 Grad (RV Version) zu 8m mit 7358,55 Grad (RV Version) ebenfalls an. Dies ist auch im Vergleich zu 8x zu sehen. \\
+	Die erkannte Punktanzahl nach der Vereinfachung mit der DCE bleibt relativ konstant zwischen den Modellen, abgesehen von den Punkten bei 8m. Dies ist damit zu erklären, dass die Vereinfachung mit der DCE zu konstanten und gleich bleibenden Punkt- und Polygonanzahlen führt. \\
+	Der Unterschied zwischen 8n und 8m ist auch in der Zahl der verglichenen Polygone sichtbar. Dieser Wert gibt an, wie viel Polygone mit gleicher Klasse verglichen zum nächsten Frame in die Berechnung der absoluten Abweichung einfließen. Es wurden bei der Berechnung der absoluten Abweichung die Differenzen zwischen dieser Anzahl an Polygonen summiert. Im Vergleich zu 8m und 8x ergibt sich nur eine gering ansteigende Zahl verglichener und erkannter Polygone. \\
 	Die Prozessierungszeit steigt mit der Verwendung komplexerer YOLO Modelle an. Im Vergleich zwischen den Implementierungen ist zu erkennen, dass die zweite Variante performanter ist.
 	\begin{table}[ht]
-	\caption[Vergleich der verschiedenen YOLO8 bei 1 Sekunde Video (30 Frames) (Quelle: eigene Darstellung)]{Vergleich der verschiedenen YOLO8 bei 1 Sekunde Video (30 Frames) (Quelle: eigene Darstellung; \ref{cd:listing_A1s_EF_results.txt(Y8n)}; \ref{cd:listing_A1s_RV_results.txt(Y8n)}; \ref{cd:listing_A1s_EF_results.txt(Y8m)}; \ref{cd:listing_A1s_RV_results.txt(Y8m)}; \ref{cd:listing_A1s_EF_results.txt(Y8x)}; \ref{cd:listing_A1s_RV_results.txt(Y8x)})}
+	\caption[Vergleich der verschiedenen YOLO Modelle bei 1 Sekunde Video (30 Frames) (Quelle: eigene Darstellung)]{Vergleich der verschiedenen YOLO8 bei 1 Sekunde Video (30 Frames) (Quelle: eigene Darstellung; \ref{cd:listing_A1s_EF_results.txt(Y8n)}; \ref{cd:listing_A1s_RV_results.txt(Y8n)}; \ref{cd:listing_A1s_EF_results.txt(Y8m)}; \ref{cd:listing_A1s_RV_results.txt(Y8m)}; \ref{cd:listing_A1s_EF_results.txt(Y8x)}; \ref{cd:listing_A1s_RV_results.txt(Y8x)})}
 	\label{tab:YOLO8_A1s}
 	\begin{tabular}{l|l|l|l|l|l|l}
-	 & \textbf{8n (EFV)} & \textbf{8n (RV)} & \textbf{8m (EFV)} & \textbf{8m (RV)} & \textbf{8x (EFV)} & \textbf{8x (RV)} \\ \hline
-	\textit{\begin{tabular}[c]{@{}l@{}}Durchschn. Abweichung\\ p. Polygon (in Deg.)\end{tabular}} & 26,49 & 26,97 & 35,19 & 35,04 & 44,33 & 48,12 \\ \hline
-	\textit{\begin{tabular}[c]{@{}l@{}}Durchschn. Abweichung  \\ p. Winkel (in Deg.)\end{tabular}} & 2,04 & 2,09 & 3,59 & 3,56 & 5,05 & 5,46 \\ \hline
-	\textit{} &  &  &  &  &  &  \\ \hline
-	\textit{\begin{tabular}[c]{@{}l@{}}absolute Abweichung  \\ (in Deg)\end{tabular}} & 3894,53 & 3910,4 & 7354,98 & 7358,55 & 9398,12 & 10298,28 \\ \hline
-	\textit{erkannte Punkte/Winkel} & 1912 & 1873 & 2050 & 2065 & 1860 & 1885 \\ \hline
-	\textit{erkannte Polygone} & 147 & 145 & 209 & 210 & 212 & 214 \\ \hline
-	\textit{verglichene Polygone} & 131 & 129 & 188 & 189 & 193 & 194 \\ \hline
-	\textit{Prozessierungszeit (in Sek.)} & 92,52 & 81,51 & 111,6 & 100,03 & 134,9 & 102,46
-	\end{tabular}
+		& \textbf{8n (EFV)} & \textbf{8n (RV)} & \textbf{8m (EFV)} & \textbf{8m (RV)} & \textbf{8x (EFV)} & \textbf{8x (RV)} \\ \hline
+	   \textit{\begin{tabular}[c]{@{}l@{}}Durchschn. Abweichung\\ p. Polygon (in Deg.)\end{tabular}} & 26,49 & 26,97 & 35,19 & 35,04 & 44,33 & 48,12 \\ \hline
+	   \textit{\begin{tabular}[c]{@{}l@{}}Durchschn. Abweichung  \\ p. Winkel (in Deg.)\end{tabular}} & 2,04 & 2,09 & 3,59 & 3,56 & 5,05 & 5,46 \\ \hline
+	   \textit{} &  &  &  &  &  &  \\ \hline
+	   \textit{\begin{tabular}[c]{@{}l@{}}absolute Abweichung  \\ (in Deg)\end{tabular}} & 3894,53 & 3910,4 & 7354,98 & 7358,55 & 9398,12 & 10298,28 \\ \hline
+	   \textit{erkannte Punkte/Winkel} & 1912 & 1873 & 2050 & 2065 & 1860 & 1885 \\ \hline
+	   \textit{erkannte Polygone} & 147 & 145 & 209 & 210 & 212 & 214 \\ \hline
+	   \textit{verglichene Polygone} & 131 & 129 & 188 & 189 & 193 & 194 \\ \hline
+	   \textit{\begin{tabular}[c]{@{}l@{}}Prozessierungszeit\\ (in Sek.)\end{tabular}} & 92,52 & 81,51 & 111,6 & 100,03 & 134,9 & 102,46
+	   \end{tabular}
 	\end{table}
 	\begin{table}[ht]
 		\caption[Vergleich der verschiedenen YOLO8 bei 10 Sekunde Video (300 Frames) (Quelle: eigene Darstellung)]{Vergleich der verschiedenen YOLO8 bei 10 Sekunde Video (300 Frames) (Quelle: eigene Darstellung; \ref{cd:listing_A10s_EF_results.txt(Y8n)}; \ref{cd:listing_A10s_RV_results.txt(Y8n)}; \ref{cd:listing_A10s_EF_results.txt(Y8m)}; \ref{cd:listing_A10s_RV_results.txt(Y8m)}; \ref{cd:listing_A10s_EF_results.txt(Y8x)}; \ref{cd:listing_A10s_RV_results.txt(Y8x)})}
 		\label{tab:YOLO8_A10s}
 		\begin{tabular}{l|l|l|l|l|l|l}
-		 & \textbf{8n (EFV)} & \textbf{8n (RV)} & \textbf{8m (EFV)} & \textbf{8m (RV)} & \textbf{8x (EFV)} & \textbf{8x (RV)} \\ \hline
+		& \textbf{8n (EFV)} & \textbf{8n (RV)} & \textbf{8m (EFV)} & \textbf{8m (RV)} & \textbf{8x (EFV)} & \textbf{8x (RV)} \\ \hline
 		\textit{\begin{tabular}[c]{@{}l@{}}Durchschn. Abw.\\ p. Polygon (in Deg.)\end{tabular}} & 53,07 & 53,11 & 49,76 & 49,79 & 57,93 & 58,04 \\ \hline
 		\textit{\begin{tabular}[c]{@{}l@{}}Durchschn. Abw.  \\ p. Winkel (in Deg.)\end{tabular}} & 4,29 & 4,29 & 5,21 & 5,21 & 6,59 & 6,6 \\ \hline
 		\textit{} &  &  &  &  &  &  \\ \hline
 		\textit{\begin{tabular}[c]{@{}l@{}}absolute Abw. \\ (in Deg)\end{tabular}} & 73.075,23 & 73.075,23 & 100.561,26 & 100.579,53 & 122.111,04 & 122.133,17 \\ \hline
 		\textit{erk. Punkte/Winkel} & 17.043 & 17.042 & 19.298 & 19.298 & 18.534 & 18.498 \\ \hline
 		\textit{erk.  Polygone} & 1.377 & 1.376 & 2.021 & 2.020 & 2.108 & 2.104 \\ \hline
-		\textit{verglichene Polygone} & 1.235 & 1.234 & 1.871 & 1.870 & 1.964 & 1960 \\ \hline
+		\textit{\begin{tabular}[c]{@{}l@{}}verglichene\\ Polygone\end{tabular}} & 1.235 & 1.234 & 1.871 & 1.870 & 1.964 & 1960 \\ \hline
 		\textit{\begin{tabular}[c]{@{}l@{}}Prozessierungszeit\\ (in Min.)\end{tabular}} & 23,56 & 22,16 & 26,39 & 22.25 & 28,48 & 23,84
 		\end{tabular}
 	\end{table}
 
 
 
-	Wenn man nun die Tabelle \ref{tab:YOLO8_A1s_A10s_Comp} betrachtet, ist zu sehen, dass die durchschnittliche Abweichung pro Polygon und Winkel sich ungefähr verdoppelt hat, wenn die Anzahl der Frames verzehnfacht wird. Dies geht einher mit einer ca. 18-fachen Steigerung der absoluten Abweichung im Vergleich von Tabelle \ref{tab:YOLO8_A1s} zu Tabelle \ref{tab:YOLO8_A10s} bei YOLOv8n. Dabei ist die Anzahl der Punkte, der erkannten Polygone und der verglichenen Polygone um das ca. 9-fache gestiegen, während die Prozessierungszeit bei Yolov8n um das 15-fache anstieg. \\
+	Wenn man nun die Tabelle \ref{tab:YOLO8_A1s_A10s_Comp} betrachtet, ist zu sehen, dass die durchschnittliche Abweichung pro Polygon und Winkel sich ungefähr verdoppelt hat, wenn die Anzahl der Frames verzehnfacht wird. Dies geht einher mit einer ca. 18-fachen Steigerung der absoluten Abweichung im Vergleich von Tabelle \ref{tab:YOLO8_A1s} zu Tabelle \ref{tab:YOLO8_A10s} bei YOLOv8n. Dabei ist die Anzahl der Punkte, der erkannten Polygone und der verglichenen Polygone um das ca. 9-fache gestiegen, während die Prozessierungszeit bei 8n um das 15-fache anstieg. \\
 	Bei Verwendung der größeren YOLO Modelle verringert sich der Anstieg der absoluten Abweichung. Dies ist auch an den absoluten Zahlen in Tabelle \ref{tab:YOLO8_A1s} und \ref{tab:YOLO8_A10s} zu sehen, die bei diesen Modellen bei beiden Videos stark ansteigen. Die Zahl der erkannten Punkte/Winkel und Polygone ist relativ gleichbleibend, während bei der Zahl der verglichenen Polygone ein leichter Anstieg zu sehen ist. Dies kann mit genauerer Klassifizierung durch die größeren Trainingsdatensätze der YOLO Modelle zusammenhängen. \\
 	Die Prozessierungszeit sinkt jedoch im Verhältnis zur steigenden Framezahl mit den größeren Modellen langsam ab.
 
 	\begin{table}[ht]
-	\caption[Anstieg der verschiedenen YOLO8 Modelle im Vergleich von  1 Sekunde Video (30 Frames) zu 10 Sekunden Video (300 Frames) als Faktor]{Anstieg der verschiedenen YOLO8 Modelle im Vergleich von  1 Sekunde Video (30 Frames) zu 10 Sekunden Video (300 Frames) als Faktor (Quelle: eigene Darstellung; \ref{cd:listing_A1s_EF_results.txt(Y8n)}-\ref{cd:listing_A1s_RV_results.txt(Y8x)} )}
+	\caption[Anstieg der verschiedenen YOLO8 Modelle im Vergleich von  1 Sekunde Video (30 Frames) zu 10 Sekunden Video (300 Frames) als Faktor]{Anstieg der verschiedenen YOLO Modelle im Vergleich von  1 Sekunde Video (30 Frames) zu 10 Sekunden Video (300 Frames) als Faktor (Quelle: eigene Darstellung; \ref{cd:listing_A1s_EF_results.txt(Y8n)}-\ref{cd:listing_A1s_RV_results.txt(Y8x)} )}
 	\label{tab:YOLO8_A1s_A10s_Comp}
 	\begin{tabular}{l|l|l|l|l|l|l}
 	& \textbf{8n (EFV)} & \textbf{8n (RV)} & \textbf{8m (EFV)} & \textbf{8m (RV)} & \textbf{8x (EFV)} & \textbf{8x (RV)} \\ \hline
@@ -114,7 +113,7 @@ Alle Angaben in den Tabellen, außer bei den absoluten Anzahlen und in Tab. \ref
 	{
 		
 	\begin{table}[ht]
-		\caption[Vergleich der SSMs bei verschiedenen YOLO8 bei 1 Sekunde Video (30 Frames)]{Vergleich der SSMs bei verschiedenen YOLO8 bei 1 Sekunde Video (30 Frames) (Alle Angaben in Grad) (Quelle: eigene Darstellung; \ref{cd:listing_A1s_EF_results.txt(Y8n)}; \ref{cd:listing_A1s_RV_results.txt(Y8n)}; \ref{cd:listing_A1s_EF_results.txt(Y8m)}; \ref{cd:listing_A1s_RV_results.txt(Y8m)}; \ref{cd:listing_A1s_EF_results.txt(Y8x)}; \ref{cd:listing_A1s_RV_results.txt(Y8x)})}
+		\caption[Vergleich der SSMs bei verschiedenen YOLO8 bei 1 Sekunde Video (30 Frames)]{Vergleich der SSMs bei verschiedenen YOLO Modellen bei 1 Sekunde Video (30 Frames) (Alle Angaben in Grad) (Quelle: eigene Darstellung; \ref{cd:listing_A1s_EF_results.txt(Y8n)}; \ref{cd:listing_A1s_RV_results.txt(Y8n)}; \ref{cd:listing_A1s_EF_results.txt(Y8m)}; \ref{cd:listing_A1s_RV_results.txt(Y8m)}; \ref{cd:listing_A1s_EF_results.txt(Y8x)}; \ref{cd:listing_A1s_RV_results.txt(Y8x)})}
 		\label{tab:YOLO8_A1s_SSM}
 		\begin{tabular}{l|l|l|l|l|l|l}
 		 & \textbf{8n (EFV)} & \textbf{8n (RV)} & \textbf{8m (EFV)} & \textbf{8m (RV)} & \textbf{8x (EFV)} & \textbf{8x (RV)} \\ \hline
@@ -139,13 +138,13 @@ Alle Angaben in den Tabellen, außer bei den absoluten Anzahlen und in Tab. \ref
 		Die absolute Anzahl detektierter Klassenobjekte ist nicht gleichzusetzen mit der Anzahl der sich durch das Video bewegenden Objekte (bspw. als Zähler der durch das Video fahrenden Autos). Dies ist der Fall, weil die Zahl für jedes Frame berechnet wird und diese Zahl immer weiter aufsummiert wird. Die Zahl der detektierten Objekte pro Frame entspricht ca. der durchschnittlich getrackten Anzahl der jeweiligen Objekte, bzw. Klassen.
 		Zwischen den beiden Implementierungen von YOLO ist in beiden Tabellen \ref{tab:YOLO8_A1s_SSM} und \ref{tab:YOLO8_A10s_SSM} nur ein marginaler Unterschied zu erkennen. Das in Tabelle \ref{tab:YOLO8_A10s_SSM} zwischen den Versionen teilweise kein Unterschied bei den Werten vorhanden ist, liegt an der Rundung der Werte auf 2 Nachkommastellen, da der Unterschied bei der Menge von 300 Frames marginal ist.
 		
-		In Tabelle \ref{tab:YOLO8_A1s_SSM} ist zu sehen, dass die Abweichung pro Frame und Klasse bei der Klasse Auto den Yolo Versionen 8n und 8m um das ca. 5-fache steigt. Der Anstieg bei der Klasse LKW ist hingegen der Anstieg noch stärker mit dem ca. 11 fachen. Dies kann daran liegen, dass weniger LKW als Autos erkannt wurden, was sich auch in der absoluten Anzahl und in der durchschnittlichen Anzahl pro Frame niederschlägt. Der Anstieg innerhalb der Klassen zwischen den Yolo Versionen 8n und 8m kann durch die höhere Anzahl detektierter LKW und Auto erklärt werden.
-		Im Vergleich zu YOLO 8n liegt 8m detektiert die größere YOLO Version weniger Züge als LKW falsch. Dies erklärt, weshalb bei YOLO 8m und 8x keine Züge mehr detektiert wurden. 51 Züge wurden in YOLO 8n (RV) erkannt, was ungefähr der Differenz an mehr detektierten Autos in YOLO 8m (RV) mit 99 entspricht. Die hohen SSM bei Zügen und Bussen sind durch die hohen Punktzahlen von 20 pro Polygon zu erklären, da diese beiden Klassen zu den \glqq  anderen Objekten\grqq{} gezählt werden. \\
-		Yolo 8m detektiert LKW als Busse falsch, dies ist im Vergleich zu 8x zu sehen wo weder Züge noch Busse detektiert wurden. YOLO 8x verfügt durch den größten Trainingsdatensatz über die beste Erkennungsrate, was jedoch zu einer hohen SSM pro Frame und Klasse, sowie pro Klasse allgemein führt. \\
-		Bei dem Testvideo mit 300 Frames sinkt die SSM, weil durch die erhöhte Frameanzahl die Bedeutung des einzelnen Frames für die Berechnung geringer wird. Auch bei diesem Video ist ein großer Unterschied zwischen den Yolo Versionen 8n und 8m zu sehen. Dies hängt, wie beim 1-sekündigen Testvideo mit den Trainingsdaten der Yolo Modelle zusammen. Der Unterschied zwischen Yolo 8m und 8x ist mit ca. 100 Grad, bzw. ca. 100 mehr erkannten Objekten, gering. \\
-		Die Klasse Bus wird von allen 3 Modellen erkannt. Dies ist bei Yolo 8n noch sehr gering vorhanden, es liegt voraussichtlich daran, dass zwischendurch einzelne Frames einen oder mehrere als Busse erkannte LKW enthalten. Die SSM hat sich bei Yolo 8m erhöht, trotz des größeren Trainingsdatensatzes. Wenn man jedoch die absolute Anzahl von detektierten Bussen (68 Busse in 8m zu 58 Busse in 8n) oder die Anzahl der Busse pro Frame (0,23 in 8m zu 0,19 in 8m) vergleicht, ist der Anstieg sehr gering. Bei dem 8x Modell werden mit 7 Bussen, bzw. 0,02 Bussen pro Frame deutlich weniger detektiert. Dies kann am größten Traingsdatensatz des Modells liegen. Hier wird jedoch der Fehler bei der SSM angezeigt, dies bedeutet, dass immer nur ein Bus pro Frame detektiert wurde. 
+		In Tabelle \ref{tab:YOLO8_A1s_SSM} ist zu sehen, dass die Abweichung pro Frame und Klasse bei der Klasse Auto den YOLOVersionen 8n und 8m um das ca. 5-fache steigt. Der Anstieg bei der Klasse LKW ist hingegen der Anstieg noch stärker mit dem ca. 11 fachen. Dies kann daran liegen, dass weniger LKW als Autos erkannt wurden, was sich auch in der absoluten Anzahl und in der durchschnittlichen Anzahl pro Frame niederschlägt. Der Anstieg innerhalb der Klassen zwischen den YOLO Versionen 8n und 8m kann durch die höhere Anzahl detektierter LKW und Auto erklärt werden.
+		Im Vergleich zu  8n liegt 8m detektiert die größere YOLO Version weniger Züge als LKW falsch. Dies erklärt, weshalb bei YOLO 8m und 8x keine Züge mehr detektiert wurden. 51 Züge wurden in YOLO 8n (RV) erkannt, was ungefähr der Differenz an mehr detektierten Autos in 8m (RV) mit 99 entspricht. Die hohen SSM bei Zügen und Bussen sind durch die hohen Punktzahlen von 20 pro Polygon zu erklären, da diese beiden Klassen zu den \glqq  anderen Objekten\grqq{} gezählt werden. \\
+		YOLO 8m detektiert LKW als Busse falsch, dies ist im Vergleich zu 8x zu sehen wo weder Züge noch Busse detektiert wurden. YOLO 8x verfügt durch den größten Trainingsdatensatz über die beste Erkennungsrate, was jedoch zu einer hohen SSM pro Frame und Klasse, sowie pro Klasse allgemein führt. \\
+		Bei dem Testvideo mit 300 Frames sinkt die SSM, weil durch die erhöhte Frameanzahl die Bedeutung des einzelnen Frames für die Berechnung geringer wird. Auch bei diesem Video ist ein großer Unterschied zwischen den YOLO Versionen 8n und 8m zu sehen. Dies hängt, wie beim 1-sekündigen Testvideo mit den Trainingsdaten der Yolo Modelle zusammen. Der Unterschied zwischen 8m und 8x ist mit ca. 100 Grad, bzw. ca. 100 mehr erkannten Objekten, gering. \\
+		Die Klasse Bus wird von allen 3 Modellen erkannt. Dies ist bei 8n noch sehr gering vorhanden, es liegt voraussichtlich daran, dass zwischendurch einzelne Frames einen oder mehrere als Busse erkannte LKW enthalten. Die SSM hat sich bei YOLO 8m erhöht, trotz des größeren Trainingsdatensatzes. Wenn man jedoch die absolute Anzahl von detektierten Bussen (68 Busse in 8m zu 58 Busse in 8n) oder die Anzahl der Busse pro Frame (0,23 in 8m zu 0,19 in 8m) vergleicht, ist der Anstieg sehr gering. Bei dem 8x Modell werden mit 7 Bussen, bzw. 0,02 Bussen pro Frame deutlich weniger detektiert. Dies kann am größten Traingsdatensatz des Modells liegen. Hier wird jedoch der Fehler bei der SSM angezeigt, dies bedeutet, dass immer nur ein Bus pro Frame detektiert wurde. 
 		\begin{table}[ht]
-			\caption[Vergleich der SSMs bei verschiedenen YOLO8 bei 10 Sekunde Video (300 Frames)]{Vergleich der SSMs bei verschiedenen YOLO8 bei 10 Sekunde Video (300 Frames) (Angaben in Grad) (Quelle: eigene Darstellung; \ref{cd:listing_A10s_EF_results.txt(Y8n)}; \ref{cd:listing_A10s_RV_results.txt(Y8n)}; \ref{cd:listing_A10s_EF_results.txt(Y8m)}; \ref{cd:listing_A10s_RV_results.txt(Y8m)}; \ref{cd:listing_A10s_EF_results.txt(Y8x)}; \ref{cd:listing_A10s_RV_results.txt(Y8x)})}
+			\caption[Vergleich der SSMs bei verschiedenen YOLO Modellen bei 10 Sekunde Video (300 Frames)]{Vergleich der SSMs bei verschiedenen YOLO8 bei 10 Sekunde Video (300 Frames) (Angaben in Grad) (Quelle: eigene Darstellung; \ref{cd:listing_A10s_EF_results.txt(Y8n)}; \ref{cd:listing_A10s_RV_results.txt(Y8n)}; \ref{cd:listing_A10s_EF_results.txt(Y8m)}; \ref{cd:listing_A10s_RV_results.txt(Y8m)}; \ref{cd:listing_A10s_EF_results.txt(Y8x)}; \ref{cd:listing_A10s_RV_results.txt(Y8x)})}
 			\label{tab:YOLO8_A10s_SSM}
 			\begin{tabular}{l|l|l|l|l|l|l}
 			& \textbf{8n (EFV)} & \textbf{8n (RV)} & \textbf{8m (EFV)} & \textbf{8m (RV)} & \textbf{8x (EFV)} & \textbf{8x (RV)} \\ \hline
@@ -170,9 +169,19 @@ Alle Angaben in den Tabellen, außer bei den absoluten Anzahlen und in Tab. \ref
 			\textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ Motorräder (in Kl. pro Fr.)\end{tabular}} & - & - & \begin{tabular}[c]{@{}l@{}}4\\ (0,01)\end{tabular} & \begin{tabular}[c]{@{}l@{}}4 \\ (0,01)\end{tabular} & - & -
 			\end{tabular}
 		\end{table}
-		Dass das Yolo 8m Modell als einziges Motorräder detektiert, kann mit Fehldetektierungen, wie Straßenschildern oder Leitpfosten als Motorrad, erklärt werden. Diese Fehldetektierung muss jedoch bei mehr als einem Objekt in einem Frame geschehen sein, sonst wäre der SSM, wie bei Yolo 8x und der Bus Klasse, 0.
-		Weitere falsche Detektierungen betreffen unter anderem die Klassen Person, Ampel und Bank. Diese sind als Fehldetektierung zu erklären und deshalb nicht in Tabelle \ref{tab:YOLO8_A10s_SSM} aufgelistet. Für die SSMs dieser Klassen siehe Anhang \ref{ls:result_txts}.
+		Dass das YOLO 8m Modell als einziges Motorräder detektiert, kann mit Fehldetektierungen, wie Straßenschildern oder Leitpfosten als Motorrad, erklärt werden. Diese Fehldetektierung muss jedoch bei mehr als einem Objekt in einem Frame geschehen sein, sonst wäre der SSM, wie bei Yolo 8x und der Bus Klasse, 0. \\
+		Weitere falsche Detektierungen betreffen unter anderem die Klassen Person, Ampel und Bank. Diese sind als Fehldetektierung von möglicherweise Schildern (für weitere Fehlerquellen siehe Kap. \ref{sec:datengrundlage}) zu erklären und deshalb nicht in Tabelle \ref{tab:YOLO8_A10s_SSM} aufgelistet. Für die SSMs dieser Klassen siehe Anhang \ref{ls:result_txts}.
 	}
+
+\section{weitere Testfälle}
+{
+	\begin{itemize}
+		\item Shiptracking
+		\item längere Testvideos (30s für 8x bei RV Version (einzelne Zeitschritte vergleichen))
+		\item weniger DCE Punkte (Car:5; Motorcycle: 3;Truck 4, oO: 5); mehr DCE Punkte (60,25,40,100)
+	\end{itemize}
+
+}
 % 	\section{Bewertung}
 % 	{ %Zusammenfassen kann man sagen, dass die durchschnittliche Abweichung pro Polygon nach der Vereinfachung von DCE zu hoch ist, um ein Tracking zu ermöglichen. Beim Einsatz der größeren Modelle steigt die Winkelabweichung und SSM an, dies ist aber zu vernachlässigen, da die Klassifizierung der Objekte genauer erfolgt. Insbesondere der Vergleich der SSM innerhalb einer Klasse  ist die Abweichung sehr hoch. \\
 % 	%Die Implementierung der YOLO Version in der Variante, dass das Video in einzelne Frames zerlegt wird und diese einzeln analysiert werden, hat sich im Vergleich zur direkten vollständigen Analyse mit YOLO als zu ineffektiv herausgestellt und kann damit verworfen werden. 

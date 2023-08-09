@@ -1,59 +1,13 @@
 %!TEX root = ../thesis.tex
-\chapter{Umsetzung} \todo{Titel ist noch doof.. Aber Implementierung greift \Ref{implementation_in_python} vor}
+\chapter{Implementierung} \todo{Titel ist noch doof.. Aber Implementierung greift \Ref{implementation_in_python} vor}
 \label{ch:implementierung}
-{Im Folgenden wird die Implementierung beschrieben. Diese erfolgte in der Programmiersprache Python, da diese weitverbreitet ist und eine einfache Einbindung weiterer Bibliotheken erlaubt \citep{Millman2011}. Durch diese leichte Erweiterungsmöglichkeit ergibt sich die Möglichkeit komplexen Programmcode zu schreiben, welcher den Rahmen dieser Arbeit nicht überschreitet.
 
-}
-% \section{Datensammlung und Grundlage}
-% {
-% 	\todo{WICHTIG muss noch gemacht werden}
-% 	Die Datengrundlage zur Analyse bilden Videos im MP4 Format in der Auflösung 1920 \texttimes 1080 Pixeln. Diese wurden an der Autobahnbrücke zur A1 in Münster-Nienberge gefilmt \citep{GMaps}. Das Wetter war bedeckt, somit konnte die Sonne nicht einzelne Objekte überstrahlen. Das Videomaterial mit dem evaluiert wurde, stammt vom 17.07.2023 und wurde mittags (12:53 Uhr) aufgenommen. Es zeigt primär die beiden Fahrspuren der Autobahn (siehe Abb. \ref{Bsp_Evaluations_Vidmat}). \\
-% 	Am unteren Rand ist im Vordergrund rechts das Geländer der Autobahnbrücke zu erkennen. Links unten im Bild ist ein Warnkegel zu sehen. Der mittlere Bereich des Bildes wird von den Fahrspuren dominiert, rechts mittig sind zwei Verkehrsschilder. Im Hintergrund ist ein weiteres Verkehrschild zu erkennen, welches über die sich vom Betrachter entfernende führende Fahrspur ragt. Umrahmt sind die beiden Fahrspuren von Bäumen. \\
-% 	Das Videomaterial wurde mit der Software DaVinci Resolve \citep{davinciresolve} geschnitten um die für die Evaluation wichtige Vergleichbarkeit und Frameanzahl zu erhalten.
-% 	\begin{figure}[ht]
-% 		\centering
-% 		\includegraphics*[scale = 0.35, keepaspectratio ]{images/Umsetzung/Screenshot_Video_A10s.png}
-% 		\caption[Beispielframe aus Videomaterial]{Beispielframe aus Videomaterial (Quelle: eigene Darstellung)} 
-% 		\label{Bsp_Evaluations_Vidmat}
-%  \end{figure}
 
-% }
-%\section{Verwendete Technologien}
-\section{Python}
-{ \label{sec:Python}
-	Python wurde am 14. Februar 2009 in der Version 3.0 veröffentlicht \citep{Rossum2009}. Diese Programmiersprache bietet Vorteile durch die einfache Syntax und die Unterstützung der Einbindung diverser externen Bibliotheken \citep{Marowka2018}. \\
-In dieser Arbeit wird Anaconda als Entwicklungs- und Installationsumgebung genutzt. Im Folgenden werden die in dieser Arbeit genutzten Bibliotheken näher erläutert.  \todo{ vielleicht noch weiter ausführen?}}
-
-\section{Externe Bibliotheken}
-\todo{vielleicht noch ein zwei Sätze dazu schreiben?}
-	\subsection{GeoPandas}
-	{ \label{subsec:Geopandas}
-		Das Geopandas Project wurde 2013 von Kelsey Jordahl gegründet. Version 0.1.0 ist im Juli 2014 veröffentlicht worden . Es ist ein Open-Source Projekt um die Unterstützung von geographischen Daten zu Pandas Objekten hinzuzufügen. \citep{kelsey_jordahl_2020_3946761}. Pandas ist eine Bibliothek zur Datenmanipulation- und -analyse \citep{reback2020pandas}.  \\
-		Geopandas wird für diese Arbeit als geeignet betrachtet, weil es sich bei Polygonen in Videos um räumliche Daten handelt, die im Laufe der Arbeit mit DCE manipuliert werden.
-	}
-	\subsection{NumPy}
-	{ \label{subsec:NumPy}
-	NumPy ist ein Open-Source Projekt, welches 2005 gegründet wurde, um numerische Operationen in Python zu ermöglichen \citep{numpy_about}. Die aktuelle Version 1.25.0 wurde am 17.06.2023 veröffentlicht \citep{numpy_main_web}. \\
-	Diese Bibliothek bietet nicht nur mehrdimensionale Arrays sondern auch diveres numerische Operationen an. Außerdem ist NumPy durch effiziente Implementierung sehr performant \citep{numpy_main_web}. \\
-	}
-	\subsection{Computer Vision 2}
-	{ \label{subsec:Computer_Vision_2}
-	Computer Vision 2 (CV2) ist ein Teil der 'Open Source Computer Vision' Bibliothek \citep{opencv_about}. Die aktuelle Version 4.8.0 wurde am 02.07.2023 veröffentlicht \citep{opencv_release}. \\
-	Diese Bibliothek beinhaltet Algorithmen zur Bild- und Videobearbeitung. In dieser Arbeit wird diese Bibliothek zur Manipulation von Frames in Videos genutzt, die zuvor mit YOLO analysiert wurden. 
-	}
-	\subsection{YOLOv8 von \citeauthor{Canu_pysource}}
-	{ \label{YOLOv8_canu}
-	 Es wird in dieser Arbeit werden die \glqq-seq\grqq{} Modelle von YOLO benutzt, da diese bereits eine Segmentierung der Objekte mit deren Umrissen integriert haben. Für eine detaillierte Beschreibung siehe Kap. \ref{subsec:YOLOv8_theoretic}. \\
-	 Die Implementierung basiert auf \citeauthor{Canu_pysource}, da dieser eine Einführung in Bildbearbeitung mit Python unter der Benutzung von YOLO gegeben hat \citep{Canu_pysource}.
-	}
-\section{Meta-Ablauf im Programm}{
-	Der Programmablauf ist folgendermaßen geplant. Der erste Schritt besteht darin, dass Video einzulesen und dann mit YOLO zu analysieren. Danach wird im zweiten Schritt auf alle von YOLO segmentierten Objektumrisse die DCE angewendet. Diese werden bis zu einer bestimmten vorher festgelegten Punktanzahl vereinfacht. Als letzten Schritt werden diese vereinfachten Umrisse ins Video eingefügt, um das Ursprungspolygon zu überschreiben.
-	\todo{vielleicht noch ausführlicher machen? wird ja eigentlich in \ref{implementation_in_python} gemacht}
-}
-
-\section{Implementierung in Python}{\label{implementation_in_python}}
-	Im Folgenden wird die Implementierung anhand von Codebeispielen erläutert. Die angegebenen Listings sind zum einfachen Verständnis gekürzt und ohne Kommentare. Für ein Listing des gesamten Codes mit Kommentaren siehe Anhang \ref{cd:gesamt_listing}.
-\subsection{Main File}
+%\section{Implementierung in Python}
+{\label{implementation_in_python}}
+Im Folgenden wird die Implementierung anhand von Codebeispielen erläutert. Die angegebenen Listings sind zum einfachen Verständnis gekürzt und ohne Kommentare. Für ein Listing des gesamten Codes mit Kommentaren siehe Anhang \ref{cd:gesamt_listing}. \\
+EF Version ist die Abkürzung für \glqq Every Frame\grqq{} Version (1. YOLO Variante) und RV Version ist die Abkürzung für \glqq Result\grqq{} Version (2. YOLO Variante), die direkt mit einem von YOLO generierten Objekt arbeitet. 
+\section{Main File}
 { \todo{main.py und shape\_sim\_meas Listings überprüfen!!!!}
 	Das Main File importiert alle Unterskripte, da es auf die Funktionen zugreifen muss, um das Video zu verarbeiten und zu schreiben. Diese Unterskripte sind: 
 	\begin{itemize}
@@ -67,7 +21,7 @@ In dieser Arbeit wird Anaconda als Entwicklungs- und Installationsumgebung genut
 	Die Main Methode besteht zu aus einer Dictionary Variable \lstinline|options|, in der alle Einstellungen für die Verarbeitung des Videos gesetzt werden. Hier werden auch die einzelnen Zeitstempel gespeichert. Ein Ausschnitt ist in Listing \ref{cd:part_of_options_var} zu sehen. \\
 	In diesem wird die Lese- und Schreibpfade für das Quell- und Ergebnisvideo festgelegt, sowie der Pfad für die Textdatei, die die Timestamps enthält. In den nächsten Zeilen kann festgelegt werden, auf bis viele Punkte die von YOLO detektierten Objekte reduziert werden. Diese werden in 4 unterschiedliche Objekttypen unterteilt: Auto (Car), Motorrad (Motorcycle), LKW (Truck) und andere Objekte (other\_Object). \\
 	Des Weiteren wird das genutzte YOLO Modell definiert und festgesetzt, ob nur die vereinfachten Umrisse der erkannten Objekte ausgegeben werden. Hier kann die Ausgabe der Labels gesteuert werden, diese beinhalten die Information, was für eine Klasse, bzw. Objekt, detektiert wurde und wie hoch der Confidence Score ist. \\
-	Standardmäßig ist die Version des Codes ausgewählt, die das Video erst vollständig von YOLO analysieren lässt, dies lässt sich mit der \lstinline|yolo_every_frame| Boolean umstellen. Die letzte Boolean beschreibt, ob Zeitstempel gesetzt werden sollen. Dieses Dictionary hat noch weitere Einträge, die jedoch lediglich der Verwaltung der verschiedenen Zeitstempel dienen. \\
+	Standardmäßig ist die Version des Codes ausgewählt, die das Video erst vollständig von YOLO analysieren lässt, dies lässt sich mit der \lstinline|yolo_every_frame| Boolean umstellen. Die letzte Boolean beschreibt, ob Zeitstempel gesetzt werden sollen. Dieses Dictionary hat noch weitere Einträge, die jedoch lediglich der Verwaltung der verschiedenen Zeitstempel und weiterer Messwerte dienen. \\
 	\lstinputlisting[linerange={18,19-22,28-31,33-36,38,54-61}, caption={Ausschnitt aus der \protect\lstinline|options| Variable in  Main.py}, label = {cd:part_of_options_var}]{../Code/main.py}
 
 	Im weiteren Verlauf wird dann ausgewählte Version des Codes gestartet und beim Abschluss das Video und die Textdatei in die entsprechenden Pfade geschrieben.
@@ -75,11 +29,11 @@ In dieser Arbeit wird Anaconda als Entwicklungs- und Installationsumgebung genut
 
 
 
-\subsection{1. YOLO Variante (Jeder Frame einzeln)} {
+\section{1. YOLO Variante (EF Version, Jeder Frame einzeln )} {
 	\label{py:YOLO_every_frame}
 	In dieser Variante wird das Video in einzelne Frames mit CV2 zerlegt, auf die dann jeweils der ausgewählte YOLO Algorithmus angewendet wird. 
 	Es wird über alle Frames des Videos iteriert, in der das jeweilige Frame aus dem Video extrahiert wird und dann an die Methode übergeben wird, die YOLO anwendet.
-	\lstinputlisting[firstline = 22, lastline=37, caption={Ausschnitt aus yolo\_every\_frame.py}, label = {cd:part_of_yolo_every_frame.py}]{../Code/YOLO/yolo_every_frame.py}
+	\lstinputlisting[linerange={22,24,26,27,29,31,37,42}, caption={Ausschnitt aus yolo\_every\_frame.py}, label = {cd:part_of_yolo_every_frame.py}]{../Code/YOLO/yolo_every_frame.py}
 	Dies geschieht indem zuerst die Gesamtanzahl der Frames in der \lstinline|framecounter| Variablen gespeichert wird, welche den Iterator für die Schleife limitiert (siehe Listing \ref{cd:part_of_yolo_every_frame.py}). \\ 
 	In der Schleife wird das jeweilige Frame an der \lstinline|i|-ten Stelle als Bilddatei in der \lstinline|img| Variablen gespeichert. Dieses wird dann im nächsten Schritt der Funktion übergeben, die das Bild mit YOLO analysiert und zurückgibt. Ein vorher festgelegtes Array speichert dann alle analysierten Bilder. \\ 
 	Wenn die Schleife terminiert, wird das Array aus Bildern zu einem Video zusammengesetzt und gespeichert. \\
@@ -90,7 +44,7 @@ In dieser Arbeit wird Anaconda als Entwicklungs- und Installationsumgebung genut
 	Ausschnitte der \lstinline|run_yolo| Funktion sind in Listing \ref{cd:run_yolo_func_in_yolo_every_frame.py} zu sehen. Zuerst wird hier das YOLO Modell festgelegt. Danach wird der Frame von YOLO analysiert, welches in der yolo\_segmentation.py erfolgt. Hier wird ein Objekt zurückgeben, welches die Boundingboxen der detektierten Objekte, die jeweiligen Klassen, die segmentierten Umrisse und den jeweiligen Confidence Score enthält. \\
 	Dieses Objekt wird in der darauffolgenden Schleife durchlaufen. Hier werden zunächst die Koordinaten der jeweiligen Boundingbox gesetzt und im nächsten Schritt werden die Umrisse mit der DCE vereinfacht (für eine genauere Beschreibung in der Theorie siehe Kap. \ref{sec:Discrete Curve Evolution} und im Code siehe Kap. \ref{py:DCE}). Mit CV2 werden danach die Boundingbox gezeichnet und die Umrisse der Polygone gezeichnet. Für den Fall, dass die \lstinline|write_Labels| Variable im \lstinline|options| Dictionary auf True gesetzt ist, werden im nächsten Schritt der Confidence Score und die Class ID an die Boundingbox geschrieben. \\
 	Zur Evaluation werden im nächsten Schritt die Winkelsummen für jedes Polygon summiert und in einem Array im  \lstinline|options| Dictionary gespeichert. \\
-	Wenn alle Frames des Videos durchlaufen wurden, werden die einzelnen Frames wieder zu einem Video zusammengesetzt und statistische Auswertungen (siehe Kap. \ref{py:Shape_Sim_Meas}) durchgeführt. Damit ist das Programm abgeschlossen.
+	Wenn alle Frames des Videos durchlaufen wurden, werden die einzelnen Frames wieder zu einem Video zusammengesetzt und statistische Auswertungen (siehe Kap. \ref{py:Shape_Sim_Meas}) durchgeführt. Damit ist dieser Abschnitt des Programmes abgeschlossen.
 
 	\lstinputlisting[linerange={13,22-24,36,38-41,44,46,48,50,51}, caption={Ausschnitt aus  yolo\_segementation.py}, label = {cd:yolo_in_yolo_segmentation.py}]{../Code/YOLO/yolo_segmentation.py}
 	YOLO\_segmenation.py basiert auf einer Entwicklung von \citeauthor{Canu_pysource} \citep{Canu_pysource} und beinhaltet einige Abänderungen. Der Code auf den sich im Folgenden bezogen wird, ist in Listing \ref{cd:yolo_in_yolo_segmentation.py} zu sehen. Hier wird nach der Initialisierung des YOLO Modells die Detektionsfunktion ausgeführt. Diese beinhaltet die Prediction in Zeile 6 und eine IF Abfrage, wenn keine Objekte von YOLO erkannt wurden. Wenn Objekte erkannt wurden, werden deren Boundingboxen, ClassIDs, Umrisse und Confidence Scores zurückgeben. 
@@ -99,7 +53,7 @@ In dieser Arbeit wird Anaconda als Entwicklungs- und Installationsumgebung genut
 
 	}
 
-\subsection{2. YOLO Variante (direkte Verarbeitung)}{
+\section{2. YOLO Variante (RV Version, direkte Verarbeitung)}{
 	\label{py:YOLO_res_vers}
 	Diese Variante des Codes analysiert das Video direkt am Anfang. Dies bietet den Vorteil, dass durch die effiziente Implementierung von YOLO die Gesamtdauer des Programmes verringert wird. Die Anwendung von YOLO findet direkt in main.py statt. Dies ist in Listing \ref{cd:yolo_result_main.py} zu sehen.
 	\lstinputlisting[linerange={87,93,95,99,103,106,108}, caption={Ausschnitt aus \protect\lstinline|run_yolo_result_version| in main.py}, label = {cd:yolo_result_main.py}]{../Code/main.py}
@@ -107,22 +61,22 @@ In dieser Arbeit wird Anaconda als Entwicklungs- und Installationsumgebung genut
 	
 
 	Die \lstinline|get_outline_for_every_object| Funktion (siehe Listing \ref{cd:yolo_result_get_outline_for_every_object.py}) läuft folgendermaßen ab. \\
-	Die Schleife iteriert über die Gesamtanzahl der Frames im Video. Durch die IF Abfrage wird der Fall abgefangen, dass kein Objekt im Frame erkannt wurde. Wenn ein Objekt erkannt wurde, werden mit der \lstinline|get_data| Funktion die Daten der detektierten Objekte aus dem Frame exportiert. Ansonsten wird das Frame ohne Veränderung überschrieben, wenn das Video im \lstinline|options| Dictionary nicht auf schwarz gesetzt wurde. Die \lstinline|get_data| Funktion basiert auf \citeauthor{Canu_pysource} \citep{Canu_pysource}. \\
-	Diese Daten werden in einzelne Variablen abgespeichert. Danach wird auf die Umrisse die DCE (siehe \ref{py:DCE}) angewendet. Mit CV2 werden die vereinfachten Umrisse dann in das Frame gespeichert, indem das gerade analysierte Frame überschrieben wird. \\
+	Die Schleife iteriert über die Gesamtanzahl der Frames im Video. Durch die IF Abfrage wird der Fall abgefangen, dass kein Objekt im Frame erkannt wurde. Wenn ein Objekt erkannt wurde, werden mit der \lstinline|get_data| Funktion die Daten der detektierten Objekte aus dem Frame exportiert. Ansonsten wird das Frame ohne Veränderung überschrieben, wenn das Video im \lstinline|options| Dictionary nicht auf schwarz gesetzt wurde. Die \lstinline|get_data| Funktion basiert auf \citeauthor{Canu_pysource} \citep{Canu_pysource} und ist ähnlich zu der in Kap. \ref{py:YOLO_every_frame} aufgebaut. \\
+	Diese Daten werden in einzelne Variablen abgespeichert. Danach wird auf die Umrisse die DCE (siehe Kap. \ref{py:DCE}) angewendet. Mit CV2 werden die vereinfachten Umrisse dann in das Frame gespeichert, indem das gerade analysierte Frame überschrieben wird. \\
 	\lstinputlisting[linerange={11,18-20,23-25,27-30,33,39,41,42}, caption={Ausschnitt 1 aus \protect\lstinline|get_outline_for_every_object| Funktion in yolo\_result\_version.py}, label = {cd:yolo_result_get_outline_for_every_object.py}]{../Code/YOLO/yolo_result_version.py}
 	Die zweite FOR Schleife (siehe Listing \ref{cd:yolo_result_get_outline_for_every_object_second.py}) zeichnet für jedes erkannte Objekt im Frame die Boundingbox und die Labels, falls dies im \lstinline|options| Dictionary gesetzt wurde. Außerdem wird noch die Gesamtsumme der Winkel  zur späteren statistischen Auswertung für jedes Polygon berechnet.
 	\lstinputlisting[firstnumber = 16,linerange={44-46,48,49,52,64,66,67,69,70,73}, caption={Ausschnitt 2 aus \protect\lstinline|get_outline_for_every_object| Funktion in yolo\_result\_version.py}, label = {cd:yolo_result_get_outline_for_every_object_second.py}]{../Code/YOLO/yolo_result_version.py}
 	Wenn die Schleifen durchgelaufen sind, wird das veränderte \lstinline|result| Objekt und das \lstinline|options| Dictionary zurückgeben. Danach wird das Video an dem angegebenen Pfad gespeichert. Es werden statistische Auswertungen (siehe \ref{py:Shape_Sim_Meas}) durchgeführt und die Timestamps gespeichert. Damit ist dieser Teil des  Programmes abgeschlossen. \\
 	}
 
-\subsection{Discrete Curve Evolution}{
+\section{Discrete Curve Evolution}{
 	\label{py:DCE}
 	Die folgende Implementierung basiert auf \citeauthor{Barkowsky2000} \citep{Barkowsky2000} (siehe Kap. \ref{sec:Discrete Curve Evolution}). Die DCE wird durch ähnlich implementierte Funktionen in beiden YOLO Implementierungen gestartet. Als Beispiel wird hier die Implementierung aus yolo\_result\_version.py genutzt. Diese ist in Listing \ref{cd:yolo_result_run_DCE.py} zu sehen. \\
 	Hier wird anhand der erkannten Klassen Auto, Motorrad und LKW die Methode zur Polygonvereinfachung mit einer festen Punktgrenze ausgeführt. Dies passiert auch, falls das detektierte Objekt nicht zu diesen drei Klassen gehört. \\ 
 	\lstinputlisting[linerange={78,89-97}, caption={Ausschnitt aus \protect\lstinline|run_DCE| Funktion in yolo\_result\_version.py}, label = {cd:yolo_result_run_DCE.py}]{../Code/YOLO/yolo_result_version.py}
-	Zurückgegeben wird ein Array, welches die vereinfachten Umrisse von jedem Objekt enthält, da das Ursprungspolygon immer mit dem vereinfachten Umriss überschrieben wird. \todo{klare Benennung! entweder Umriss, oder Polygon}\\
+	Zurückgegeben wird ein Array, welches die vereinfachten Umrisse von jedem Objekt enthält, da das Ursprungspolygon immer mit dem vereinfachten Polygon überschrieben wird. \todo{klare Benennung! entweder Umriss, oder Polygon}\\
 
-	Nun wird der Prozess innerhalb der DCE.py Datei genauer erläutert. Da die DCE in dieser Arbeit mit GeoPandas (siehe \ref{subsec:Geopandas}) implementiert wurde, muss das Array zuerst in ein \lstinline|Geopandas.Geoseries| Objekt transformiert werden. Danach kann von diesem Polygon die Gesamtpunktanzahl berechnet werden, die die Begrenzung des folgenden Iterators in der Schleife darstellt. Zuvor kann der Fall abgefangen werden, dass ein Polygon bereits weniger Punkte als die Punktanzahl auf die das Polygon reduziert werden soll, hat. \\
+	Nun wird der Prozess innerhalb der DCE.py Datei genauer erläutert (siehe Listing \ref{cd:DCE_simplify_polygon.py}). Da die DCE in dieser Arbeit mit GeoPandas (siehe Kap. \ref{subsec:Geopandas}) implementiert wurde, muss das Array zuerst in ein \lstinline|Geopandas.Geoseries| Objekt transformiert werden. Danach kann von diesem Polygon die Gesamtpunktanzahl berechnet werden, die die Begrenzung des folgenden Iterators in der Schleife darstellt. Zuvor kann der Fall abgefangen werden, dass ein Polygon bereits weniger Punkte als die Punktanzahl auf die das Polygon reduziert werden soll, hat. \\
 	\lstinputlisting[linerange={11,20-23,25-27,29,30,32,34,35}, caption={Ausschnitt aus \protect\lstinline|simplify_polygon_k_with_angle| Funktion in DCE.py}, label = {cd:DCE_simplify_polygon.py}]{../Code/DCE/DCE.py}
 	Die Schleife iteriert über alle Punkte im Polygon und berechnet dabei zuerst den niedrigsten K Wert. Diese Funktion wirft auch den Index des niedrigsten Wertes zurück. Dann wird überprüft, ob das Polygon bereits ein Dreieck ist. In diesem Fall wird die Schleife abgebrochen und das Polygon wird als Array zurückgegeben. Falls dies nicht passiert, wird das Polygon mit einem neuen Polygon überschrieben, bei welchem der Punkt an dem Index des geringsten K Wertes entfernt worden ist. Danach wird abgefragt, ob bereits die gewünschte Anzahl der Punkte erreicht worden ist. Wenn in diese Abfrage gegangen wird, wird das Polygon als Array zurückgegeben, ansonsten beginnt die Schleife von vorne. 
 	Dies \lstinline|get_lowest_k| Funktion ist in Listing \ref{cd:DCE_get_lowest_k.py} abgebildet. Diese Funktion iteriert über alle Punkte des gegebenen Polygons und berechnet für jeden Punkt den K Wert. Wenn der betrachtete Punkt der erste Punkt im Polygon ist, wird der K Wert mit diesem Punkt, dem nächsten Punkt und dem letzten Punkt berechnet. Falls dies nicht der Fall ist, wird überprüft ob \lstinline|i| der Gesamtpunktanzahl entspricht. Dies bedeutet, dass der K Wert für jeden Punkt im Polygon berechnet wurde, woraus folgt, dass die Schleife abgebrochen werden kann. \\
@@ -135,18 +89,18 @@ In dieser Arbeit wird Anaconda als Entwicklungs- und Installationsumgebung genut
 		K(p,S_1,S_2) = \frac{\beta(p, S_1, S_2)l(p, S_1)l(p, S_2)}{l(p, S_1) + l(p, S_2)} 
 		\label{equ_K_DCE_points}
 	\end{equation}
-	Im Programmcode ist dies folgendermaßen implementiert (siehe \ref{cd:DCE_calc_k_with_points.py}). Es wird zunächst der Winkel $\beta$ berechnet, indem alle drei Punkte und das Polygon übergeben werden. Danach werden die beiden Distanzen zwischen $p, S_1$ und $p, S_2$ berechnet. Die Winkelberechnungsfunktion arbeitet mit NumPy und die Distanzberechnungsfunktion basiert auf Funktionen, die GeoPandas bietet.
+	Im Programmcode ist dies folgendermaßen implementiert (siehe Listing \ref{cd:DCE_calc_k_with_points.py}). Es wird zunächst der Winkel $\beta$ berechnet, indem alle drei Punkte und das Polygon übergeben werden. Danach werden die beiden Distanzen zwischen $p, S_1$ und $p, S_2$ berechnet. Die Winkelberechnungsfunktion arbeitet mit NumPy und die Distanzberechnungsfunktion basiert auf Funktionen, die GeoPandas bietet.
 	\lstinputlisting[linerange={68,80-82,84,85}, caption={Ausschnitt aus \protect\lstinline|calc_k_with_points| Funktion in DCE.py}, label = {cd:DCE_calc_k_with_points.py}]{../Code/DCE/DCE.py}
 	Diese drei Werte werden dann analog zur Formel \ref{equ_K_DCE_points} zum Wert K berechnet. Als letzten Schritt wird dieser Wert und der Winkel als Array zurückgegeben.
 	
-	In Listing \ref{cd:DCE_angle_and_distance.py} ist zu sehen, dass die Winkelberechnungsfunktion mit dem Arcustangens und $\pi$ arbeitet. Dies basiert auf der Dokumentation von NumPy. Da die Berechnung ein Array ausgibt, müssen alle Elemente aufsummiert werden, um einen Wert zu erhalten. Dieser Wert wird dann in Radiant umgerechnet und zurückgeben. \\
+	In Listing \ref{cd:DCE_angle_and_distance.py} ist zu sehen, dass die Winkelberechnungsfunktion mit dem Arcustangens und $\pi$ arbeitet. Dies basiert auf der Dokumentation von NumPy \citep{numpy_angle}. Da die Berechnung ein Array ausgibt, müssen alle Elemente aufsummiert werden, um einen Wert zu erhalten. Dieser Wert wird dann in Radiant umgerechnet und zurückgeben. \\
 	Die Distanzberechnung erfolgt mit einer Funktion, die GeoPandas bei \lstinline|Geopanda.Geoseries| Objekt bietet. Diese errechnet die Distanz zwischen den Punkten \lstinline|p1| und \lstinline|p2|. Danach wird diese zurückgegeben.
 	\lstinputlisting[linerange={198,210-212,222,223,225,226,230,247,256-259}, caption={Ausschnitte aus \protect\lstinline|get_angle_two_lines| und \protect\lstinline|get_distance_between_two_points| Funktionen in DCE.py}, label = {cd:DCE_angle_and_distance.py}]{../Code/DCE/DCE.py}
 	Damit sind alle wesentlichen Funktionen der DCE.py Datei beschrieben. Für weitere Dokumentation und den gesamten Code mit Kommentaren ist dieser im Anhang \ref{cd:listing_DCE.py} zu sehen.
 }
 
 
-\subsection{Shape Similarity Measure}{
+\section{Shape Similarity Measure}{
 	\label{py:Shape_Sim_Meas}
 	Beide Versionen der YOLO Implementierung erzeugen ein mehrdimensionales Array, welches für jedes Frame jedes Polygon mit Gesamtwinkelsumme, Class ID und Umriss enthält. Dieses mehrdimensionale Array wird ausgewertet, um einzuschätzen, ob die DCE zum Objekttracking geeignet ist. 
 
@@ -154,7 +108,7 @@ In dieser Arbeit wird Anaconda als Entwicklungs- und Installationsumgebung genut
 	\lstinputlisting[linerange={4,11-17}, caption={Ausschnitt aus \protect\lstinline|calc_shape_similarity| Funktion in shape\_sim\_meas.py}, label = {cd:SSM_main.py}]{../Code/Shape_Similiarity/shape_sim_meas.py}
 	Nachdem die Zeitstempel berechnet und im Results Dictionary gespeichert wurden, wird die erste Analysemethode aufgerufen. Dies geschieht im Detail folgendermaßen.
 
-	Die folgende Methode \lstinline|calc_shape_similarity_compare_polygons| vergleicht die Winkelsummen jedes einzelnen Polygon mit dem ähnlichen Polygon im nächsten Frame. Dies geschieht, indem bei der Detektion der Objekte nach dem Vereinfachen mit DCE ein mehrdimensionales Objekt mit den Daten [Framenummer, Polygonnummer, Gesamtwinkelsumme (im Polygon), ClassID, [Umrisskoordinaten]] angelegt wird, welches dann zu einem weiteren Array hinzugefügt wird. Dadurch ist jedes Polygon in jedem Frame einzeln identifzier- und vergleichbar. 
+	Die folgende Methode \lstinline|calc_shape_similarity_compare_polygons| vergleicht die Winkelsummen jedes einzelnen Polygon mit dem ähnlichen Polygon im nächsten Frame. Dies geschieht, indem bei der Detektion der Objekte nach dem Vereinfachen mit DCE ein mehrdimensionales Array mit den Daten [Framenummer, Polygonnummer, Gesamtwinkelsumme (im Polygon), ClassID, [Umrisskoordinaten]] angelegt wird, welches dann zu einem weiteren Array hinzugefügt wird. Dadurch ist jedes Polygon in jedem Frame einzeln identifzier- und vergleichbar. 
 	Die Auswertung dieses mehrdimensionalen Arrays erfolgt ähnlich zu Listing \ref{cd:shape_sim_meas_compare_poly.py}.\\
 
 	Die Schleife iteriert über alle Frames. Innerhalb dieser wird abgefragt, ob im nächsten Frame mehr Objekte detektiert wurden, als im betrachteten Frame. Dies ist wichtig, damit die nächste Schleife nur über so viele Polygone iteriert, wie das Frame mit der geringeren Anzahl hat. Wenn das nächste Frame jedoch weniger Polygone als das betrachtete Frame hat, dürfen nur so viele Polygone betrachtet werden, wie im nächsten Frame vorhanden sind. \\
@@ -165,14 +119,14 @@ In dieser Arbeit wird Anaconda als Entwicklungs- und Installationsumgebung genut
 	\lstinputlisting[firstnumber=22, linerange={53,54,56-59,61-63}, caption={Ausschnitt 3 aus \protect\lstinline|calc_shape_similarity_compare_polygons| Funktion in sha\-pe\_sim\_me\-as.py}, label = {cd:shape_sim_meas_compare_poly_third.py}]{../Code/Shape_Similiarity/shape_sim_meas.py} 
 	Die statistischen Auswertungen, werden alle im Dictionary (siehe Listing \ref{cd:shape_sim_meas_compare_poly_third.py}) in Radiant und Degree gespeichert. Hier wird  die Winkeldifferenz über alle Frames und Polygone, die durchschnittliche Winkelabweichung der pro Polygon und pro Winkel in das Dictionary geschrieben. Außerdem wird noch die Gesamtanzahl der erkannten Punkte gespeichert, die der Anzahl der Winkel entspricht, da zu jedem Punkt in den Polygonen ein Winkel berechnet wurde. \\
 	
-	Danach wird die Winkelabweichung mit der Methode \lstinline|calc_shape_sim_compare_classes_in_one_frame| berechnet, welche alle Polygone der gleichen Klasse in einem Frame miteinander vergleicht. Der Messwert wird dadurch berechnet, dass über alle Frames iteriert wird (siehe Listing \ref{cd:shape_sim_meas_one_frame_first.py}).
-	\lstinputlisting[linerange={70,92,93,95,96,98,99,101,102,104}, caption={Ausschnitt 1 aus \protect\lstinline|calc_shape_sim_compare_classes_in_one_frame| Funktion in sha\-pe\_sim\_me\-as.py}, label = {cd:shape_sim_meas_one_frame_first.py}]{../Code/Shape_Similiarity/shape_sim_meas.py} 
-	Die Methode \lstinline|compare_polygons_in_frame| gibt ein Array zurück, welches die aufsummierten Abweichungen enthält. Dies geschieht indem mit der \lstinline|get_inidzes_and_classes| Methode die Winkelsumme des ersten Polygons jeder Klasse extrahiert wird und in der nächsten Methode \lstinline|calc_measures_in_one_frame| diese mit allen anderen Polygonen der gleichen Klasse im Frame verglichen wird. Das Array mit den extrahierten Winkelsummen jeder Klasse wird im folgenden als Referenzklasse bezeichnet.\\
+	Danach wird die Winkelabweichung mit der Methode in Listing \ref{cd:shape_sim_meas_one_frame_first.py} berechnet, welche alle Polygone der gleichen Klasse in einem Frame miteinander vergleicht. Der Messwert wird dadurch berechnet, dass über alle Frames iteriert wird.
+	\lstinputlisting[linerange={70,92,93,95,96,98,99,101,102,104}, caption={Ausschnitt aus \protect\lstinline|calc_shape_sim_compare_classes_in_one_frame| Funktion in sha\-pe\_sim\_me\-as.py}, label = {cd:shape_sim_meas_one_frame_first.py}]{../Code/Shape_Similiarity/shape_sim_meas.py} 
+	Die Methode \lstinline|compare_polygons_in_frame| gibt ein Array zurück, welches die aufsummierten Abweichungen enthält. Dies geschieht indem mit der \lstinline|get_inidzes_and_classes| Methode die Winkelsumme des ersten Polygons jeder Klasse extrahiert wird und in der nächsten Methode \linebreak \lstinline|calc_measures_in_one_frame| diese mit allen anderen Polygonen der gleichen Klasse im Frame verglichen wird. Das Array mit den extrahierten Winkelsummen jeder Klasse wird im folgenden als Referenzklasse bezeichnet.\\
 	Das Vergleichen geschieht indem, wie in Listing \ref{cd:shape_sim_meas_calc_SSM_one_frame_first.py} als Beispielausschnitt zu sehen, indem über alle Polygone im Frame iteriert wird. Wenn die ClassID, in diesem Fall 2 für Car, mit der des Polygons im Frame übereinstimmt, kann die Differenzvariable berechnet werden. 
 	\lstinputlisting[linerange={235,236,247-254}, caption={Ausschnitt 1 aus \protect\lstinline|calc_measure_in_one_frame| Funktion in sha\-pe\_sim\_me\-as.py}, label = {cd:shape_sim_meas_calc_SSM_one_frame_first.py}]{../Code/Shape_Similiarity/shape_sim_meas.py} Diese wird in einem Array gespeichert, welches am Ende zurückgeben wird. Analog geschieht dies für die Klassen Truck und Motorcycle. Wenn keine dieser Klassen erkannt wurde, wird folgende Ausnahme behandelt (siehe Listing \ref{cd:shape_sim_meas_calc_SSM_one_frame_second.py}). 
 	\lstinputlisting[firstnumber=11, linerange={267-275}, caption={Ausschnitt 2 aus \protect\lstinline|calc_measure_in_one_frame| Funktion in sha\-pe\_sim\_me\-as.py}, label = {cd:shape_sim_meas_calc_SSM_one_frame_second.py}]{../Code/Shape_Similiarity/shape_sim_meas.py} 
 	Aus dem Array mit den Referenzvariablen wird, falls vorhanden, die Winkelsumme abgerufen. Wenn diese Winkelsumme nicht vorhanden ist, wird dem Array der Differenzvariable 0 addiert um diese nicht zu ändern. Sonst wird analog zum obigen Verfahren der Messwert berechnet, nur mit der Änderung das die ClassID zu jedem Wert gespeichert wird, um die Vergleichbarkeit zu gewährleisten. \\
-	Damit ist das Erstellen der Arrays und die Schleife in Listing \ref{cd:shape_sim_meas_calc_SSM_one_frame_first.py} abgeschlossen. Diese Arrays werden aufsummiert. Bei Objekten, welche nicht den drei Hauptklassen entsprachen, wird mit einer Methode, welche die berechneten Werte in einzelne Arrays für jede detektierte Klasse sortiert (ähnlich zu Bucketsort), die Winkelabweichung berechnet. Für eine nähere Beschreibung siehe Anhang \ref{cd:listing_shape_sim_meas.py} ab Zeile 125. Eine Berechnung ist falsch, wenn nur ein Element einer Klasse pro Frame detektiert wurde, da die Winkeldifferenz dann immer 0 beträgt. Falls dies der Fall ist, wird dies im Results Dictionary für die jeweilige Klasse mitgeteilt.
+	Damit ist das Erstellen der Arrays und die Schleife in Listing \ref{cd:shape_sim_meas_calc_SSM_one_frame_first.py} abgeschlossen. Diese Arrays werden aufsummiert. Bei Objekten, welche nicht den drei Hauptklassen entsprachen, wird mit einer Methode, welche die berechneten Werte in einzelne Arrays für jede detektierte Klasse sortiert (ähnlich zu Bucketsort), die Winkelabweichung berechnet. Für eine nähere Beschreibung siehe Anhang \ref{cd:listing_shape_sim_meas.py} ab Zeile 125. \todo{genauer beschreiben?} Eine Berechnung ist falsch, wenn nur ein Element einer Klasse pro Frame detektiert wurde, da die Winkeldifferenz dann immer 0 beträgt. Falls dies der Fall ist, wird dies im Results Dictionary für die jeweilige Klasse mitgeteilt.
 	Wenn alle Werte in das Result Dictionary geschrieben wurden, wird dieses als Textdatei abgespeichert und das Programm ist vollständig abgeschlossen.
 
 }
