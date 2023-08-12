@@ -16,10 +16,10 @@ def main():
     __init__.py files are important for connecting DCE.py with yolo_every_frame.py and yolo_result_version.py
     """
     options = {
-            "path_directory": r'Code\vid_examples\evaluation\weitere_testfaelle\longshots',  #main path for storing files
-            "source_video": r'Code\vid_examples\evaluation\Autobahn60s.mp4', #name for source video
-            "write_video": r'\A60s_RV.mp4', #storing name for result video
-            "results": r'\A60s_RV_results.txt', # storing name for statistics
+            "path_directory": r'Code\vid_examples\evaluation',  #main path for storing files
+            "source_video": r'Code\vid_examples\evaluation\Autobahn5F.mp4', #name for source video
+            "write_video": r'\newDCE_RV.mp4', #storing name for result video
+            "results": r'\newDCE_RV_results.txt', # storing name for statistics
 
             "path_source_video": r'temp', #temp variable for storing path for source video
             "path_write_video": r'temp', #temp variable for storing path for write video

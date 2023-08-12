@@ -4,7 +4,7 @@
 
 
 %\section{Implementierung in Python}
-{\label{implementation_in_python}}
+{\label{implementation_in_python}} 
 Im Folgenden wird die Implementierung anhand von Codebeispielen erläutert. Die angegebenen Listings sind zum einfachen Verständnis gekürzt und ohne Kommentare. Für ein Listing des gesamten Codes mit Kommentaren siehe Anhang \ref{cd:gesamt_listing}. \\
 EF Version ist die Abkürzung für \glqq Every Frame\grqq{} Version (1. YOLO Variante) und RV Version ist die Abkürzung für \glqq Result\grqq{} Version (2. YOLO Variante), die direkt mit einem von YOLO generierten Objekt arbeitet. 
 \section{Main File}
@@ -71,6 +71,7 @@ EF Version ist die Abkürzung für \glqq Every Frame\grqq{} Version (1. YOLO Var
 
 \section{Discrete Curve Evolution}{
 	\label{py:DCE}
+	\todo{dce listings checken}
 	Die folgende Implementierung basiert auf \citeauthor{Barkowsky2000} \citep{Barkowsky2000} (siehe Kap. \ref{sec:Discrete Curve Evolution}). Die DCE wird durch ähnlich implementierte Funktionen in beiden YOLO Implementierungen gestartet. Als Beispiel wird hier die Implementierung aus yolo\_result\_version.py genutzt. Diese ist in Listing \ref{cd:yolo_result_run_DCE.py} zu sehen. \\
 	Hier wird anhand der erkannten Klassen Auto, Motorrad und LKW die Methode zur Polygonvereinfachung mit einer festen Punktgrenze ausgeführt. Dies passiert auch, falls das detektierte Objekt nicht zu diesen drei Klassen gehört. \\ 
 	\lstinputlisting[linerange={78,89-97}, caption={Ausschnitt aus \protect\lstinline|run_DCE| Funktion in yolo\_result\_version.py}, label = {cd:yolo_result_run_DCE.py}]{../Code/YOLO/yolo_result_version.py}

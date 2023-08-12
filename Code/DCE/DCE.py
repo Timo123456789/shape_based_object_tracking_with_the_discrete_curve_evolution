@@ -17,25 +17,225 @@ def simplify_polygon_k_with_angle(arr, final_number_of_points, options):
     @param final_number_of_points: int for the number of points of the returned polygon
     @return array:  which was simplified to the given number of points
     """
+
+   
     DCE_Polygon = create_Polygon_from_array(arr)  #transform array to polygon for further calculations
-    NoP = get_number_of_points(DCE_Polygon) # variable to save the total numbers of points in the polygon
-    if final_number_of_points >= NoP: #direct return, if desired number of points is less than or equal to total number of points
-        return polygon_to_pixels(DCE_Polygon) 
+    if final_number_of_points >= len(arr):
+        print("Finnal NoP kleiner als gegebenes Array")
+        return polygon_to_pixels(DCE_Polygon)
+    # NoP = get_number_of_points(DCE_Polygon) # variable to save the total numbers of points in the polygon
+    # if final_number_of_points >= NoP: #direct return, if desired number of points is less than or equal to total number of points
+    #     return polygon_to_pixels(DCE_Polygon) 
     
-    for i in range(NoP): #iterate over all polygonpoints
-        calc_lowest_k = get_lowest_k(DCE_Polygon, options) # get index and  calculated value for the lowest k value wiht angles and distances
-        index_lowest_k = calc_lowest_k[0]    
+    # for i in range(NoP): #iterate over all polygonpoints
+    #     calc_lowest_k = get_lowest_k(DCE_Polygon, options) # get index and  calculated value for the lowest k value wiht angles and distances
+    #     index_lowest_k = calc_lowest_k[0]    
 
-        if i == (NoP-3): #Exception if Polygon is only triangle
-            return polygon_to_pixels(DCE_Polygon)
+    #     if i == (NoP-3): #Exception if Polygon is only triangle
+    #         return polygon_to_pixels(DCE_Polygon)
         
-        DCE_Polygon = delete_point_from_polygon(DCE_Polygon, index_lowest_k) #Overwrite DCE Polygon with new Polygon, where is point on index k deleted
+    #     DCE_Polygon = delete_point_from_polygon(DCE_Polygon, index_lowest_k) #Overwrite DCE Polygon with new Polygon, where is point on index k deleted
 
-        if final_number_of_points == get_number_of_points(DCE_Polygon): #if statement for return the simplified polygon at desired number of points
-            return polygon_to_pixels(DCE_Polygon)
+    #     if final_number_of_points == get_number_of_points(DCE_Polygon): #if statement for return the simplified polygon at desired number of points
+    #         return polygon_to_pixels(DCE_Polygon)
+
+
+
+
+
+    NoP = get_number_of_points(DCE_Polygon)
+    k_val_arr = calc_k_for_all_points(DCE_Polygon, NoP)
+  
+
+    print(NoP)
+    print("______________________")
+    #print(k_val_arr)
+    sort_arr = np.asarray(k_val_arr, dtype="float")
+    sort_arr = sort_arr[np.argsort(sort_arr[:,1])]
+    #print(k_val_arr[2][0])
+    #print(k_val_arr[2][1])
+    #print("SOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRTTTTTTTTTTTTTTTTTTEEEEEEEEEEEEEEEEDDDDDDDDDDDDDDDDD")
+    # print(sort_arr)
+    # print(len(k_val_arr))
+    # print(len(sort_arr))
+    # print(get_lowest_k(DCE_Polygon,options))
+    print("rein")
+    while(NoP != final_number_of_points):
+        i = int(sort_arr[0][0])
+        if(i==0):
+            DCE_Polygon = delete_point_from_polygon(DCE_Polygon,i)
+            act_NoP = get_number_of_points(DCE_Polygon)
+            NoP = NoP-1
+            sort_arr = np.delete(sort_arr, 0, axis = 0)
+            k_before = calc_k_with_points(DCE_Polygon, 0,act_NoP,1)
+            k_after = calc_k_with_points(DCE_Polygon, act_NoP,act_NoP-1,0)
+            np.insert(sort_arr,0,[0, k_before[0] ])
+            np.insert(sort_arr,act_NoP,[act_NoP, k_after[0]])
+            sort_arr = sort_arr_func(sort_arr) #sort_arr[np.argsort(sort_arr[:,1])]
+        else:
+            # print(i)
+            # print(get_array_with_points(DCE_Polygon))
+            DCE_Polygon = delete_point_from_polygon(DCE_Polygon,i)
+            # print(get_array_with_points(DCE_Polygon))
+            NoP = NoP-1
+            temp_NoP = get_number_of_points(DCE_Polygon)
+            sort_arr = np.delete(sort_arr, 0, axis = 0)
+            print("i+1")
+            print(i+1)
+            #if i == 22:
+            print("start")
+            print(len(sort_arr))
+            print(get_number_of_points(DCE_Polygon))
+            #print(sort_arr)
+            print("stop")
+            # if i > temp_NoP:
+            #     k_before = calc_k_with_points(DCE_Polygon,i-2,i-3,temp_NoP-1)
+            # else:
+            #     k_before = calc_k_with_points(DCE_Polygon,i-1,i-2,i)
+            # if(i+1)> temp_NoP:
+            #     if (i)> temp_NoP:
+            #         k_after = calc_k_with_points(DCE_Polygon,i-1,i-2, temp_NoP-1)
+            #     else:
+            #         k_after = calc_k_with_points(DCE_Polygon,i,i-1, temp_NoP-1)
+            # else:
+            #     k_after = calc_k_with_points(DCE_Polygon,i,i-1,i+1)
+
+
+            k_before = calc_k_with_points(DCE_Polygon,i-1,i-2,i)
+            if i+1>len(sort_arr):
+                k_after = calc_k_with_points(DCE_Polygon,i,i-1,1)
+            else:
+                k_after = calc_k_with_points(DCE_Polygon,i,i-1,i+1)
+            np.insert(sort_arr,i-1, [i-1, k_before[0]])
+            np.insert(sort_arr,i, [i, k_after[0]])
+            sort_arr = sort_arr_func(sort_arr) #sort_arr[np.argsort(sort_arr[:,1])]
+    print("raus")    
+
+
+
+    print("klappt?")
+
+
+
+
+
+    # while(NoP != final_number_of_points):
+    #     i = int(sort_arr[0][0])
+    #     if(i == 0):
+    #         DCE_Polygon = delete_point_from_polygon(DCE_Polygon,i)
+    #         NoP = NoP-1
+    #         np.append(sort_arr,[0, calc_k_with_points(DCE_Polygon, 0,NoP,1)])
+    #         np.append(sort_arr,[NoP, calc_k_with_points(DCE_Polygon, NoP,NoP-1,0)])
+    #         sort_arr = sort_arr[np.argsort(sort_arr[:,1])]
+    #     else:
+    #         print("else" + str(i) + "NoP" + str(NoP))
+
+            
+    #         print("Test")
+    #         if(i == get_number_of_points(DCE_Polygon)):
+    #             DCE_Polygon = delete_point_from_polygon(DCE_Polygon,int(i-1))
+             
+    #         else:
+    #             DCE_Polygon = delete_point_from_polygon(DCE_Polygon,int(i))
+    #         print(get_number_of_points(DCE_Polygon))
+
+            
+    #         NoP = NoP-1
+
+
+
+
+
+    #         temp_NoP = get_number_of_points(DCE_Polygon)
+
+
+
+
+
+
+
+
+
+
+    #         # if(i+1 > get_number_of_points(DCE_Polygon)):
+    #         #     np.append(sort_arr,[0, calc_k_with_points(DCE_Polygon, 0,NoP,1)])
+    #         #     np.append(sort_arr,[NoP, calc_k_with_points(DCE_Polygon, NoP,NoP-1,0)])
+    #         #     sort_arr = sort_arr_func(sort_arr) #sort_arr[np.argsort(sort_arr[:,1])]
+    #         # else:
          
-        
+    #         if (i+1)>temp_NoP or i > temp_NoP:
+    #             print("richitger Fall")
+    #             print(str(i) + " "+ str(i-1) + " " + str (temp_NoP))
+    #             np.append(sort_arr,[i-1, calc_k_with_points(DCE_Polygon, (i-1),(i-2),temp_NoP)])
+    #             np.append(sort_arr,[i, calc_k_with_points(DCE_Polygon, (i-1),(i-2),temp_NoP)])
+    #         else:
+    #             np.append(sort_arr,[i-1, calc_k_with_points(DCE_Polygon, (i-1),(i-2),(i))])
+    #             np.append(sort_arr,[i, calc_k_with_points(DCE_Polygon, (i),(i-1),(i+1))])
+    #         sort_arr =   sort_arr_func(sort_arr) #sort_arr[np.argsort(sort_arr[:,1])] #sort_arr_func(sort_arr)
 
+    #         print("erstes element wieder neu berechnen")
+    #         print((i-1),(i-2),(i))
+    #         print("zweites element wieder neu berechnen")
+    #         print(i,(i-1),(i+1))
+    #         print("number of points in DCE Polygon")
+    #         print(get_number_of_points(DCE_Polygon))
+
+        # print("______________________________________________________________")
+        # print("i"+ str(i))   
+        # print(sort_arr)
+        # print("_______________________________________________________________")
+        
+    # for i in range(NoP-3):
+    #     j = int(sort_arr[0][0])
+    #     if(j == 0):
+    #         DCE_Polygon = delete_point_from_polygon(DCE_Polygon,j)
+    #         NoP = NoP-1
+    #         np.append(sort_arr,[0, calc_k_with_points(DCE_Polygon, 0,NoP,1)])
+    #         np.append(sort_arr,[NoP, calc_k_with_points(DCE_Polygon, NoP,NoP-1,0)])
+    #         sort_arr = sort_arr[np.argsort(sort_arr[:,1])]
+    #     else:
+    #         print("else" + str(j) + "NoP" + str(NoP))
+    #         print("DCE Polygon")
+    #         print(DCE_Polygon)
+    #         DCE_Polygon = delete_point_from_polygon(DCE_Polygon,int(j))
+    #         NoP = NoP-1
+    #         if(j+1 > get_number_of_points(DCE_Polygon)):
+    #             np.append(sort_arr,[0, calc_k_with_points(DCE_Polygon, 0,NoP,1)])
+    #             np.append(sort_arr,[NoP, calc_k_with_points(DCE_Polygon, NoP,NoP-1,0)])
+    #             sort_arr = sort_arr_func(sort_arr) #sort_arr[np.argsort(sort_arr[:,1])]
+    #         else:
+    #             np.append(sort_arr,[j-1, calc_k_with_points(DCE_Polygon, (j-1),(j-2),(j))])
+    #             np.append(sort_arr,[j, calc_k_with_points(DCE_Polygon, (j),(j-1),(j+1))])
+    #         sort_arr =   sort_arr_func(sort_arr) #sort_arr[np.argsort(sort_arr[:,1])] #sort_arr_func(sort_arr)
+
+    #     if NoP == final_number_of_points:
+    #         return polygon_to_pixels(DCE_Polygon)
+
+
+    return polygon_to_pixels(DCE_Polygon)
+    print("stop")
+    #while()
+         
+def sort_arr_func(sort_arr):
+    sort_by_num = sort_arr[np.argsort(sort_arr[:,0])]
+    for i in range(len(sort_by_num)):
+        sort_by_num[i][0]=i
+    # print(sort_by_num)
+    # print("stop")
+    sort_by_k =sort_by_num[np.argsort(sort_by_num[:,1])] 
+    return sort_by_k
+    
+
+def calc_k_for_all_points(p, NoP):
+    temp_k_val_arr = []
+    for i in range(NoP):
+        if i == 0:
+            temp = calc_k_with_points(p,i,(NoP-1),1)
+            temp_k_val_arr.append([i,temp[0]])
+        else:
+            temp = calc_k_with_points(p,i,i+1,i-1)
+            temp_k_val_arr.append([i,temp[0]])
+    return temp_k_val_arr
 
 def get_lowest_k(p, options):
     """
@@ -135,11 +335,28 @@ def delete_point_from_polygon(p,index_of_point):
     @param index_of_point: Index for the point, which would be deleted
     @return shrink_poly: Polygon (as Geopanda.Geoseries Object) without point on index 'index_on_point'
     """
-    d_point = get_selected_point(p, index_of_point)
-    array = p[0].exterior.coords
+    #d_point = get_selected_point(p, index_of_point)
+    #array = p[0].exterior.coords
     array = get_array_with_points(p)
-    array.pop(index_of_point)
-    shrink_poly = create_Polygon_from_array(array)
+    # print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+    # #print(array[22])
+    # print(array)
+    # print(len(array))
+    # print(index_of_point)
+    # if(len(array) == index_of_point):
+    #     array.pop(index_of_point-1)
+    # else:
+    #     array.pop(index_of_point)
+    if len(array) >= 3:
+        array.pop(index_of_point)
+        shrink_poly = create_Polygon_from_array(array)
+    else:
+        shrink_poly = create_Polygon_from_array(array)
+    #plot_GS_polygon(p, 1, r'Code\vid_examples')
+    #print("stop")
+
+
+   
     return shrink_poly
 
 
@@ -153,6 +370,7 @@ def create_Polygon_from_array(arr):
     @return p: Geopanda.Geoseries Object
 
     """
+    print(arr)
     polygon = Polygon(arr)
     p = gpd.GeoSeries(polygon)
     return p
@@ -239,6 +457,9 @@ def get_selected_point(p,i):
     @param p = Polygon (as Geopanda.Geoseries Object)
     @return Point = Tuple from Point at index i on p
     """
+    print("_______________")
+    print(i)
+    print(get_number_of_points(p))
     return Point(p[0].exterior.coords[i])
 
 
