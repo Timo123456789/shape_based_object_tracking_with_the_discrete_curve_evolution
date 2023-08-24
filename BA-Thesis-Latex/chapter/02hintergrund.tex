@@ -35,7 +35,7 @@
 
 	Der Sum-Squarred-Error ist die Summe aller Differenzen zwischen jeder Beobachtung und des Gruppenmittelwertes. Dieser kann als Maß zur Variation innerhalb einer Gruppe verwendet werden und ist 0, wenn alle Fälle innerhalb einer Gruppe gleich sind \citep{SOSQE_desc}.
 
-	PASCAL VOC 2007, 2012 und ImageNet 1000-Class-Competition \citep{Russakovsky2015} sind drei Datensätze, die zum Training von YOLO von \cite{Redmon2016} verwendet wurden. Der PASCAL VOC Datensatz wurde in der Version von 2007 und 2012 verwendet. Diese Versionen enthalten 20 Klassen, die erkannt werden müssen  \citep{pascal_voc}.  Der ImageNet Datensatz besteht aus ca. 1000 Bilder, die von Menschen annotiert und klassifiziert wurden \citep{imageNET_about}
+	PASCAL VOC 2007, 2012 und ImageNet 1000-Class-Competition \citep{Russakovsky2015} sind drei Datensätze, die zum Training von YOLO durch \citeauthor{Redmon2016} verwendet wurden. Der PASCAL VOC Datensatz wurde in der Version von 2007 und 2012 verwendet. Diese Versionen enthalten 20 Klassen, die erkannt werden müssen  \citep{pascal_voc}.  Der ImageNet Datensatz besteht aus ca. 1000 Bilder, die von Menschen annotiert und klassifiziert wurden \citep{imageNET_about}
 	}
 	\subsection{Der YOLO Algorithmus \label{subsec:YOLO_Alg}} 
 	{Da der Blick des Menschen intuitiv Objekterkennung, -einordnung und -wirkung intuitiv ermöglicht, ist es unserem Gehirn im Zusammenspiel mit unseren Augen möglich, schnell und genau zu sehen. Durch diese Fähigkeiten können wir mit nur wenig bewussten Gedanken komplexe Aufgaben, wie Fahrradfahren bewältigen \citep{Redmon2016}. \\
@@ -179,18 +179,20 @@ Eine formale Definition dieser Funktion kann folgendermaßen erfolgen. Zwei kons
  \\ 
  Letztendlich ist die DCE folgendermaßen aufgebaut. Der kleinste Wert von $K(S_1,S_2)$ definiert in jedem Iterationsschritt das Paar von konsekutiven Liniensegmenten $S_1, S_2$, welches durch ein einzelnes Liniensegment von den Endpunkten $S_1 \cup S_2$ ersetzt wird. Das Relevanzmaß $K$ wird lokal für jeden Iterationsschritt der DCE neu berechnet und ist deshalb eine lokale Eigenschaft der Form des ursprünglichen Polygons. \\ Die DCE ermöglicht, wie in Abbildung \ref{Bsp_DCE_Bark_Paper} zu erkennen, die Substitution kleinerer Knicke ohne den Gesamteindruck der Form des Polygons nachhaltig zu verändern \citep{Barkowsky2000}.
  \\
- Ein weiterer Vorteil dieses Algorithmus ist, dass er immer terminiert, da in jedem Iterationsschritt die Zahl der Punkte um eins reduziert wird. Die DCE konvergiert für geschlossene Polygone gegen einen Zustand, wo nur noch drei Liniensegmente im Polygon vorhanden sind. Durch einen Abbruch des Prozesses ist es jedoch möglich, ein Polygon auf eine bestimmte vorgegebenen Punktanzahl zu reduzieren.\citep{Barkowsky2000}. \todo{nebensatz rausnehmen oder 'meist' einfüge; erledigt} \\ 
+ Ein weiterer Vorteil dieses Algorithmus ist, dass er immer terminiert, da in jedem Iterationsschritt die Zahl der Punkte um eins reduziert wird. Die DCE konvergiert für geschlossene Polygone gegen einen Zustand, wo nur noch drei Liniensegmente im Polygon vorhanden sind. Durch einen Abbruch des Prozesses ist es jedoch möglich, ein Polygon auf eine bestimmte vorgegebenen Punktanzahl zu reduzieren.\citep{Barkowsky2000}. \\ 
 Für die Anwendung in dieser Arbeit ist die DCE wegen ihrer geringen Komplexität sehr gut geeignet.
 }
 
-
-\section{Python}
-{
-	Die Implementierung erfolgt in Python, da diese weitverbreitet ist und eine einfache Einbindung weiterer Bibliotheken erlaubt \citep{Millman2011}. Durch diese leichte Erweiterungsmöglichkeit ergibt sich die Möglichkeit komplexen Programmcode zu schreiben, welcher den Rahmen dieser Arbeit nicht überschreitet.
+\section{Formähnlichkeitsmaß}{
+	\todo{muss noch geschrieben werdne}
+	\todo{soll ich das überhaupt noch näher erläutern ? RM fragen.. Welche Quellen angeben}
 }
-{ \label{sec:Python}
-Python wurde am 14. Februar 2009 in der Version 3.0 veröffentlicht \citep{Rossum2009}. Diese Programmiersprache bietet Vorteile durch die einfache Syntax und die Unterstützung der Einbindung diverser externen Bibliotheken \citep{Marowka2018}. \\
-In dieser Arbeit wird Anaconda als Entwicklungs- und Installationsumgebung genutzt. Im Folgenden werden die in dieser Arbeit genutzten Bibliotheken näher erläutert.}
+
+\section{Python} 
+{  \label{sec:Python}
+	Die Implementierung erfolgt in Python, da diese weitverbreitet ist und eine einfache Einbindung weiterer Bibliotheken erlaubt \citep{Millman2011}. Durch diese leichte Erweiterungsmöglichkeit ergibt sich die Möglichkeit komplexen Programmcode zu schreiben, welcher den Rahmen dieser Arbeit nicht überschreitet. \\
+	Python wurde am 14. Februar 2009 in der Version 3.0 veröffentlicht \citep{Rossum2009}. Diese Programmiersprache bietet Vorteile durch die einfache Syntax und die Unterstützung der Einbindung diverser externen Bibliotheken \citep{Marowka2018}. \\
+	In dieser Arbeit wird Anaconda als Entwicklungs- und Installationsumgebung genutzt. Im Folgenden werden die in dieser Arbeit genutzten Bibliotheken näher erläutert.}
 
 \section{Externe Bibliotheken}
 \todo{vielleicht noch ein zwei Sätze dazu schreiben?}
@@ -202,18 +204,25 @@ In dieser Arbeit wird Anaconda als Entwicklungs- und Installationsumgebung genut
 		\subsection{NumPy}
 		{ \label{subsec:NumPy}
 		NumPy ist ein Open-Source Projekt, welches 2005 gegründet wurde, um numerische Operationen in Python zu ermöglichen \citep{numpy_about}. Die aktuelle Version 1.25.0 wurde am 17.06.2023 veröffentlicht \citep{numpy_main_web}. \\
-		Diese Bibliothek bietet nicht nur mehrdimensionale Arrays sondern auch diveres numerische Operationen an. Außerdem ist NumPy durch effiziente Implementierung sehr performant \citep{numpy_main_web}. \\
+		Diese Bibliothek bietet nicht nur mehrdimensionale Arrays, sondern auch diverse numerische Operationen an. Außerdem ist NumPy durch effiziente Implementierung sehr performant \citep{numpy_main_web}. \\
 		}
 		\subsection{Computer Vision 2}
 		{ \label{subsec:Computer_Vision_2}
 		Computer Vision 2 (CV2) ist ein Teil der 'Open Source Computer Vision' Bibliothek \citep{opencv_about}. Die aktuelle Version 4.8.0 wurde am 02.07.2023 veröffentlicht \citep{opencv_release}. \\
 		Diese Bibliothek beinhaltet Algorithmen zur Bild- und Videobearbeitung. In dieser Arbeit wird diese Bibliothek zur Manipulation von Frames in Videos genutzt, die zuvor mit YOLO analysiert wurden. 
 		}
-		\subsection{YOLOv8 von \citeauthor{Canu_pysource}}
+		\subsection{YOLOv8 Implementierung von \citeauthor{Canu_pysource}}
 		{ \label{YOLOv8_canu}
-		Es wird in dieser Arbeit werden die \glqq-seq\grqq{} Modelle von YOLO benutzt, da diese bereits eine Segmentierung der Objekte mit deren Umrissen integriert haben. Für eine detaillierte Beschreibung siehe Kap. \ref{subsec:YOLOv8_theoretic}. \\
+		In dieser Arbeit werden die \glqq-seq\grqq{} Modelle von YOLO benutzt, da diese bereits eine Segmentierung der Objekte mit deren Umrissen integriert haben. Für eine detaillierte Beschreibung siehe Kap. \ref{subsec:YOLOv8_theoretic}. \\
 		Die Implementierung basiert auf \citeauthor{Canu_pysource}, da dieser eine Einführung in Bildbearbeitung mit Python unter der Benutzung von YOLO gegeben hat \citep{Canu_pysource}.
 		}
+	\section{weitere Algorithmen}
+	{ \todo{muss noch geschrieben werden}
+		\begin{itemize}
+			\item Quicksort/Mergesort noch erläutern? wg benutzung zur Sortieren von Sortarray?
+		\end{itemize}
+
+	}
 	\section{Meta-Ablauf im Programm}{
 	Der Programmablauf ist folgendermaßen geplant. Der erste Schritt besteht darin, dass Video einzulesen und dann mit YOLO zu analysieren. Danach wird im zweiten Schritt auf alle von YOLO segmentierten Objektumrisse die DCE angewendet. Diese werden bis zu einer bestimmten vorher festgelegten Punktanzahl vereinfacht. Als letzten Schritt werden diese vereinfachten Umrisse ins Video eingefügt, um das Ursprungspolygon zu überschreiben.
 }
