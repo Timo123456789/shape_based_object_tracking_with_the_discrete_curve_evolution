@@ -38,13 +38,14 @@
 	Objekte, welche nicht den drei Hauptklassen entsprechen werden pauschal auf 20 Punkte vereinfacht. Das Video wird  schwarz gerendert, sodass sich nur weiße Polygone im Video bewegen. Außerdem werden für jedes Polygon die detektierte Klasse und der Confidence Score in jedem Frame angezeigt.
 
 }
-\section{Ergebnisse\label{sec:Ergebnisse}} 
+\section{Ergebnisse\label{sec:Ergebnisse}}  
+\todo{Tabellen bei >1000 Zahlen mit 1.000 ausfüllen (Punkt zur Trennung)}
 {Die Winkelabweichung der einzelnen Polygone zueinander wird mit verschiedenen Methoden  (siehe Kap. \ref{py:Shape_Sim_Meas}) berechnet. Es wird zunächst auf die allgemeinen Ergebnisse ohne Klassenunterscheidung eingegangen und danach werden die Ergebnisse mit Klassenunterscheidung erläutert. Ein Beispielframe aus dem 10-sekündigen Datensatz ist in Abb. \ref{Bsp_ErgebRVA10s_Vidmat} zu sehen.\\
-Alle Angaben in den Tabellen, außer bei den absoluten Anzahlen und in Tab. \ref{tab:YOLO8_A1s_A10s_Comp}, sind in Grad (Deg.). Die Modelle von YOLO werden mit 8n, 8m, 8x entsprechend abgekürzt und werden immer in der Version \glqq -seq \grqq{} genutzt.}
+Alle Angaben in den Tabellen, außer bei den absoluten Anzahlen und in Tab. \ref{tab:YOLO8_A1s_A10s_Comp}, sind in Grad (Deg.). Die Modelle von YOLO werden mit 8n, 8m, 8x entsprechend abgekürzt und werden immer in der Version \glqq -seq\grqq{} genutzt.}
 \begin{figure}[ht]
 	\centering
 	\includegraphics*[scale = 0.35, keepaspectratio ]{images/Evaluation/Screenshot_A10s_RV.png}
-	\caption[Beispielframe aus mit der direkten YOLO Anwendung analysiertem Videomaterial]{Beispielframe aus mit der direkten YOLO Anwendung analysiertem Videomaterial (Quelle: eigene Darstellung)} 
+	\caption[Beispielframe aus mit der direkten YOLO Anwendung analysiertem Videomaterial]{Beispielframe aus mit der 2. YOLO Implementierung analysiertem Videomaterial (Quelle: eigene Darstellung)} 
 	\label{Bsp_ErgebRVA10s_Vidmat}
 \end{figure}
 \subsection{Winkelabweichung ohne Klassenunterscheidung}
@@ -138,12 +139,12 @@ Alle Angaben in den Tabellen, außer bei den absoluten Anzahlen und in Tab. \ref
 		\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ Busse (in Klam. pro Fr.)\end{tabular} & - & - & \begin{tabular}[c]{@{}l@{}}17\\ (0,57)\end{tabular} & \begin{tabular}[c]{@{}l@{}}17\\ (0,57)\end{tabular} & - & -
 		\end{tabular}
 	\end{table}
-		Bei dieser Berechnung wird die Winkelabweichung auch als \glqq Shape Similarity Measure \grqq{} (SSM, Formähnlichkeitsmaß) bezeichnet, da dieses sich auf den Vergleich einzelner Klassen miteinander bezieht. Dieses Maß ist in einzelne Klassen aufschlüsselbar. Das SSM wird für jede Klasse pro Frame (SSM pro Fr. und Kl.), aber auch für alle detektierten Klassen (SSM pro Klasse) berechnet. Da ersteres jedoch ein Referenzmaß jeder Klasse in jedem Frame benötigt, wird das Ergebnis bei exakt einem Objekt einer Klasse in einem Frame ungültig. Die Ergebnisse sind in den Tabellen mit \glqq F\grqq{} gekennzeichnet, da diese immer 0 ergeben.  \\
+		Bei dieser Berechnung wird die Winkelabweichung auch als \glqq Shape Similarity Measure\grqq{} (SSM, Formähnlichkeitsmaß) bezeichnet, da dieses sich auf den Vergleich einzelner Klassen miteinander bezieht. Dieses Maß ist in einzelne Klassen aufschlüsselbar. Das SSM wird für jede Klasse pro Frame (SSM pro Fr. und Kl.), aber auch für alle detektierten Klassen (SSM pro Klasse) berechnet. Da ersteres jedoch ein Referenzmaß jeder Klasse in jedem Frame benötigt, wird das Ergebnis bei exakt einem Objekt einer Klasse in einem Frame ungültig. Die Ergebnisse sind in den Tabellen mit \glqq F\grqq{} gekennzeichnet, da diese immer 0 ergeben.  \\
 		Die absolute Anzahl detektierter Klassenobjekte ist nicht gleichzusetzen mit der Anzahl der sich durch das Video bewegenden Objekte (bspw. als Zähler der durch das Video fahrenden Autos). Dies ist der Fall, weil die Zahl für jedes Frame berechnet wird und diese Zahl immer weiter aufsummiert wird. Die Zahl der detektierten Objekte pro Frame entspricht ca. der durchschnittlich getrackten Anzahl der jeweiligen Objekte, bzw. Klassen.
 		Zwischen den beiden Implementierungen von YOLO ist in beiden Tabellen \ref{tab:YOLO8_A1s_SSM} und \ref{tab:YOLO8_A10s_SSM} nur ein marginaler Unterschied zu erkennen. Das in Tabelle \ref{tab:YOLO8_A10s_SSM} zwischen den Versionen teilweise kein Unterschied bei den Werten vorhanden ist, liegt an der Rundung der Werte auf 2 Nachkommastellen, da der Unterschied bei der Menge von 300 Frames marginal ist.
 		
 		In Tabelle \ref{tab:YOLO8_A1s_SSM} ist zu sehen, dass die Abweichung pro Frame und Klasse bei der Klasse Auto den YOLOVersionen 8n und 8m um das ca. 5-fache steigt. Der Anstieg bei der Klasse LKW ist hingegen der Anstieg noch stärker mit dem ca. 11 fachen. Dies kann daran liegen, dass weniger LKW als Autos erkannt wurden, was sich auch in der absoluten Anzahl und in der durchschnittlichen Anzahl pro Frame niederschlägt. Der Anstieg innerhalb der Klassen zwischen den YOLO Versionen 8n und 8m kann durch die höhere Anzahl detektierter LKW und Auto erklärt werden.
-		Im Vergleich zu  8n liegt 8m detektiert die größere YOLO Version weniger Züge als LKW falsch. Dies erklärt, weshalb bei YOLO 8m und 8x keine Züge mehr detektiert wurden. 51 Züge wurden in YOLO 8n (RV) erkannt, was ungefähr der Differenz an mehr detektierten Autos in 8m (RV) mit 99 entspricht. Die hohen SSM bei Zügen und Bussen sind durch die hohen Punktzahlen von 20 pro Polygon zu erklären, da diese beiden Klassen zu den \glqq  anderen Objekten\grqq{} gezählt werden. \\
+		Im Vergleich zu  8n liegt 8m detektiert die größere YOLO Version weniger Züge als LKW falsch. Dies erklärt, weshalb bei YOLO 8m und 8x keine Züge mehr detektiert wurden. 51 Züge wurden in YOLO 8n (RV) erkannt, was ungefähr der Differenz an mehr detektierten Autos in 8m (RV) mit 99 entspricht. Die hohen SSM bei Zügen und Bussen sind durch die hohen Punktzahlen von 20 pro Polygon zu erklären, da diese beiden Klassen zu den \glqq anderen Objekten\grqq{} gezählt werden. \\
 		YOLO 8m detektiert LKW als Busse falsch, dies ist im Vergleich zu 8x zu sehen wo weder Züge noch Busse detektiert wurden. YOLO 8x verfügt durch den größten Trainingsdatensatz über die beste Erkennungsrate, was jedoch zu einer hohen SSM pro Frame und Klasse, sowie pro Klasse allgemein führt. \\
 		Bei dem Testvideo mit 300 Frames sinkt die SSM, weil durch die erhöhte Frameanzahl die Bedeutung des einzelnen Frames für die Berechnung geringer wird. Auch bei diesem Video ist ein großer Unterschied zwischen den YOLO Versionen 8n und 8m zu sehen. Dies hängt, wie beim 1-sekündigen Testvideo mit den Trainingsdaten der Yolo Modelle zusammen. Der Unterschied zwischen 8m und 8x ist mit ca. 100 Grad, bzw. ca. 100 mehr erkannten Objekten, gering. \\
 		Die Klasse Bus wird von allen 3 Modellen erkannt. Dies ist bei 8n noch sehr gering vorhanden, es liegt voraussichtlich daran, dass zwischendurch einzelne Frames einen oder mehrere als Busse erkannte LKW enthalten. Die SSM hat sich bei YOLO 8m erhöht, trotz des größeren Trainingsdatensatzes. Wenn man jedoch die absolute Anzahl von detektierten Bussen (68 Busse in 8m zu 58 Busse in 8n) oder die Anzahl der Busse pro Frame (0,23 in 8m zu 0,19 in 8m) vergleicht, ist der Anstieg sehr gering. Bei dem 8x Modell werden mit 7 Bussen, bzw. 0,02 Bussen pro Frame deutlich weniger detektiert. Dies kann am größten Traingsdatensatz des Modells liegen. Hier wird jedoch der Fehler bei der SSM angezeigt, dies bedeutet, dass immer nur ein Bus pro Frame detektiert wurde. 
@@ -238,7 +239,7 @@ Alle Angaben in den Tabellen, außer bei den absoluten Anzahlen und in Tab. \ref
 	{ \todo{tabelen mit quellen versehen!}
 		Bei diesem Testdaten werden die Fälle betrachtet, bei denen DCE geringere und höhere Punktgrenzen beachten muss. Als Referenz wird der 8x Datensatz in der Länge 1 Sekunde und in der Länge 10 Sekunden genutzt. Es wird immer die RV Version der Implementierung betrachtet. Die DCE Grenzen sind in Tabelle \ref{tab:YOLO8_minor_more_DCE_Limits} aufgelistet. \\
 	\begin{table}[ht]
-		\caption{Einstellungen der verschiedenen DCE Substitutionsgrenzen}
+		\caption{Einstellungen der verschiedenen DCE Substitutionsgrenzen (Quelle: eigene Darstellung; \ref{cd:listing_A1s_RV_minor_results.txt(Y8x)}, \ref{cd:listing_A1s_RV_more_results.txt(Y8x)}, \ref{cd:listing_A10s_RV_minor_results.txt(Y8x)}, \ref{cd:listing_A10s_RV_more_results.txt(Y8x)})}
 		\label{tab:YOLO8_minor_more_DCE_Limits}
 		\centering
 		\begin{tabular}{l|l|l|l}
@@ -255,10 +256,10 @@ Alle Angaben in den Tabellen, außer bei den absoluten Anzahlen und in Tab. \ref
 
 		\begin{table}[ht]
 			\centering
-			\caption{Vergleich der Statistik bei 1 Sekunde Video (30 Frames) und verschiedenen DCE Substitutionsgrenzen}
+			\caption{Vergleich der Statistik bei 1 Sekunde Video (30 Frames) und verschiedenen DCE Substitutionsgrenzen (Quelle: eigene Darstellung; \ref{cd:listing_A1s_RV_minor_results.txt(Y8x)}, \ref{cd:listing_A1s_RV_more_results.txt(Y8x)})}
 			\label{tab:YOLO8_minor_more_DCE_A1s}
 			\begin{tabular}{l|l|l|l}
-				& \textbf{\begin{tabular}[c]{@{}l@{}}Geringe DCE\\ Punktgrenzen\end{tabular}} & \textbf{Referenz} & \textbf{\begin{tabular}[c]{@{}l@{}}hohe DCE\\ Punktgrenzen\end{tabular}} \\ \hline
+				& \textbf{\begin{tabular}[c]{@{}l@{}}geringe DCE\\ Punktgrenzen\end{tabular}} & \textbf{Referenz} & \textbf{\begin{tabular}[c]{@{}l@{}}hohe DCE\\ Punktgrenzen\end{tabular}} \\ \hline
 			   \textit{\begin{tabular}[c]{@{}l@{}}Durchschn. Abweichung\\ p. Polygon (in Deg.)\end{tabular}} & 3,08 & 48,12 & 454,81 \\ \hline
 			   \textit{\begin{tabular}[c]{@{}l@{}}Durchschn. Abweichung  \\ p. Winkel (in Deg.)\end{tabular}} & 0,68 & 5,46 & 24,18 \\ \hline
 			   \textit{} &  &  &  \\ \hline
@@ -271,7 +272,7 @@ Alle Angaben in den Tabellen, außer bei den absoluten Anzahlen und in Tab. \ref
 			\end{table}
 
 			\begin{table}[ht]
-				\caption{Vergleich der SSMs bei verschiedenen DCE Substitionslimits bei einem 1-sekündigem Video (30 Frames)}
+				\caption{Vergleich der SSMs bei verschiedenen DCE Substitionslimits bei einem 1-sekündigem Video (30 Frames) (Quelle: eigene Darstellung; \ref{cd:listing_A1s_RV_minor_results.txt(Y8x)}, \ref{cd:listing_A1s_RV_more_results.txt(Y8x)})}
 				\label{tab:Minor_More_DCE_SSMs_A1s}
 				\centering
 				\begin{tabular}{l|l|l|l}
@@ -286,7 +287,8 @@ Alle Angaben in den Tabellen, außer bei den absoluten Anzahlen und in Tab. \ref
 				\end{tabular}
 				\end{table}		
 	 }
-\subsection{lange Testdatensätze}{
+	 \clearpage
+\subsection{lange Testdatensätze (NICHT FERTIG)}{
 	\todo{müssen noch gemacht werden }
 }
 {

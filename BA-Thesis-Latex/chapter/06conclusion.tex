@@ -9,8 +9,9 @@
 \section{Ausblick}
 {
 	Aktuell sind feste Punktgrenzen für die einzelnen Klassen zur Berechnung mit der DCE festgelegt. Dies kann durch einen Wert ersetzt werden, der die Ähnlichkeit des vereinfachten Polygons zum Ursprungspolygon misst. Dadurch wird eine bedarfsbezogene Vereinfachung des Polygons für jede Klasse ermöglicht. Dies wird von \citeauthor{Latecki2003} in \citetitle{Latecki2003} \citep{Latecki2003} näher erläutert. \\
-	Außerdem wäre eine weitere Möglichkeit, in den Code weitere Klassen mit individuellen Punktgrenzen einzufügen. Dies könnte für eine größere Abdeckung mehrere Szenarien genutzt werden. Begrenzt wird dieses Vorhaben lediglich durch die Anzahl der 80 Klassen, die YOLO unterscheiden kann. \\
-	Da die Prozessierungsgeschwindigkeit von Python begrenzt ist, kann eine effizientere Implementierung in C oder C++ erfolgen, um ein echtzeitfähiges System zu ermöglichen.
+	Außerdem wäre eine weitere Möglichkeit, in den Code weitere Klassen mit individuellen Punktgrenzen einzufügen. Dies könnte für eine größere Abdeckung mehrerer Szenarien genutzt werden. Begrenzt wird dieses Vorhaben lediglich durch die Anzahl der 80 Klassen, die YOLO unterscheiden kann. \\
+	Da die Prozessierungsgeschwindigkeit von Python begrenzt ist, kann eine effizientere Implementierung in C oder C++ erfolgen, um ein echtzeitfähiges System zu ermöglichen. \\
+	Dieses echtzeitfähige System könnte in einer Art \glqq Verifying Tracker\grqq{} eingesetzt werden, bei dem gleichzeitig mehrere Kamerasignale aus verschiedenen Blickwinkeln verarbeitet werden.  Hier kann dann berechnet werden, ob das betrachtete Objekt der Klasse entspricht, die getrackt werden soll. Dadurch ließe sich eine höhere Sicherheit bei der Objektdetektion ermöglichen.
 
 }
 

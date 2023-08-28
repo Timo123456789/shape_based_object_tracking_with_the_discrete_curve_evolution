@@ -6,7 +6,7 @@
 
 
 
-\section{\glqq You Only Look Once \grqq (YOLO)}
+\section{\glqq You Only Look Once\grqq{}(YOLO)}
 {
 	\subsection{Grundlagen im Maschinellen Lernen}
 	{ 
@@ -18,7 +18,7 @@
 		\label{YOLO_simple_CNN}
  	\end{figure}
 
-	Ein Bereich im Maschinellem Lernen basiert auf Convolutional Neural Networks (CNN). Diese beschreiben ein künstliches neuronales Netz, welches von biologischen Konzepten beeinflusst wurde und gut für Mustererkennung geeignet ist \citep{Matsugu2003}. \\
+	Ein Bereich im Maschinellem Lernen basiert auf Convolutional Neural Networks (CNN). Diese beschreiben ein künstliches neuronales Netz, welches von biologischen Konzepten beeinflusst wurde und sich gut für Mustererkennung eignet. \citep{Matsugu2003}. 
 	CNNs bestehen aus 3 verschiedenen Arten von Layern, die aufeinander gelegt wurden. Ein einfaches CNN ist in Abb. \Ref{YOLO_simple_CNN} zu sehen. Dessen 4 Grundfunktionalitäten werden im Folgenden näher erläutert. \\
 	Der Input Layer speichert die Pixelwerte des eingegebenen Bildes und leitet diese an den nächsten Layer weiter. Ein Convolutional (CN) Layer berechnet den Output der Neuronen, die mit den lokalen Regionen des Input Layers verbunden sind. Dies geschieht, indem das Skalarprodukt zwischen den Gewichten und Regionen berechnet wird, die mit dem Input verbunden sind. Hier kann auch eine 'Rectified Linear Unit' (ReLu) eingesetzt werden, welche 'elementweise' eine Aktivierungfunktion auf die von der vorherigen Schicht erzeugten Ausgabe angewendet wird \citep{OSheaRyan2022}. \\
 	Ein Pooling Layer verringert dann die Komplexität der Eingabe entlang der räumlichen Dimension, um die Anzahl der Parameter zu reduzieren. Die letzte Schicht ist ein fully-connected Layer, der aus Aktivierungen Werte erzeugt, die für die Klassifizierung verwendet werden können. Hier kann man ebenfalls eine ReLu anwenden, um die Leistung zu verbessern \citep{OSheaRyan2022}. \\
@@ -27,15 +27,15 @@
 	
 	'Intersection over Union' (IOU) ist eine Metrik zum Vergleich der Ähnlichkeit zwischen zwei beliebigen Formen. Hierfür werden die Maße normalisiert, sodass diese unabhängig von der Größe der zu vergleichenden Objekte sind \citep{Rezatofighi2019}.  \\
 
-	Loss bezeichnet einen Wert, der angibt, wie schlecht die Vorhersage eines Modells für ein einzelnes Objekt ist. Dieser Wert ist 0, wenn die Vorhersage perfekt wäre, sonst steigt dieser Wert. Wenn ein Modell trainiert wird, ist das Ziel dieses Trainings, eine Reihe von Gewichten zu finden, die für alle Trainingsdaten im Durchschnitt den geringsten Loss aufweisen \citep{loss_google}. In Abb. \ref{Loss_desc} ist ein einfaches Beispiel zu sehen \citep{loss_google}. \\
+	Loss bezeichnet einen Wert, der angibt, wie schlecht die Vorhersage eines Modells für ein einzelnes Objekt ist. Dieser Wert ist 0, wenn die Vorhersage perfekt wäre, sonst steigt dieser Wert. Wenn ein Modell trainiert wird, ist das Ziel dieses Trainings, eine Reihe von Gewichten zu finden, die für alle Trainingsdaten im Durchschnitt den geringsten Loss aufweisen. In Abb. \ref{Loss_desc} auf Seite \pageref{Loss_desc} ist ein einfaches Beispiel zu sehen \citep{loss_google}. \\
 
-	Non-Maximum-Supression (NMS) ist ein Algorithmus, der überlappende Boundingboxen, die von Objektdetektoren erzeugt wurden entfernt. Es werden die Detektionen mit dem geringsten Loss genommen und die nächsten benachbarten Boundingboxen mit höherem Loss gelöscht, wenn diese das gleiche Objekt überlappen \citep{Hosang2017}. \\
+	Non-Maximum-Supression (NMS) ist ein Algorithmus, der überlappende Boundingboxen, die von Objektdetektoren erzeugt wurden, entfernt. Es werden die Detektionen mit dem geringsten Loss genommen und die nächsten benachbarten Boundingboxen mit höherem Loss gelöscht, wenn diese das gleiche Objekt überlappen \citep{Hosang2017}. \\
 
 	Ground-Truth bezeichnet Daten, die dafür genutzt werden können, die Qualität von Modellen zu überprüfen. Da diese Daten vorab manuell klassifiziert und bewertet wurden, ist bekannt, welches Ergebnis Sie bei der Eingabe in ein Modell liefern müssen \citep{Ground_truth_desc}.
 
 	Der Sum-Squarred-Error ist die Summe aller Differenzen zwischen jeder Beobachtung und des Gruppenmittelwertes. Dieser kann als Maß zur Variation innerhalb einer Gruppe verwendet werden und ist 0, wenn alle Fälle innerhalb einer Gruppe gleich sind \citep{SOSQE_desc}.
 
-	PASCAL VOC 2007, 2012 und ImageNet 1000-Class-Competition \citep{Russakovsky2015} sind drei Datensätze, die zum Training von YOLO durch \citeauthor{Redmon2016} verwendet wurden. Der PASCAL VOC Datensatz wurde in der Version von 2007 und 2012 verwendet. Diese Versionen enthalten 20 Klassen, die erkannt werden müssen  \citep{pascal_voc}.  Der ImageNet Datensatz besteht aus ca. 1000 Bilder, die von Menschen annotiert und klassifiziert wurden \citep{imageNET_about}
+	PASCAL VOC 2007, 2012 und ImageNet 1000-Class-Competition \citep{Russakovsky2015} sind drei Datensätze, die zum Training von YOLO durch \citeauthor{Redmon2016} verwendet wurden. Der PASCAL VOC Datensatz wurde in der Version von 2007 und 2012 verwendet. Diese Versionen enthalten 20 Klassen, die erkannt werden müssen  \citep{pascal_voc}.  Der ImageNet Datensatz besteht aus ca. 1000 Bilder, die von Menschen annotiert und klassifiziert wurden \citep{imageNET_about}.
 	}
 	\subsection{Der YOLO Algorithmus \label{subsec:YOLO_Alg}} 
 	{Da der Blick des Menschen intuitiv Objekterkennung, -einordnung und -wirkung intuitiv ermöglicht, ist es unserem Gehirn im Zusammenspiel mit unseren Augen möglich, schnell und genau zu sehen. Durch diese Fähigkeiten können wir mit nur wenig bewussten Gedanken komplexe Aufgaben, wie Fahrradfahren bewältigen \citep{Redmon2016}. \\
@@ -82,7 +82,7 @@
 		\label{YOLO_Architecture}
  	\end{figure}
 	Die finale Vorhersage von YOLO erfolgt in einem $7 \times 7 \times 30$ Tensor \citep{Redmon2016}.
-	Die CN Layer wurden auf dem \glqq ImageNet 1000 Class Competition \grqq{} Datensatz trainiert. Das Pretraining wurde mit den ersten 20 CN Layern aus Abb. \ref{YOLO_Architecture}, einem 'Average Pooling' Layer, sowie einem 'fully-connected' Layer durchgeführt. Dieses Modell wird danach durch das Hinzufügen von 4 'convoluted' Layern und 2 'fully-connected' Layern mit zufällig initialisierten Gewichten nach \cite{Ren2017}  \citep{Ren2017} verbessert um eine bessere Performance zu erreichen. Außerdem wird die 'Input Resolution' von $224 \times 224$ auf $448  \times  448$ erhöht, da häufig feinkörnige visuelle Informationen analysiert werden sollen. Die letzte Schicht des Modells prognostiziert Boundingbox Koordinaten und Klassenwahrscheinlichkeiten \citep{Redmon2016}. \\
+	Die CN Layer wurden auf dem \glqq ImageNet 1000 Class Competition\grqq{} Datensatz trainiert. Das Pretraining wurde mit den ersten 20 CN Layern aus Abb. \ref{YOLO_Architecture}, einem 'Average Pooling' Layer, sowie einem 'fully-connected' Layer durchgeführt. Dieses Modell wird danach durch das Hinzufügen von 4 'convoluted' Layern und 2 'fully-connected' Layern mit zufällig initialisierten Gewichten nach \cite{Ren2017}  \citep{Ren2017} verbessert um eine bessere Performance zu erreichen. Außerdem wird die 'Input Resolution' von $224 \times 224$ auf $448  \times  448$ erhöht, da häufig feinkörnige visuelle Informationen analysiert werden sollen. Die letzte Schicht des Modells prognostiziert Boundingbox Koordinaten und Klassenwahrscheinlichkeiten \citep{Redmon2016}. \\
 	Boudingboxbreite und -höhe werden normalisiert, indem diese durch die Bildbreite und -höhe geteilt werden. Dies erreicht, dass beide Werte zwischen 0 und 1 liegen. Außerdem werden die $x$ und $y$ Koordinate der Boundingbox neu berechnet, dass diese als Abstand zu einer bestimmten Rasterzelle lokalisiert werden können. Diese liegen auch zwischen 0 und 1 \citep{Redmon2016}. \\
 	Der letzte Layer verwendet eine lineare Aktivierungfunktion. Alle anderen Layer nutzen die folgende Aktivierungfunktion: \todo{Nochmal in Paper gucken}
 	\begin{equation}
@@ -107,7 +107,7 @@
 	Da jede Gitterzelle nur 2 Bounding Boxen vorhersagen und eine Klasse haben kann, unterliegt YOLO einer räumlichen Einschränkung. Dies begrenzt die Anzahl der benachbarten Objekte, die das Modell vorhersagen kann. Außerdem ist es für das Modell schwierig, kleine Objekte, die in Gruppen auftreten zu detektieren \citep{Redmon2016}. \\
 	Eine weitere Herausforderung ist, dass Objekte mit neuen oder ungewöhnlichen Formen auftreten können und dadurch die Vorhersage erschwert wird. Da die Netzwerkarchitektur aus mehreren 'Downsampling' Schichten besteht, benutzt das Modell relativ grobe Features zur Vorhersage der Bounding Boxen \citep{Redmon2016}. \\
 	Außerdem sorgt das Training mit einer Verlustfunktion, die die Erkennungsleistung annähert, dafür das Fehler bei kleinen Bounding Boxen genauso wie bei großen Bounding Boxen behandelt. Dies ist ein Nachteil, weil ein kleiner Fehler in einer großen Box meistens wenig Auswirkungen hat, aber ein kleiner Fehler in einer kleinen Box eine sehr viel größer Auswirkung auf die IOU hat. Falsche Lokalisierungen sind eine weitere Hauptfehlerquelle \citep{Redmon2016}. \\
-	YOLO ist für den Anwendungszweck dieser Arbeit geeignet, weil der Algorithmus die entsprechende Performance und einfache Verfügbarkeit von trainierten Modellen bietet. Außerdem existieren mehrere weitere Versionen (s. Abb. \ref{YOLO_timeline_vers}) von YOLO, die Vorteile in einzelnen Aspekten bieten \citep{Terven2023}. \\
+	YOLO ist für den Anwendungszweck dieser Arbeit geeignet, weil der Algorithmus die entsprechende Performance und einfache Verfügbarkeit von trainierten Modellen bietet. Außerdem existieren mehrere weitere Versionen (s. Abb. \ref{YOLO_timeline_vers}, S. \pageref{YOLO_timeline_vers}) von YOLO, die Vorteile in einzelnen Aspekten bieten \citep{Terven2023}. \\
 
 	Im Rahmen dieser Arbeit wird YOLOv8 von Ultralytics verwendet. Diese bietet Vorteile in der Performance und Genauigkeit der Objektdetektierung.
 	} 
@@ -133,7 +133,7 @@
 	Das Detektieren nützlicher Features vom Eingabebild geschieht im Backbone, welcher meist als CNN implementiert ist. Dieses CNN ist mit einem großen Bilddatensatz, wie ImageNET trainiert worden. Der Backbone detektiert aufeinander aufbauende Features bei unterschiedlichen Skalierungen. Features auf niedrigeren Layern, wie Kanten und Texturen, werden in früheren Schichten im Backbone extrahiert, während Features auf höherer Ebene, wie Objektteile und semantische Informationen, in tieferen Schichten verarbeitet werden \citep{Terven2023}. \\
 	Zwischen Backbone und Head wird der Neck eingesetzt, um die Features, die der Backbone ausgibt, zu aggregieren und zu verfeinern. Der Fokus liegt auf der Verbesserung der räumlichen und semantischen Informationen über die unterschiedlichen Skalierungen hinweg. Hier können auch weitere Convolutional Layer eingesetzt werden, um die Darstellung der Features zu verbessern \citep{Terven2023}. \\
 	Die letzte Komponente ist der Head, welcher die Vorhersagen, aufgrund der von dem Backbone und Neck gelieferten Features, trifft. Hier werden meistens aufgabenspezifische Teilnetze eingesetzt, um Klassifizierung, Lokalisierung und auch sofortige Segmentierung durchzuführen. Aus den Features, die der Neck liefert, erstellt der Head Vorhersagen für jeden Objektkandidaten. Ein Post-Procressing Schritt, wie die Non-Maximum-Supression (NMS) , filtert überlappende Vorhersagen heraus, sodass nur die sichersten Detektionen genutzt werden \citep{Terven2023}.\\
-	Da YOLOv8 auf YOLOv5 basiert, wird in diesem ein ähnlicher Backbone genutzt. Für die Architektur von YOLOv8 siehe Abb. \ref{YOLOv8_Arch}. Die Änderungen am Backbone betreffen den CSP Layer, welcher jetzt C2f-Modul ('cross-stage partial Bottleneck with two convolutions') genannt wird. Hier werden High-Level-Features mit Kontextinformationen kombiniert, um die Erkennungsgenauigkeit zu verbessern \citep{Terven2023}. \\
+	Da YOLOv8 auf YOLOv5 basiert, wird in diesem ein ähnlicher Backbone genutzt. Für die Architektur von YOLOv8 siehe Abb. \ref{YOLOv8_Arch} (S. \pageref{YOLOv8_Arch}). Die Änderungen am Backbone betreffen den CSP Layer, welcher jetzt C2f-Modul ('cross-stage partial Bottleneck with two convolutions') genannt wird. Hier werden High-Level-Features mit Kontextinformationen kombiniert, um die Erkennungsgenauigkeit zu verbessern \citep{Terven2023}. \\
 	Um unabhängig voneinander Objektivitäts-, Klassifzierungs- und Regressionsaufgaben lösen zu können, benutzt YOLOv8 ein verankerungsfreies Modell mit entkoppeltem Kopf \todo{detaillierter erläutern? Recherchieren!}. Dies ermöglicht, dass sich jeder Branch mit seiner spezifischen Aufgabe beschäftigt und verbessert damit die Gesamtgenauigkeit des Modells \citep{Terven2023}. \\
 	Der Output Layer verwendet die Sigmoidfunktion als Aktivierungfunktion für die Objektdetektion, welche die Wahrscheinlichkeit widerspiegelt, dass eine Boundingbox ein Objekt enthält. Die Klassenwahrscheinlichkeiten werden mit der Softmax-Funktion berechnet, welche die Wahrscheinlichkeit der Zugehörigkeit eines Objekts zu jeder möglichen Klasse berechnet \citep{Terven2023}. \\
 
@@ -177,22 +177,25 @@ Eine formale Definition dieser Funktion kann folgendermaßen erfolgen. Zwei kons
  \\
  Nun wird der Prozess der \glqq Discrete Curve Evolution\grqq{} beschrieben.\\ Das Minimum der Kostenfunktion \ref{Equ_K_Bark} ergibt ein Tupel von Liniensegmenten, welches durch eine einzelne Linie ersetzt wird, indem ihre Endpunkte verbunden werden. Dies beschreibt eine Iteration der DCE. Dies wird für jede sich daraus neu ergebene Form wiederholt, indem $K$ für jeden Punkt immer neu berechnet wird \citep{Barkowsky2000}.
  \\ 
- Letztendlich ist die DCE folgendermaßen aufgebaut. Der kleinste Wert von $K(S_1,S_2)$ definiert in jedem Iterationsschritt das Paar von konsekutiven Liniensegmenten $S_1, S_2$, welches durch ein einzelnes Liniensegment von den Endpunkten $S_1 \cup S_2$ ersetzt wird. Das Relevanzmaß $K$ wird lokal für jeden Iterationsschritt der DCE neu berechnet und ist deshalb eine lokale Eigenschaft der Form des ursprünglichen Polygons. \\ Die DCE ermöglicht, wie in Abbildung \ref{Bsp_DCE_Bark_Paper} zu erkennen, die Substitution kleinerer Knicke ohne den Gesamteindruck der Form des Polygons nachhaltig zu verändern \citep{Barkowsky2000}.
+ Letztendlich ist die DCE folgendermaßen aufgebaut. Der kleinste Wert von $K(S_1,S_2)$ definiert in jedem Iterationsschritt das Paar von konsekutiven Liniensegmenten $S_1, S_2$, welches durch ein einzelnes Liniensegment von den Endpunkten $S_1 \cup S_2$ ersetzt wird. Das Relevanzmaß $K$ wird lokal für jeden Iterationsschritt der DCE neu berechnet und ist deshalb eine lokale Eigenschaft der Form des ursprünglichen Polygons. \\ Die DCE ermöglicht, wie in den Abbildungen \ref{Bsp_DCE_Bark_Paper} (S. \pageref{Bsp_DCE_Bark_Paper}) und \ref{Scr:DCE_test_run_nrw} (S. \pageref{Scr:DCE_test_run_nrw}) zu erkennen, die Substitution kleinerer Knicke ohne den Gesamteindruck der Form des Polygons nachhaltig zu verändern \citep{Barkowsky2000}.
  \\
  Ein weiterer Vorteil dieses Algorithmus ist, dass er immer terminiert, da in jedem Iterationsschritt die Zahl der Punkte um eins reduziert wird. Die DCE konvergiert für geschlossene Polygone gegen einen Zustand, wo nur noch drei Liniensegmente im Polygon vorhanden sind. Durch einen Abbruch des Prozesses ist es jedoch möglich, ein Polygon auf eine bestimmte vorgegebenen Punktanzahl zu reduzieren.\citep{Barkowsky2000}. \\ 
 Für die Anwendung in dieser Arbeit ist die DCE wegen ihrer geringen Komplexität sehr gut geeignet.
 }
 
-\section{Formähnlichkeitsmaß}{
+\section{Formähnlichkeitsmaß (NICHT FERTIG)}{
 	\todo{muss noch geschrieben werdne}
 	\todo{soll ich das überhaupt noch näher erläutern ? RM fragen.. Welche Quellen angeben}
+	Zur Evaluation des Objekttrackings wird ein Formähnlichkeitsmaß (\glqq Shape Similarity Measure\grqq{}, SSM) genutzt, welches die Innenwinkelsumme der Polygone vergleicht. \\
+	Da ein von DCE vereinfachtes Polygon sich im besten Fall von Frame zu Frame nicht ändert, kann die Winkelsumme voneinander subtrahiert werden, um eine Winkelabweichung nahe oder gleich 0 zu erhalten. \\
+	Um vergleichbare Werte zu erhalten, darf nur innerhalb einer von YOLO detektierten Klasse die Winkelabweichung berechnet werden. Dies ist der Fall, da jede Klasse auf verschiedene Punktzahlen vereinfacht wird, und damit die Winkelsummen der einzelnen Polygone sich stark unterscheiden. Diese Berechnungsmethode dadurch ermöglicht eine Betrachtung der Abweichung für jede von YOLO detektierte Objektklasse.  	
 }
 
 \section{Python} 
 {  \label{sec:Python}
-	Die Implementierung erfolgt in Python, da diese weitverbreitet ist und eine einfache Einbindung weiterer Bibliotheken erlaubt \citep{Millman2011}. Durch diese leichte Erweiterungsmöglichkeit ergibt sich die Möglichkeit komplexen Programmcode zu schreiben, welcher den Rahmen dieser Arbeit nicht überschreitet. \\
+	Die Implementierung erfolgt in Python, da diese Programmiersprache weitverbreitet ist und eine einfache Einbindung weiterer Bibliotheken erlaubt \citep{Millman2011}. Durch diese leichte Erweiterungsmöglichkeit ergibt sich die Möglichkeit komplexen Programmcode zu schreiben, welcher den Rahmen dieser Arbeit nicht überschreitet. \\
 	Python wurde am 14. Februar 2009 in der Version 3.0 veröffentlicht \citep{Rossum2009}. Diese Programmiersprache bietet Vorteile durch die einfache Syntax und die Unterstützung der Einbindung diverser externen Bibliotheken \citep{Marowka2018}. \\
-	In dieser Arbeit wird Anaconda als Entwicklungs- und Installationsumgebung genutzt. Im Folgenden werden die in dieser Arbeit genutzten Bibliotheken näher erläutert.}
+	In dieser Arbeit wird Anaconda als Installationsumgebung und Visual Studio Code als Entwicklungsumgebung genutzt. Im Folgenden werden die in dieser Arbeit genutzten Bibliotheken näher erläutert.}
 
 \section{Externe Bibliotheken}
 \todo{vielleicht noch ein zwei Sätze dazu schreiben?}
@@ -211,12 +214,12 @@ Für die Anwendung in dieser Arbeit ist die DCE wegen ihrer geringen Komplexitä
 		Computer Vision 2 (CV2) ist ein Teil der 'Open Source Computer Vision' Bibliothek \citep{opencv_about}. Die aktuelle Version 4.8.0 wurde am 02.07.2023 veröffentlicht \citep{opencv_release}. \\
 		Diese Bibliothek beinhaltet Algorithmen zur Bild- und Videobearbeitung. In dieser Arbeit wird diese Bibliothek zur Manipulation von Frames in Videos genutzt, die zuvor mit YOLO analysiert wurden. 
 		}
-		\subsection{YOLOv8 Implementierung von \citeauthor{Canu_pysource}}
+		\subsection{YOLOv8 Implementierung von Canu}
 		{ \label{YOLOv8_canu}
 		In dieser Arbeit werden die \glqq-seq\grqq{} Modelle von YOLO benutzt, da diese bereits eine Segmentierung der Objekte mit deren Umrissen integriert haben. Für eine detaillierte Beschreibung siehe Kap. \ref{subsec:YOLOv8_theoretic}. \\
 		Die Implementierung basiert auf \citeauthor{Canu_pysource}, da dieser eine Einführung in Bildbearbeitung mit Python unter der Benutzung von YOLO gegeben hat \citep{Canu_pysource}.
 		}
-	\section{weitere Algorithmen}
+	\section{weitere Algorithmen (NICHT FERTIG)}
 	{ \todo{muss noch geschrieben werden}
 		\begin{itemize}
 			\item Quicksort/Mergesort noch erläutern? wg benutzung zur Sortieren von Sortarray?
@@ -224,7 +227,7 @@ Für die Anwendung in dieser Arbeit ist die DCE wegen ihrer geringen Komplexitä
 
 	}
 	\section{Meta-Ablauf im Programm}{
-	Der Programmablauf ist folgendermaßen geplant. Der erste Schritt besteht darin, dass Video einzulesen und dann mit YOLO zu analysieren. Danach wird im zweiten Schritt auf alle von YOLO segmentierten Objektumrisse die DCE angewendet. Diese werden bis zu einer bestimmten vorher festgelegten Punktanzahl vereinfacht. Als letzten Schritt werden diese vereinfachten Umrisse ins Video eingefügt, um das Ursprungspolygon zu überschreiben.
+	Der Programmablauf ist folgendermaßen geplant. Der erste Schritt besteht darin, dass Video einzulesen und dann mit YOLO zu analysieren. Danach wird im zweiten Schritt auf alle von YOLO segmentierten Objektumrisse die DCE angewendet. Diese werden, bis zu einer bestimmten vorher festgelegten Punktanzahl, vereinfacht. Als letzten Schritt werden diese vereinfachten Umrisse ins Video eingefügt, um das Ursprungspolygon zu überschreiben und um als Endprodukt ein anonymisiertes Video zu erhalten.
 }
 
 

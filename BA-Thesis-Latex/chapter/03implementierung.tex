@@ -1,5 +1,5 @@
 %!TEX root = ../thesis.tex
-\chapter{Implementierung} 
+\chapter{Implementierung (LISTINGS ÜBERPRÜFEN)} 
 \label{ch:implementierung}
 
 
@@ -29,9 +29,9 @@ EF Version ist die Abkürzung für \glqq Every Frame\grqq{} Version (1. YOLO Var
 
 
 
-\section{1. YOLO Variante (EF Version, Jeder Frame einzeln )} {
+\section{1. YOLO Variante (EF Version)} {
 	\label{py:YOLO_every_frame}
-	In dieser Variante wird das Video in einzelne Frames mit CV2 zerlegt, auf die dann jeweils der ausgewählte YOLO Algorithmus angewendet wird. 
+	In dieser Variante wird das Video in einzelne Frames mit CV2 zerlegt, auf die dann jeweils der ausgewählte YOLO Algorithmus angewendet wird.
 	Es wird über alle Frames des Videos iteriert, in der das jeweilige Frame aus dem Video extrahiert wird und dann an die Methode übergeben wird, die YOLO anwendet.
 	\lstinputlisting[basicstyle=\ttfamily\scriptsize,linerange={22,24,26,27,29,31,37,42}, caption={Ausschnitt aus yolo\_every\_frame.py}, label = {cd:part_of_yolo_every_frame.py}]{../Code/YOLO/yolo_every_frame.py}
 	Dies geschieht indem zuerst die Gesamtanzahl der Frames in der \lstinline|framecounter| Variablen gespeichert wird, welche den Iterator für die Schleife limitiert (siehe Listing \ref{cd:part_of_yolo_every_frame.py}). \\ 
@@ -53,9 +53,9 @@ EF Version ist die Abkürzung für \glqq Every Frame\grqq{} Version (1. YOLO Var
 
 	}
 
-\section{2. YOLO Variante (RV Version, direkte Verarbeitung)}{
+\section{2. YOLO Variante (RV Version)}{
 	\label{py:YOLO_res_vers}
-	Diese Variante des Codes analysiert das Video direkt am Anfang. Dies bietet den Vorteil, dass durch die effiziente Implementierung von YOLO die Gesamtdauer des Programmes verringert wird. Die Anwendung von YOLO findet direkt in main.py statt. Dies ist in Listing \ref{cd:yolo_result_main.py} zu sehen.
+	Diese Variante des Codes analysiert das Video direkt am Anfang mit YOLO. Dies bietet den Vorteil, dass durch die effiziente Implementierung von YOLO die Gesamtdauer des Programmes verringert wird. Die Anwendung von YOLO findet direkt in main.py statt. Dies ist in Listing \ref{cd:yolo_result_main.py} zu sehen.
 	\lstinputlisting[basicstyle=\ttfamily\scriptsize,linerange={87,93,95,99,103,106,108}, caption={Ausschnitt aus \protect\lstinline|run_yolo_result_version| in main.py}, label = {cd:yolo_result_main.py}]{../Code/main.py}
 	Da hier das gesamte Video in dem von YOLO generierten \lstinline|results| Objekt gespeichert wird, benötigt die Funktion, die das Video verändert nur dieses Objekt und das \lstinline|options| Dictionary. \\
 	

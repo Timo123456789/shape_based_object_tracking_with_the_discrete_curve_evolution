@@ -45,10 +45,59 @@
         \caption[Anwendungsbeispiele für die \glqq Discrete Curve Evolution\grqq{}]{Anwendungsbeispiele für die \glqq Discrete Curve Evolution\grqq{}  \citep{Barkowsky2000}.}
         \label{Bsp_DCE_Bark_Paper}
     \end{figure}
+
+
+    \begin{figure}[ht]
+		\centering
+		\begin{subfigure}[b]{0.30\textwidth}
+			\frame{\includegraphics[width=\textwidth]{images/DCE/kleines Beispiel erweitert/testpng0.png}}
+            \caption{Polygon ohne Vereinfachung}
+		\end{subfigure} 
+		\begin{subfigure}[b]{0.30\textwidth}
+            \frame{
+			\includegraphics[width=\textwidth]{images/DCE/kleines Beispiel erweitert/testpng419.png}}
+            \caption{Polygon (80 Punkte) }
+		\end{subfigure}
+        \begin{subfigure}[b]{0.30\textwidth}
+			\frame{\includegraphics[width=\textwidth]{images/DCE/kleines Beispiel erweitert/testpng429.png}}
+            \caption{Polygon (70 Punkte)}
+		\end{subfigure}
+        \begin{subfigure}[b]{0.30\textwidth}
+			\frame{\includegraphics[width=\textwidth]{images/DCE/kleines Beispiel erweitert/testpng439.png}}
+            \caption{Polygon (60 Punkte)}
+		\end{subfigure}
+        \begin{subfigure}[b]{0.30\textwidth}
+			\frame{\includegraphics[width=\textwidth]{images/DCE/kleines Beispiel erweitert/testpng449.png}}
+            \caption{Polygon (50 Punkte)}
+		\end{subfigure}
+        \begin{subfigure}[b]{0.30\textwidth}
+			\frame{\includegraphics[width=\textwidth]{images/DCE/kleines Beispiel erweitert/testpng459.png}}
+            \caption{Polygon (40 Punkte)}
+		\end{subfigure}
+        \begin{subfigure}[b]{0.30\textwidth}
+			\frame{\includegraphics[width=\textwidth]{images/DCE/kleines Beispiel erweitert/testpng469.png}}
+            \caption{Polygon (30 Punkte)}
+		\end{subfigure}
+        \begin{subfigure}[b]{0.30\textwidth}
+			\frame{\includegraphics[width=\textwidth]{images/DCE/kleines Beispiel erweitert/testpng479.png}}
+            \caption{Polygon (20 Punkte)}
+		\end{subfigure}
+        \begin{subfigure}[b]{0.30\textwidth}
+			\frame{\includegraphics[width=\textwidth]{images/DCE/kleines Beispiel erweitert/testpng489.png}}
+            \caption{Polygon (10 Punkte)}
+		\end{subfigure}
+		\caption[Anwendungsbeispiel für DCE aus eigenen Daten]{Anwendungsbeispiel für die DCE anhand eines Teilumrisses von Nordrhein Westfalen; (a) zeigt das Ursprungspolygon mit 499 Punkten; (b) bis (i) zeigen um je 10 Punkte reduzierte Polygone, von 80 Punkten bis 10 Punkten (Quelle: eigene Darstellung)}
+		\label{Scr:DCE_test_run_nrw}
+	\end{figure}
+
+
+
+
+
     \clearpage
 \subsection{Evaluation}{
     \begin{table}[ht]
-        \caption{Vergleich der SSMs bei verschiedenen DCE Substitionslimits bei einem 10-sekündigem Video (300 Frames)}
+        \caption{Vergleich der SSMs bei verschiedenen DCE Substitionslimits bei einem 10-sekündigem Video (300 Frames) (Quelle: eigene Darstellung; \ref{cd:listing_A10s_RV_minor_results.txt(Y8x)}, \ref{cd:listing_A10s_RV_more_results.txt(Y8x)})}
         \label{tab:Minor_More_DCE_SSMs_A10s}
         \centering
         \begin{tabular}{l|l|l|l}
@@ -65,11 +114,11 @@
 
 
         \begin{table}[ht]
-            \caption{Vergleich der Statistik bei 10 Sekunde Video (300 Frames) und verschiedenen DCE Substitutionsgrenzen}
+            \caption{Vergleich der Statistik bei 10 Sekunde Video (300 Frames) und verschiedenen DCE Substitutionsgrenzen (Quelle: eigene Darstellung; \ref{cd:listing_A10s_RV_minor_results.txt(Y8x)}, \ref{cd:listing_A10s_RV_more_results.txt(Y8x)})}
             \label{tab:YOLO8_minor_more_DCE_A10s}
             \centering
             \begin{tabular}{l|l|l|l}
-             & \textbf{\begin{tabular}[c]{@{}l@{}}Geringe DCE\\ Punktgrenzen\end{tabular}} & \textbf{Referenz} & \textbf{\begin{tabular}[c]{@{}l@{}}hohe DCE\\ Punktgrenzen\end{tabular}} \\ \hline
+             & \textbf{\begin{tabular}[c]{@{}l@{}}geringe DCE\\ Punktgrenzen\end{tabular}} & \textbf{Referenz} & \textbf{\begin{tabular}[c]{@{}l@{}}hohe DCE\\ Punktgrenzen\end{tabular}} \\ \hline
             \textit{\begin{tabular}[c]{@{}l@{}}Durchschn. Abweichung\\ p. Polygon (in Deg.)\end{tabular}} & 5,57 & 58,04 & 842.51 \\ \hline
             \textit{\begin{tabular}[c]{@{}l@{}}Durchschn. Abweichung  \\ p. Winkel (in Deg.)\end{tabular}} & 1,25 & 6,6 & 41.19 \\ \hline
             \textit{} &  &  &  \\ \hline
@@ -106,6 +155,13 @@
     \subsubsection{Schiffstracking}{
         \lstinputlisting[caption={AS1s\_RV\_10.txt (YoloV8x, Schiffstracking)}, label = {cd:listing_A1s_RV_shiptracking_results.txt(Y8x)}, language={}]{../Code/vid_examples/evaluation/weitere_testfaelle/shiptracking/A1s_RV_10.txt}
         \lstinputlisting[caption={S21s\_RV\_10.txt (YoloV8x, Schiffstracking)}, label = {cd:listing_A21s_RV_shiptracking_results.txt(Y8x)}, language={}]{../Code/vid_examples/evaluation/weitere_testfaelle/shiptracking/A21s_RV_10.txt}
+    }
+    \subsubsection{geringe und hohe DCE Substitionslimits}{
+        \lstinputlisting[caption={A1s\_RV\_minor.txt (YoloV8x, geringes DCE Substitionslimit)}, label = {cd:listing_A1s_RV_minor_results.txt(Y8x)}, language={}]{../Code/vid_examples/evaluation/weitere_testfaelle/minor_more_DCEPoints/A1s_RV_minor.txt}  
+        \lstinputlisting[caption={A1s\_RV\_more.txt (YoloV8x, hohes DCE Substitionslimit)}, label = {cd:listing_A1s_RV_more_results.txt(Y8x)}, language={}]{../Code/vid_examples/evaluation/weitere_testfaelle/minor_more_DCEPoints/A1s_RV_more.txt}     
+        \lstinputlisting[caption={A10s\_RV\_minor.txt (YoloV8x, geringes DCE Substitionslimit)}, label = {cd:listing_A10s_RV_minor_results.txt(Y8x)}, language={}]{../Code/vid_examples/evaluation/weitere_testfaelle/minor_more_DCEPoints/A10s_RV_minor.txt}  
+        \lstinputlisting[caption={A10s\_RV\_more.txt (YoloV8x, hohes DCE Substitionslimit)}, label = {cd:listing_A10s_RV_more_results.txt(Y8x)}, language={}]{../Code/vid_examples/evaluation/weitere_testfaelle/minor_more_DCEPoints/A10s_RV_more.txt} 
+
     }
 
 }
