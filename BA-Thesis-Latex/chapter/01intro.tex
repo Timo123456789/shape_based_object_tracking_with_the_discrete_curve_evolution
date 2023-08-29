@@ -22,7 +22,7 @@
 %\blindtext
 
 \section{Zielsetzung}{ 
-Ziel dieser Arbeit ist es ein prototypisches System zu entwickeln, welches Objekte in Videomaterial detektiert und deren Umrisse vereinfacht. Der Ablauf des Programmes ist folgendermaßen geplant. \\ 
+Ziel dieser Arbeit ist es ein prototypisches System zu entwickeln, welches Objekte in Videomaterial detektiert und deren Umrisse vereinfacht. Diese Objektumrisse können dann in ihrer Ähnlichkeit verglichen werden, um einzuschätzen, ob die Objekte trackbar sind. Der Ablauf des Programmes ist folgendermaßen geplant. \\ 
 Zur Evaluation wird Videomaterial von Autobahnen aufgenommen, welches im Rahmen der Bachelorarbeit analysiert wird. Ein beispielhafter Verlauf anhand eines einzelnen Bildes ist in Abb. \ref{Bsp_Dorr} zu sehen. \\
 Die folgenden Schritte werden für jeden Frame im Video ausgeführt. 
 Als ersten Schritt müssen die zu erkennenden Objekte detektiert werden. Dies kann mit der Schwellwertsegmentierung nach Otsu erfolgen, da die Objekte eindeutig zu erkennen sind \citep{Otsu1979}. Außerdem ist die Schwellwertsegmentierung sehr ressourcenschonend, da kein maschinelles Lernverfahren verwendet wird. Eine andere Methode mit einem maschinellen Lernverfahren wäre die Benutzung von YOLO zur Segmentierung. Beide Verfahren beinhalten das Umwandeln in eine Binärmaske als zweiten Schritt. Diese Binärmaske wird im dritten Schritt in ein Polygon umgewandelt, welches mit der DCE vereinfacht wird. Dmem Maschinellen Lernverfahren YOLO wird gegenüber der Schwellwertsegmentierung den Vorzug gegeben, da die ersten beiden Schritte Detektierung und das Erzeugen der Binärmaske, bzw. des Umrisses der Objekte, bereits in YOLO integriert sind.\\

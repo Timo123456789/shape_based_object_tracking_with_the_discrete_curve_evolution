@@ -157,7 +157,7 @@ def simplify_polygon_third(arr, fNoP, options):
 
 
         if indic == NoP_temp:
-            indic_gleich_NoPTemp = indic_gleich_NoPTemp +1
+            #indic_gleich_NoPTemp = indic_gleich_NoPTemp +1
             k_bef = calc_k_with_points(DCE_Polygon,indic-1,0,indic-2)
             k_act = calc_k_with_points(DCE_Polygon, 0,1,indic-1)
 
@@ -167,24 +167,24 @@ def simplify_polygon_third(arr, fNoP, options):
                # print("indic-1 ist 0")
                # print("0, 1, " + str(NoP-2))
                 k_bef = calc_k_with_points(DCE_Polygon, 0, 1,(NoP_temp-1) )
-                indicM1_gleich_Null = indicM1_gleich_Null +1
+                #indicM1_gleich_Null = indicM1_gleich_Null +1
             else:
             # print("kbef_vals" + str(indic-1) + ", "+ str(indic) + ", "+ str(indic+1))
                 if indic+1 > NoP_temp:
                     k_bef = calc_k_with_points(DCE_Polygon, indic-1, 0, indic) #RICHTIG??
-                    indicP1_gr_NoPTemp_bef = indicP1_gr_NoPTemp_bef +1
+                    #indicP1_gr_NoPTemp_bef = indicP1_gr_NoPTemp_bef +1
                 else:
                     k_bef = calc_k_with_points(DCE_Polygon, indic-1, indic+1, indic) #muss es nicht indic-1,indic, indic-2 heissen?
-                    indic_norm_bef = indic_norm_bef +1
+                   # indic_norm_bef = indic_norm_bef +1
         # print("kbef_res "+ str(k_bef))
             #print("kact_vals" + str(indic) + ", "+ str(indic+1) + ", "+ str(indic-1))
             if indic+1 > NoP_temp:
                # print("indic + 1 ist groesser als NoP temp")
                 k_act = calc_k_with_points(DCE_Polygon,indic, 0, indic-1) #RICHTIG??
-                indicP1_gr_NoPTemp_act = indicP1_gr_NoPTemp_act +1
+                #indicP1_gr_NoPTemp_act = indicP1_gr_NoPTemp_act +1
             else:
                 k_act = calc_k_with_points(DCE_Polygon,indic, indic+1, indic-1)
-                indic_norm_act = indic_norm_act +1
+                #indic_norm_act = indic_norm_act +1
             #print("kact_res "+ str(k_act))
 
 
@@ -232,9 +232,7 @@ def simplify_polygon_third(arr, fNoP, options):
 
 
 
-def is_null(k):
-    if k == 0:
-        print("Fehler")
+
 
 def update_sort_array(sort_arr, indic, k_bef, k_act, p):
     NoP_Poly = get_number_of_points(p)

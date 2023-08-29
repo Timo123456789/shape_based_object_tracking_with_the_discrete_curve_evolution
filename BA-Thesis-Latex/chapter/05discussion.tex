@@ -11,9 +11,9 @@
 
 	Bei Objekten, die bei der DCE Vereinfachung als \glqq other Object\grqq{} behandelt werden, können die deutlich höheren SSMs durch die deutlich höheren Punktzahlen, auf die die DCE am Ende reduziert, erklärt werden. Diese führt zu einer steigenden Gesamtwinkelsumme pro Polygon, welches auch zu einer höheren Abweichung der Gesamtwinkelsumme im nächsten Frame führt. Dies kann die gleichen Ursachen wie im obigen Abschnitt haben und ist inbesondere in Kap. \ref{ev:shiptracking} zu erkennen. \\
 	
-	Auswirkungen auf die absolute Anzahl von Autos können LKW, die Autos transportieren haben. Einer dieser Autotransporter ist im Testdatensatz zu sehen, was zu einer Erhöhung der absoluten Anzahl von Autos führt, als dieser teilweise aus dem Bild fährt, wodurch nur noch die auf dem Anhänger stehenden Autos von YOLO detektiert werden. Weitere falsche Detektierungen können durch Schilder und andere Objekte verursacht werden. \\
+	Einen Einfluss auf absolute Anzahl von Autos können LKW, die Autos transportieren, haben. Einer dieser Autotransporter ist im Testdatensatz zu sehen, was zu einer Erhöhung der absoluten Anzahl von Autos führt, als dieser teilweise aus dem Bild fährt, wodurch nur noch die auf dem Anhänger stehenden Autos von YOLO detektiert werden. Weitere falsche Detektierungen können durch Schilder und andere Objekte verursacht werden. \\
 
-
+	Wenn man die Ergebnisse aus der Sicht der exakten Berechnungsmöglichkeiten heutiger Computer beurteilt, müsste die Abweichung aus gegen 0 konvergierende Werten bestehen. Durch die hohen Punktunterschiede zwischen den einzelnen Klassen und nicht exaktes Umriss- und Klassifizierungstracking von YOLO ist der leichte Anstieg der SSM erklärbar. Das Tracking von YOLO wechselt zwischen der am besten passenden Klassifizierung, obwohl das Objekt intuitiv vom Betrachter beurteilt auch weiterhin der wirklichen, real übereinstimmenden vorher erkannten Klasse entspricht. 
 }
 % {
 % 	\begin{itemize}
