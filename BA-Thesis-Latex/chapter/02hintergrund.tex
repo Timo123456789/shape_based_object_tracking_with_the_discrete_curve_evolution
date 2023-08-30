@@ -1,8 +1,8 @@
 %!TEX root = ../thesis.tex
-\chapter{Theoretischer Hintergrund}
+\chapter{Objekterkennung mit neuronalen Netzen}
 \label{ch:Theoretischer Hintergrund}
-{Die Einführung in den theoretischen Hintergrund dieser Arbeit umfasst die Erläuterung der Aufbereitung der Daten mit einem Maschinellem Lernverfahren, namens YOLO, und eine Einführung in die \glqq Discrete Curve Evolution\grqq{}. Beide Verfahren werden im Rahmen dieser Arbeit miteinander kombiniert.
-}
+% {Die Einführung in den theoretischen Hintergrund dieser Arbeit umfasst die Erläuterung der Aufbereitung der Daten mit einem Maschinellem Lernverfahren, namens YOLO, und eine Einführung in die \glqq Discrete Curve Evolution\grqq{}. Beide Verfahren werden im Rahmen dieser Arbeit miteinander kombiniert.
+% }
 
 
 
@@ -145,6 +145,7 @@
 
 \clearpage
 
+\chapter{Formverarbeitung}
 
 \section{Discrete Curve Evolution (DCE)}
 \label{sec:Discrete Curve Evolution}
@@ -183,11 +184,13 @@ Für die Anwendung in dieser Arbeit ist die DCE wegen ihrer geringen Komplexitä
 }
 
 \section{Formähnlichkeitsmaß (NICHT FERTIG)}{
-	%\todo{soll ich das überhaupt noch näher erläutern ? RM fragen.. Welche Quellen angeben}
+	\todo{überarbeiten}
 	Zur Evaluation des Objekttrackings wird ein Formähnlichkeitsmaß (\glqq Shape Similarity Measure\grqq{}, SSM) genutzt, welches die Innenwinkelsumme der Polygone vergleicht. \\
 	Da ein von DCE vereinfachtes Polygon sich von Frame zu Frame nicht ändert, kann die Winkelsumme der exakt gleichen Polygone voneinander subtrahiert werden, um eine Winkelabweichung nahe oder gleich 0 zu erhalten. Da jedoch der Umriss eines Objekts, durch dessen Bewegung beeinflusst wird, wird das Formähnlichkeitsmaß Schwankungen unterliegen.\\
 	Um vergleichbare Werte zu erhalten, darf nur innerhalb einer von YOLO detektierten Klasse die Winkelabweichung berechnet werden. Dies ist der Fall, da jede Klasse auf verschiedene Punktzahlen vereinfacht wird, und damit die Winkelsummen der einzelnen Polygone sich stark unterscheiden. Diese Berechnungsmethode ermöglicht eine Betrachtung der Abweichung für jede von YOLO detektierte Objektklasse.  	
 }
+
+\chapter{Verwendetes System}
 
 \section{Python} 
 {  \label{sec:Python}
@@ -217,13 +220,8 @@ Für die Anwendung in dieser Arbeit ist die DCE wegen ihrer geringen Komplexitä
 		In dieser Arbeit werden die \glqq-seq\grqq{} Modelle von YOLO benutzt, da diese bereits eine Segmentierung der Objekte mit deren Umrissen integriert haben. Für eine detaillierte Beschreibung siehe Kap. \ref{subsec:YOLOv8_theoretic}. \\
 		Die Implementierung basiert auf \citeauthor{Canu_pysource}, da dieser eine Einführung in Bildbearbeitung mit Python unter der Benutzung von YOLO gegeben hat \citep{Canu_pysource}.
 		}
-	\section{weitere Algorithmen (NICHT FERTIG)}
-	{ \todo{muss noch geschrieben werden}
-		\begin{itemize}
-			\item Quicksort/Mergesort noch erläutern? wg benutzung zur Sortieren von Sortarray?
-		\end{itemize}
-
-	}
+	
+		
 	\section{Meta-Ablauf im Programm}{
 	Der Programmablauf ist folgendermaßen geplant. Der erste Schritt besteht darin, dass Video einzulesen und dann mit YOLO zu analysieren. Danach wird im zweiten Schritt auf alle von YOLO segmentierten Objektumrisse die DCE angewendet. Diese werden, bis zu einer bestimmten vorher festgelegten Punktanzahl, vereinfacht. Als letzten Schritt werden diese vereinfachten Umrisse ins Video eingefügt, um das Ursprungspolygon zu überschreiben und um als Endprodukt ein anonymisiertes Video zu erhalten.
 }

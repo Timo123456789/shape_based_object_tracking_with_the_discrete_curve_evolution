@@ -34,7 +34,7 @@ def test():
     """
 
     #Paths for write and read files
-    read_path_very_small_NRW = r"Code\DCE\examples\dvg2bld_nw_vsmall.txt"
+    read_path_very_small_NRW = r"Code\DCE\examples\dvg2bld_nw_vvsmall.txt"
     read_path_small_NRW = r"Code\DCE\examples\dvg2bld_nw_small.txt"
     read_path_big_NRW = r"Code\DCE\examples\dvg2bld_nw.txt"
 
@@ -69,7 +69,8 @@ def test():
     #final_number_poly = simplify_polygon_k_with_angle(polygon_in_arr,4, options) #simplify polygon to 10 points
     #final_number_poly = simplify_polygon_second(polygon_in_arr,4, options)
     #ref(polygon_in_arr,5,options)
-    final_number_poly = simplify_polygon_k_immer_neu(polygon_in_arr, fnop, options)
+    #final_number_poly = simplify_polygon_k_immer_neu(polygon_in_arr, fnop, options)
+    final_number_poly = simplify_polygon_third(polygon_in_arr, fnop, options)
 
     #temp = simplify_polygon_k_immer_neu(polygon_in_arr, fnop, options)
     #plot_GS_polygon(create_Polygon_from_array(temp),"temp k immer neu"+str(fnop),write_path) #write polygon
@@ -166,7 +167,7 @@ def simplify_polygon_third(arr, fNoP, options):
             # print("kbef_vals (indic =0)" + str(indic-1) + ", "+ str(1) + ", "+ str(get_number_of_points(DCE_Polygon)-1))
                # print("indic-1 ist 0")
                # print("0, 1, " + str(NoP-2))
-                k_bef = calc_k_with_points(DCE_Polygon, 0, 1,(NoP_temp-1) )
+                k_bef = calc_k_with_points(DCE_Polygon, 0, (NoP_temp-1),1 )
                 #indicM1_gleich_Null = indicM1_gleich_Null +1
             else:
             # print("kbef_vals" + str(indic-1) + ", "+ str(indic) + ", "+ str(indic+1))
@@ -747,10 +748,7 @@ def simplify_polygon_k_with_angle_old(arr, final_number_of_points, options):
         index_lowest_k = calc_lowest_k[0]
        # print("index_lowest_k"+ str(index_lowest_k))
         #point_arr.append(get_selected_point(DCE_Polygon,i))
-        if index_lowest_k == get_number_of_points(DCE_Polygon): indic_gleich_NoPTemp = indic_gleich_NoPTemp +1
-        else:    indic_norm_bef = indic_norm_bef +1
-        if index_lowest_k-1 == 0: indicM1_gleich_Null = indicM1_gleich_Null +1
-        if index_lowest_k+1 > get_number_of_points(DCE_Polygon) : indicP1_gr_NoPTemp_bef = indicP1_gr_NoPTemp_bef +1
+        
 
 
         if i == (NoP-3): #Exception if Polygon is only triangle

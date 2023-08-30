@@ -4,28 +4,18 @@
 
 
 \section{Motivation}{ 
-	%PROPOSAL VERSION \\
-	% Verkehrsüberwachung mit Kameras ist ein wichtiges Element um flüssigen Verkehr zu ermöglichen. \\
-	% Eine Schwierigkeit bei Videoaufzeichnungen liegt im Datenschutz des einzelnen Autos.  \\
-	% Eine Lösung für die Anonymisierung ist die Benutzung der Discrete Curve Evolution (DCE).\\
-	% Im Rahmen dieser Bachelorarbeit soll beispielhaft eine Methode in Python implementiert werden, die eine Darstellung von vereinfachten Objekten ermöglicht. Außerdem soll evaluiert werden, inwieweit die DCE Tracking von Objekten in Videos unterstützen kann. \\
-	% Die Idee ist, dass das Objekt detektiert, in eine Binärmaske umgewandelt, mit der DCE vereinfacht und wieder in einem Video ausgegeben wird.
-
-	% \begin{list}{-}{Notizen}
-	% 	\item Leichtgewichtige, schnelle Methode zur Objektdetektierung entwicklen
-	% 	\item in Verbindung mit ML; realtime Verarbeitung YOLO
-	% \end{list}
-	Objekttracking mit maschinellen Lernen ist heutzutage durch die leichte Verfügbarkeit von hoher Prozessor- und Grafikleistung mit wenig Aufwand möglich. Es gibt jedoch Anwendungsfälle, wo aufgrund der äußeren Gegebenheiten weder die Stromversorgung noch der verfügbare Raum den Einsatz möglich machen. \\
-	Ein Anwendungsfall, der in diese Kategorie fällt, wäre Wildlife Monitoring mit kleinen Wildkameras und des automatischen Tagging eines Tieres mit einem GPS Sender. Um hier Fehldetektierungen zu vermeiden, wie zum Beispiel, dass eine Gazelle durch falsche Detektierung als Löwe erkannt wird und diese einen Sender bekommt, kann die Formähnlichkeit genutzt werden. Diese kann eine genauere Unterscheidung aus verschiedenen Blickwinkel ermöglichen, um eine höhere Sicherheit bei der Klassifizierung eines Objektes zu erhalten. \\
-	Dies kann auch auf Verkehrsüberwachung angewendet werden, indem beispielsweise Autos, die auf einer Autobahn fahren, getrackt werden, um die Verfolgung dieser Autos im Kamerawinkel zu verbessern. Ein Anwendungsfall könnte die Messung von Geschwindigkeit oder die Detektion riskanter Überholmanöver sein.
+	
+Durch die Verfügbarkeit von Open-Source Software, die neuronale Lernverfahren verwendet und eine sehr schnelle Objekterkennung auf Videoströmen anbietet, lassen sich viele relevante Anwendungen in der Geoinformatik realisieren, beispielsweise im Bereich der Verkehrsüberwachung. \\
+In der Arbeitsgruppe \glqq Theoretische und kognitive Grundlagen der Geoinformatik \grqq{} am Institut für Geoinformatik der Universität Münster ist es geplant mit einem hybriden Ansatz Anwendungsmöglichkeiten solcher Systeme zu verbessern. Dabei soll eine geometrische Analyse Ergebnisse der neuronalen Erkennung verifizieren, um das Risiko von Fehldetektionen zu minimieren. Unsere Hypothese vermutet, dass der Ansatz der Discrete Curve Evolution (DCE) von \citet{Latecki1999a}  eine wichtige Stufe sein kann. Diese Vermutung basiert auf Vorarbeiten von \citet{Dorr2015} an der Universität Maine.
 }
+
 %\blindtext
 
 \section{Zielsetzung}{ 
 Ziel dieser Arbeit ist es ein prototypisches System zu entwickeln, welches Objekte in Videomaterial detektiert und deren Umrisse vereinfacht. Diese Objektumrisse können dann in ihrer Ähnlichkeit verglichen werden, um einzuschätzen, ob die Objekte trackbar sind. Der Ablauf des Programmes ist folgendermaßen geplant. \\ 
 Zur Evaluation wird Videomaterial von Autobahnen aufgenommen, welches im Rahmen der Bachelorarbeit analysiert wird. Ein beispielhafter Verlauf anhand eines einzelnen Bildes ist in Abb. \ref{Bsp_Dorr} zu sehen. \\
 Die folgenden Schritte werden für jeden Frame im Video ausgeführt. 
-Als ersten Schritt müssen die zu erkennenden Objekte detektiert werden. Dies kann mit der Schwellwertsegmentierung nach Otsu erfolgen, da die Objekte eindeutig zu erkennen sind \citep{Otsu1979}. Außerdem ist die Schwellwertsegmentierung sehr ressourcenschonend, da kein maschinelles Lernverfahren verwendet wird. Eine andere Methode mit einem maschinellen Lernverfahren wäre die Benutzung von YOLO zur Segmentierung. Beide Verfahren beinhalten das Umwandeln in eine Binärmaske als zweiten Schritt. Diese Binärmaske wird im dritten Schritt in ein Polygon umgewandelt, welches mit der DCE vereinfacht wird. Dmem Maschinellen Lernverfahren YOLO wird gegenüber der Schwellwertsegmentierung den Vorzug gegeben, da die ersten beiden Schritte Detektierung und das Erzeugen der Binärmaske, bzw. des Umrisses der Objekte, bereits in YOLO integriert sind.\\
+Als ersten Schritt müssen die zu erkennenden Objekte detektiert werden. Dies kann mit der Schwellwertsegmentierung nach Otsu erfolgen, da die Objekte eindeutig zu erkennen sind \citep{Otsu1979}. Außerdem ist die Schwellwertsegmentierung sehr ressourcenschonend, da kein maschinelles Lernverfahren verwendet wird. Eine andere Methode mit einem maschinellen Lernverfahren wäre die Benutzung von YOLO zur Segmentierung. Beide Verfahren beinhalten das Umwandeln in eine Binärmaske als zweiten Schritt. Diese Binärmaske wird im dritten Schritt in ein Polygon umgewandelt, welches mit der DCE vereinfacht wird. Dem Maschinellen Lernverfahren YOLO wird gegenüber der Schwellwertsegmentierung den Vorzug gegeben, da die ersten beiden Schritte Detektierung und das Erzeugen der Binärmaske, bzw. des Umrisses der Objekte, bereits in YOLO integriert sind.\\
 Die DCE berechnet anhand eines Grenzwertes, welche Punkte für die Darstellung einer Form irrelevant sind, sodass diese ohne größeren Informationsverlust entfernt werden können \citep{Barkowsky2000}. Dadurch wird eine bedarfsbezogene Vereinfachung, anhand eines festen Grenzwertes, des Polygons ermöglicht. 
 Weiterhin kann die Vereinfachung die mit dem DCE Algorithmus erreicht wird, eine Überprüfung der Ergebnisse vereinfachen. Hierfür bietet sich Verwendung eines Formähnlichkeitsmaßes für Polygone an. \\
 Die Ergebnisevaluation ist durch eine Auswertung des Formähnlichkeitsmaßes möglich. Wenn dieses Maß den entsprechenden Wert hat, kann beurteilt werden, ob Objekttracking mit der DCE möglich ist. Außerdem ist eine visuelle Beurteilung des Videos, welches als Endprodukt entsteht, möglich.\\}
