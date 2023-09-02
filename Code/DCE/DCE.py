@@ -18,100 +18,263 @@ def simplify_polygon_k_with_angle(arr, final_number_of_points, options):
     @param final_number_of_points: int for the number of points of the returned polygon
     @return array:  which was simplified to the given number of points
     """
-    return simplify_polygon_third(arr, final_number_of_points, options)
+    #return simplify_polygon_k_with_angle_old(arr, final_number_of_points, options)
+    return simplify_polygon_fast_sec(arr, final_number_of_points, options, r'Code\DCE\TestRuns\SimplePolygons\temp\vid')
 
 
-
-
-
-
-def test():
-    """
-    testfunction for DCE.py;
-    use only when you would run DCE.py without main.py
-
-    write some testdata
-    """
-
-    #Paths for write and read files
-    read_path_very_small_NRW = r"Code\DCE\examples\dvg2bld_nw_vvsmall.txt"
-    read_path_small_NRW = r"Code\DCE\examples\dvg2bld_nw_small.txt"
-    read_path_big_NRW = r"Code\DCE\examples\dvg2bld_nw.txt"
-
-    write_path_very_small_NRW = r"Code\DCE\TestRuns\NRWPolyVSmall\testpng"
-    write_path_small_NRW = r"Code\DCE\TestRuns\NRWPolySmall\testpng"
-    write_path_big_NRW = r"Code\DCE\TestRuns\NRWPoly_big\testpng"
-    write_path_simplePolygon = r"Code\DCE\TestRuns\SimplePolygons\testpng"
-    #write_path_temp = r"Code\DCE\TestRuns\temp\testpng"
-
-    write_path = r"Code\DCE\TestRuns\SimplePolygons\temp"
-
-    read_path = read_path_very_small_NRW
-    #write_path = write_path_temp
-    print_limiter = 10 #Limiter for saving file intervall
-    p = choosePolygon(1) #readtextfile(read_path)
-    p = readtextfile(read_path)
-    polygon_in_arr = get_array_with_points(p)
-    options = {"test":2}
-    fnop= 5
-    timestamp_old_a = time.time()
-    plot_GS_polygon(create_Polygon_from_array(polygon_in_arr),"Ursprung"+str(fnop),write_path)
-
-
-    old_poly = simplify_polygon_k_with_angle_old(polygon_in_arr,fnop,options)
-
-    plot_GS_polygon(create_Polygon_from_array(old_poly)," Alte Methode 15 P"+str(fnop),write_path) #write polygon
-    timestamp_old_e = time.time()
-    print("erstes fertig")
-
-    print("laeuft")
-    timestamp_new_a = time.time()
-    #final_number_poly = simplify_polygon_k_with_angle(polygon_in_arr,4, options) #simplify polygon to 10 points
-    #final_number_poly = simplify_polygon_second(polygon_in_arr,4, options)
-    #ref(polygon_in_arr,5,options)
-    #final_number_poly = simplify_polygon_k_immer_neu(polygon_in_arr, fnop, options)
-    final_number_poly = simplify_polygon_third(polygon_in_arr, fnop, options)
-
-    #temp = simplify_polygon_k_immer_neu(polygon_in_arr, fnop, options)
-    #plot_GS_polygon(create_Polygon_from_array(temp),"temp k immer neu"+str(fnop),write_path) #write polygon
-
-    plot_GS_polygon(create_Polygon_from_array(final_number_poly),"Neue Mehtode ohne letzten Punkt aktualisieren 15 P"+str(fnop),write_path) #write polygon
-    timestamp_new_e = time.time()
-
-    
-
-
-   # print("laenge alt: "+ str(len(old_poly)) + "laenge neu: " + str(len(final_number_poly)))
-    print("Alte Methode: " + str(timestamp_old_e-timestamp_old_a) + "neue Methode: "+ str(timestamp_new_e-timestamp_new_a))
-    print("____________________________________________________________________________________________________")
-    print("stop")
-
-
-
-
-def simplify_polygon_k_immer_neu(arr, fNoP, options):
+def simplify_polygon_fast_sec(arr, fNoP, options, write_path):
     DCE_Polygon = create_Polygon_from_array(arr)
     NoP = get_number_of_points(DCE_Polygon)
+    np.set_printoptions(precision=20) #muss am Ende geloescht werden!!
+
+    k_val_arr = calc_k_for_all_points(DCE_Polygon)
+    print(k_val_arr)
+    sort_arr = np.asarray(k_val_arr, dtype="float")
+    sort_arr = sort_arr[np.argsort(sort_arr[:,1], kind="quicksort")]
+    print("sort_arr")
+    print(sort_arr)
+    print(" stop sort_arr")
+
+    print_limiter = 1
+    limiter  = print_limiter
+
     indic_arr = []
 
-    while(get_number_of_points(DCE_Polygon) != fNoP):
-        k_val_arr = calc_k_for_all_points(DCE_Polygon)
-        sort_arr = np.asarray(k_val_arr, dtype="float64")
-        sort_arr = sort_arr[np.argsort(sort_arr[:,1], kind="quicksort")]
-        
-
+    #print("erstes Sort Array")
+   # print(sort_arr)
+    while(len(sort_arr)>= fNoP):
         indic = int(sort_arr[0][0])
         indic_arr.append(indic)
+     
+       
+        print("indic" + str(indic) + "punktanzahl poly: " + str(get_number_of_points(DCE_Polygon)) + "Laenge sort array" + str(len(sort_arr)))
         DCE_Polygon = delete_point_from_polygon(DCE_Polygon, indic)
+        print(limiter)
+        limiter = limiter - 1
+        
+        if limiter == 0:
+            plot_GS_polygon(DCE_Polygon,int(len(sort_arr)), write_path)
+            limiter = print_limiter
+        NoP_temp = get_number_of_points(DCE_Polygon)
 
-    print("__________________K IMMER NEU___________________")
-    #DCE_Polygon.plot()
-    #plt.show()
-    #print(indic_arr)
+        if (len(sort_arr)<10):
+            print("indic" + str(indic))
+            #print(calc_k_with_points(DCE_Polygon,5,6,4))
+            print("sort_arr")
+            print(sort_arr)
+            print("_____________")
+
+        if indic == 0:
+            k_bef = calc_k_with_points(DCE_Polygon, (NoP_temp-1),0, (NoP_temp-2))
+            k_act = calc_k_with_points(DCE_Polygon, 0,(NoP_temp-1), 1 )
+        else:
+
+            if indic-1 == 0:
+                k_bef = calc_k_with_points(DCE_Polygon, 0,1, (NoP_temp-1) )
+            else:
+                if indic+1 > NoP_temp:
+                    k_bef = calc_k_with_points(DCE_Polygon, indic-1, 0, indic) #RICHTIG??
+                else:
+                    print("normal bef")
+                    k_bef = calc_k_with_points(DCE_Polygon, indic-1, indic, indic-2) #muss es nicht indic-1,indic, indic-2 heissen?
+                
+            if indic+1 > NoP_temp:   
+                k_act = calc_k_with_points(DCE_Polygon,indic, 0, indic-1) #RICHTIG??
+            else:
+                print("normal act")
+                k_act = calc_k_with_points(DCE_Polygon,indic, indic-1, indic+1)
+              
+
+        # print("k_act" + str(k_act) +"k_bef "+ str(k_bef) + "k_aft" )
+        # print(len("sort_arr"))
+        # print(len(sort_arr))
+
+        if (len(sort_arr))< 35:
+            print("indic" + str(indic))
+            print("k_act" + str(k_act[0]) + "k_bef" + str(k_bef[0]))
+            print("fehler")
+       
+   
+        sort_arr = update_sort_array_sec(sort_arr,indic,k_bef[0], k_act[0],DCE_Polygon)
+
+
+        if (get_number_of_points(DCE_Polygon) == fNoP):
+            print("statistik:")
+            print(indic_arr)
+            plot_GS_polygon(DCE_Polygon,"result"+str(int(len(sort_arr))), write_path)
+            # DCE_Polygon.plot()
+            # plt.show()
+            return polygon_to_pixels(DCE_Polygon)
+   
+    print("indic_arr")
+    print(indic_arr)
     return polygon_to_pixels(DCE_Polygon)
 
 
-def simplify_polygon_third(arr, fNoP, options):
+def update_sort_array_sec(sort_arr, indic, k_bef, k_act, p):
+    NoP_Poly = get_number_of_points(p)
+    overwritten_act = False
+    overwritten_bef = False
+    
+    print(sort_arr)
+    print(indic)
+
+    sort_arr = np.delete(sort_arr, 0, axis = 0)
+    temp = sort_arr[np.argsort(sort_arr[:,0], kind="quicksort")]
+    print("temp")
+    print(len(temp))
+    print(temp)
+
+    new_val_arr = np.array([indic, k_act])
+    sort_arr = np.concatenate((sort_arr, [new_val_arr]), axis =0)
+    temp = sort_arr[np.argsort(sort_arr[:,0], kind="quicksort")]
+    print("indic wieder drangehaengt?")
+    print(len(temp))
+    print(temp)
+
+    if indic == 0:
+        temp[NoP_Poly-1][1] = k_bef
+    else:
+        upd_indic = np.where(np.isin(temp[:,0], indic-1))
+        upd_indic = int(upd_indic[0][0])
+        temp[upd_indic][1] = k_bef
+    print("K_bef geupdatet:?" + str(indic-1))
+    print(len(temp))
+    print(temp)
+    print("_______")
+
+    if indic+1 == NoP_Poly:
+        del_ind = len(sort_arr)-1
+        temp = np.delete(temp, del_ind, axis = 0)
+    else:
+        del_ind = np.where(np.isin(temp[:,0], indic+1))
+        del_ind = del_ind[0][0]
+        print(del_ind)
+        temp = np.delete(temp, del_ind, axis = 0)
+
+    print("idnic +1 geloescht?")
+    print(len(temp))
+    print(temp)
+    print("indic" + str(indic))
+    print(del_ind)
+    if indic != (len(sort_arr)-1):
+        for i in range(len(temp)):
+            if temp[i][0]>del_ind:
+                print("temp[i]" + str(temp[i]))
+                temp[i][0] = temp[i][0]-1
+    print("temp neu gelistet")
+    print(temp)
+    print(len(temp))
+    print(get_number_of_points(p))
+    if len(temp) != get_number_of_points(p):
+        print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+        print("Fehler")
+        print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+    return temp[np.argsort(temp[:,1], kind="quicksort")]
+
+
+    if indic == 0:
+        sort_array_indic_bef = len(sort_arr)-1
+    else:
+        print(indic)
+        sort_array_indic_bef = np.where(np.isin(sort_arr[:,0], indic-1))
+        sort_array_indic_bef = int(sort_array_indic_bef[0][0])
+    sort_arr[sort_array_indic_bef][1] = k_bef
+
+
+    new_val_arr = np.array([indic, k_act])
+    sort_arr = np.concatenate((sort_arr, [new_val_arr]), axis =0)
+
+    sort_by_num = sort_arr[np.argsort(sort_arr[:,0], kind="quicksort")]
+    sort_array_indic_act = np.where(np.isin(sort_by_num[:,0], indic))
+
+    for i in range(len(sort_by_num)):
+        if i > int(sort_array_indic_act[0][0]):
+            sort_by_num[i][0] = sort_by_num[i][0]-1
+    print("sort_by_num")
+    print(len(sort_by_num))
+    print(str(get_number_of_points(p)))
+    print("stop")
+    sort_by_k = sort_by_num[np.argsort(sort_by_num[:,0], kind="quicksort")]
+    return sort_by_k
+
+
+    # if indic !=0:
+    # if sort_array_indic_bef[0].size == 0:
+    #     #   print("hinzugefuegt indic" + str(indic-1))
+    #     overwritten_bef = True
+    #     new_val_arr = np.array([indic, k_bef])
+    #     sort_arr = np.concatenate((sort_arr, [new_val_arr]), axis =0)
+    # else:
+    sort_array_indic_bef = int(sort_array_indic_bef[0][0])
+        #print(sort_array_indic_bef)
+
+    if sort_array_indic_act[0].size ==0:
+        print("hinzugefuegt indic" + str(indic))
+        overwritten_act = True
+        new_val_arr = np.array([indic, k_act])
+        sort_arr = np.concatenate((sort_arr, [new_val_arr]), axis =0)
+    else:
+        sort_array_indic_act = int(sort_array_indic_act[0][0])
+
+
+    overwritten_bef = False
+  
+   
+    # print(indic)
+    print("bef: "+str(sort_array_indic_bef) + "act  " + str(sort_array_indic_act) +" indic " + str(indic))
+    if indic == 0:
+        sort_arr[(len(sort_arr)-1)][1] = k_bef
+        sort_arr[0][1] = k_act
+    else:
+        if overwritten_bef == False:
+            if indic-1 >= len(sort_arr):
+                sort_array_indic_bef = len(sort_arr)-1
+            sort_arr[sort_array_indic_bef][1] = k_bef
+        if overwritten_act == False:
+            if indic >= len(sort_arr):
+                sort_array_indic_act = len(sort_arr)-1
+            sort_arr[sort_array_indic_act][1] = k_act
+
+
+
+ 
+    sort_by_num = sort_arr[np.argsort(sort_arr[:,0], kind="quicksort")]
+
+    for i in range(len(sort_by_num)):
+       sort_by_num[i][0]=i
+
+
+    sort_by_k =sort_by_num[np.argsort(sort_by_num[:,1], kind="quicksort")]
+
+    return(sort_by_k)
+
+
+
+
+
+
+
+def calc_k_for_all_points_coords(p):
+    NoP = get_number_of_points(p)
+    temp_k_val_arr = []
+    for i in range(NoP):
+        if i == 0:
+          
+            temp = calc_k_with_points(p,i,1, (NoP-1))
+            coords = get_selected_point(p,i)
+            temp_k_val_arr.append([i,temp[0], coords])
+        else:
+            temp = calc_k_with_points(p,i,i+1,i-1)
+            coords = get_selected_point(p,i)
+            temp_k_val_arr.append([i,temp[0], coords])
+
+
+    return temp_k_val_arr
+
+
+
+def simplify_polygon_fast(arr, fNoP, options):
     DCE_Polygon = create_Polygon_from_array(arr)
     NoP = get_number_of_points(DCE_Polygon)
 
@@ -133,66 +296,31 @@ def simplify_polygon_third(arr, fNoP, options):
     while(len(sort_arr)>= fNoP):
         indic = int(sort_arr[0][0])
         indic_arr.append(indic)
-       # print(len(sort_arr))
-        #Entferne Punkt
+     
         NoP_before_delete_Polygon = get_number_of_points(DCE_Polygon)
         NoP_before_delete_sortarray = len(sort_arr)
+        print("indic" + str(indic) + "punktanzahl poly: " + str(get_number_of_points(DCE_Polygon)) + "Laenge sort array" + str(len(sort_arr)))
         DCE_Polygon = delete_point_from_polygon(DCE_Polygon, indic)
         entfernter_Punkt = sort_arr[0]
         #sort_arr = np.delete(sort_arr, 0, axis = 0)
 
-        #print("len sort arr" + str(len(sort_arr)) + "NOP Polygon" + str(get_number_of_points(DCE_Polygon)))
-        #print("calc_k_for_all_points(DCE_Polygon, get_number_of_points(DCE_Polygon))")
-       # print(" ")
-        # if indic == len(sort_arr):
-        #     indic = indic -1
+    
         NoP_temp = get_number_of_points(DCE_Polygon)
 
-       # if indic >= NoP_temp:
-            #print("indic"+ str(indic))
-            #print("Punktanzahl Polygon" + str(NoP_temp))
-           # print("entfertner Punkt" + str(entfernter_Punkt))
-            #print(sort_arr[0])
-           # print(get_selected_point(DCE_Polygon, NoP_temp))
-            #print("stop")
-
-
-        if indic == NoP_temp:
-            #indic_gleich_NoPTemp = indic_gleich_NoPTemp +1
-            k_bef = calc_k_with_points(DCE_Polygon,indic-1,0,indic-2)
-            k_act = calc_k_with_points(DCE_Polygon, 0,1,indic-1)
-
+        if indic-1 == 0:
+            k_bef = calc_k_with_points(DCE_Polygon, 0,1, (NoP_temp-1) )
         else:
-            if indic-1 == 0:
-            # print("kbef_vals (indic =0)" + str(indic-1) + ", "+ str(1) + ", "+ str(get_number_of_points(DCE_Polygon)-1))
-               # print("indic-1 ist 0")
-               # print("0, 1, " + str(NoP-2))
-                k_bef = calc_k_with_points(DCE_Polygon, 0, (NoP_temp-1),1 )
-                #indicM1_gleich_Null = indicM1_gleich_Null +1
-            else:
-            # print("kbef_vals" + str(indic-1) + ", "+ str(indic) + ", "+ str(indic+1))
-                if indic+1 > NoP_temp:
-                    k_bef = calc_k_with_points(DCE_Polygon, indic-1, 0, indic) #RICHTIG??
-                    #indicP1_gr_NoPTemp_bef = indicP1_gr_NoPTemp_bef +1
-                else:
-                    k_bef = calc_k_with_points(DCE_Polygon, indic-1, indic+1, indic) #muss es nicht indic-1,indic, indic-2 heissen?
-                   # indic_norm_bef = indic_norm_bef +1
-        # print("kbef_res "+ str(k_bef))
-            #print("kact_vals" + str(indic) + ", "+ str(indic+1) + ", "+ str(indic-1))
             if indic+1 > NoP_temp:
-               # print("indic + 1 ist groesser als NoP temp")
-                k_act = calc_k_with_points(DCE_Polygon,indic, 0, indic-1) #RICHTIG??
-                #indicP1_gr_NoPTemp_act = indicP1_gr_NoPTemp_act +1
+                k_bef = calc_k_with_points(DCE_Polygon, indic-1, 0, indic) #RICHTIG??
             else:
-                k_act = calc_k_with_points(DCE_Polygon,indic, indic+1, indic-1)
-                #indic_norm_act = indic_norm_act +1
-            #print("kact_res "+ str(k_act))
-
-
-        # print("kbef" + str(k_bef[0]) + "kact" + str(k_act[0]))
-        # print("sort_arr vor aktualisierung" +str(len(sort_arr)) +  " Polygonpunktanzahl nach entfernt " + str(get_number_of_points(DCE_Polygon)))
-        # print(sort_arr)
-        # print("punkt an stelle " + str(indic) + " entfernt")
+                k_bef = calc_k_with_points(DCE_Polygon, indic-1, indic, indic-2) #muss es nicht indic-1,indic, indic-2 heissen?
+            
+        if indic+1 > NoP_temp:   
+            k_act = calc_k_with_points(DCE_Polygon,indic, 0, indic-1) #RICHTIG??
+        else:
+            k_act = calc_k_with_points(DCE_Polygon,indic, indic+1, indic-1)
+              
+       
    
         sort_arr = update_sort_array(sort_arr,indic,k_bef[0], k_act[0],DCE_Polygon)
     
@@ -239,57 +367,54 @@ def update_sort_array(sort_arr, indic, k_bef, k_act, p):
     NoP_Poly = get_number_of_points(p)
     overwritten_act = False
     overwritten_bef = False
-   # print(sort_arr[0])
-   # print("indic"+ str(indic))
-   # if indic == 156:
-     #   sort_temp = sort_arr[np.argsort(sort_arr[:,0], kind="mergesort")]
-        #print("stop")
-  #  print(sort_arr[0][0])
-   # print(len(sort_arr))
+    
+
     sort_arr = np.delete(sort_arr, 0, axis = 0)
 
     sort_array_indic_bef = np.where(np.isin(sort_arr[:,0], indic-1))
-    sort_array_indic_act = np.where(np.isin(sort_arr[:,0], indic))
-    #print("indic: " + str(indic) + "sort array indic bef" + str(sort_array_indic_bef[0][0]))
-    #print("indic: " + str(indic) + "sort array indic act" + str(sort_array_indic_act[0].size))
-    a_temp_test = sort_arr[np.argsort(sort_arr[:,0], kind="quicksort")]
-    
+    #sort_array_indic_act = np.where(np.isin(sort_arr[:,0], indic))
 
-    sort_array_indic_aft = np.where(np.isin(sort_arr[:,0], indic+1))
-    if indic == 0 or sort_array_indic_aft[0].size == 0:
-        sort_arr = np.delete(sort_arr, 0, axis = 0)
-    else:
-        sort_arr = np.delete(sort_arr, int(sort_array_indic_aft[0][0]), axis = 0)
+    new_val_arr = np.array([indic, k_act])
+    sort_arr = np.concatenate((sort_arr, [new_val_arr]), axis =0)
+ 
+
+    # sort_array_indic_aft = np.where(np.isin(sort_arr[:,0], indic+1))
+    # if indic == 0 or sort_array_indic_aft[0].size == 0:
+    #     sort_arr = np.delete(sort_arr, 0, axis = 0)
+    # else:
+    #     sort_arr = np.delete(sort_arr, int(sort_array_indic_aft[0][0]), axis = 0)
 
 
     #print("bef indic" + str(sort_array_indic_bef))
    # print("act indic" + str(sort_array_indic_act))
     # if indic !=0:
-        if sort_array_indic_bef[0].size == 0:
-         #   print("hinzugefuegt indic" + str(indic-1))
-            overwritten_bef = True
-            new_val_arr = np.array([indic, k_bef])
-            sort_arr = np.concatenate((sort_arr, [new_val_arr]), axis =0)
-        else:
-            sort_array_indic_bef = int(sort_array_indic_bef[0][0])
-            #print(sort_array_indic_bef)
+    # if sort_array_indic_bef[0].size == 0:
+    #     #   print("hinzugefuegt indic" + str(indic-1))
+    #     overwritten_bef = True
+    #     new_val_arr = np.array([indic, k_bef])
+    #     sort_arr = np.concatenate((sort_arr, [new_val_arr]), axis =0)
+    # else:
+    sort_array_indic_bef = int(sort_array_indic_bef[0][0])
+        #print(sort_array_indic_bef)
 
-        if sort_array_indic_act[0].size ==0:
-            #print("hinzugefuegt indic" + str(indic))
-            overwritten_act = True
-            new_val_arr = np.array([indic, k_act])
-            sort_arr = np.concatenate((sort_arr, [new_val_arr]), axis =0)
-        else:
-            sort_array_indic_act = int(sort_array_indic_act[0][0])
+    if sort_array_indic_act[0].size ==0:
+        print("hinzugefuegt indic" + str(indic))
+        overwritten_act = True
+        new_val_arr = np.array([indic, k_act])
+        sort_arr = np.concatenate((sort_arr, [new_val_arr]), axis =0)
+    else:
+        sort_array_indic_act = int(sort_array_indic_act[0][0])
 
 
     # else:
     #     sort_array_indic_bef = len(sort_arr)-1
     #     sort_array_indic_act = 0
-
+    #overwritten_act = False
+    overwritten_bef = False
+    #sort_array_indic_act = int(sort_array_indic_act[0][0])
    
     # print(indic)
-    # print(str(sort_array_indic_bef) + " " + str(sort_array_indic_act))
+    print("bef: "+str(sort_array_indic_bef) + "act  " + str(sort_array_indic_act) +" indic " + str(indic))
     if indic == 0:
         sort_arr[(len(sort_arr)-1)][1] = k_bef
         sort_arr[0][1] = k_act
@@ -312,7 +437,9 @@ def update_sort_array(sort_arr, indic, k_bef, k_act, p):
  
     sort_by_num = sort_arr[np.argsort(sort_arr[:,0], kind="quicksort")]
     #print("indic" + str(indic))
-
+    # dec_ind = np.where(np.isin(sort_by_num[:,0], indic))
+    # for dec_ind in range(len(sort_by_num)):
+    #     sort_by_num[dec_ind][0] = sort_by_num[dec_ind][0]-1
     #print("vor neu nummierung")
     #print(sort_by_num)
     for i in range(len(sort_by_num)):
@@ -333,27 +460,7 @@ def update_sort_array(sort_arr, indic, k_bef, k_act, p):
 
 
 
-def ref(arr, FNoP, options):
-        print("REFERENCE--BEGIN------------------------------------------------------------------")
-        DCE_Polygon = create_Polygon_from_array(arr)
-        NoP = get_number_of_points(DCE_Polygon)
-        k_val_arr = calc_k_for_all_points(DCE_Polygon)
-        sort_arr = np.asarray(k_val_arr, dtype="float64")
-        sort_arr = sort_arr[np.argsort(sort_arr[:,1], kind="mergesort")]
-        indic = int(sort_arr[0][0])
-        print(sort_arr)
-        print(get_lowest_k(DCE_Polygon, " "))
-        # DCE_Polygon.plot()
-        # plt.show()
-        DCE_Polygon = delete_point_from_polygon(DCE_Polygon, indic)
-        print("puntk an stelle " + str(indic)  + "entfertn")
-        k_val_arr = calc_k_for_all_points(DCE_Polygon)
-        sort_arr = np.asarray(k_val_arr, dtype="float64")
-        sort_arr = sort_arr[np.argsort(sort_arr[:,1], kind="mergesort")]
-        print(sort_arr)
-        print("REFERENCE---END-----------------------------------------------------------------")
-        # DCE_Polygon.plot()
-        # plt.show()
+
 
 
 
@@ -390,11 +497,16 @@ def calc_k_for_all_points(p):
         else:
             temp = calc_k_with_points(p,i,i+1,i-1)
            
-
+           
             temp_k_val_arr.append([i,temp[0]])
 
 
     return temp_k_val_arr
+
+
+
+
+
 
 def get_lowest_k(p, options):
     """
@@ -456,18 +568,23 @@ def get_sum_of_angles(outline):
     sum_of_angles = 0
     cop_outline = np.array(outline, dtype=  'int')
     cop_outline = cop_outline[0]
+    angle_separated = []
 
     p = create_Polygon_from_array(cop_outline)
 
     NoP = get_number_of_points(p)
     for i in range(NoP):
         if i==0:
-            sum_of_angles = sum_of_angles + (get_angle_two_lines(p,i, (NoP-1),1))
+            temp = get_angle_two_lines(p,i, (NoP-1),1)
+            sum_of_angles = sum_of_angles + temp
+            angle_separated.append([i, temp])
         else:
-            sum_of_angles = sum_of_angles + (get_angle_two_lines(p,i, (i+1), (i-1)))
+            temp2 = get_angle_two_lines(p,i, (i+1), (i-1))
+            sum_of_angles = sum_of_angles + temp2
+            angle_separated.append([i, temp2])
 
 
-    return sum_of_angles
+    return [sum_of_angles, angle_separated]
 
 
 
@@ -740,37 +857,44 @@ def simplify_polygon_k_with_angle_old(arr, final_number_of_points, options):
     DCE_Polygon = create_Polygon_from_array(arr)  #transform array to polygon for further calculations
 
     NoP = get_number_of_points(DCE_Polygon) # variable to save the total numbers of points in the polygon
+    print("punktanzahl Polygon" + str(NoP) + "gewuenschte Punktanzahl" + str(final_number_of_points))
+    print("stop")
     if final_number_of_points >= NoP: #direct return, if desired number of points is less than or equal to total number of points
+        print("fnop >= nop")
         return polygon_to_pixels(DCE_Polygon)
 
     for i in range(NoP): #iterate over all polygonpoints
+        print("vereinfache")
         calc_lowest_k = get_lowest_k(DCE_Polygon, options) # get index and  calculated value for the lowest k value wiht angles and distances
         index_lowest_k = calc_lowest_k[0]
        # print("index_lowest_k"+ str(index_lowest_k))
         #point_arr.append(get_selected_point(DCE_Polygon,i))
-        
+        if final_number_of_points == 8:
+            print("LKW wird vereinfacht")
+            print(index_lowest_k)
+            print(index_arr)
 
 
         if i == (NoP-3): #Exception if Polygon is only triangle
             return polygon_to_pixels(DCE_Polygon)
-
+        
         DCE_Polygon = delete_point_from_polygon(DCE_Polygon, index_lowest_k) #Overwrite DCE Polygon with new Polygon, where is point on index k deleted
         index_arr.append(index_lowest_k)
         k_val_arr_end.append(calc_lowest_k[1])
         if final_number_of_points == get_number_of_points(DCE_Polygon): #if statement for return the simplified polygon at desired number of points
-            print("Reference:")
-            print(index_arr)
-            # print(point_arr)
-            # print(k_val_arr_end)
-            # DCE_Polygon.plot()
-            # plt.show()
-            print("statistik:")
-            print("indic = NoP Temp"+ str(indic_gleich_NoPTemp))
-            print("indic-1 = 0"+ str(indicM1_gleich_Null))
-            print("indic+1 > NoPTemp bef "+ str(indicP1_gr_NoPTemp_bef))
-            print(indic_norm_bef)
+            # print("Reference:")
+            # print(index_arr)
+            # # print(point_arr)
+            # # print(k_val_arr_end)
+            # # DCE_Polygon.plot()
+            # # plt.show()
+            # print("statistik:")
+            # print("indic = NoP Temp"+ str(indic_gleich_NoPTemp))
+            # print("indic-1 = 0"+ str(indicM1_gleich_Null))
+            # print("indic+1 > NoPTemp bef "+ str(indicP1_gr_NoPTemp_bef))
+            # print(indic_norm_bef)
 
-            print("_________________")
+            # print("_________________")
             return polygon_to_pixels(DCE_Polygon)
 
 
@@ -824,4 +948,112 @@ def update_element(arr, indic, k_val):
 
     return arr
 
-test()
+
+
+
+
+def simplify_polygon_k_immer_neu(arr, fNoP, options):
+    DCE_Polygon = create_Polygon_from_array(arr)
+    NoP = get_number_of_points(DCE_Polygon)
+    indic_arr = []
+
+    while(get_number_of_points(DCE_Polygon) != fNoP):
+        k_val_arr = calc_k_for_all_points(DCE_Polygon)
+        sort_arr = np.asarray(k_val_arr, dtype="float64")
+        sort_arr = sort_arr[np.argsort(sort_arr[:,1], kind="quicksort")]
+        
+
+        indic = int(sort_arr[0][0])
+        indic_arr.append(indic)
+        DCE_Polygon = delete_point_from_polygon(DCE_Polygon, indic)
+
+    print("__________________K IMMER NEU___________________")
+    #DCE_Polygon.plot()
+    #plt.show()
+    #print(indic_arr)
+    return polygon_to_pixels(DCE_Polygon)
+
+
+
+def test():
+    """
+    testfunction for DCE.py;
+    use only when you would run DCE.py without main.py
+
+    write some testdata
+    """
+
+    #Paths for write and read files
+    read_path_very_small_NRW = r"Code\DCE\examples\dvg2bld_nw_vsmall.txt"
+    read_path_small_NRW = r"Code\DCE\examples\dvg2bld_nw_small.txt"
+    read_path_big_NRW = r"Code\DCE\examples\dvg2bld_nw.txt"
+
+    write_path_very_small_NRW = r"Code\DCE\TestRuns\NRWPolyVSmall\testpng"
+    write_path_small_NRW = r"Code\DCE\TestRuns\NRWPolySmall\testpng"
+    write_path_big_NRW = r"Code\DCE\TestRuns\NRWPoly_big\testpng"
+    write_path_simplePolygon = r"Code\DCE\TestRuns\SimplePolygons\testpng"
+    write_path_temp = r"Code\DCE\TestRuns\temp\testpng"
+
+    write_path = r"Code\DCE\TestRuns\SimplePolygons\temp"
+
+    read_path = read_path_very_small_NRW
+    #write_path = write_path_temp
+    print_limiter = 10 #Limiter for saving file intervall
+    p = choosePolygon(1) #readtextfile(read_path)
+    p = readtextfile(read_path)
+    polygon_in_arr = get_array_with_points(p)
+    options = {"test":2}
+    fnop= 4
+    timestamp_old_a = time.time()
+    plot_GS_polygon(create_Polygon_from_array(polygon_in_arr),"Ursprung"+str(fnop),write_path)
+
+   
+
+
+    #old_poly = simplify_polygon_k_with_angle_old(polygon_in_arr,fnop,options)
+
+   # plot_GS_polygon(create_Polygon_from_array(old_poly)," Alte Methode 15 P"+str(fnop),write_path) #write polygon
+    timestamp_old_e = time.time()
+    print("erstes fertig")
+
+    print("laeuft")
+    timestamp_new_a = time.time()
+    #final_number_poly = simplify_polygon_k_with_angle(polygon_in_arr,4, options) #simplify polygon to 10 points
+    #final_number_poly = simplify_polygon_second(polygon_in_arr,4, options)
+    #ref(polygon_in_arr,5,options)
+    #final_number_poly = simplify_polygon_k_immer_neu(polygon_in_arr, fnop, options)
+    final_number_poly = simplify_polygon_fast_sec(polygon_in_arr, fnop, options, write_path_temp)
+
+    #temp = simplify_polygon_k_immer_neu(polygon_in_arr, fnop, options)
+    #plot_GS_polygon(create_Polygon_from_array(temp),"temp k immer neu"+str(fnop),write_path) #write polygon
+
+    plot_GS_polygon(create_Polygon_from_array(final_number_poly),"Neue Mehtode ohne letzten Punkt aktualisieren 15 P"+str(fnop),write_path) #write polygon
+    timestamp_new_e = time.time()
+
+    
+
+
+   # print("laenge alt: "+ str(len(old_poly)) + "laenge neu: " + str(len(final_number_poly)))
+    print("Alte Methode: " + str(timestamp_old_e-timestamp_old_a) + "neue Methode: "+ str(timestamp_new_e-timestamp_new_a))
+    print("____________________________________________________________________________________________________")
+    print("stop")
+
+def testarray():
+    p = choosePolygon(1)
+    test_arr = [[4,6.325],[0,5.1235],[3,0.0789],[1,0.3256],[2, 10.125],[5,0.12358]]
+    len_bef = len(test_arr)
+    test_arr = np.asarray(test_arr)
+    sort_test_arr = test_arr[np.argsort(test_arr[:,1], kind="quicksort")]
+    print(sort_test_arr)
+    print("stop")
+    indic = int(sort_test_arr[0][0])
+
+
+    k_bef = 7
+    k_act = 12
+    test = update_sort_array_sec(sort_test_arr,indic,k_bef,k_act, p)
+    print(test)
+    print("laenge vor udpate: "+ str(len_bef) + "laenge nach update" + str(len(test)))
+    print("stop 2")
+#testarray()
+#test()

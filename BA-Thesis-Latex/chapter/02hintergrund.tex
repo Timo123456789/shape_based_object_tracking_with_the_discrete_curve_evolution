@@ -6,9 +6,9 @@
 
 
 
-\section{\glqq You Only Look Once\grqq{}(YOLO)}
+%\section{\glqq You Only Look Once\grqq{}(YOLO)}
 {
-	\subsection{Grundlagen im Maschinellen Lernen}
+	\section{Grundlagen im Maschinellen Lernen}
 	{ 
 	Im folgenden werden mehrere Begriffe und Abkürzungen für \Ref{subsec:YOLO_Alg} erklärt. \\
 	\begin{figure}[ht]
@@ -37,7 +37,7 @@
 
 	PASCAL VOC 2007, 2012 und ImageNet 1000-Class-Competition \citep{Russakovsky2015} sind drei Datensätze, die zum Training von YOLO durch \citeauthor{Redmon2016} verwendet wurden. Der PASCAL VOC Datensatz wurde in der Version von 2007 und 2012 verwendet. Diese Versionen enthalten 20 Klassen, die erkannt werden müssen  \citep{pascal_voc}.  Der ImageNet Datensatz besteht aus ca. 1000 Bilder, die von Menschen annotiert und klassifiziert wurden \citep{imageNET_about}.
 	}
-	\subsection{Der YOLO Algorithmus \label{subsec:YOLO_Alg}} 
+	\section{Der YOLO Algorithmus \label{subsec:YOLO_Alg}} 
 	{Da der Blick des Menschen Objekterkennung, -einordnung und -wirkung intuitiv ermöglicht, ist es unserem Gehirn im Zusammenspiel mit unseren Augen möglich, schnell und genau zu sehen. Durch diese Fähigkeiten können wir mit nur wenig bewussten Gedanken komplexe Aufgaben, wie Fahrradfahren bewältigen, bei denen gleichzeitig mehrere Sinne beansprucht werden. \citep{Redmon2016}. \\
 	Dem Computer kann dies mit schnellen und genauen Algorithmen zur Objekterkennung beigebracht werden. Aktuelle Systeme nutzen Klassifikatoren zur Objekterkennung. Dieser wird an verschiedenen Stellen in variablen Skalierungen im Testbild angewendet, um eine Klassifizierung eines Objektes zu ermöglichen \citep{Redmon2016}. \\ 
 	Außerdem existieren Systeme wie R-CNN, die erst Regionen vorhersagen, um potenzielle Boundingboxes im Bild zu erzeugen, auf welche dann ein Klassifikator angewendet wird. Aufgrund der Einordnung anderer im Bild detektierten Objekte können diese Boundingboxen mit einer Nachprozessierung und durch das Eliminieren doppelter Erkennungen feiner aufgelöst werden. Da jeder Teilschritt einzeln optimiert werden muss, sind diese Systeme sehr langsam und nicht leicht auf Performance zu optimieren. \citep{Redmon2016}. \\
@@ -111,7 +111,7 @@
 	Im Rahmen dieser Arbeit wird YOLOv8 von Ultralytics verwendet. Diese bietet Vorteile in der Performance und Genauigkeit der Objektdetektierung.
 	} 
 
-	\subsection{YOLOv8 von Ultralytics}{ \label{subsec:YOLOv8_theoretic}
+	\section{YOLOv8 von Ultralytics}{ \label{subsec:YOLOv8_theoretic}
 	
 	Im Januar 2023 wurde von der Firma Ultralytics YOLOv8 veröffentlicht, welches auf YOLOv5 basiert. Diese Version beinhaltet 5 verschiedene Modelle, die mit unterschiedlich großen Datensätzen trainiert wurden  \citep{Terven2023}: 
 	\begin{itemize}
@@ -190,7 +190,7 @@ Für die Anwendung in dieser Arbeit ist die DCE wegen ihrer geringen Komplexitä
 	Um vergleichbare Werte zu erhalten, darf nur innerhalb einer von YOLO detektierten Klasse die Winkelabweichung berechnet werden. Dies ist der Fall, da jede Klasse auf verschiedene Punktzahlen vereinfacht wird, und damit die Winkelsummen der einzelnen Polygone sich stark unterscheiden. Diese Berechnungsmethode ermöglicht eine Betrachtung der Abweichung für jede von YOLO detektierte Objektklasse.  	
 }
 
-\chapter{Verwendetes System}
+\chapter{Verwendete Technologien}
 
 \section{Python} 
 {  \label{sec:Python}
@@ -217,14 +217,19 @@ Für die Anwendung in dieser Arbeit ist die DCE wegen ihrer geringen Komplexitä
 		}
 		\subsection{YOLOv8 Implementierung von Canu}
 		{ \label{YOLOv8_canu}
-		In dieser Arbeit werden die \glqq-seq\grqq{} Modelle von YOLO benutzt, da diese bereits eine Segmentierung der Objekte mit deren Umrissen integriert haben. Für eine detaillierte Beschreibung siehe Kap. \ref{subsec:YOLOv8_theoretic}. \\
+		In dieser Arbeit werden die \glqq-seq\grqq{} Modelle von YOLOv8 benutzt, da diese bereits eine Segmentierung der Objekte mit deren Umrissen integriert haben. Diese Version wurde von Ultralytics entwickelt und wird als Python Bibliothek bereitgestellt. Für eine detaillierte Beschreibung siehe Kap. \ref{subsec:YOLOv8_theoretic}. \\
 		Die Implementierung basiert auf \citeauthor{Canu_pysource}, da dieser eine Einführung in Bildbearbeitung mit Python unter der Benutzung von YOLO gegeben hat \citep{Canu_pysource}.
 		}
 	
 		
 	\section{Meta-Ablauf im Programm}{
 	Der Programmablauf ist folgendermaßen geplant. Der erste Schritt besteht darin, dass Video einzulesen und dann mit YOLO zu analysieren. Danach wird im zweiten Schritt auf alle von YOLO segmentierten Objektumrisse die DCE angewendet. Diese werden, bis zu einer bestimmten vorher festgelegten Punktanzahl, vereinfacht. Als letzten Schritt werden diese vereinfachten Umrisse ins Video eingefügt, um das Ursprungspolygon zu überschreiben und um als Endprodukt ein anonymisiertes Video zu erhalten.
+
+	\section{Testumgebung}{
+	Das Testsystem besteht aus einem Lenovo Thinkpad P14s. Dieses besitzt einen AMD Ryzen 7 PRO 5850U Prozessor mit 8 Kernen und 16 Threads bei einem Basistakt von 1,9 GHz und einem Höchsttakt von 4,4 GHz. Die integrierte Grafikeinheit AMD Radeon Graphics Einheit kann auf 8 GB VRAM zugreifen, sodass der effektive verfügbare Arbeitsspeicher des Systems bei 39,8 GB liegt \citep{PSREF21}. Die Entwicklungsumgebung 'Visual Studio Code' ist auf einer 64-bit Windows 11 Pro Installation in der Version 22H2 installiert. Für Details in der Python Konfiguration siehe Kap. \ref{sec:Python}. Für die Testdurchläufe ist der Laptop an ein 65 Watt Netzteil angeschlossen, um ein Throttling der CPU zu verhindern.
 }
+
+	}
 
 
 

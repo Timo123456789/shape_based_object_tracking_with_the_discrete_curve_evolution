@@ -48,11 +48,12 @@ def get_outline_for_every_object(res, options):
                 if(options["write_labels"] == True): #if clause to write the labels and scores to every polygon
                     res_cop[i] = cv2.putText(res_cop[i], get_text_string(class_id[b],scores[b]), (bbox[b][0], bbox[b][1] - 10), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
                 pbar.update(1) #set progress bar one step further
-    
-                sum_of_angles = get_sum_of_angles([outline_DCE[b]]) #calculates the sum of angles in one polygon
+
+                sum_of_angles_var = get_sum_of_angles([outline_DCE[b]])
+                sum_of_angles =  sum_of_angles_var[0] #calculates the sum of angles in one polygon
                 options["angle_sums_polygons"].append(sum_of_angles)  #append sum of angles in one polygon to a array, where all angle sums of the polygons in the image saved    
 
-                options["list_of_polygons_in_one_frame"].append([i,b,sum_of_angles,class_id[b],outline_DCE[b]])
+                options["list_of_polygons_in_one_frame"].append([i,b,sum_of_angles,class_id[b],outline_DCE[b], sum_of_angles_var[1]])
                 
             options["angle_sums_images"].append(sum(options["angle_sums_polygons"])) #sum up all angle sums in the image and append it to an array, where all sum of angles from all images would be saved
             options["angle_sums_polygons"] = [] # set for the next image the variable, which saved the sum of all angles from all polygon in the image,  to None/0
@@ -83,20 +84,32 @@ def run_DCE(outline, class_id, options):
     @param class_ID = array, which the class_IDs from all detected objects on the image saved; only ints
     @param options: Dictionary with options set in main
     @return: array with simplified olygons
-    """         
+    """     
+    print("outline" + str(len(outline)))
+    print("classid" + str(class_id))    
+    #plot_poly(outline)
     for i in range(len(outline)): #iterate over all polygons in the outline array
+        print("class_id")
+        print(class_id)
         match class_id[i]: #case case to distinguish the different CLass IDs; 2 = Car, 3 = motorcycle, 7 = Truck
             case 2:
                 outline[i] = simplify_polygon_k_with_angle(outline[i],options["NoP_Cars"], options)
             case 3:
                 outline[i] = simplify_polygon_k_with_angle(outline[i],options["NoP_Motorcycle"], options)
             case 7:
+                print("truck")
                 outline[i] = simplify_polygon_k_with_angle(outline[i],options["NoP_Truck"], options)
             case _:
+                print("oo")
                 outline[i] = simplify_polygon_k_with_angle(outline[i],options["NoP_other_Object"], options) 
     return outline
 
 
+def plot_poly(outline):
+    for i in range(len(outline)):
+        p = create_Polygon_from_array(outline[i])
+        p.plot()
+        plt.show()
 
 
 def get_data(res):
@@ -119,6 +132,8 @@ def get_data(res):
         class_ids = np.array(res.boxes.cls.cpu(), dtype="int") #cast as int, to get integers
         # Get scores
         scores = np.array(res.boxes.conf.cpu(), dtype="float").round(2)
+    print(class_ids)
+    print("____________")
     return bboxes, class_ids, segmentation_contours_idx, scores, img_size
 
 
