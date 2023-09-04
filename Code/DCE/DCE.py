@@ -55,7 +55,7 @@ def simplify_polygon_fast_sec(arr, fNoP, options, write_path):
                     k_bef = calc_k_with_points(DCE_Polygon, indic-1, indic, indic-2) #muss es nicht indic-1,indic, indic-2 heissen?
 
             if indic+1 > NoP_temp: 
-                k_act = calc_k_with_points(DCE_Polygon,indic, 0, indic-1) #RICHTIG?? vorher indic, 0 ,indic -1; sonst wird der gleiche Punkt verglichen.. das ist doof 
+                k_act = calc_k_with_points(DCE_Polygon,indic-1, 0, indic-2) #RICHTIG?? vorher indic, 0 ,indic -1; sonst wird der gleiche Punkt verglichen.. das ist doof 
             else:
                 k_act = calc_k_with_points(DCE_Polygon,indic, indic-1, indic+1)       
    
@@ -119,22 +119,6 @@ def update_sort_array_sec(sort_arr, indic, k_bef, k_act, p):
 
 
 
-def calc_k_for_all_points_coords(p):
-    NoP = get_number_of_points(p)
-    temp_k_val_arr = []
-    for i in range(NoP):
-        if i == 0:
-          
-            temp = calc_k_with_points(p,i,1, (NoP-1))
-            coords = get_selected_point(p,i)
-            temp_k_val_arr.append([i,temp[0], coords])
-        else:
-            temp = calc_k_with_points(p,i,i+1,i-1)
-            coords = get_selected_point(p,i)
-            temp_k_val_arr.append([i,temp[0], coords])
-
-
-    return temp_k_val_arr
 
 
 

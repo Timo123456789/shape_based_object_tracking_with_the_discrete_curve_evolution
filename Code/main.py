@@ -17,9 +17,9 @@ def main():
     """
     options = {
             "path_directory": r'Code\vid_examples\evaluation',  #main path for storing files
-            "source_video": r'Code\vid_examples\evaluation\Autobahn1s.mp4', #name for source video
-            "write_video": r'\temp_A1s.mp4', #storing name for result video
-            "results": r'\temp_A1s_results.txt', # storing name for statistics
+            "source_video": r'Code\vid_examples\evaluation\Autobahn5F.mp4', #name for source video
+            "write_video": r'\temp.mp4', #storing name for result video
+            "results": r'\temp_results.txt', # storing name for statistics
 
             "path_source_video": r'temp', #temp variable for storing path for source video
             "path_write_video": r'temp', #temp variable for storing path for write video

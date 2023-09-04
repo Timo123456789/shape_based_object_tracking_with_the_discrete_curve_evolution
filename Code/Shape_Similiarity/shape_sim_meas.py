@@ -11,13 +11,65 @@ def calc_shape_similarity(options):
     options["timestamp_prog_end"] = time.time()
     results_dictionary = { }
     calc_timestamps(options, results_dictionary) #set timestamps
-    calc_shape_similarity_compare_polygons(options, results_dictionary) # calc SSM by compare every polygon to the next exact same polygon in the next frame
-    calc_shape_sim_compare_classes_in_one_frame(options, results_dictionary) #calc SSM by compare Polygon to the polygons with the same class in one frame
+    #calc_shape_similarity_compare_polygons(options, results_dictionary) # calc SSM by compare every polygon to the next exact same polygon in the next frame
+    #calc_shape_sim_compare_classes_in_one_frame(options, results_dictionary) #calc SSM by compare Polygon to the polygons with the same class in one frame
+    calc_SSM_illustration(options, results_dictionary)
     write_settings(results_dictionary, options) #write settings to result dictionary
     write_results_file(results_dictionary, options["path_write_timestamps"]) #write results dictionary
 
 
+def calc_SSM_illustration(options, results_dictionary):
+    polygon_array = options["list_of_all_polygons"]
+    fps = len(polygon_array)
+    temp = 0
+    iterator = 0
 
+    val_arr_cars = []
+    val_arr_motorcycle = []
+    val_arr_trucks = []
+    val_arr_oO = []
+
+    
+    for frame in range(len(polygon_array)-1):
+        #print(polygon_array[frame][2])
+        for polygon in range(len(polygon_array)):
+            print(polygon_array[frame][polygon])
+            print(polygon_array[frame][polygon][5])
+            
+            if polygon_array[frame][polygon][3] == polygon_array[frame+1][polygon][3]:
+                res = calc_minor_SSM(polygon_array[frame][polygon][5], polygon_array[frame+1][polygon][5])
+                
+
+def calc_minor_SSM(Poly1, Poly2):
+    print(Poly1)
+    print("___________________________")
+    print(Poly2)
+    #print(compare_arrays(Poly1,Poly2))
+    SSM_arr = []
+   
+    for ref in range(len(Poly1)):
+        SSM_arr.append(compare_arrays(Poly1,Poly2))
+        Poly2 = permute_arr(Poly2)
+        print(Poly2)
+    
+    print(SSM_arr)
+    print("____________STOP_________________")
+
+
+def compare_arrays(arr1, arr2):
+    value = 0
+    for i in range(len(arr1)):
+        value = value + (arr1[i][1]-arr2[i][1])
+        print("arr1: " + str(arr1[i][0]) + "arr2: " + str(arr2[i][0]))
+        print("value" + str(value))
+    return value
+
+def permute_arr(arr):
+    len_arr = len(arr)-1
+    temp = arr[len_arr]
+    arr = np.delete(arr, len_arr, axis = 0)
+    arr = np.insert(arr,0, temp, axis = 0)
+    return arr
 
 def calc_shape_similarity_compare_polygons(options, rD):
     """
@@ -42,6 +94,7 @@ def calc_shape_similarity_compare_polygons(options, rD):
              if (len(polygon_array[frame])> len(polygon_array[frame+1])): #if in the actual frame more polygons than in the next frame, the length must be setted to the minor number
                   compare_polys = len(polygon_array[frame+1])
                   number_of_compared_polygons = number_of_compared_polygons + len(polygon_array[frame+1])
+
         for polygon in range(compare_polys): #iterate over all polygon, range at the minor polygons numb er
             if polygon_array[frame][polygon][3] == polygon_array[frame+1][polygon][3]: #check if class id is the same
                 temp = (polygon_array[frame][polygon][2]-polygon_array[frame+1][polygon][2]) #calculate Shape sim Mesaure
