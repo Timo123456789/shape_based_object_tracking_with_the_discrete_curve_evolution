@@ -84,23 +84,16 @@ def run_DCE(outline, class_id, options):
     @param class_ID = array, which the class_IDs from all detected objects on the image saved; only ints
     @param options: Dictionary with options set in main
     @return: array with simplified olygons
-    """     
-    print("outline" + str(len(outline)))
-    print("classid" + str(class_id))    
-    #plot_poly(outline)
+    """    
     for i in range(len(outline)): #iterate over all polygons in the outline array
-        print("class_id")
-        print(class_id)
         match class_id[i]: #case case to distinguish the different CLass IDs; 2 = Car, 3 = motorcycle, 7 = Truck
             case 2:
                 outline[i] = simplify_polygon_k_with_angle(outline[i],options["NoP_Cars"], options)
             case 3:
                 outline[i] = simplify_polygon_k_with_angle(outline[i],options["NoP_Motorcycle"], options)
             case 7:
-                print("truck")
                 outline[i] = simplify_polygon_k_with_angle(outline[i],options["NoP_Truck"], options)
             case _:
-                print("oo")
                 outline[i] = simplify_polygon_k_with_angle(outline[i],options["NoP_other_Object"], options) 
     return outline
 
@@ -132,8 +125,6 @@ def get_data(res):
         class_ids = np.array(res.boxes.cls.cpu(), dtype="int") #cast as int, to get integers
         # Get scores
         scores = np.array(res.boxes.conf.cpu(), dtype="float").round(2)
-    print(class_ids)
-    print("____________")
     return bboxes, class_ids, segmentation_contours_idx, scores, img_size
 
 
