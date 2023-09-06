@@ -48,7 +48,9 @@ def calc_minor_SSM(Poly1, Poly2):
     SSM_arr = []
    
     for ref in range(len(Poly1)):
-        SSM_arr.append(compare_arrays(Poly1,Poly2))
+        temp = compare_arrays(Poly1,Poly2)
+        print(temp[1])
+        SSM_arr.append(temp[0])
         Poly2 = permute_arr(Poly2)
         print(Poly2)
     
@@ -58,11 +60,13 @@ def calc_minor_SSM(Poly1, Poly2):
 
 def compare_arrays(arr1, arr2):
     value = 0
+    val_arr = []
     for i in range(len(arr1)):
         value = value + (arr1[i][1]-arr2[i][1])
+        val_arr.append([(str(arr1[i][0])+ "-" + str(arr2[i][0])),arr1[i][1]-arr2[i][1]])
         print("arr1: " + str(arr1[i][0]) + "arr2: " + str(arr2[i][0]))
         print("value" + str(value))
-    return value
+    return [value, val_arr]
 
 def permute_arr(arr):
     len_arr = len(arr)-1
