@@ -16,8 +16,7 @@ EF Version ist die Abkürzung für \glqq Every Frame\grqq{} Version (1. YOLO Var
 		\item DCE.py (siehe \ref{py:DCE})
 		\item shape\_sim\_meas.py (siehe \ref{py:Shape_Sim_Meas})
 	\end{itemize}
-	Dazu wird die Erweiterung CV2 (siehe \ref{subsec:Computer_Vision_2}) eingelesen, um das Video aus einzelnen Frames zu generieren.
-	Außerdem wird die externe Library \textit{timer} importiert, damit innerhalb des Programmablaufes Timestamps (Zeitstempel) gesetzt werden können, um einzelne Schritte des Programmes zu messen. Diese Library wurde in der Version 0.2.2 am 30.08.2021 von Lucien Shui veröffentlicht \citep{Shui2021}.  \\
+	Dazu wird die Erweiterung CV2 (siehe \ref{subsec:Computer_Vision_2}) eingelesen, um das Video aus einzelnen Frames zu generieren.\\
 	Die Main Methode besteht aus einer Dictionary Variable \lstinline|options|, in der alle Einstellungen für die Verarbeitung des Videos gesetzt werden. Hier werden auch die einzelnen Zeitstempel gespeichert. Ein Ausschnitt ist in Listing \ref{cd:part_of_options_var} zu sehen. \\
 	In diesem wird die Lese- und Schreibpfade für das Quell- und Ergebnisvideo festgelegt, sowie der Pfad für die Textdatei, die die Timestamps enthält. In den nächsten Zeilen kann festgelegt werden, auf bis viele Punkte die von YOLO detektierten Objekte reduziert werden. Diese werden in 4 unterschiedliche Objekttypen unterteilt: Auto (Car), Motorrad (Motorcycle), LKW (Truck) und andere Objekte (other\_Object). \\
 	Des Weiteren wird das genutzte YOLO Modell definiert und festgelegt, ob nur die vereinfachten Umrisse der erkannten Objekte ausgegeben werden. Hier kann die Ausgabe der Labels gesteuert werden, diese beinhalten die Information, was für eine Klasse, bzw. Objekt, detektiert wurde und wie hoch der Confidence Score ist. \\

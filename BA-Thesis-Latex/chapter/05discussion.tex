@@ -1,7 +1,7 @@
 %!TEX root = ../thesis.tex
 \chapter{Diskussion}
 \label{ch:Diskussion}
-{
+{ \todo{überarbeiten alles}
 	Die beiden verschiedenen YOLO Implementierungen in der EF und RV Version sind sehr ähnlich im Ergebnis und Aufbau. Es zeigt sich jedoch in der Evaluation , dass die EF Variante länger für die Berechnung benötigt und damit ineffektiver ist (siehe Kap. \ref{sec:Ergebnisse}). Dies liegt daran, dass die EF Variante das Video erst in einzelne Frames zerlegt und erst dann YOLO anwendet. Dadurch ist die Prozessierung mit YOLO ineffektiver aber möglicherweise ressourcenschonender im RAM Verbrauch. \todo{das muss überprüft werden; muss mal in die längeren Evaluationsvideos gucken, wie da die Statistik ist} Das Zusammensetzen der einzelnen analysierten Frames zu einem Video verlängert die Prozessierungszeit zusätzlich, dies geschieht jedoch auch in der RV Version. \\
 	Die RV Version besitzt den Vorteil, dass durch die direkte Verarbeitung des Videos mit dem sehr effiziente geschriebenen YOLO Algorithmus alle Prozessorkerne mitsamt der Grafikkarte vollständig ausgelastet werden können. Zusätzlich steigt jedoch der RAM Verbrauch stark an, da YOLO dort jedes Frame speichert und analysiert. Dies sorgt für eine Zeitersparnis beim Programm. \\ 
 	Die DCE Implementierung ist relativ ineffizient, da der K Wert für jeden Punkt im Polygon neu berechnet werden muss, nachdem ein Punkt entfernt wurde. Dies könnte optimiert werden, indem mehrere Punkte eines Polygons gleichzeitig während einer DCE Iteration entfernt werden. Weitere Möglichkeiten wären effizientere Schleifenstrukturen oder Multithreading bei der Berechnung des K Wertes. \\

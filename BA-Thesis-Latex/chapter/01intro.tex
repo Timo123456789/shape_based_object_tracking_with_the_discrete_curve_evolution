@@ -9,9 +9,14 @@ Durch die Verfügbarkeit von Open-Source Software, die neuronale Lernverfahren v
 In der Arbeitsgruppe \glqq Theoretische und kognitive Grundlagen der Geoinformatik \grqq{} am Institut für Geoinformatik der Universität Münster ist es geplant mit einem hybriden Ansatz Anwendungsmöglichkeiten solcher Systeme zu verbessern. Dabei soll eine geometrische Analyse Ergebnisse der neuronalen Erkennung verifizieren, um das Risiko von Fehldetektionen zu minimieren. Unsere Hypothese vermutet, dass der Ansatz der Discrete Curve Evolution (DCE) von \citet{Latecki1999a}  eine wichtige Stufe sein kann. Diese Vermutung basiert auf Vorarbeiten von \citet*{Dorr2015} an der Universität Maine.
 }
 
-%\blindtext
 
-\section{Zielsetzung}{ 
+
+\section{Zielsetzung und Forschungskontext}
+{%Forschungskontext Reintext
+Der Forschungskontext besteht als Basis aus dem Paper von \citeauthor{Barkowsky2000}. Hier wird die DCE zur Vereinfachung von geometrischen Strukturen auf Karten verwendet \citep{Barkowsky2000}. \\
+Weitere Anwendungsfälle sind die Vereinfachung von Skeletten \citep{Latecki2007}, die automatische Kartierung von Entwässerungsnetzen anhand der Geländetopografie mit der Unterstützung der DCE zur Erkennung relevanter Punkte \citep{ZHENG201517} oder auch der medizinische Bereich. Im letzteren kann die DCE bei der Analyse von MRI (Magnetic Resonance Images) helfen \citep{Supot2007}. Des Weiteren kann die DCE bei Gesten- und Handdetektion mit einem Kinect Sensor eingesetzt werden \citep{Lai2016}. Ein ähnlicher Anwendungsfall, der sich damit beschäftigt nur die relevante Frames aus einem Video zu extrahieren, um die FPS zu minimieren, wurde von \citeauthor{Latecki2000a} bereits erprobt \citep{Latecki2000a}. \\
+
+
 Ziel dieser Arbeit ist es ein prototypisches System zu entwickeln, welches Objekte in Videomaterial detektiert und deren Umrisse vereinfacht. Diese Objektumrisse können dann in ihrer Ähnlichkeit verglichen werden, um einzuschätzen, ob die Objekte trackbar sind. Der Ablauf des Programmes ist folgendermaßen geplant. \\ 
 Zur Evaluation wird Videomaterial von Autobahnen aufgenommen, welches im Rahmen der Bachelorarbeit analysiert wird. Ein beispielhafter Verlauf anhand eines einzelnen Bildes ist in Abb. \ref{Bsp_Dorr} zu sehen. \\
 Die folgenden Schritte werden für jeden Frame im Video ausgeführt. 
@@ -26,7 +31,20 @@ Die Ergebnisevaluation ist durch eine Auswertung des Formähnlichkeitsmaßes mö
 	   \caption[Beispielablauf der Segmentierung und DCE]{Beispielablauf einer Vereinfachung mit der DCE \citep{Dorr2017}.}
 	   \label{Bsp_Dorr}
 \end{figure}
-\section{Aufbau der Arbeit}
+
+
+% \todo{mussn noch ausformuliert werden}
+% Forschungskontext:
+% \begin{itemize}
+% 	\item Vereinfachung von Karten (Geometrische Strukturen) \citep{Barkowsky2000}
+% 	\item Skeletvereinfachungsmethode \citep{Latecki2007}
+% 	\item Kombinierung DCE und Skeleton Construction Technik \citep{ZHENG201517}
+% 	\item Medizinischer Kontext MRI \citep{Supot2007}
+% 	\item DCE auf digitale Bilder (Videos ) \citep{Latecki2000}
+% 	\item Gesten (Fingertips) und Handdetection basierend auf DCE mit Kinect Sensor \citep{Lai2016}
+% 	\item DCE Grundlagen \citep{Latecki1998}
+% \end{itemize}
+\section{Aufbau der Arbeit} \todo{muss überarbeitet werden}
 {Diese Bachelorarbeit ist in 6 Kapitel aufgeteilt. \\ 
 Der Theoretische Hintergrund wird zuerst beschrieben. Dieser enthält eine Einführung in den YOLO-Algorithmus mit einer kurzen Erläuterung der Grundlagen im Maschinellen Lernen, sowie eine Erklärung der Theorie hinter der Discrete Curve Evolution. Außerdem wird die genutzte Programmiersprache definiert und die externen Bibliotheken beschrieben. Des Weiteren werden weitere vom Programm genutzte Algorithmen erklärt und ein kurzer Meta-Ablauf des Programmes skizziert. \\
 Die Implementierung bildet mit der Evaluation den Hauptteil der Arbeit. Ersteres beschreibt den Programmablauf an ausgewählten Codebeispielen und zeigt Änderungen im Rahmen der Implementierung zum Theoretischen Hintergrund auf. Die Evaluation ordnet die Ergebnisse verschiedener Testdurchläufe ein. Die Diskussion benennt Gründe für die gewonnenen Ergebnisse der Evaluation. \\

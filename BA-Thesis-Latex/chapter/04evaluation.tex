@@ -26,7 +26,7 @@
 	% \end{itemize}
 	Es werden 2 Videodaten genommen, die sich jeweils in der Länge unterscheiden. Beide Testdatensätze basieren auf dem gleichen Video. Die Länge unterscheidet sich, da das erste Video 1 Sekunde, bzw. 30 Frames, lang ist und das zweite Video 10 Sekunden dauert, bzw. 300 Frames besitzt. Hier überschneidet sich die erste Sekunde. \\
 	Es werden 3 YOLO Modelle benutzt: YOLO8n, YOLOv8n (small), YOLOv8m (medium) und YOLOv8x (extra large). Diese sind mit verschieden großen Datensätzen trainiert worden, für Details siehe Kapitel \ref{subsec:YOLOv8_theoretic}.
-	Die Einstellungen des Programms für die Grenze der Punktsubstitution der DCE sind, dass Autos auf 10 Punkte, Motorräder auf 5 und Lkw auf 8 Punkte reduziert werden.
+	Die Einstellungen des Programms für die Grenze der Punktsubstitution der DCE sind, dass Autos auf 8 Punkte, Motorräder auf 5 und Lkw auf 11 Punkte reduziert werden.
 	% \begin{itemize}
 	% 	\item Car: 10
 	% 	\item Motorcycle: 5
@@ -34,6 +34,7 @@
 	% 	\item other Object: 20
 	% \end{itemize}
 	Objekte, welche nicht den drei Hauptklassen entsprechen werden pauschal auf 20 Punkte vereinfacht. Das Video wird  schwarz gerendert, sodass sich nur weiße Polygone im Video bewegen. Außerdem werden für jedes Polygon die detektierte Klasse und der Confidence Score in jedem Frame angezeigt.
+	Der Code wird auf einem System, welches in Kap. \ref{sec:testumgebung} beschrieben wurde, ausgeführt.
 
 }
 \section{Ergebnisse\label{sec:Ergebnisse}}  

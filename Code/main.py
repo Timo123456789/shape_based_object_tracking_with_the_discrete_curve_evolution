@@ -25,7 +25,7 @@ def main():
             "path_write_video": r'temp', #temp variable for storing path for write video
             "path_write_timestamps": r'temp', #temp variable for storing path for statistics txt
 
-        	"NoP_Cars": 8, #Number of final Points for Cars #bei 6 recht hohe Sprünge, 8 passt gut
+        	"NoP_Cars": 8, #Number of final Points for Cars #bei 6 recht hohe Spruenge, 8 passt gut
         	"NoP_Motorcycle": 5, #Number of final Points for Motorcycles
         	"NoP_Truck": 11, #Number of final Points for Trucks #11 P ist vllt ideal
         	"NoP_other_Object": 20, #Number of final Points for other Objects
