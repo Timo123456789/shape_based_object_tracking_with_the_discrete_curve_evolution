@@ -1,24 +1,28 @@
 import numpy as np
 import time
+import datetime
 
 def calc_shape_similarity(options):
     """
     main method for calcualte SSM
     runs all other methods
+    SSM_old is a comparing method for Shape Similarity, where inner angle radiant sums would be compared
 
     @param options: Dictionary with options set in main
     """
     options["timestamp_prog_end"] = time.time()
     results_dictionary = { }
     calc_timestamps(options, results_dictionary) #set timestamps
-    #calc_shape_similarity_compare_polygons(options, results_dictionary) # calc SSM by compare every polygon to the next exact same polygon in the next frame
-    #calc_shape_sim_compare_classes_in_one_frame(options, results_dictionary) #calc SSM by compare Polygon to the polygons with the same class in one frame
+
+    #calc_shape_similarity_compare_polygons(options, results_dictionary) # calc SSM_old by compare every polygon to the next exact same polygon in the next frame
+    #calc_shape_sim_compare_classes_in_one_frame(options, results_dictionary) #calc SSM_old by compare Polygon to the polygons with the same class in one frame
+    
     calc_SSM_illustration(options, results_dictionary)
     write_settings(results_dictionary, options) #write settings to result dictionary
     write_results_file(results_dictionary, options["path_write_timestamps"]) #write results dictionary
 
 
-def calc_SSM_illustration(options, results_dictionary):
+def calc_SSM_illustration(options, rD):
     polygon_array = options["list_of_all_polygons"]
     fps = len(polygon_array)
     temp = 0
@@ -29,40 +33,172 @@ def calc_SSM_illustration(options, results_dictionary):
     val_arr_trucks = []
     val_arr_oO = []
 
+    number_of_compared_polygons = 0
+    compare_polys = 0
+
+    print(fps)
     
-    for frame in range(len(polygon_array)-1):
+    for frame in range(fps-1):
         #print(polygon_array[frame][2])
-        for polygon in range(len(polygon_array)):
-            print(polygon_array[frame][polygon])
-            print(polygon_array[frame][polygon][5])
-            
+
+        if (len(polygon_array[frame])<= len(polygon_array[frame+1])): #if in the next frame more polygons than in the actual frame, the length must be setted to the minor number
+                compare_polys = len(polygon_array[frame])
+                number_of_compared_polygons = number_of_compared_polygons + len(polygon_array[frame])
+        else: 
+            if (len(polygon_array[frame])> len(polygon_array[frame+1])): #if in the actual frame more polygons than in the next frame, the length must be setted to the minor number
+                compare_polys = len(polygon_array[frame+1])
+                number_of_compared_polygons = number_of_compared_polygons + len(polygon_array[frame+1])
+
+
+        for polygon in range(compare_polys):
+
             if polygon_array[frame][polygon][3] == polygon_array[frame+1][polygon][3]:
-                res = calc_minor_SSM(polygon_array[frame][polygon][5], polygon_array[frame+1][polygon][5])
+                match polygon_array[frame][polygon][3]:
+                    case 2:
+                        temp = calc_minor_SSM(polygon_array[frame][polygon][5], polygon_array[frame+1][polygon][5])
+                        val_arr_cars.append(temp[0])
+                    case 3:
+                        temp = calc_minor_SSM(polygon_array[frame][polygon][5], polygon_array[frame+1][polygon][5])
+                        val_arr_motorcycle.append(temp[0])
+                    case 7:
+                        temp = calc_minor_SSM(polygon_array[frame][polygon][5], polygon_array[frame+1][polygon][5])
+                        val_arr_trucks.append(temp[0])
+                    case _:
+                        temp = calc_minor_SSM(polygon_array[frame][polygon][5], polygon_array[frame+1][polygon][5])
+                        val_arr_oO.append([temp[0], polygon_array[frame][polygon][3]])
+
+    print(val_arr_oO)
+    res = [[val_arr_cars,2],[val_arr_motorcycle,3],[val_arr_trucks,7],[val_arr_oO]]
+    print(val_arr_oO)
+
+    detected_cars = len(val_arr_cars)
+    detected_motorcycle = len(val_arr_motorcycle)
+    detected_trucks = len(val_arr_trucks)
+
+    print(val_arr_oO)
+    sorted_array_OO = sort_oO_arr_new(val_arr_oO) #sort oO Array and return sorted SSM sorted at class id
+
+    write_SSM_new(val_arr_cars,2,rD,fps, detected_cars) #write results to Dictionary
+    write_SSM_new(val_arr_motorcycle,3,rD,fps, detected_motorcycle) #write results to Dictionary
+    write_SSM_new(val_arr_trucks,7,rD,fps, detected_trucks) #write results to Dictionary
+
+    for e in range(len(sorted_array_OO)): #iterate over all oO classes and write for every class the SSM to results dictionary
+        write_SSM_new([sorted_array_OO[e][2]], sorted_array_OO[e][0],rD,fps,sorted_array_OO[e][1])
+    rD["el17"] = "emptyline"
+    rD["el18"] = "emptyline"
+    return 0   
+
+
+def write_SSM_new(arr, classid,rD,fps, detected):
+    """
+    write calculated results at the results dictionary
+
+    @param arr: array with results
+    @param classid: int, which class id would be written
+    @param rD: results dictionary, where all results would be saved
+    @param fps: whole number of frames in the source video
+    @param detected: number of detected objects
+    """
+    if sum(arr) == 0 or detected == 0: #if detected or sum(arr) is 0; the following calcucated measures are wrong; would be printet as string as note
+        string_not_right = " (Result is WRONG, because SSM is 0) "
+    else:
+        string_not_right = " "
+
+    string = "Shape Similarity Measure (per FPS and Class) " + str(get_text_string(classid)) + " " + string_not_right #set text string for SSM divided by fps
+    string_2 = "Shape Similarity Measure (per detected " + str(get_text_string(classid)) + ")" + string_not_right  #set text string for SSM divided by detections
+    string_3 = "detected " + str(get_text_string(classid)) + string_not_right 
+
+    if detected != 0: #if clause if detection = 0; dividing by 0 is not allowed
+        res_per_frame = round((sum(arr)/fps),4) #calculate SSM divided by fps round on 4 places
+        res_per_obj = round((sum(arr)/detected),4) #calculate SSM divided by  detected objects round on 4 places
+        string_empty_1 = str(np.random.randint(10000)) #set string for empty line
+        string_empty_2 = str(np.random.randint(10000))
+
+        rD[string] = str(res_per_frame) #write calculated value at results dictionary,
+        rD[string_2] = str(res_per_obj)  #write calculated value at results dictionary, 
+        rD[string_3] = str(detected) + " per frame:"+ str(round(detected/fps,2)) 
+        rD[string_empty_1] = "emptyline"
+        rD[string_empty_2] = "emptyline"
+
+
+
+
+
+def sort_oO_arr_new(val_arr_OO):
+    """
+    sorted a val array from other Object detections to different buckets, to calculate one SSM for every class
+
+    @param val_arr_OO: all SSM for all oO Detections in all frames and over all oO classes
+    @return buckets: 2 dim Array
+    """
+    print(val_arr_OO)
+    buckets = []
+    for i in range(len(val_arr_OO)): #iterate buckets, for every class which is in val_arr_OO
+        if classbucket_exists(buckets, val_arr_OO[i][1]):
+            buckets.append([val_arr_OO[i][1]])
+    print(buckets)
+
+    for i in range(len(val_arr_OO)): #fill buckets with all sum uped detected Objects from val_arr_oO array at the expected bucket
+        for b in range(len(buckets)):
+            if buckets[b][0] == val_arr_OO[i][1]:
+                buckets[b].append(val_arr_OO[i][0])
+    print(buckets)
+    for i in range(len(buckets)): #iterate over buckets; and sum up all different detection numbers to one value
+        temp = buckets[i][0]
+        temp_sum = sum(buckets[i][1:len(buckets[i])])
+        temp_range = len(buckets[i])-1
+        buckets[i] = [temp, temp_range, temp_sum]
+        
+    print(buckets)
+
+    # for i in range(len(val_arr_OO)): #fill buckets with all sum uped SSMs from val_arr_oO array to the expected bucket
+    #     for c in range(len(val_arr_OO[i])):
+    #         for b in range(len(buckets)):
+    #             if buckets[b][0] == val_arr_OO[i][c][0]:
+    #                 buckets[b].append(val_arr_OO[i][c][2])
+
+    # for i in range(len(buckets)): #iterate over buckets and sum up all SSMs for every class
+    #     temp = buckets[i][0]
+    #     number_obj = buckets[i][1]
+    #     temp_sum = sum(buckets[i][2:len(buckets[i])])
+    #     buckets[i] = [temp, number_obj]
+    #     buckets[i].append(temp_sum)
+    return buckets #return buckets, example [[2,10,78.25]]; [Class, Detections, SSM]
+
                 
 
 def calc_minor_SSM(Poly1, Poly2):
-    print(Poly1)
-    print("___________________________")
-    print(Poly2)
-    #print(compare_arrays(Poly1,Poly2))
-    SSM_arr = []
-   
+    SSM_arr = []  
     for ref in range(len(Poly1)):
         temp = compare_arrays(Poly1,Poly2)
-        print(temp[1])
         SSM_arr.append(temp[0])
         Poly2 = permute_arr(Poly2)
-        print(Poly2)
-    
-    print(SSM_arr)
-    print("____________STOP_________________")
+  
+    min = np.min(SSM_arr)
+    ind = np.where(SSM_arr == min)
 
+    if ind[0].size == 0:
+        print("Error; minor SSM indic is not found (shape_sim_meas.py, calc minor SSM Method)")
+        quit()
+        ind = -1
+    else:
+        ind = ind[0][0]
+    return [min, ind]
+    
 
 def compare_arrays(arr1, arr2):
     value = 0
     val_arr = []
-    for i in range(len(arr1)):
-        value = value + (arr1[i][1]-arr2[i][1])
+    arr_range = 0
+    if len(arr1) != len(arr2):
+        if len(arr1) <= len(arr2):
+            arr_range = len(arr1)
+        elif len(arr2)<= len(arr1):
+            arr_range = len(arr2)
+
+    for i in range(arr_range):
+        print("laenge arr 1: " + str(len(arr1)) + "laenge arr 2: " + str(len(arr2)))
+        value = value + (np.abs(arr1[i][1]-arr2[i][1]))
         val_arr.append([(str(arr1[i][0])+ "-" + str(arr2[i][0])),arr1[i][1]-arr2[i][1]])
         print("arr1: " + str(arr1[i][0]) + "arr2: " + str(arr2[i][0]))
         print("value" + str(value))
@@ -74,6 +210,8 @@ def permute_arr(arr):
     arr = np.delete(arr, len_arr, axis = 0)
     arr = np.insert(arr,0, temp, axis = 0)
     return arr
+
+
 
 def calc_shape_similarity_compare_polygons(options, rD):
     """
@@ -159,7 +297,9 @@ def calc_shape_sim_compare_classes_in_one_frame(options, rD):
         detected_trucks.append(len(res[2][0]))
       
         val_arr_oO.append(calc_SSM_oO(res[3][0], polygon_array[frame])) #another structure for array for other object detections
-
+    print("cccccccccccccccccccccccccccccccccccccccccccccc__________________________val_arr_oO")
+    print(val_arr_oO)
+    print("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee____________________________________val_arr_oO")
     detected_cars = sum(detected_cars) #sum up SSM Value Array to one value
     detected_motorcycle = sum(detected_motorcycle)
     detected_trucks = sum(detected_trucks)
@@ -362,6 +502,7 @@ def write_settings(rD, options):
     rD["Save Timestamps"] = options["save_timestamps"]
     rD["Black Video"] = options["black_video"]
     rD["write_labels"] = options["write_labels"]
+    rD["el17"] = "emptyline"
 
 
 

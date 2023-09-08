@@ -17,7 +17,7 @@ def main():
     """
     options = {
             "path_directory": r'Code\vid_examples\evaluation',  #main path for storing files
-            "source_video": r'Code\vid_examples\evaluation\Autobahn5F.mp4', #name for source video
+            "source_video": r'Code\vid_examples\evaluation\Autobahn10s.mp4', #name for source video
             "write_video": r'\temp.mp4', #storing name for result video
             "results": r'\temp_results.txt', # storing name for statistics
 
@@ -25,12 +25,12 @@ def main():
             "path_write_video": r'temp', #temp variable for storing path for write video
             "path_write_timestamps": r'temp', #temp variable for storing path for statistics txt
 
-        	"NoP_Cars": 8, #Number of final Points for Cars #bei 6 recht hohe Spruenge, 8 passt gut
+        	"NoP_Cars": 10, #Number of final Points for Cars #bei 6 recht hohe Spruenge, 8 passt gut
         	"NoP_Motorcycle": 5, #Number of final Points for Motorcycles
         	"NoP_Truck": 11, #Number of final Points for Trucks #11 P ist vllt ideal
         	"NoP_other_Object": 20, #Number of final Points for other Objects
 
-            "YOLO_model": 'yolov8x-seg.pt',  #set YOLO Model
+            "YOLO_model": 'yolov8n-seg.pt',  #set YOLO Model
             "black_video": True, #Bool that turns the whole video black, so that only white sillhouettes are shown in the video
             "write_labels": True, #Bool that ensures that a label with scores is written to the video for each polygon
             "yolo_every_frame": False, #Boolean that enables an alternative YOLO application method
@@ -301,9 +301,9 @@ def set_options_on_default():
             "path_write_video": r'temp', #temp variable for storing path for write video
             "path_write_timestamps": r'temp', #temp variable for storing path for statistics txt
 
-        	"NoP_Cars": 10, #Number of final Points for Cars
+        	"NoP_Cars": 8, #Number of final Points for Cars
         	"NoP_Motorcycle": 5, #Number of final Points for Motorcycles
-        	"NoP_Truck": 8, #Number of final Points for Trucks
+        	"NoP_Truck": 11, #Number of final Points for Trucks
         	"NoP_other_Object": 20, #Number of final Points for other Objects
 
             "YOLO_model": 'yolov8n-seg.pt',  #set YOLO Model
