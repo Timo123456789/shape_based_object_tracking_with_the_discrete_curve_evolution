@@ -1,6 +1,7 @@
 import numpy as np
 import time
 import datetime
+from YOLO.yolo_result_version import *
 
 def calc_shape_similarity(options):
     """
@@ -12,21 +13,35 @@ def calc_shape_similarity(options):
     """
     options["timestamp_prog_end"] = time.time()
     results_dictionary = { }
-    calc_timestamps(options, results_dictionary) #set timestamps
 
+    create_first_lines(options, results_dictionary)
+   
     #calc_shape_similarity_compare_polygons(options, results_dictionary) # calc SSM_old by compare every polygon to the next exact same polygon in the next frame
     #calc_shape_sim_compare_classes_in_one_frame(options, results_dictionary) #calc SSM_old by compare Polygon to the polygons with the same class in one frame
     
     calc_SSM_illustration(options, results_dictionary)
+    calc_timestamps(options, results_dictionary) #set timestamps
     write_settings(results_dictionary, options) #write settings to result dictionary
     write_results_file(results_dictionary, options["path_write_timestamps"]) #write results dictionary
+
+def create_first_lines(options, rD):
+    string_empty_1 = str(np.random.randint(10000)) #set string for empty line
+    string_empty_2 = str(np.random.randint(10000))
+
+    current_dateTime = datetime.datetime.now()
+    date = str(current_dateTime.day)+"."+str(current_dateTime.month)+"."+str(current_dateTime.year)
+    time = str(current_dateTime.hour)+":"+str(current_dateTime.minute) + ":" + str(current_dateTime.second)
+    rD["Processed on"] = " "+  date + " at " + time
+    rD[string_empty_1] = "emptyline"
+    rD[string_empty_2] = "emptyline"
+    
 
 
 def calc_SSM_illustration(options, rD):
     polygon_array = options["list_of_all_polygons"]
     fps = len(polygon_array)
     temp = 0
-    iterator = 0
+
 
     val_arr_cars = []
     val_arr_motorcycle = []
@@ -36,7 +51,7 @@ def calc_SSM_illustration(options, rD):
     number_of_compared_polygons = 0
     compare_polys = 0
 
-    print(fps)
+
     
     for frame in range(fps-1):
         #print(polygon_array[frame][2])
@@ -67,15 +82,13 @@ def calc_SSM_illustration(options, rD):
                         temp = calc_minor_SSM(polygon_array[frame][polygon][5], polygon_array[frame+1][polygon][5])
                         val_arr_oO.append([temp[0], polygon_array[frame][polygon][3]])
 
-    print(val_arr_oO)
-    res = [[val_arr_cars,2],[val_arr_motorcycle,3],[val_arr_trucks,7],[val_arr_oO]]
-    print(val_arr_oO)
+   
+
 
     detected_cars = len(val_arr_cars)
     detected_motorcycle = len(val_arr_motorcycle)
     detected_trucks = len(val_arr_trucks)
 
-    print(val_arr_oO)
     sorted_array_OO = sort_oO_arr_new(val_arr_oO) #sort oO Array and return sorted SSM sorted at class id
 
     write_SSM_new(val_arr_cars,2,rD,fps, detected_cars) #write results to Dictionary
@@ -104,17 +117,20 @@ def write_SSM_new(arr, classid,rD,fps, detected):
     else:
         string_not_right = " "
 
-    string = "Shape Similarity Measure (per FPS and Class) " + str(get_text_string(classid)) + " " + string_not_right #set text string for SSM divided by fps
+    string_1 = "Shape Similarity Measure " + str(get_text_string(classid)) + " " + string_not_right
+    string_4 = "Shape Similarity Measure (per FPS and Class) " + str(get_text_string(classid)) + " " + string_not_right #set text string for SSM divided by fps
     string_2 = "Shape Similarity Measure (per detected " + str(get_text_string(classid)) + ")" + string_not_right  #set text string for SSM divided by detections
     string_3 = "detected " + str(get_text_string(classid)) + string_not_right 
 
     if detected != 0: #if clause if detection = 0; dividing by 0 is not allowed
+        res_raw = round(sum(arr),4)
         res_per_frame = round((sum(arr)/fps),4) #calculate SSM divided by fps round on 4 places
         res_per_obj = round((sum(arr)/detected),4) #calculate SSM divided by  detected objects round on 4 places
         string_empty_1 = str(np.random.randint(10000)) #set string for empty line
         string_empty_2 = str(np.random.randint(10000))
 
-        rD[string] = str(res_per_frame) #write calculated value at results dictionary,
+        rD[string_1] = str(res_raw)
+        rD[string_4] = str(res_per_frame) #write calculated value at results dictionary,
         rD[string_2] = str(res_per_obj)  #write calculated value at results dictionary, 
         rD[string_3] = str(detected) + " per frame:"+ str(round(detected/fps,2)) 
         rD[string_empty_1] = "emptyline"
@@ -131,38 +147,22 @@ def sort_oO_arr_new(val_arr_OO):
     @param val_arr_OO: all SSM for all oO Detections in all frames and over all oO classes
     @return buckets: 2 dim Array
     """
-    print(val_arr_OO)
     buckets = []
     for i in range(len(val_arr_OO)): #iterate buckets, for every class which is in val_arr_OO
         if classbucket_exists(buckets, val_arr_OO[i][1]):
             buckets.append([val_arr_OO[i][1]])
-    print(buckets)
 
     for i in range(len(val_arr_OO)): #fill buckets with all sum uped detected Objects from val_arr_oO array at the expected bucket
         for b in range(len(buckets)):
             if buckets[b][0] == val_arr_OO[i][1]:
                 buckets[b].append(val_arr_OO[i][0])
-    print(buckets)
+    
     for i in range(len(buckets)): #iterate over buckets; and sum up all different detection numbers to one value
         temp = buckets[i][0]
         temp_sum = sum(buckets[i][1:len(buckets[i])])
         temp_range = len(buckets[i])-1
         buckets[i] = [temp, temp_range, temp_sum]
         
-    print(buckets)
-
-    # for i in range(len(val_arr_OO)): #fill buckets with all sum uped SSMs from val_arr_oO array to the expected bucket
-    #     for c in range(len(val_arr_OO[i])):
-    #         for b in range(len(buckets)):
-    #             if buckets[b][0] == val_arr_OO[i][c][0]:
-    #                 buckets[b].append(val_arr_OO[i][c][2])
-
-    # for i in range(len(buckets)): #iterate over buckets and sum up all SSMs for every class
-    #     temp = buckets[i][0]
-    #     number_obj = buckets[i][1]
-    #     temp_sum = sum(buckets[i][2:len(buckets[i])])
-    #     buckets[i] = [temp, number_obj]
-    #     buckets[i].append(temp_sum)
     return buckets #return buckets, example [[2,10,78.25]]; [Class, Detections, SSM]
 
                 
@@ -197,11 +197,9 @@ def compare_arrays(arr1, arr2):
             arr_range = len(arr2)
 
     for i in range(arr_range):
-        print("laenge arr 1: " + str(len(arr1)) + "laenge arr 2: " + str(len(arr2)))
         value = value + (np.abs(arr1[i][1]-arr2[i][1]))
         val_arr.append([(str(arr1[i][0])+ "-" + str(arr2[i][0])),arr1[i][1]-arr2[i][1]])
-        print("arr1: " + str(arr1[i][0]) + "arr2: " + str(arr2[i][0]))
-        print("value" + str(value))
+
     return [value, val_arr]
 
 def permute_arr(arr):
@@ -297,9 +295,7 @@ def calc_shape_sim_compare_classes_in_one_frame(options, rD):
         detected_trucks.append(len(res[2][0]))
       
         val_arr_oO.append(calc_SSM_oO(res[3][0], polygon_array[frame])) #another structure for array for other object detections
-    print("cccccccccccccccccccccccccccccccccccccccccccccc__________________________val_arr_oO")
-    print(val_arr_oO)
-    print("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee____________________________________val_arr_oO")
+    
     detected_cars = sum(detected_cars) #sum up SSM Value Array to one value
     detected_motorcycle = sum(detected_motorcycle)
     detected_trucks = sum(detected_trucks)
@@ -486,12 +482,15 @@ def write_settings(rD, options):
     @param options: Dictionary with options set in main
     @param rD: Dictionary with all statistics data by the result video
     """
-    current_time = datetime.datetime.now()
+    fps = int(get_fps(options["path_source_video"]))
+    vid_in_s = len(options["list_of_all_polygons"])
+    string_6 = str(vid_in_s/fps) + " / " + str(fps) + " / " + str(vid_in_s)
     
     rD["Path Directory"] = options["path_directory"]
     rD["Path Source Video"] = options["path_source_video"]
     rD["Path Write Video"] = options["path_write_video"]
     rD["Path Timestamps"] = options["path_write_timestamps"]
+    rD["Videolength (in Sec.) / Frames per Second / Total Number of Frames"] = string_6
     rD["el14"] = "emptyline"
     rD["DCE Number of Points for Cars"] = options["NoP_Cars"]
     rD["DCE Number of Points for Motorcylce"] = options["NoP_Motorcycle"]
@@ -505,7 +504,7 @@ def write_settings(rD, options):
     rD["Black Video"] = options["black_video"]
     rD["write_labels"] = options["write_labels"]
     rD["el17"] = "emptyline"
-    rD["Processed on"] = datetime.date + " on " + datetime.datetime.now()
+ 
 
 
 
