@@ -486,6 +486,8 @@ def write_settings(rD, options):
     @param options: Dictionary with options set in main
     @param rD: Dictionary with all statistics data by the result video
     """
+    current_time = datetime.datetime.now()
+    
     rD["Path Directory"] = options["path_directory"]
     rD["Path Source Video"] = options["path_source_video"]
     rD["Path Write Video"] = options["path_write_video"]
@@ -503,6 +505,7 @@ def write_settings(rD, options):
     rD["Black Video"] = options["black_video"]
     rD["write_labels"] = options["write_labels"]
     rD["el17"] = "emptyline"
+    rD["Processed on"] = datetime.date + " on " + datetime.datetime.now()
 
 
 
