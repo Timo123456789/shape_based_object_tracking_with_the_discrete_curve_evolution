@@ -20,8 +20,6 @@ def get_outline_for_every_object(res, options):
     NoP = get_number_of_points_result(res)  #get total number of points for all objects in the result file (the video)
     pbar = tqdm(desc= "DCE Progress", total = NoP) #init progress bar
 
-  
-
     for i in range(fps): #iterate over all video frames
         if (res[i] is not None):    #if clause if yolo detected no object at the frame
             data_arr = get_data(res[i]) #returns the data, that YOLO detectet at the frame [0] = bbox, [1] = class ids, [2] = segmentation contours; [3] = scores for every object, [4] = image size
@@ -45,14 +43,12 @@ def get_outline_for_every_object(res, options):
 
             if(options["black_video"] == True): #If clause to set the result video to black
                 res_cop[i] = cv2.rectangle(res_cop[i], (0,0),(img_size[0],img_size[1]), (0, 0, 0), -1)
-                res_cop[i] = cv2.putText(res_cop[i], "RV Version", (img_size[0]-200, img_size[1] - 1050), cv2.FONT_HERSHEY_PLAIN, 2, (255, 255, 255), 2)
+                res_cop[i] = cv2.putText(res_cop[i], "RV Version", (img_size[0]-200, img_size[1] - 1050), cv2.FONT_HERSHEY_PLAIN, 2, (255, 255, 255), 2) #write the used version at the right top of the video
             else:
-                res_cop[i] = cv2.putText(res_cop[i], "RV Version", (img_size[0]-200, img_size[1] - 1050), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 0), 2)
-
-           
+                res_cop[i] = cv2.putText(res_cop[i], "RV Version", (img_size[0]-200, img_size[1] - 1050), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 0), 2) #write the used version at the right top of the video
 
             for b in range(len(bbox)): #iterate over every polygon to write a individual label for all polygons on the frame
-                if options["black_bboxes"] == True or options["black_video"] == True:
+                if options["black_bboxes"] == True or options["black_video"] == True: #if clause to set the bboxes to black
                      res_cop[i] = cv2.rectangle(res_cop[i], (bbox[b][0],bbox[b][1]),(bbox[b][2],bbox[b][3]), (0, 0, 0), -1)
 
                 res_cop[i] = cv2.rectangle(res_cop[i], (bbox[b][0],bbox[b][1]),(bbox[b][2],bbox[b][3]), (255, 0, 0), 2)
@@ -110,11 +106,20 @@ def run_DCE(outline, class_id, options):
     return outline
 
 
+
+
 def plot_poly(outline):
+    """
+    plot polygons on a window; given from a 2 dim array
+
+    @param outline: 2 dim array with tupels, draw this polygons and show there on a window
+    """
     for i in range(len(outline)):
         p = create_Polygon_from_array(outline[i])
         p.plot()
         plt.show()
+
+
 
 
 def get_data(res):

@@ -18,7 +18,6 @@ def run_yolo_every_frame_version_intern(options):
 
     @param options: Dictionary with options set in main
     """
-
     framecounter = get_number_of_frames(options["path_source_video"]) #get total number of frames from source video
     pbar = tqdm(desc= "DCE Progress", total = framecounter) #init the progress bar
     img_arr=[] #image array (would be reassemblet into the video at the end)
@@ -54,7 +53,6 @@ def run_yolo(img, options,framenumber):
 
     Source: https://pysource.com/2023/02/21/yolo-v8-segmentation
     """
-
     options["timestamp_yolo_start"] = time.time() 
     ys = YOLOSegmentation(options["YOLO_model"]) #Selection of Yolo Algorithm
     if(options["save_timestamps"]==True):
@@ -68,10 +66,10 @@ def run_yolo(img, options,framenumber):
     if(options["black_video"] == True): #If clause to set the result video to black
         img_size = get_img_size(img)
         img = cv2.rectangle(img, (0,0),(img_size[0],img_size[1]), (0, 0, 0), -1)
-        cv2.putText(img, "EV Version", (img_size[0]-200, img_size[1] - 1050), cv2.FONT_HERSHEY_PLAIN, 2, (255, 255, 255), 2)
+        cv2.putText(img, "EV Version", (img_size[0]-200, img_size[1] - 1050), cv2.FONT_HERSHEY_PLAIN, 2, (255, 255, 255), 2) #write the used version at the right top of the video
     else:
         img_size = get_img_size(img)
-        cv2.putText(img, "EV Version", (img_size[0]-200, img_size[1] - 1050), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 0), 2)
+        cv2.putText(img, "EV Version", (img_size[0]-200, img_size[1] - 1050), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 0), 2) #write the used version at the right top of the video
          
 
     iterator = 0
@@ -82,8 +80,9 @@ def run_yolo(img, options,framenumber):
 
         options["number_of_angles_bef_DCE"] = options["number_of_angles_bef_DCE"] + len(seg)
 
-        if options["black_bboxes"] == True or options["black_video"] == True:
+        if options["black_bboxes"] == True or options["black_video"] == True: #if clause to set the bboxes to black
             cv2.rectangle(img, (x,y),(x2,y2), (0, 0, 0), -1)
+
         outline = run_DCE([seg], class_id, options) #run DCE for detected polygons
 
         if(options["save_timestamps"]==True):
@@ -117,8 +116,6 @@ def run_yolo(img, options,framenumber):
     
     options["number_of_polygons"] = options["number_of_polygons"] + iterator
 
-
-
     options["angle_sums_images"].append(sum(options["angle_sums_polygons"])) #sum up all angle sums in the image and append it to an array, where all sum of angles from all images would be saved
     options["angle_sums_polygons"] = [] # set for the next image the variable, which saved the sum of all angles from all polygon in the image,  to None/0
 
@@ -137,11 +134,9 @@ def run_DCE(yolo_res_img, class_id, options):
     @param options: Dictionary with options set in main
     @return: image with simplified polygons
     """
-    
     cop_yolo_res_img = np.array(yolo_res_img, dtype=  'int')
     cop_yolo_res_img = cop_yolo_res_img[0]
  
-
     match class_id:  #case case to distinguish the different CLass IDs; 2 = Car, 3 = motorcycle, 7 = Truck
         case 2:
             cop_yolo_res_img = simplify_polygon_k_with_angle(cop_yolo_res_img,options["NoP_Cars"], options)
@@ -211,6 +206,7 @@ def get_img_size(img):
 
 
 
+
 def get_number_of_frames(path):  
     """
     return number of all frames in video
@@ -223,6 +219,7 @@ def get_number_of_frames(path):
     cap = cv2.VideoCapture(path)
     length = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     return length
+
 
 
 
@@ -263,8 +260,3 @@ def get_specific_frame(path, frame_number):
     #cv2.imwrite(r'Code\YOLO\frames\raw\frame'+str(frame_number)+'.png', frame)  # save frame as JPEG file
 
     return frame   
-
-
-
-def get_number_of_points_EV(arr):
-    print(arr)

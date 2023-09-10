@@ -7,7 +7,7 @@ def calc_shape_similarity(options):
     """
     main method for calcualte SSM
     runs all other methods
-    SSM_old is a comparing method for Shape Similarity, where inner angle radiant sums would be compared
+    calc_shape_similarity_compare_polygons and calc_shape_sim_compare_classes_in_one_frame are comparing methods for Shape Similarity, where inner angle radiant sums would be compared; there are deprecated
 
     @param options: Dictionary with options set in main
     """
@@ -24,15 +24,21 @@ def calc_shape_similarity(options):
     write_settings(results_dictionary, options) #write settings to result dictionary
     write_results_file(results_dictionary, options["path_write_timestamps"]) #write results dictionary
 
-
-    
+  
 
 
 def calc_SSM_illustration(options, rD):
+    """
+    calculate the shape similarity measure by using different methods; write the results direct to the results dictionary
+
+    @param options: Dictionary with options set in main
+    @param rD: results dictionary, where all results would be saved
+
+    """
+    #init different variables
     polygon_array = options["list_of_all_polygons"]
     fps = len(polygon_array)
     temp = 0
-
 
     val_arr_cars = []
     val_arr_motorcycle = []
@@ -51,10 +57,7 @@ def calc_SSM_illustration(options, rD):
     compared_polygons_motorcycle = 0
     compared_polygons_trucks= 0
 
-
-    
-    for frame in range(fps-1):
-        #print(polygon_array[frame][2])
+    for frame in range(fps-1): #first loop to iterate over all frames (-1, because the actual frame must be compared with the next frame)
 
         if (len(polygon_array[frame])<= len(polygon_array[frame+1])): #if in the next frame more polygons than in the actual frame, the length must be setted to the minor number
                 compare_polys = len(polygon_array[frame])
@@ -64,40 +67,38 @@ def calc_SSM_illustration(options, rD):
                 compare_polys = len(polygon_array[frame+1])
                 number_of_compared_polygons = number_of_compared_polygons + len(polygon_array[frame+1])
 
+        for polygon in range(compare_polys): #second loop to iterate over all polygons in the frame
 
-        for polygon in range(compare_polys):
-
-            if polygon_array[frame][polygon][3] == polygon_array[frame+1][polygon][3]:
+            if polygon_array[frame][polygon][3] == polygon_array[frame+1][polygon][3]: # if the class for the detected polygons are the same in the next frame; the SSM could be calculated
                 match polygon_array[frame][polygon][3]:
-                    case 2:
-                        temp = calc_minor_SSM(polygon_array[frame][polygon][5], polygon_array[frame+1][polygon][5], options)
-                        val_arr_cars.append(temp[0])
-                        val_arr_compared_ind_cars.append(temp[1])
-                        compared_polygons_cars = compared_polygons_cars + 1
-                    case 3:
+                    case 2: #car
+                        temp = calc_minor_SSM(polygon_array[frame][polygon][5], polygon_array[frame+1][polygon][5], options) #calculate the lowest SSM (classes must be the same for both frames)
+                        val_arr_cars.append(temp[0]) #append the lowest SSM to an result array
+                        val_arr_compared_ind_cars.append(temp[1]) # add the index of the lowest SSM to an result array
+                        compared_polygons_cars = compared_polygons_cars + 1 #increase compared polygons cars by 1
+                    case 3: #motorcycle, same to case 2
                         temp = calc_minor_SSM(polygon_array[frame][polygon][5], polygon_array[frame+1][polygon][5], options)
                         val_arr_motorcycle.append(temp[0])
                         val_arr_compared_ind_motorcycle.append(temp[1])
                         compared_polygons_motorcycle = compared_polygons_motorcycle + 1
-                    case 7:
+                    case 7: #truck, same to case 2
                         temp = calc_minor_SSM(polygon_array[frame][polygon][5], polygon_array[frame+1][polygon][5], options)
                         val_arr_trucks.append(temp[0])
                         val_arr_compared_ind_trucks.append(temp[1])
                         compared_polygons_trucks = compared_polygons_trucks + 1
-                    case _:
-                        temp = calc_minor_SSM(polygon_array[frame][polygon][5], polygon_array[frame+1][polygon][5],options)
+                    case _: # other class
+                        temp = calc_minor_SSM(polygon_array[frame][polygon][5], polygon_array[frame+1][polygon][5],options) # the classes must be the same for both frames 
                         val_arr_oO.append([temp[0], polygon_array[frame][polygon][3]])
-                        val_arr_compared_ind_oO.append([temp[1], polygon_array[frame][polygon][3]])
-                temp = 0    
+                        val_arr_compared_ind_oO.append([temp[1], polygon_array[frame][polygon][3]]) #append the values by an array; to differentiate between all other classes
+                temp = 0    # for new iteration the temp variable must be set to 0
 
-
-    detected_cars = len(val_arr_cars)
-    detected_motorcycle = len(val_arr_motorcycle)
-    detected_trucks = len(val_arr_trucks)
+    detected_cars = len(val_arr_cars) #get the number of detected cars (car polygons) for all frames
+    detected_motorcycle = len(val_arr_motorcycle) #same to line above only for motorcycle
+    detected_trucks = len(val_arr_trucks) #same to line above only for trucks
 
     sorted_array_OO = sort_oO_arr_new(val_arr_oO) #sort oO Array and return sorted SSM sorted at class id
 
-    write_statistics(rD, number_of_compared_polygons,ret_NoP(polygon_array), options["number_of_angles_bef_DCE"], options["number_of_compared_angles"])
+    write_statistics(rD, number_of_compared_polygons,ret_NoP(polygon_array), options["number_of_angles_bef_DCE"], options["number_of_compared_angles"]) #write statistics to result dictionary
 
     write_SSM_new(val_arr_cars,2,rD,fps, detected_cars, compared_polygons_cars) #write results to Dictionary
     write_SSM_new(val_arr_motorcycle,3,rD,fps, detected_motorcycle, compared_polygons_motorcycle) #write results to Dictionary
@@ -105,12 +106,24 @@ def calc_SSM_illustration(options, rD):
 
     for e in range(len(sorted_array_OO)): #iterate over all oO classes and write for every class the SSM to results dictionary
         write_SSM_new([sorted_array_OO[e][2]], sorted_array_OO[e][0],rD,fps,sorted_array_OO[e][1],sorted_array_OO[e][1])
+
     rD["el17"] = "emptyline"
     rD["el18"] = "emptyline"
     return 0   
 
-def write_statistics(rD, number_of_compared_polygons, res_ret_NoP, NoP_bef_DCE, NoCP):
 
+
+
+def write_statistics(rD, number_of_compared_polygons, res_ret_NoP, NoP_bef_DCE, NoCP):
+    """
+    write calculated statistics at the result dictionary
+
+    @param rD: results dictionary, where all results would be saved
+    @param number_of_compared_polygons: int, which saved the number of all compared polygons in the program
+    @param res_ret_NoP: array, which represent the numbers of all polygons and points/angles which are used in the program
+    @param NoP_bef_DCE: int, which represent all points from all polygons, before DCE simplificated the polygons
+    @param NoCP: int, which saved the number of all coompared angles/points while SSM is calculated
+    """
     rD["el_T1"] = "emptyline"
     rD["Number of compared Polygons"] = number_of_compared_polygons
     rD["Number of all Polygons"] = res_ret_NoP[0]
@@ -122,7 +135,8 @@ def write_statistics(rD, number_of_compared_polygons, res_ret_NoP, NoP_bef_DCE, 
 
     
 
-def write_SSM_new(arr, classid,rD,fps, detected, cmp_poly):
+
+def write_SSM_new(arr, classid,rD,fps, detected):
     """
     write calculated results at the results dictionary
 
@@ -159,13 +173,14 @@ def write_SSM_new(arr, classid,rD,fps, detected, cmp_poly):
 
 
 
-
 def sort_oO_arr_new(val_arr_OO):
     """
     sorted a val array from other Object detections to different buckets, to calculate one SSM for every class
+    simply method for the new SSM Calculate Method, cause there not so complex arrays;
+    inspired by Bucket Sort
 
     @param val_arr_OO: all SSM for all oO Detections in all frames and over all oO classes
-    @return buckets: 2 dim Array
+    @return buckets: 1 dim Array
     """
     buckets = []
     for i in range(len(val_arr_OO)): #iterate buckets, for every class which is in val_arr_OO
@@ -185,9 +200,17 @@ def sort_oO_arr_new(val_arr_OO):
         
     return buckets #return buckets, example [[2,10,78.25]]; [Class, Detections, SSM]
 
-                
+
+
 
 def calc_minor_SSM(Poly1, Poly2, options):
+    """
+    function to calculate the minorist SSM value; permute the second array to get all possibilities of permutation between the two given polygons. Returns the lowest SSM value by all permutation and the index, (compared permutation index), where the lowest SSM is
+
+    @param Poly1: 1-dim array
+    @param Poly2: 1-dim array
+    @param [min,ind]: 1-dim array 
+    """
     SSM_arr = []  
     for ref in range(len(Poly1)):
         if len(Poly1) != 0 and len(Poly2) !=0:
@@ -208,33 +231,52 @@ def calc_minor_SSM(Poly1, Poly2, options):
     return [min, ind]
     
 
+
+
 def compare_arrays(arr1, arr2, options):
+    """
+    compare 2 given array arr1 and arr2. Calculate first the minor length of the two arrays, to get no 'out of bounce error'; at the FOR Loop it calculate the absolute difference between all values in the arrays. Appends the mathematic way of this calculation to an array
+
+    @param arr1: 1 dim array
+    @param arr2: 1 dim array
+    @param options: Dictionary with options set in main
+    @return: 2-dim array
+    """
     value = 0
     val_arr = []
     arr_range = 0
-    if len(arr1) != len(arr2):
+    if len(arr1) != len(arr2): #if clause to get the lowest length by the two arrays
         if len(arr1) <= len(arr2):
             arr_range = len(arr1)
         elif len(arr2)<= len(arr1):
             arr_range = len(arr2)
     else:
         arr_range = len(arr1)
-    
-    options["number_of_compared_angles"] =  options["number_of_compared_angles"] + arr_range
-
+     
+    options["number_of_compared_angles"] =  options["number_of_compared_angles"] + arr_range #add a statistics variable; to count all compared angles
+ 
     for i in range(arr_range):
-        value = value + (np.abs(arr1[i][1]-arr2[i][1]))
+        value = value + (np.abs(arr1[i][1]-arr2[i][1])) #calculate the SSM for one comparing between this arrays; absolute function to get a value that converge against 0
         val_arr.append([(str(arr1[i][0])+ "-" + str(arr2[i][0])),arr1[i][1]-arr2[i][1]])
-    # if value == 0:
-    #     print("fehler")
+  
     return [value, val_arr]
 
+
+
+
 def permute_arr(arr):
+    """
+    function to permute an given array; copy the last element to the beginning of the given array to permute this
+
+    @param arr: array with values
+    @return arr: permuted array
+    """
     len_arr = len(arr)-1
     temp = arr[len_arr]
     arr = np.delete(arr, len_arr, axis = 0)
     arr = np.insert(arr,0, temp, axis = 0)
     return arr
+
 
 
 
@@ -269,7 +311,7 @@ def calc_shape_similarity_compare_polygons(options, rD):
             if(temp<0): #set SSM to positive if its negative
                 temp = temp * -1
             shape_similarity_val = shape_similarity_val + temp #sum up all differences for SSM
-    #save the results at the rd Dictionary        
+    #save the results at the result Dictionary        
     options["number_of_angles"]=  ret_NoP(polygon_array) 
     options["shape_similarity_measure"] = shape_similarity_val 
 
@@ -293,13 +335,9 @@ def calc_shape_sim_compare_classes_in_one_frame(options, rD):
 
     @param options: Dictionary with options set in main
     @param rD: Dictionary with all statistics data by the result video
-
     """
-    shape_similarity_val = 0
     polygon_array = options["list_of_all_polygons"]
     fps = len(polygon_array)
-    temp = 0
-    iterator = 0
 
     val_arr_cars = []
     val_arr_motorcycle = []
@@ -500,8 +538,6 @@ def calc_measure_in_one_frame(frame, polys_in_one_frame):
 
 
 
-
-
 def write_settings(rD, options):
     """
     write the settings from the main.py file in the result dictionary
@@ -536,8 +572,6 @@ def write_settings(rD, options):
 
 
 
-
-
 def calc_timestamps(options, rD):
     """
     calculte timestamps for the duration of the program parts, two different calculate methods must be used for every yolo method
@@ -558,7 +592,9 @@ def calc_timestamps(options, rD):
         rD["Total sum of the angles"] = str(round(sum(options["angle_sums_images"]),2)) + " Degree"
         rD["el7"] = "emptyline"
         rD["el8"] = "emptyline"
+
     else:
+
         rD["Duration Program"] = ret_timestampline(options, "prog")
         rD["Duration YOLO"] = ret_timestampline(options, "yolo") + " ms"
         rD["Duration write_Outline(include DCE Calculation)"] = str(round((options["timestamp_write_outline_end"]-options["timestamp_write_outline_start"]),2))+" ms"
@@ -676,6 +712,7 @@ def compare_polygons_in_frame(frame):
 
 
 
+
 def get_text_string(class_id):
     """
     return a text string from a given class id with the individual score for every polygon 
@@ -686,6 +723,8 @@ def get_text_string(class_id):
     category_list = {0: 'person', 1: 'bicycle', 2: 'car', 3: 'motorcycle', 4: 'airplane', 5: 'bus', 6: 'train', 7: 'truck', 8: 'boat', 9: 'traffic light', 10: 'fire hydrant', 11: 'stop sign', 12: 'parking meter', 13: 'bench', 14: 'bird', 15: 'cat', 16: 'dog', 17: 'horse', 18: 'sheep', 19: 'cow', 20: 'elephant', 21: 'bear', 22: 'zebra', 23: 'giraffe', 24: 'backpack', 25: 'umbrella', 26: 'handbag', 27: 'tie', 28: 'suitcase', 29: 'frisbee', 30: 'skis', 31: 'snowboard', 32: 'sports ball', 33: 'kite', 34: 'baseball bat', 35: 'baseball glove', 36: 'skateboard', 37: 'surfboard', 38: 'tennis racket', 39: 'bottle', 40: 'wine glass', 41: 'cup', 42: 'fork', 43: 'knife', 44: 'spoon', 45: 'bowl', 46: 'banana', 47: 'apple', 48: 'sandwich', 49: 'orange', 50: 'broccoli', 51: 'carrot', 52: 'hot dog', 53: 'pizza', 54: 'donut', 55: 'cake', 56: 'chair', 57: 'couch', 58: 'potted plant', 59: 'bed', 60: 'dining table', 61: 'toilet', 62: 'tv', 63: 'laptop', 64: 'mouse', 65: 'remote', 66: 'keyboard', 67: 'cell phone', 68: 'microwave', 69: 'oven', 70: 'toaster', 71: 'sink', 72: 'refrigerator', 73: 'book', 74: 'clock', 75: 'vase', 76: 'scissors', 77: 'teddy bear', 78: 'hair drier', 79: 'toothbrush'}
     category = category_list[class_id]
     return (category)
+
+
 
 
 def get_anglevalue_by_class(classID, piof):
@@ -738,6 +777,8 @@ def check_if_in_arr(temp, class_and_ind):
         return False    
     
 
+
+
 def classbucket_exists(buckets_arr, classid):
     """
     check if a class in buckets array exists and returns a bool
@@ -750,8 +791,6 @@ def classbucket_exists(buckets_arr, classid):
         if buckets_arr[b] == classid:
             return False
     return True
-
-
 
 
 
@@ -778,8 +817,8 @@ def create_first_lines(options, rD):
     """
     write the first lines to the result dictionary
 
-    @param rD: results dictionary
     @param options: Dictionary with options set in main
+    @param rD: results dictionary
     """
     string_empty_1 = str(np.random.randint(10000)) #set string for empty line
     string_empty_2 = str(np.random.randint(10000))

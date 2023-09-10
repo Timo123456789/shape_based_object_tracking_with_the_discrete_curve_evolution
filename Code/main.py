@@ -32,7 +32,7 @@ def main():
 
             "YOLO_model": 'yolov8n-seg.pt',  #set YOLO Model
             "black_video": False, #Bool that turns the whole video black, so that only white sillhouettes are shown in the video
-            "black_bboxes": True,
+            "black_bboxes": True, #Bool that turns the bounding boxes for detected objects black; overwritten by black_video variable
             "write_labels": True, #Bool that ensures that a label with scores is written to the video for each polygon
             "yolo_every_frame": False, #Boolean that enables an alternative YOLO application method
 
@@ -69,6 +69,7 @@ def main():
     else:
         run_yolo_result_version(options)
     print("sucessfully stopped")
+
 
 
 
@@ -113,9 +114,6 @@ def run_yolo_result_version(options):
 
 
 
-
-
-
 def setpaths(options):
     """
     set temp path variable in options files to exact paths in directory variable
@@ -134,6 +132,11 @@ def setpaths(options):
 
 
 def run_test(options):
+    """
+    function to test different things at an example video
+
+    @param options: Dictionary with options set in main
+    """
     # shape_similarity_val = 0
     # img_1 = get_specific_frame(options["path_source_video"],11)
     # img_2 = get_specific_frame(options["path_source_video"],15)
@@ -165,20 +168,24 @@ def run_test(options):
 
     return 0
 
-def run_evaluation():
-  
 
-    #YOLO V8n
-    options = set_options_on_default()
-    options["path_directory"] = r'Code\vid_examples\evaluation\01Yolo8n'
-    options["source_video"] = r'Code\vid_examples\evaluation\Autobahn1s.mp4'
-    options["write_video"] = r'\A1s_EF_vers.mp4'
-    options["results"] = r'\A1s_EF_results.txt'
-    options["YOLO_model"] = "yolov8n-seg.pt"
-    options["yolo_every_frame"] = True
+
+
+def run_evaluation():
+    """
+    function, to run different evaluation videos; 12 videostreams with different settings for YOLO  Implementation Version; Length and YOLO Model
+    """
+    #YOLO V8n, Selected YOLO Version
+    options = set_options_on_default() #set options dicitonary to default values
+    options["path_directory"] = r'Code\vid_examples\evaluation\01Yolo8n' #select path directory where the files would be saved
+    options["source_video"] = r'Code\vid_examples\evaluation\Autobahn1s.mp4' #select source video
+    options["write_video"] = r'\A1s_EF_vers.mp4' #select name for written video
+    options["results"] = r'\A1s_EF_results.txt' #selevt name for written statistics file
+    options["YOLO_model"] = "yolov8n-seg.pt" #select YOLO Model
+    options["yolo_every_frame"] = True #select YOLO implementation version
     run_test_case(options)
 
-    options = set_options_on_default()
+    options = set_options_on_default() #similar to case above; minor changes
     options["path_directory"] = r'Code\vid_examples\evaluation\01Yolo8n'
     options["source_video"] = r'Code\vid_examples\evaluation\Autobahn1s.mp4'
     options["write_video"] = r'\A1s_RV.mp4'
@@ -187,7 +194,7 @@ def run_evaluation():
     options["yolo_every_frame"] = False
     run_test_case(options)
 
-    options = set_options_on_default()
+    options = set_options_on_default() #similar to first case; minor changes
     options["path_directory"] = r'Code\vid_examples\evaluation\01Yolo8n'
     options["source_video"] = r'Code\vid_examples\evaluation\Autobahn10s.mp4'
     options["write_video"] = r'\A10s_EF_vers.mp4'
@@ -196,7 +203,7 @@ def run_evaluation():
     options["yolo_every_frame"] = True
     run_test_case(options)
 
-    options = set_options_on_default()
+    options = set_options_on_default() #similar to first case; minor changes
     options["path_directory"] = r'Code\vid_examples\evaluation\01Yolo8n'
     options["source_video"] = r'Code\vid_examples\evaluation\Autobahn10s.mp4'
     options["write_video"] = r'\A10s_RV.mp4'
@@ -208,7 +215,7 @@ def run_evaluation():
 
 
     #YOLO V8m
-    options = set_options_on_default()
+    options = set_options_on_default() #similar to first case; minor changes
     options["path_directory"] = r'Code\vid_examples\evaluation\02Yolo8m'
     options["source_video"] = r'Code\vid_examples\evaluation\Autobahn1s.mp4'
     options["write_video"] = r'\A1s_EF_vers.mp4'
@@ -217,7 +224,7 @@ def run_evaluation():
     options["yolo_every_frame"] = True
     run_test_case(options)
 
-    options = set_options_on_default()
+    options = set_options_on_default() #similar to first case; minor changes
     options["path_directory"] = r'Code\vid_examples\evaluation\02Yolo8m'
     options["source_video"] = r'Code\vid_examples\evaluation\Autobahn1s.mp4'
     options["write_video"] = r'\A1s_RV.mp4'
@@ -226,7 +233,7 @@ def run_evaluation():
     options["yolo_every_frame"] = False
     run_test_case(options)
 
-    options = set_options_on_default()
+    options = set_options_on_default() #similar to first case; minor changes
     options["path_directory"] = r'Code\vid_examples\evaluation\02Yolo8m'
     options["source_video"] = r'Code\vid_examples\evaluation\Autobahn10s.mp4'
     options["write_video"] = r'\A10s_EF_vers.mp4'
@@ -235,7 +242,7 @@ def run_evaluation():
     options["yolo_every_frame"] = True
     run_test_case(options)
 
-    options = set_options_on_default()
+    options = set_options_on_default() #similar to first case; minor changes
     options["path_directory"] = r'Code\vid_examples\evaluation\02Yolo8m'
     options["source_video"] = r'Code\vid_examples\evaluation\Autobahn10s.mp4'
     options["write_video"] = r'\A10s_RV.mp4'
@@ -246,9 +253,8 @@ def run_evaluation():
 
 
 
-
     #Yolo V8x
-    options = set_options_on_default()
+    options = set_options_on_default() #similar to first case; minor changes
     options["path_directory"] = r'Code\vid_examples\evaluation\03Yolo8x'
     options["source_video"] = r'Code\vid_examples\evaluation\Autobahn1s.mp4'
     options["write_video"] = r'\A1s_EF_vers.mp4'
@@ -257,7 +263,7 @@ def run_evaluation():
     options["yolo_every_frame"] = True
     run_test_case(options)
 
-    options = set_options_on_default()
+    options = set_options_on_default() #similar to first case; minor changes
     options["path_directory"] = r'Code\vid_examples\evaluation\03Yolo8x'
     options["source_video"] = r'Code\vid_examples\evaluation\Autobahn1s.mp4'
     options["write_video"] = r'\A1s_RV.mp4'
@@ -266,7 +272,7 @@ def run_evaluation():
     options["yolo_every_frame"] = False
     run_test_case(options)
 
-    options = set_options_on_default()
+    options = set_options_on_default() #similar to first case; minor changes
     options["path_directory"] = r'Code\vid_examples\evaluation\03Yolo8x'
     options["source_video"] = r'Code\vid_examples\evaluation\Autobahn10s.mp4'
     options["write_video"] = r'\A10s_EF_vers.mp4'
@@ -275,7 +281,7 @@ def run_evaluation():
     options["yolo_every_frame"] = True
     run_test_case(options)
 
-    options = set_options_on_default()
+    options = set_options_on_default() #similar to first case; minor changes
     options["path_directory"] = r'Code\vid_examples\evaluation\03Yolo8x'
     options["source_video"] = r'Code\vid_examples\evaluation\Autobahn10s.mp4'
     options["write_video"] = r'\A10s_RV.mp4'
@@ -286,7 +292,15 @@ def run_evaluation():
 
     return 0
 
+
+
+
 def run_test_case(options):
+    """
+    run a test case with the in the options setted variables
+
+    @param options: Dictionary with options set in main
+    """
     options = setpaths(options)
  
     if (options["yolo_every_frame"] == True): #if clause to run selected YOLO Version
@@ -295,7 +309,14 @@ def run_test_case(options):
         run_yolo_result_version(options)
 
 
+
+
 def set_options_on_default():
+     """
+     setted the options variable to the default values
+
+     @return options: Dictionary     
+     """
      options = {
             "path_directory": r'temp',  #main path for storing files
             "source_video": r'temp', #name for source video
@@ -313,6 +334,7 @@ def set_options_on_default():
 
             "YOLO_model": 'yolov8n-seg.pt',  #set YOLO Model
             "black_video": True, #Bool that turns the whole video black, so that only white sillhouettes are shown in the video
+            "black_bboxes": True, #Bool that turns the bounding boxes for detected objects black; overwritten by black_video variable
             "write_labels": True, #Bool that ensures that a label with scores is written to the video for each polygon
             "yolo_every_frame": False, #Boolean that enables an alternative YOLO application method
 
