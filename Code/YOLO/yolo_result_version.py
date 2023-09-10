@@ -52,8 +52,10 @@ def get_outline_for_every_object(res, options):
            
 
             for b in range(len(bbox)): #iterate over every polygon to write a individual label for all polygons on the frame
-               
-                res_cop[i] = cv2.rectangle(res_cop[i], (bbox[b][0],bbox[b][1]),(bbox[b][2],bbox[b][3]), (0, 0, 0), -1)
+                if options["black_bboxes"] == True or options["black_video"] == True:
+                     res_cop[i] = cv2.rectangle(res_cop[i], (bbox[b][0],bbox[b][1]),(bbox[b][2],bbox[b][3]), (0, 0, 0), -1)
+
+                res_cop[i] = cv2.rectangle(res_cop[i], (bbox[b][0],bbox[b][1]),(bbox[b][2],bbox[b][3]), (255, 0, 0), 2)
 
                 if(options["write_labels"] == True): #if clause to write the labels and scores to every polygon
                     res_cop[i] = cv2.putText(res_cop[i], get_text_string(class_id[b],scores[b]), (bbox[b][0], bbox[b][1] - 10), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)

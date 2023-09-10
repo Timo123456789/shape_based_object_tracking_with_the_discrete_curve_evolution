@@ -32,8 +32,9 @@ def main():
 
             "YOLO_model": 'yolov8n-seg.pt',  #set YOLO Model
             "black_video": False, #Bool that turns the whole video black, so that only white sillhouettes are shown in the video
+            "black_bboxes": True,
             "write_labels": True, #Bool that ensures that a label with scores is written to the video for each polygon
-            "yolo_every_frame": True, #Boolean that enables an alternative YOLO application method
+            "yolo_every_frame": False, #Boolean that enables an alternative YOLO application method
 
             "save_timestamps": True, #bool, which activates the saving of the timestamps
             "timestamp_prog_start": time.time(),

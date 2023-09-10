@@ -82,6 +82,8 @@ def run_yolo(img, options,framenumber):
 
         options["number_of_angles_bef_DCE"] = options["number_of_angles_bef_DCE"] + len(seg)
 
+        if options["black_bboxes"] == True or options["black_video"] == True:
+            cv2.rectangle(img, (x,y),(x2,y2), (0, 0, 0), -1)
         outline = run_DCE([seg], class_id, options) #run DCE for detected polygons
 
         if(options["save_timestamps"]==True):

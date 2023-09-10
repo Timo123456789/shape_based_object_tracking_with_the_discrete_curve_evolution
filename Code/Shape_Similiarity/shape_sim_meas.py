@@ -529,6 +529,7 @@ def write_settings(rD, options):
     rD["el16"] = "emptyline"
     rD["Save Timestamps"] = options["save_timestamps"]
     rD["Black Video"] = options["black_video"]
+    rD["Black Boxes"] = options["black_bboxes"]
     rD["write_labels"] = options["write_labels"]
     rD["el17"] = "emptyline"
  
