@@ -59,13 +59,20 @@ def run_yolo(img, options,framenumber):
     ys = YOLOSegmentation(options["YOLO_model"]) #Selection of Yolo Algorithm
     if(options["save_timestamps"]==True):
                 options["timestamp_yolo_end"] = time.time()
-                options["timestamp_yolo_dur"] = options["timestamp_yolo_dur"] + (options["timestamp_yolo_end"] - options["timestamp_yolo_start"])
+                temp_time = options["timestamp_yolo_end"] - options["timestamp_yolo_start"]
+                options["timestamp_yolo_dur"] = options["timestamp_yolo_dur"] + (temp_time)
+                temp_time = 0
 
     bboxes, classes, segmentations, scores = ys.detect(img) #Saving the results provided by YOLO
    
     if(options["black_video"] == True): #If clause to set the result video to black
         img_size = get_img_size(img)
         img = cv2.rectangle(img, (0,0),(img_size[0],img_size[1]), (0, 0, 0), -1)
+        cv2.putText(img, "EV Version", (img_size[0]-200, img_size[1] - 1050), cv2.FONT_HERSHEY_PLAIN, 2, (255, 255, 255), 2)
+    else:
+        img_size = get_img_size(img)
+        cv2.putText(img, "EV Version", (img_size[0]-200, img_size[1] - 1050), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 0), 2)
+         
 
     iterator = 0
     for bbox, class_id, seg, score in zip(bboxes, classes, segmentations, scores): #Iterate over all YOLO results for drawing the polygons
@@ -73,11 +80,15 @@ def run_yolo(img, options,framenumber):
         (x, y, x2, y2) = bbox
         options["timestamp_DCE_start"] = time.time()
 
+        options["number_of_angles_bef_DCE"] = options["number_of_angles_bef_DCE"] + len(seg)
+
         outline = run_DCE([seg], class_id, options) #run DCE for detected polygons
 
         if(options["save_timestamps"]==True):
                 options["timestamp_DCE_end"] = time.time()
-                options["timestamp_DCE_dur"] = options["timestamp_DCE_dur"] + (options["timestamp_DCE_end"] - options["timestamp_DCE_start"])
+                temp_time_2 = options["timestamp_DCE_end"] - options["timestamp_DCE_start"]
+                options["timestamp_DCE_dur"] = options["timestamp_DCE_dur"] + (temp_time_2)
+                temp_time_2 = 0
         options["timestamp_write_outline_start"] = time.time()
 
         cv2.rectangle(img, (x, y), (x2, y2), (255, 0, 0), 2)
@@ -88,12 +99,15 @@ def run_yolo(img, options,framenumber):
         
         if(options["save_timestamps"]==True):
                 options["timestamp_write_outline_end"] = time.time()
-                options["timestamp_write_outline_dur"] = options["timestamp_write_outline_dur"] + (options["timestamp_write_outline_end"] - options["timestamp_write_outline_start"])
+                temp_time_3 = options["timestamp_write_outline_end"] - options["timestamp_write_outline_start"]
+                options["timestamp_write_outline_dur"] = options["timestamp_write_outline_dur"] + (temp_time_3)
+                temp_time_3 = 0
     
-        sum_of_angles = get_sum_of_angles(outline) #calculates the sum of angles in one polygon)
+        sum_of_angles_var = get_sum_of_angles(outline) #calculates the sum of angles in one polygon)
+        sum_of_angles = sum_of_angles_var[0]
         options["angle_sums_polygons"].append(sum_of_angles) #append sum of angles in one polygon to a array, where all angle sums of the polygons in the image saved
         
-        options["list_of_polygons_in_one_frame"].append([framenumber,iterator,sum_of_angles,class_id,outline[0]])
+        options["list_of_polygons_in_one_frame"].append([framenumber,iterator,sum_of_angles,class_id,outline[0], sum_of_angles_var[1]])
         iterator+=1
     
     options["list_of_all_polygons"].append(options["list_of_polygons_in_one_frame"])
@@ -247,3 +261,8 @@ def get_specific_frame(path, frame_number):
     #cv2.imwrite(r'Code\YOLO\frames\raw\frame'+str(frame_number)+'.png', frame)  # save frame as JPEG file
 
     return frame   
+
+
+
+def get_number_of_points_EV(arr):
+    print(arr)

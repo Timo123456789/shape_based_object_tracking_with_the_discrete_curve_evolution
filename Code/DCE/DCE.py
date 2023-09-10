@@ -130,7 +130,6 @@ def update_sort_array_sec(sort_arr, indic, k_bef, k_act, p):
 
 
 
-
 def calc_k_for_all_points(p):
     NoP = get_number_of_points(p)
     temp_k_val_arr = []

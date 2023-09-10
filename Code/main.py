@@ -31,9 +31,9 @@ def main():
         	"NoP_other_Object": 20, #Number of final Points for other Objects
 
             "YOLO_model": 'yolov8n-seg.pt',  #set YOLO Model
-            "black_video": True, #Bool that turns the whole video black, so that only white sillhouettes are shown in the video
+            "black_video": False, #Bool that turns the whole video black, so that only white sillhouettes are shown in the video
             "write_labels": True, #Bool that ensures that a label with scores is written to the video for each polygon
-            "yolo_every_frame": False, #Boolean that enables an alternative YOLO application method
+            "yolo_every_frame": True, #Boolean that enables an alternative YOLO application method
 
             "save_timestamps": True, #bool, which activates the saving of the timestamps
             "timestamp_prog_start": time.time(),
@@ -57,7 +57,9 @@ def main():
             "list_of_all_polygons":[],
             "list_of_polygons_in_one_frame":[],
             "number_of_polygons":0,
-            "number_of_angles":0
+            "number_of_angles":0,
+            "number_of_angles_bef_DCE":0,
+            "number_of_compared_angles":0
     }
     options = setpaths(options)
  
@@ -65,7 +67,7 @@ def main():
         run_yolo_every_frame_version(options)
     else:
         run_yolo_result_version(options)
-   
+    print("sucessfully stopped")
 
 
 
@@ -163,6 +165,8 @@ def run_test(options):
     return 0
 
 def run_evaluation():
+  
+
     #YOLO V8n
     options = set_options_on_default()
     options["path_directory"] = r'Code\vid_examples\evaluation\01Yolo8n'
@@ -170,7 +174,7 @@ def run_evaluation():
     options["write_video"] = r'\A1s_EF_vers.mp4'
     options["results"] = r'\A1s_EF_results.txt'
     options["YOLO_model"] = "yolov8n-seg.pt"
-    options["yolo_every_frame"] = False
+    options["yolo_every_frame"] = True
     run_test_case(options)
 
     options = set_options_on_default()
@@ -179,7 +183,7 @@ def run_evaluation():
     options["write_video"] = r'\A1s_RV.mp4'
     options["results"] = r'\A1s_RV_results.txt'
     options["YOLO_model"] = "yolov8n-seg.pt"
-    options["yolo_every_frame"] = True
+    options["yolo_every_frame"] = False
     run_test_case(options)
 
     options = set_options_on_default()
@@ -188,7 +192,7 @@ def run_evaluation():
     options["write_video"] = r'\A10s_EF_vers.mp4'
     options["results"] = r'\A10s_EF_results.txt'
     options["YOLO_model"] = "yolov8n-seg.pt"
-    options["yolo_every_frame"] = False
+    options["yolo_every_frame"] = True
     run_test_case(options)
 
     options = set_options_on_default()
@@ -197,7 +201,7 @@ def run_evaluation():
     options["write_video"] = r'\A10s_RV.mp4'
     options["results"] = r'\A10s_RV_results.txt'
     options["YOLO_model"] = "yolov8n-seg.pt"
-    options["yolo_every_frame"] = True
+    options["yolo_every_frame"] = False
     run_test_case(options)
 
 
@@ -209,7 +213,7 @@ def run_evaluation():
     options["write_video"] = r'\A1s_EF_vers.mp4'
     options["results"] = r'\A1s_EF_results.txt'
     options["YOLO_model"] = "yolov8m-seg.pt"
-    options["yolo_every_frame"] = False
+    options["yolo_every_frame"] = True
     run_test_case(options)
 
     options = set_options_on_default()
@@ -218,7 +222,7 @@ def run_evaluation():
     options["write_video"] = r'\A1s_RV.mp4'
     options["results"] = r'\A1s_RV_results.txt'
     options["YOLO_model"] = "yolov8m-seg.pt"
-    options["yolo_every_frame"] = True
+    options["yolo_every_frame"] = False
     run_test_case(options)
 
     options = set_options_on_default()
@@ -227,7 +231,7 @@ def run_evaluation():
     options["write_video"] = r'\A10s_EF_vers.mp4'
     options["results"] = r'\A10s_EF_results.txt'
     options["YOLO_model"] = "yolov8m-seg.pt"
-    options["yolo_every_frame"] = False
+    options["yolo_every_frame"] = True
     run_test_case(options)
 
     options = set_options_on_default()
@@ -236,7 +240,7 @@ def run_evaluation():
     options["write_video"] = r'\A10s_RV.mp4'
     options["results"] = r'\A10s_RV_results.txt'
     options["YOLO_model"] = "yolov8m-seg.pt"
-    options["yolo_every_frame"] = True
+    options["yolo_every_frame"] = False
     run_test_case(options)
 
 
@@ -249,7 +253,7 @@ def run_evaluation():
     options["write_video"] = r'\A1s_EF_vers.mp4'
     options["results"] = r'\A1s_EF_results.txt'
     options["YOLO_model"] = "yolov8x-seg.pt"
-    options["yolo_every_frame"] = False
+    options["yolo_every_frame"] = True
     run_test_case(options)
 
     options = set_options_on_default()
@@ -258,7 +262,7 @@ def run_evaluation():
     options["write_video"] = r'\A1s_RV.mp4'
     options["results"] = r'\A1s_RV_results.txt'
     options["YOLO_model"] = "yolov8x-seg.pt"
-    options["yolo_every_frame"] = True
+    options["yolo_every_frame"] = False
     run_test_case(options)
 
     options = set_options_on_default()
@@ -267,7 +271,7 @@ def run_evaluation():
     options["write_video"] = r'\A10s_EF_vers.mp4'
     options["results"] = r'\A10s_EF_results.txt'
     options["YOLO_model"] = "yolov8x-seg.pt"
-    options["yolo_every_frame"] = False
+    options["yolo_every_frame"] = True
     run_test_case(options)
 
     options = set_options_on_default()
@@ -276,7 +280,7 @@ def run_evaluation():
     options["write_video"] = r'\A10s_RV.mp4'
     options["results"] = r'\A10s_RV_results.txt'
     options["YOLO_model"] = "yolov8x-seg.pt"
-    options["yolo_every_frame"] = True
+    options["yolo_every_frame"] = False
     run_test_case(options)
 
     return 0
@@ -333,7 +337,9 @@ def set_options_on_default():
             "list_of_all_polygons":[],
             "list_of_polygons_in_one_frame":[],
             "number_of_polygons":0,
-            "number_of_angles":0
+            "number_of_angles":0,
+            "number_of_angles_bef_DCE":0,
+            "number_of_compared_angles":0
     }
      return options
 

@@ -20,6 +20,8 @@ def get_outline_for_every_object(res, options):
     NoP = get_number_of_points_result(res)  #get total number of points for all objects in the result file (the video)
     pbar = tqdm(desc= "DCE Progress", total = NoP) #init progress bar
 
+  
+
     for i in range(fps): #iterate over all video frames
         if (res[i] is not None):    #if clause if yolo detected no object at the frame
             data_arr = get_data(res[i]) #returns the data, that YOLO detectet at the frame [0] = bbox, [1] = class ids, [2] = segmentation contours; [3] = scores for every object, [4] = image size
@@ -28,6 +30,9 @@ def get_outline_for_every_object(res, options):
             class_id = data_arr[1]
             scores = data_arr[3]
             img_size = data_arr[4]
+
+            temp = get_number_of_points_result(data_arr[2])
+            options["number_of_angles_bef_DCE"] =  options["number_of_angles_bef_DCE"] + temp
 
             options["timestamp_DCE_start"] = time.time()
             outline_DCE = run_DCE(data_arr[2],data_arr[1] ,options) #run DCE with polygons that yolo detected in the frame, the class_ids for every object; the actual number of points and the options dataset
@@ -40,7 +45,12 @@ def get_outline_for_every_object(res, options):
 
             if(options["black_video"] == True): #If clause to set the result video to black
                 res_cop[i] = cv2.rectangle(res_cop[i], (0,0),(img_size[0],img_size[1]), (0, 0, 0), -1)
-          
+                res_cop[i] = cv2.putText(res_cop[i], "RV Version", (img_size[0]-200, img_size[1] - 1050), cv2.FONT_HERSHEY_PLAIN, 2, (255, 255, 255), 2)
+            else:
+                res_cop[i] = cv2.putText(res_cop[i], "RV Version", (img_size[0]-200, img_size[1] - 1050), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 0), 2)
+
+           
+
             for b in range(len(bbox)): #iterate over every polygon to write a individual label for all polygons on the frame
                
                 res_cop[i] = cv2.rectangle(res_cop[i], (bbox[b][0],bbox[b][1]),(bbox[b][2],bbox[b][3]), (0, 0, 0), -1)

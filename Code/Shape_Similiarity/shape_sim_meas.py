@@ -24,16 +24,7 @@ def calc_shape_similarity(options):
     write_settings(results_dictionary, options) #write settings to result dictionary
     write_results_file(results_dictionary, options["path_write_timestamps"]) #write results dictionary
 
-def create_first_lines(options, rD):
-    string_empty_1 = str(np.random.randint(10000)) #set string for empty line
-    string_empty_2 = str(np.random.randint(10000))
 
-    current_dateTime = datetime.datetime.now()
-    date = str(current_dateTime.day)+"."+str(current_dateTime.month)+"."+str(current_dateTime.year)
-    time = str(current_dateTime.hour)+":"+str(current_dateTime.minute) + ":" + str(current_dateTime.second)
-    rD["Processed on"] = " "+  date + " at " + time
-    rD[string_empty_1] = "emptyline"
-    rD[string_empty_2] = "emptyline"
     
 
 
@@ -48,8 +39,17 @@ def calc_SSM_illustration(options, rD):
     val_arr_trucks = []
     val_arr_oO = []
 
+    val_arr_compared_ind_cars = []
+    val_arr_compared_ind_motorcycle = []
+    val_arr_compared_ind_trucks = []
+    val_arr_compared_ind_oO = []
+
     number_of_compared_polygons = 0
     compare_polys = 0
+
+    compared_polygons_cars = 0
+    compared_polygons_motorcycle = 0
+    compared_polygons_trucks= 0
 
 
     
@@ -70,19 +70,25 @@ def calc_SSM_illustration(options, rD):
             if polygon_array[frame][polygon][3] == polygon_array[frame+1][polygon][3]:
                 match polygon_array[frame][polygon][3]:
                     case 2:
-                        temp = calc_minor_SSM(polygon_array[frame][polygon][5], polygon_array[frame+1][polygon][5])
+                        temp = calc_minor_SSM(polygon_array[frame][polygon][5], polygon_array[frame+1][polygon][5], options)
                         val_arr_cars.append(temp[0])
+                        val_arr_compared_ind_cars.append(temp[1])
+                        compared_polygons_cars = compared_polygons_cars + 1
                     case 3:
-                        temp = calc_minor_SSM(polygon_array[frame][polygon][5], polygon_array[frame+1][polygon][5])
+                        temp = calc_minor_SSM(polygon_array[frame][polygon][5], polygon_array[frame+1][polygon][5], options)
                         val_arr_motorcycle.append(temp[0])
+                        val_arr_compared_ind_motorcycle.append(temp[1])
+                        compared_polygons_motorcycle = compared_polygons_motorcycle + 1
                     case 7:
-                        temp = calc_minor_SSM(polygon_array[frame][polygon][5], polygon_array[frame+1][polygon][5])
+                        temp = calc_minor_SSM(polygon_array[frame][polygon][5], polygon_array[frame+1][polygon][5], options)
                         val_arr_trucks.append(temp[0])
+                        val_arr_compared_ind_trucks.append(temp[1])
+                        compared_polygons_trucks = compared_polygons_trucks + 1
                     case _:
-                        temp = calc_minor_SSM(polygon_array[frame][polygon][5], polygon_array[frame+1][polygon][5])
+                        temp = calc_minor_SSM(polygon_array[frame][polygon][5], polygon_array[frame+1][polygon][5],options)
                         val_arr_oO.append([temp[0], polygon_array[frame][polygon][3]])
-
-   
+                        val_arr_compared_ind_oO.append([temp[1], polygon_array[frame][polygon][3]])
+                temp = 0    
 
 
     detected_cars = len(val_arr_cars)
@@ -91,18 +97,32 @@ def calc_SSM_illustration(options, rD):
 
     sorted_array_OO = sort_oO_arr_new(val_arr_oO) #sort oO Array and return sorted SSM sorted at class id
 
-    write_SSM_new(val_arr_cars,2,rD,fps, detected_cars) #write results to Dictionary
-    write_SSM_new(val_arr_motorcycle,3,rD,fps, detected_motorcycle) #write results to Dictionary
-    write_SSM_new(val_arr_trucks,7,rD,fps, detected_trucks) #write results to Dictionary
+    write_statistics(rD, number_of_compared_polygons,ret_NoP(polygon_array), options["number_of_angles_bef_DCE"], options["number_of_compared_angles"])
+
+    write_SSM_new(val_arr_cars,2,rD,fps, detected_cars, compared_polygons_cars) #write results to Dictionary
+    write_SSM_new(val_arr_motorcycle,3,rD,fps, detected_motorcycle, compared_polygons_motorcycle) #write results to Dictionary
+    write_SSM_new(val_arr_trucks,7,rD,fps, detected_trucks, compared_polygons_trucks) #write results to Dictionary
 
     for e in range(len(sorted_array_OO)): #iterate over all oO classes and write for every class the SSM to results dictionary
-        write_SSM_new([sorted_array_OO[e][2]], sorted_array_OO[e][0],rD,fps,sorted_array_OO[e][1])
+        write_SSM_new([sorted_array_OO[e][2]], sorted_array_OO[e][0],rD,fps,sorted_array_OO[e][1],sorted_array_OO[e][1])
     rD["el17"] = "emptyline"
     rD["el18"] = "emptyline"
     return 0   
 
+def write_statistics(rD, number_of_compared_polygons, res_ret_NoP, NoP_bef_DCE, NoCP):
 
-def write_SSM_new(arr, classid,rD,fps, detected):
+    rD["el_T1"] = "emptyline"
+    rD["Number of compared Polygons"] = number_of_compared_polygons
+    rD["Number of all Polygons"] = res_ret_NoP[0]
+    rD["el_T2"] = "emptyline"
+    rD["number of compared angles/points"] = NoCP
+    rD["number of angles/points"] = res_ret_NoP[1]
+    rD["number of angles/points before DCE"] = NoP_bef_DCE
+    rD["el_T3"] = "emptyline"
+
+    
+
+def write_SSM_new(arr, classid,rD,fps, detected, cmp_poly):
     """
     write calculated results at the results dictionary
 
@@ -118,9 +138,9 @@ def write_SSM_new(arr, classid,rD,fps, detected):
         string_not_right = " "
 
     string_1 = "Shape Similarity Measure " + str(get_text_string(classid)) + " " + string_not_right
-    string_4 = "Shape Similarity Measure (per FPS and Class) " + str(get_text_string(classid)) + " " + string_not_right #set text string for SSM divided by fps
-    string_2 = "Shape Similarity Measure (per detected " + str(get_text_string(classid)) + ")" + string_not_right  #set text string for SSM divided by detections
-    string_3 = "detected " + str(get_text_string(classid)) + string_not_right 
+    string_2 = "Shape Similarity Measure (per FPS and Class) " + str(get_text_string(classid)) + " " + string_not_right #set text string for SSM divided by fps
+    string_3 = "Shape Similarity Measure (per detected " + str(get_text_string(classid)) + ")" + string_not_right  #set text string for SSM divided by detections
+    string_4 = "detected " + str(get_text_string(classid)) + string_not_right 
 
     if detected != 0: #if clause if detection = 0; dividing by 0 is not allowed
         res_raw = round(sum(arr),4)
@@ -130,9 +150,9 @@ def write_SSM_new(arr, classid,rD,fps, detected):
         string_empty_2 = str(np.random.randint(10000))
 
         rD[string_1] = str(res_raw)
-        rD[string_4] = str(res_per_frame) #write calculated value at results dictionary,
-        rD[string_2] = str(res_per_obj)  #write calculated value at results dictionary, 
-        rD[string_3] = str(detected) + " per frame:"+ str(round(detected/fps,2)) 
+        rD[string_2] = str(res_per_frame) #write calculated value at results dictionary,
+        rD[string_3] = str(res_per_obj)  #write calculated value at results dictionary, 
+        rD[string_4] = str(detected) + " per frame:"+ str(round(detected/fps,2)) 
         rD[string_empty_1] = "emptyline"
         rD[string_empty_2] = "emptyline"
 
@@ -167,26 +187,28 @@ def sort_oO_arr_new(val_arr_OO):
 
                 
 
-def calc_minor_SSM(Poly1, Poly2):
+def calc_minor_SSM(Poly1, Poly2, options):
     SSM_arr = []  
     for ref in range(len(Poly1)):
-        temp = compare_arrays(Poly1,Poly2)
-        SSM_arr.append(temp[0])
-        Poly2 = permute_arr(Poly2)
-  
-    min = np.min(SSM_arr)
+        if len(Poly1) != 0 and len(Poly2) !=0:
+            temp = compare_arrays(Poly1,Poly2, options)
+            SSM_arr.append(temp[0])
+            Poly2 = permute_arr(Poly2)
+    if len(Poly1) != 0 and len(Poly2) !=0:
+        min = np.min(SSM_arr)  
+    else:
+        return [0,0]
     ind = np.where(SSM_arr == min)
 
     if ind[0].size == 0:
         print("Error; minor SSM indic is not found (shape_sim_meas.py, calc minor SSM Method)")
         quit()
-        ind = -1
     else:
         ind = ind[0][0]
     return [min, ind]
     
 
-def compare_arrays(arr1, arr2):
+def compare_arrays(arr1, arr2, options):
     value = 0
     val_arr = []
     arr_range = 0
@@ -195,11 +217,16 @@ def compare_arrays(arr1, arr2):
             arr_range = len(arr1)
         elif len(arr2)<= len(arr1):
             arr_range = len(arr2)
+    else:
+        arr_range = len(arr1)
+    
+    options["number_of_compared_angles"] =  options["number_of_compared_angles"] + arr_range
 
     for i in range(arr_range):
         value = value + (np.abs(arr1[i][1]-arr2[i][1]))
         val_arr.append([(str(arr1[i][0])+ "-" + str(arr2[i][0])),arr1[i][1]-arr2[i][1]])
-
+    # if value == 0:
+    #     print("fehler")
     return [value, val_arr]
 
 def permute_arr(arr):
@@ -640,7 +667,6 @@ def compare_polygons_in_frame(frame):
     this method calculates the example polygons for further calculation and gives this value to another method, that calculate this
 
     @param frame: frame array
-    @param rD: results dictionary
     @return: res array from another method
     """
     polys_in_one_frame = get_indizes_and_classes(frame)
@@ -737,10 +763,32 @@ def ret_NoP(polygon_array):
     @return: NoP: integer
     """
     NoP = 0
+    number_of_polygons = 0
     for frame in range(len(polygon_array)):
+         number_of_polygons = number_of_polygons + len(polygon_array[frame])
          for polygon in range(len(polygon_array[frame])):
               NoP = NoP + len(polygon_array[frame][polygon][4])
-    return NoP
+    return [number_of_polygons, NoP]
+
+
+
+
+def create_first_lines(options, rD):
+    """
+    write the first lines to the result dictionary
+
+    @param rD: results dictionary
+    @param options: Dictionary with options set in main
+    """
+    string_empty_1 = str(np.random.randint(10000)) #set string for empty line
+    string_empty_2 = str(np.random.randint(10000))
+
+    current_dateTime = datetime.datetime.now()
+    date = str(current_dateTime.day)+"."+str(current_dateTime.month)+"."+str(current_dateTime.year)
+    time = str(current_dateTime.hour)+":"+str(current_dateTime.minute) + ":" + str(current_dateTime.second)
+    rD["Processed on"] = " "+  date + " at " + time
+    rD[string_empty_1] = "emptyline"
+    rD[string_empty_2] = "emptyline"
 
 
 
@@ -749,7 +797,8 @@ def write_results_file(results_dictionary, path):
     """
     write a txt file with the given result variable at a path.
 
-    @param results: string
+    @param results_dictionary: dictionary
+    @param path: Path, where the file would be written
     """
     with open(path, 'w') as f: 
         for key, value in results_dictionary.items(): 
