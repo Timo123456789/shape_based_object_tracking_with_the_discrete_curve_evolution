@@ -64,7 +64,7 @@
 	\begin{equation}
 	Pr(Class_i|Object) * Pr(Object) * IOU_{pred}^{truth} = Pr(Class_i) * IOU_{pred}^{truth}
 	\end{equation}
-	Der hier berechnete Wert enthält nicht nur die Wahrscheinlichkeit, dass diese Klasse in der Bounding Box vorkommt, sondern auch wie gut das die vorhergesagte Box mit dem detektierten Objekt übereinstimmt. Ein Beispielablauf ist in Abbildung \ref{YOLO_Model} zu sehen.
+	Der hier berechnete Wert enthält nicht nur die Wahrscheinlichkeit, dass diese Klasse in der Bounding Box vorkommt, sondern auch wie gut die vorhergesagte Box mit dem detektierten Objekt überein stimmt. Ein Beispielablauf ist in Abbildung \ref{YOLO_Model} zu sehen.
 	\begin{figure}[ht]
 		\centering
 		\includegraphics*[scale = 2, keepaspectratio, trim=2 2 2 2 ]{images/YOLO/YOLO_model.png}
@@ -198,7 +198,7 @@ Für die Anwendung in dieser Arbeit ist die DCE wegen ihrer geringen Komplexitä
 	Python wurde am 14. Februar 2009 in der Version 3.0 veröffentlicht \citep{Rossum2009}. Diese Programmiersprache bietet Vorteile durch die einfache Syntax und die Unterstützung der Einbindung diverser externen Bibliotheken \citep{Marowka2018}. \\
 	In dieser Arbeit wird Anaconda als Installationsumgebung und Visual Studio Code als Entwicklungsumgebung genutzt. }
 
-\section{Externe Bibliotheken}
+\section{Externe Bibliotheken und Implementierungen}
 	In den folgenden Abschnitten werden die in dieser Arbeit genutzten Bibliotheken und Algorithmen näher erläutert.
 		\subsection{GeoPandas}
 		{ \label{subsec:Geopandas}
@@ -221,9 +221,9 @@ Für die Anwendung in dieser Arbeit ist die DCE wegen ihrer geringen Komplexitä
 		Diese Bibliothek beinhaltet Algorithmen zur Bild- und Videobearbeitung. In dieser Arbeit wird diese Bibliothek zur Manipulation von Frames in Videos genutzt, die zuvor mit YOLO analysiert wurden. 
 		}
 		\subsection{weitere Bibliotheken}
-		\subsubsection{Timer}	
+		\subsubsection*{Timer}	
 		{Die externe Bibliothek \textit{timer} wird importiert, damit innerhalb des Programmablaufes Timestamps (Zeitstempel) gesetzt werden können, um einzelne Schritte des Programmes zu messen. Diese Library wurde in der Version 0.2.2 am 30.08.2021 von Lucien Shui veröffentlicht \citep{Shui2021}. }
-		\subsubsection{Datetime}{
+		\subsubsection*{Datetime}{
 			\todo{muss noch geschrieben werden}
 		}
 		\subsection{YOLOv8 Implementierung von Canu}

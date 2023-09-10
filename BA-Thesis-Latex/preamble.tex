@@ -8,15 +8,15 @@ a4paper,
 parskip=half,
 index=totoc,
 toc=listof,
-fontsize = 10, %a5
-%fontsize=11, %a4
+%fontsize = 10, %a5
+fontsize=11, %a4
 headinclude,
 twoside,
-BCOR = 10mm, %a5
-%BCOR=12mm, %a4
+%BCOR = 10mm, %a5
+BCOR=12mm, %a4
 cleardoublepage=empty,
-DIV=22, %a5
-%DIV=13, %a4
+%DIV=22, %a5
+DIV=13, %a4
 draft=false
 %final
 ]{scrreprt}
@@ -163,10 +163,10 @@ psdextra
 \renewcommand*{\headfont}{\sffamily\color{gray}}
 
 % change the chapter, section and subsection font sizes and spacings a bit for a5 format
-\setlength{\footskip}{1.75\baselineskip} % change the spacing a bit for a5 format
-\RedeclareSectionCommand[%
-afterskip=1\baselineskip,%
-beforeskip=-1\baselineskip]{chapter}
+% \setlength{\footskip}{1.75\baselineskip} % change the spacing a bit for a5 format
+% \RedeclareSectionCommand[%
+% afterskip=1\baselineskip,%
+% beforeskip=-1\baselineskip]{chapter}
 
 \setkomafont{chapter}{\LARGE}
 \setkomafont{section}{\Large}

@@ -136,7 +136,7 @@ def write_statistics(rD, number_of_compared_polygons, res_ret_NoP, NoP_bef_DCE, 
     
 
 
-def write_SSM_new(arr, classid,rD,fps, detected):
+def write_SSM_new(arr, classid,rD,fps, detected, NoCP):
     """
     write calculated results at the results dictionary
 
@@ -145,6 +145,7 @@ def write_SSM_new(arr, classid,rD,fps, detected):
     @param rD: results dictionary, where all results would be saved
     @param fps: whole number of frames in the source video
     @param detected: number of detected objects
+    @param NoCP: number of compared polygons for every class
     """
     if sum(arr) == 0 or detected == 0: #if detected or sum(arr) is 0; the following calcucated measures are wrong; would be printet as string as note
         string_not_right = " (Result is WRONG, because SSM is 0) "
@@ -823,9 +824,35 @@ def create_first_lines(options, rD):
     string_empty_1 = str(np.random.randint(10000)) #set string for empty line
     string_empty_2 = str(np.random.randint(10000))
 
-    current_dateTime = datetime.datetime.now()
-    date = str(current_dateTime.day)+"."+str(current_dateTime.month)+"."+str(current_dateTime.year)
-    time = str(current_dateTime.hour)+":"+str(current_dateTime.minute) + ":" + str(current_dateTime.second)
+    current_dateTime = datetime.datetime.now() #creates variable to save the finished time for the program
+
+    if current_dateTime.day <10: #add to the beginning a zero, for better reading
+        day = "0"+str(current_dateTime.day)
+    else:
+        day = str(current_dateTime.day)
+
+    if current_dateTime.month <10: #similar above
+        month = "0"+str(current_dateTime.month)
+    else:
+        month = str(current_dateTime.month)
+
+    if current_dateTime.hour <10: #similar above
+        hour = "0"+str(current_dateTime.hour)
+    else:
+        hour = str(current_dateTime.hour)
+
+    if current_dateTime.minute <10: #similar above
+        minute = "0"+str(current_dateTime.minute)
+    else:
+        minute = str(current_dateTime.minute)
+    
+    if current_dateTime.second <10: #similar above
+        second = "0"+str(current_dateTime.second)
+    else:
+        second = str(current_dateTime.second)
+
+    date = str(day)+"."+str(month)+"."+str(current_dateTime.year)
+    time = str(hour)+":"+str(minute) + ":" + str(second)
     rD["Processed on"] = " "+  date + " at " + time
     rD[string_empty_1] = "emptyline"
     rD[string_empty_2] = "emptyline"
