@@ -1,3 +1,21 @@
+"""
+YOLO Every Frame Code File for a prototypical implementation for the combination of "You Only Look Once" (YOLO) (Redmon, 2016, doi: 10.1109/CVPR.2016.91 ) (Vers. YOLOv8x, Ultralytics, 2023) and Discrete Curce Evolution (DCE) (Latecki, 1999, doi: 10.1006/cviu.1998.0738 ); based on hypothesis by Dorr, Latecki and  Moratz (2015, doi: 10.1007/978-3-319-23374-1_7 )
+
+Runs the YOLO AI Model in form of split the videostream in all frames and run yolo for every single frame; runs the DCE on the detected outlines
+
+Must be used with the files: Main.py, DCE.py,  yolo_result_version.py, shape_sim_meas.py
+
+Implementation for bachelor thesis: "Formbasiertes Objekttracking mit der Discrete Curve Evolution"
+                                    "Shape-based object tracking with the Discrete Curve Evolution"
+                                    
+                                    at Westfaelische Wilhelms Universitaet Muenster
+                                    First Supervisor: Prof. Dr. Ing. Reinhard Moratz
+                                    Second Supervisor: Dr. Christian Knoth
+
+@author: Timo Lietmeyer, 11.09.2023
+@contact: timolietmeyer@uni-muenster.de (for question, etc.)
+
+"""
 from ultralytics import YOLO # ?? codesource: https://towardsdatascience.com/enhanced-object-detection-how-to-effectively-implement-yolov8-afd1bf6132ae ????
 import pandas # Source: https://java2blog.com/save-object-to-file-python/
 import numpy as np
