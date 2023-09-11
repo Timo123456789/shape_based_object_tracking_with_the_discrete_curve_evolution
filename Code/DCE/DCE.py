@@ -15,6 +15,8 @@ Implementation for bachelor thesis: "Formbasiertes Objekttracking mit der Discre
 @author: Timo Lietmeyer, 11.09.2023
 @contact: timolietmeyer@uni-muenster.de (for question, etc.)
 
+supported by Vocavit GmbH, Hamburg
+
 """
 import numpy as np
 import geopandas as gpd
@@ -224,14 +226,6 @@ def calc_k_with_points(polygon,p,s1,s2):
     dist_between_p_s2 = calc_distance_between_two_points(polygon,p,s2)
 
     k =  (angle*dist_between_p_s1*dist_between_p_s2)/(dist_between_p_s1+dist_between_p_s2)
-    if angle <=0 or dist_between_p_s1 <=0 or dist_between_p_s2 <=0: #Exception if any value is lower than 0
-        print("problem" + "angle" + str(angle))
-        print("dist p s1" + str(dist_between_p_s1) + " dist p s2" + str(dist_between_p_s2))
-        print("p " + str(p) + "s1 " +str(s1)+ "s2 " + str(s2))
-        print("stop")
-        print(k)
-        print("__________")
-        quit()
     return [k, angle]
 
 

@@ -15,6 +15,8 @@ Implementation for bachelor thesis: "Formbasiertes Objekttracking mit der Discre
 @author: Timo Lietmeyer, 11.09.2023
 @contact: timolietmeyer@uni-muenster.de (for question, etc.)
 
+supported by Vocavit GmbH, Hamburg
+
 """
 from ultralytics import YOLO # ?? codesource: https://towardsdatascience.com/enhanced-object-detection-how-to-effectively-implement-yolov8-afd1bf6132ae ????
 import pandas # Source: https://java2blog.com/save-object-to-file-python/

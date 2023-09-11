@@ -15,6 +15,8 @@ Implementation for bachelor thesis: "Formbasiertes Objekttracking mit der Discre
 @author: Timo Lietmeyer, 11.09.2023
 @contact: timolietmeyer@uni-muenster.de (for question, etc.)
 
+supported by Vocavit GmbH, Hamburg
+
 """
 import numpy as np
 import time

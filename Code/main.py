@@ -13,6 +13,8 @@ Implementation for bachelor thesis: "Formbasiertes Objekttracking mit der Discre
 @author: Timo Lietmeyer, 11.09.2023
 @contact: timolietmeyer@uni-muenster.de (for question, etc.)
 
+supported by Vocavit GmbH, Hamburg
+
 """
 from YOLO.yolo_result_version import *
 from YOLO.yolo_every_frame import *
@@ -196,7 +198,7 @@ def run_evaluation():
     options["path_directory"] = r'Code\vid_examples\evaluation\01Yolo8n' #select path directory where the files would be saved
     options["source_video"] = r'Code\vid_examples\evaluation\Autobahn1s.mp4' #select source video
     options["write_video"] = r'\A1s_EF_vers.mp4' #select name for written video
-    options["results"] = r'\A1s_EF_results.txt' #selevt name for written statistics file
+    options["results"] = r'\A1s_EF_results.txt' #select name for written statistics file
     options["YOLO_model"] = "yolov8n-seg.pt" #select YOLO Model
     options["yolo_every_frame"] = True #select YOLO implementation version
     run_test_case(options)
@@ -385,5 +387,5 @@ def set_options_on_default():
 
 
 
-#run_evaluation()
-main()
+run_evaluation()
+#main()
