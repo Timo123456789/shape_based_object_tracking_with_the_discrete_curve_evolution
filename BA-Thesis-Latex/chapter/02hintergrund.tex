@@ -10,7 +10,7 @@
 {
 	\section{Grundlagen im Maschinellen Lernen}
 	{ 
-	Im folgenden werden mehrere Begriffe und Abkürzungen für \Ref{subsec:YOLO_Alg} erklärt. \\
+	Im Folgenden werden mehrere Begriffe und Abkürzungen für \Ref{subsec:YOLO_Alg} erklärt. \\ \todo{Anführungszeichen checken ' ' "" etc}
 	\begin{figure}[ht]
 		\centering
 		\includegraphics*[scale = 0.8, keepaspectratio, trim=2 2 2 2 ]{images/YOLO/YOLO_Preamble_Simple_CNN.png}
@@ -72,7 +72,7 @@
 		\label{YOLO_Model}
  	\end{figure}
 
-	Abbildung \ref{YOLO_Architecture} zeigt die Architektur von YOLO \citep{Redmon2016}. \\
+	Abbildung \ref{YOLO_Architecture} zeigt die Architektur von YOLO \citep{Redmon2016}. \\ 
 	YOLO ist als 'Convolutional Neural Network' entwickelt worden, welches mit dem PASCAL VOC Datensatz getestet und von GoogleLeNet Modell für die Architektur inspiriert wurde. Die Features des Bildes werden in den ersten CN Layern extrahiert. Die Architektur umfasst 24 'Convolutional' Layer, an welche 2 'fully-connected' Layer anschließen. Außerdem wird ein $1 \times 1$ 'Reduction Layer' gefolgt von $3 \times 3$ 'Convolutional' Layer eingesetzt. Es gibt außerdem eine schnelle Version von YOLO, die ein neuronales Netz mit weniger Layern (9 statt 24) und Filtern verwendet. Abgesehen von diesen Änderungen gleichen sich beide Versionen vollständig in Trainings- und Testparametern \citep{Redmon2016}. \\
 	\begin{figure}[h]
 		\centering
@@ -185,7 +185,7 @@ Für die Anwendung in dieser Arbeit ist die DCE wegen ihrer geringen Komplexitä
 
 \section{Formähnlichkeitsmaß (NICHT FERTIG)}{
 	\todo{überarbeiten}
-	Zur Evaluation des Objekttrackings wird ein Formähnlichkeitsmaß (\glqq Shape Similarity Measure\grqq{}, SSM) genutzt, welches die Innenwinkelsumme der Polygone vergleicht. \\
+	Zur Evaluation des Objekttrackings wird ein Formähnlichkeitsmaß (\glqq Shape Similarity Measure\grqq{}, SSM) genutzt, welches die Winkel der Polygone vergleicht \\
 	Da ein von DCE vereinfachtes Polygon sich von Frame zu Frame nicht ändert, kann die Winkelsumme der exakt gleichen Polygone voneinander subtrahiert werden, um eine Winkelabweichung nahe oder gleich 0 zu erhalten. Da jedoch der Umriss eines Objekts, durch dessen Bewegung beeinflusst wird, wird das Formähnlichkeitsmaß Schwankungen unterliegen.\\
 	Um vergleichbare Werte zu erhalten, darf nur innerhalb einer von YOLO detektierten Klasse die Winkelabweichung berechnet werden. Dies ist der Fall, da jede Klasse auf verschiedene Punktzahlen vereinfacht wird, und damit die Winkelsummen der einzelnen Polygone sich stark unterscheiden. Diese Berechnungsmethode ermöglicht eine Betrachtung der Abweichung für jede von YOLO detektierte Objektklasse.  	
 }

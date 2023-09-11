@@ -1299,22 +1299,22 @@
 
 # 	Zuletzt werden die Indizes des \lstinline|sort_arr| neu nummeriert, da es sonst beim Löschen ein Wert außerhalb des Polygons angesteuert wird. \todo{ich weiß auch noch nicht so genau, warum das überhaupt der Fall ist. Er löscht den aktuellen Wert, aktualisiert den vorherigen und fügt den neuberechneten hinzu -> eigentlich muss es auch ohne Neunummerierung schrumpfen} Im letzten Schritt wird das Array wieder nach dem geringsten K Wert sortiert und daraufhin zurückgeben. \\
 # 	Damit ist die While Schleife aus Listing \ref{cd:DCE_simplify_polygon_A2.py} fast beendet. Es wird in dieser die aktuelle Punktzahl mit der gewünschten verglichen und das Polygon wird im Erfolgsfall zurückgeben. Ansonsten beginnt die Schleife von vorne. \\
-# 	Nun wird die Berechnung des K Wertes beschrieben.
+	# Nun wird die Berechnung des K Wertes beschrieben.
 
-# 	\lstinputlisting[basicstyle=\ttfamily\scriptsize,linerange={358-362,364,367-369,373,376}, caption={Ausschnitt aus \protect\lstinline|calc_k_for_all_points| Funktion in DCE.py}, label = {cd:DCE_calc_k_for_all_points.py}]{../Code/DCE/DCE.py}
+	# \lstinputlisting[basicstyle=\ttfamily\scriptsize,linerange={358-362,364,367-369,373,376}, caption={Ausschnitt aus \protect\lstinline|calc_k_for_all_points| Funktion in DCE.py}, label = {cd:DCE_calc_k_for_all_points.py}]{../Code/DCE/DCE.py}
 
-# 	Der K Wert wird in der folgenden Funktion \lstinline|calc_k_with_points| berechnet. Diese Methode basiert auf der Formel \ref{Equ_K_Bark} ( nach \citet{Latecki1999a})und ist dahingehend abgeändert worden, dass diese nicht mit Liniensegmenten, sondern mit drei Punkten berechnet werden kann. Die abgeänderte Formel lautet:
-# 	\begin{equation}
-# 		K(p,S_1,S_2) = \frac{\beta(p, S_1, S_2)l(p, S_1)l(p, S_2)}{l(p, S_1) + l(p, S_2)} 
-# 		\label{equ_K_DCE_points}
-# 	\end{equation}
-# 	Im Programmcode ist dies folgendermaßen implementiert (siehe Listing \ref{cd:DCE_calc_k_with_points.py}). Es wird zunächst der Winkel $\beta$ berechnet, indem alle drei Punkte und das Polygon übergeben werden. Danach werden die beiden Distanzen zwischen $p, S_1$ und $p, S_2$ berechnet. Die Winkelberechnungsfunktion arbeitet mit NumPy und die Distanzberechnungsfunktion basiert auf Funktionen, die GeoPandas bietet.
-# 	\lstinputlisting[basicstyle=\ttfamily\scriptsize,linerange={406,418-420,422,423}, caption={Ausschnitt aus \protect\lstinline|calc_k_with_points| Funktion in DCE.py}, label = {cd:DCE_calc_k_with_points.py}]{../Code/DCE/DCE.py}
-# 	Diese drei Werte werden dann analog zur Formel \ref{equ_K_DCE_points} zum Wert K berechnet. Als letzten Schritt wird dieser Wert und der Winkel als Array zurückgegeben.
+	# Der K Wert wird in der folgenden Funktion \lstinline|calc_k_with_points| berechnet. Diese Methode basiert auf der Formel \ref{Equ_K_Bark} ( nach \citet{Latecki1999a})und ist dahingehend abgeändert worden, dass diese nicht mit Liniensegmenten, sondern mit drei Punkten berechnet werden kann. Die abgeänderte Formel lautet:
+	# \begin{equation}
+	# 	K(p,S_1,S_2) = \frac{\beta(p, S_1, S_2)l(p, S_1)l(p, S_2)}{l(p, S_1) + l(p, S_2)} 
+	# 	\label{equ_K_DCE_points}
+	# \end{equation}
+	# Im Programmcode ist dies folgendermaßen implementiert (siehe Listing \ref{cd:DCE_calc_k_with_points.py}). Es wird zunächst der Winkel $\beta$ berechnet, indem alle drei Punkte und das Polygon übergeben werden. Danach werden die beiden Distanzen zwischen $p, S_1$ und $p, S_2$ berechnet. Die Winkelberechnungsfunktion arbeitet mit NumPy und die Distanzberechnungsfunktion basiert auf Funktionen, die GeoPandas bietet.
+	# \lstinputlisting[basicstyle=\ttfamily\scriptsize,linerange={406,418-420,422,423}, caption={Ausschnitt aus \protect\lstinline|calc_k_with_points| Funktion in DCE.py}, label = {cd:DCE_calc_k_with_points.py}]{../Code/DCE/DCE.py}
+	# Diese drei Werte werden dann analog zur Formel \ref{equ_K_DCE_points} zum Wert K berechnet. Als letzten Schritt wird dieser Wert und der Winkel als Array zurückgegeben.
 	
-# 	In Listing \ref{cd:DCE_angle_and_distance.py} ist zu sehen, dass die Winkelberechnungsfunktion mit dem Arcustangens und $\pi$ arbeitet. Dies basiert auf der Dokumentation von NumPy \citep{numpy_angle}. Da die Berechnung ein Array ausgibt, müssen alle Elemente aufsummiert werden, um einen Wert zu erhalten. Dieser Wert wird dann in Radiant umgerechnet und zurückgeben. \\
-# 	Die Distanzberechnung erfolgt mit einer Funktion, die GeoPandas bei \lstinline|Geopanda.Geoseries| Objekt bietet. Diese errechnet die Distanz zwischen den Punkten \lstinline|p1| und \lstinline|p2|. Danach wird diese zurückgegeben.
-# 	\lstinputlisting[basicstyle=\ttfamily\scriptsize,linerange={545,557-559,569,570,572,573,577,596,605-608}, caption={Ausschnitte aus \protect\lstinline|get_angle_two_lines| und \protect\lstinline|get_distance_between_two_points| Funktionen in DCE.py}, label = {cd:DCE_angle_and_distance.py}]{../Code/DCE/DCE.py}
+	# In Listing \ref{cd:DCE_angle_and_distance.py} ist zu sehen, dass die Winkelberechnungsfunktion mit dem Arcustangens und $\pi$ arbeitet. Dies basiert auf der Dokumentation von NumPy \citep{numpy_angle}. Da die Berechnung ein Array ausgibt, müssen alle Elemente aufsummiert werden, um einen Wert zu erhalten. Dieser Wert wird dann in Radiant umgerechnet und zurückgeben. \\
+	# Die Distanzberechnung erfolgt mit einer Funktion, die GeoPandas bei \lstinline|Geopanda.Geoseries| Objekt bietet. Diese errechnet die Distanz zwischen den Punkten \lstinline|p1| und \lstinline|p2|. Danach wird diese zurückgegeben.
+	# \lstinputlisting[basicstyle=\ttfamily\scriptsize,linerange={545,557-559,569,570,572,573,577,596,605-608}, caption={Ausschnitte aus \protect\lstinline|get_angle_two_lines| und \protect\lstinline|get_distance_between_two_points| Funktionen in DCE.py}, label = {cd:DCE_angle_and_distance.py}]{../Code/DCE/DCE.py}
 
 
 

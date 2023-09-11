@@ -3,7 +3,7 @@ YOLO Result Version Code File for a prototypical implementation for the combinat
 
 Runs the YOLO AI Model in form of run YOLO for the whole video and calculate DCE after this for all detected polygons
 
-Must be used with the files: Main.py, DCE.py,  yolo_every_frame.py, shape_sim_meas.py
+Must be used with the files: Main.py, DCE.py,  yolo_every_frame.py, yolo_segementation.py, shape_sim_meas.py
 
 Implementation for bachelor thesis: "Formbasiertes Objekttracking mit der Discrete Curve Evolution"
                                     "Shape-based object tracking with the Discrete Curve Evolution"

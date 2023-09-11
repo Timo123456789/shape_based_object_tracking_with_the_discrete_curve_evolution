@@ -3,7 +3,7 @@ DCE Code File for a prototypical implementation for the combination of "You Only
 
 Calculate the Discrete Curve Evolution for polygon up to a fixed limit
 
-Must be used with the files: Main.py, yolo_every_frame.py, yolo_result_version.py, shape_sim_meas.py
+Must be used with the files: Main.py, yolo_every_frame.py, yolo_result_version.py, yolo_segementation.py, shape_sim_meas.py
 
 Implementation for bachelor thesis: "Formbasiertes Objekttracking mit der Discrete Curve Evolution"
                                     "Shape-based object tracking with the Discrete Curve Evolution"
@@ -72,23 +72,23 @@ def simplify_polygon_fast_sec(arr, fNoP):
             k_bef = calc_k_with_points(DCE_Polygon, (NoP_temp-1),0, (NoP_temp-2)) #calculate the k value for the last point on polygon   
                                                                                   #scheme: (Polygon, Index of (considered) last point on the polygon, 0 for the first neighbour at this point, and the index for the second neigbour at this point (the point 2 indices before last point))
             k_act = calc_k_with_points(DCE_Polygon, 0,(NoP_temp-1), 1 ) #calculate the k value for the considerd/actual point of the polygon
-                                                                        #scheme: (Polygon, Index of the (considered) first point on the polygon, index from the last point of the polygon (as first neighbour), 1 as index for the second neighbour (point after the considered point))
+            #scheme: (Polygon, Index of the (considered) first point on the polygon, index from the last point of the polygon (as first neighbour), 1 as index for the second neighbour (point after the considered point))
         else: #if index is not 0; there would be calculate normally
 
             if indic-1 == 0: #if index decreased by 1 is 0; the k_value for the point before must be the last point on the polygon
                 k_bef = calc_k_with_points(DCE_Polygon, 0,1, (NoP_temp-1))  #calculate k for the point before the considered point
-                                                                            #scheme: (Polygon, 0 as the considered/acutal point of the polygon, 1 as the index for the first neigbour (point after the considered point); and the last point on the polygon as second neigbour)
+                #scheme: (Polygon, 0 as the considered/acutal point of the polygon, 1 as the index for the first neigbour (point after the considered point); and the last point on the polygon as second neigbour)
             else: #other case if indic+1 is bigger than the number of points at the polygon / in the array
                 if indic+1 > NoP_temp: #if case when indic+1 is bigger than the number of points at the polygon / in the array
                     k_bef = calc_k_with_points(DCE_Polygon, indic-1, 0, indic) #calculate k for the point before the considered point
-                                                                               #Schema: (Polygon, indic-1 for the actual/considered point, who would be k calculated, 0 for the first neighbour (after the considered point indic-1), indic for the point before the considered point (as seocnd neighbour))
+                                                                                                  #Schema: (Polygon, indic-1 for the actual/considered point, who would be k calculated, 0 for the first neighbour (after the considered point indic-1), indic for the point before the considered point (as seocnd neighbour))
                 else: #if this is not the case k_bef would be calculated normaly 
                     k_bef = calc_k_with_points(DCE_Polygon, indic-1, indic, indic-2) #calculate k for the point before the considered point
                                                                                      #Schema. (Polygon, indic-1 for the actual/considered point, who would be k calculated; indic for the first neighbour (after the considered point indic-1), indic-2 for the second neigbour (before the considered point))
 
             if indic+1 > NoP_temp: #if case if indic increase by 1 is bigger than the number of points at the polygon / in the array
                 k_act = calc_k_with_points(DCE_Polygon,indic-1, 0, indic-2) #calculate k for the point, which is the considered point
-                                                                            #Schema: (Polygon, indic-1 for the actual/considered point, who would be k calculated; 0 for the first neigbour (after the considered point indic-1), indic -2 for the second neigbour (before the considered point))
+                 #Schema: (Polygon, indic-1 for the actual/considered point, who would be k calculated; 0 for the first neigbour (after the considered point indic-1), indic -2 for the second neigbour (before the considered point))
             else: #if this is not the case, k would be calculated normally
                 k_act = calc_k_with_points(DCE_Polygon,indic, indic-1, indic+1) #calculate k for the point, which is the considered point
                                                                                 #Schema: (Polygon, indic for the actual/considered point, who would be k calculated; indic-1 for the first neigbour (before the considered point), indic+1 for the second neighbour (after the considered point))     

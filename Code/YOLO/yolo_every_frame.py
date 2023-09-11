@@ -3,7 +3,7 @@ YOLO Every Frame Code File for a prototypical implementation for the combination
 
 Runs the YOLO AI Model in form of split the videostream in all frames and run yolo for every single frame; runs the DCE on the detected outlines
 
-Must be used with the files: Main.py, DCE.py,  yolo_result_version.py, shape_sim_meas.py
+Must be used with the files: Main.py, DCE.py,  yolo_result_version.py, yolo_segementation.py, shape_sim_meas.py
 
 Implementation for bachelor thesis: "Formbasiertes Objekttracking mit der Discrete Curve Evolution"
                                     "Shape-based object tracking with the Discrete Curve Evolution"

@@ -3,7 +3,7 @@ Shape Similarity Measure Code File for a prototypical implementation for the com
 
 Calculate a Shape Similarity Measure and write this to a text file
 
-Must be used with the files: Main.py, DCE.py, yolo_every_frame.py, yolo_result_version.py
+Must be used with the files: Main.py, DCE.py, yolo_every_frame.py, yolo_segementation.py, yolo_result_version.py
 
 Implementation for bachelor thesis: "Formbasiertes Objekttracking mit der Discrete Curve Evolution"
                                     "Shape-based object tracking with the Discrete Curve Evolution"
