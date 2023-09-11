@@ -49,13 +49,26 @@ draft=false
         stepnumber=1,
         numbersep=10pt,
         frame = lines,
-        commentstyle = \color{white},
-        %morecomment  = [l][\nullfont]{\#}, 
+        %commentstyle = \color{white},
+        %morecomment  = [l][\@gobble]{\#}, 
         %morecomment  = [is]{\"""}{\"""},
         breakatwhitespace = false,
-        }
+}
+\lstdefinestyle{intext}{
+        basicstyle=\ttfamily\scriptsize,
+        language = Python,
+        breaklines = true,
+        numbers=left,
+        stepnumber=1,
+        numbersep=10pt,
+        frame = lines,
+        %commentstyle = \color{white},
+        morecomment  = [l][\@gobble]{\#}, 
+        morecomment  = [is]{\"""}{\"""},
+        breakatwhitespace = false,
+}
 
-        %Package für Tabellen
+%Package für Tabellen
 \usepackage[normalem]{ulem}
 \useunder{\uline}{\ul}{}
 %weitere Abänderungen von mir für Verhinderung von Schusterjunge
