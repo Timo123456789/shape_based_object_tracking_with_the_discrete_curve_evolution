@@ -11,7 +11,7 @@ import time
 
 def simplify_polygon_k_with_angle(arr, final_number_of_points, options):
     """
-    returns a polygon, which is simplified to a given number of points
+    choose the given DCE run method, standard method is the fast way
     K Calculation with using angles and distances
 
     @param arr: 2-dim Array with points as tupel, like [[1,2],[2,1],...]
@@ -19,118 +19,127 @@ def simplify_polygon_k_with_angle(arr, final_number_of_points, options):
     @return array:  which was simplified to the given number of points
     """
     #return simplify_polygon_k_with_angle_old(arr, final_number_of_points, options)
-    return simplify_polygon_fast_sec(arr, final_number_of_points, options, r'Code\DCE\TestRuns\SimplePolygons\temp\vid')
+    return simplify_polygon_fast_sec(arr, final_number_of_points)
 
 
-def simplify_polygon_fast_sec(arr, fNoP, options, write_path):
-    DCE_Polygon = create_Polygon_from_array(arr)
-    NoP = get_number_of_points(DCE_Polygon)
+def simplify_polygon_fast_sec(arr, fNoP):
+    """
+    faster method for calculating the DCE; here are calcualted the k values only for the considered point and the point before. 
+    Decrease the points of the polygon with the DCE Method to the given number of points
+
+    @param arr: Polygon (as Geopanda.Geoseries Object)
+    @param fNoP: final number of points, if the polygon has this number of points this method terminate
+    @return array: 2-dim array, with pixel values
+    """
+    DCE_Polygon = create_Polygon_from_array(arr) #create a Geopanda.Geoseries Object from the given array; to calculate the k value with the DCE Method
+    NoP = get_number_of_points(DCE_Polygon) #get the actual number of points from the polygon
    
-    if NoP <= fNoP:
+    if NoP <= fNoP: #if clause to return the polygon directly when the given polygon has fewer points than required
         return polygon_to_pixels(DCE_Polygon)
-    k_val_arr = calc_k_for_all_points(DCE_Polygon)
-    sort_arr = np.asarray(k_val_arr, dtype="float")
-    sort_arr = sort_arr[np.argsort(sort_arr[:,1], kind="quicksort")]
-  
+    k_val_arr = calc_k_for_all_points(DCE_Polygon) #init the k value array with calculate the k value for all points on the polygon
+    sort_arr = np.asarray(k_val_arr, dtype="float") #cast the k value array to a numpy array for further calculations
+    sort_arr = sort_arr[np.argsort(sort_arr[:,1], kind="quicksort")] #sort this array to get the lowest k value and their index
 
-
-    while(len(sort_arr)>= fNoP):
-        indic = int(sort_arr[0][0])
+    while(len(sort_arr)>= fNoP): #if the polygon has more points than required by fNoP; the loop must be run
+        indic = int(sort_arr[0][0]) #indic is always the first element of the sorted array
  
-        DCE_Polygon = delete_point_from_polygon(DCE_Polygon, indic)
-            
-        NoP_temp = get_number_of_points(DCE_Polygon)
+        DCE_Polygon = delete_point_from_polygon(DCE_Polygon, indic) #delete the point with the lowest k value from the polygon
+        NoP_temp = get_number_of_points(DCE_Polygon) #get the actual number of points from the polygon 
 
-        if indic == 0:
-            k_bef = calc_k_with_points(DCE_Polygon, (NoP_temp-1),0, (NoP_temp-2))
-            k_act = calc_k_with_points(DCE_Polygon, 0,(NoP_temp-1), 1 )
-        else:
+        if indic == 0: # if the index is 0; the k value for the before point must be the last point on the polygon; the actual point is the first 
+            k_bef = calc_k_with_points(DCE_Polygon, (NoP_temp-1),0, (NoP_temp-2)) #calculate the k value for the last point on polygon   
+                                                                                  #scheme: (Polygon, Index of (considered) last point on the polygon, 0 for the first neighbour at this point, and the index for the second neigbour at this point (the point 2 indices before last point))
+            k_act = calc_k_with_points(DCE_Polygon, 0,(NoP_temp-1), 1 ) #calculate the k value for the considerd/actual point of the polygon
+                                                                        #scheme: (Polygon, Index of the (considered) first point on the polygon, index from the last point of the polygon (as first neighbour), 1 as index for the second neighbour (point after the considered point))
+        else: #if index is not 0; there would be calculate normally
 
-            if indic-1 == 0:
-                k_bef = calc_k_with_points(DCE_Polygon, 0,1, (NoP_temp-1) )
-            else:
-                if indic+1 > NoP_temp:
-                    k_bef = calc_k_with_points(DCE_Polygon, indic-1, 0, indic) #RICHTIG??
-                else:
-                    k_bef = calc_k_with_points(DCE_Polygon, indic-1, indic, indic-2) #muss es nicht indic-1,indic, indic-2 heissen?
+            if indic-1 == 0: #if index decreased by 1 is 0; the k_value for the point before must be the last point on the polygon
+                k_bef = calc_k_with_points(DCE_Polygon, 0,1, (NoP_temp-1))  #calculate k for the point before the considered point
+                                                                            #scheme: (Polygon, 0 as the considered/acutal point of the polygon, 1 as the index for the first neigbour (point after the considered point); and the last point on the polygon as second neigbour)
+            else: #other case if indic+1 is bigger than the number of points at the polygon / in the array
+                if indic+1 > NoP_temp: #if case when indic+1 is bigger than the number of points at the polygon / in the array
+                    k_bef = calc_k_with_points(DCE_Polygon, indic-1, 0, indic) #calculate k for the point before the considered point
+                                                                               #Schema: (Polygon, indic-1 for the actual/considered point, who would be k calculated, 0 for the first neighbour (after the considered point indic-1), indic for the point before the considered point (as seocnd neighbour))
+                else: #if this is not the case k_bef would be calculated normaly 
+                    k_bef = calc_k_with_points(DCE_Polygon, indic-1, indic, indic-2) #calculate k for the point before the considered point
+                                                                                     #Schema. (Polygon, indic-1 for the actual/considered point, who would be k calculated; indic for the first neighbour (after the considered point indic-1), indic-2 for the second neigbour (before the considered point))
 
-            if indic+1 > NoP_temp: 
-                k_act = calc_k_with_points(DCE_Polygon,indic-1, 0, indic-2) #RICHTIG?? vorher indic, 0 ,indic -1; sonst wird der gleiche Punkt verglichen.. das ist doof 
-            else:
-                k_act = calc_k_with_points(DCE_Polygon,indic, indic-1, indic+1)       
+            if indic+1 > NoP_temp: #if case if indic increase by 1 is bigger than the number of points at the polygon / in the array
+                k_act = calc_k_with_points(DCE_Polygon,indic-1, 0, indic-2) #calculate k for the point, which is the considered point
+                                                                            #Schema: (Polygon, indic-1 for the actual/considered point, who would be k calculated; 0 for the first neigbour (after the considered point indic-1), indic -2 for the second neigbour (before the considered point))
+            else: #if this is not the case, k would be calculated normally
+                k_act = calc_k_with_points(DCE_Polygon,indic, indic-1, indic+1) #calculate k for the point, which is the considered point
+                                                                                #Schema: (Polygon, indic for the actual/considered point, who would be k calculated; indic-1 for the first neigbour (before the considered point), indic+1 for the second neighbour (after the considered point))     
    
-        sort_arr = update_sort_array_sec(sort_arr,indic,k_bef[0], k_act[0],DCE_Polygon)
+        sort_arr = update_sort_array_sec(sort_arr,indic,k_bef[0], k_act[0],DCE_Polygon) #update the sort array with the calculated k values
 
-        if (get_number_of_points(DCE_Polygon) == fNoP):
-            return polygon_to_pixels(DCE_Polygon)
+        if (get_number_of_points(DCE_Polygon) == fNoP): #exception if the polygon has reached the final number of points fNoP
+            return polygon_to_pixels(DCE_Polygon) #convert the polygon to a array with pixels and return
 
-    return polygon_to_pixels(DCE_Polygon)
+    return polygon_to_pixels(DCE_Polygon) #convert the polygon to a array with pixels and return
 
 
 def update_sort_array_sec(sort_arr, indic, k_bef, k_act, p):
-    NoP_Poly = get_number_of_points(p)
-   
-    sort_arr = np.delete(sort_arr, 0, axis = 0)
-    temp = sort_arr[np.argsort(sort_arr[:,0], kind="quicksort")]
-    
-    new_val_arr = np.array([indic, k_act])
-    sort_arr = np.concatenate((sort_arr, [new_val_arr]), axis =0)
-    temp = sort_arr[np.argsort(sort_arr[:,0], kind="quicksort")]
-    
-    if indic == 0:
-        temp[NoP_Poly-1][1] = k_bef
-    else:
-        upd_indic = np.where(np.isin(temp[:,0], indic-1))
-        upd_indic = int(upd_indic[0][0])
-        temp[upd_indic][1] = k_bef
-    
+    """
+    Update the array with the given variables and at the given indices
 
-    if indic+1 == NoP_Poly:
-        del_ind = len(sort_arr)-1
-        temp = np.delete(temp, del_ind, axis = 0)
-    else:
-        del_ind = np.where(np.isin(temp[:,0], indic+1))
+    @param sort_arr: 2-dim Array, with all k values and indices for the polygon p
+    @param indic: actual index for the calculated k value on the polygon p
+    @param k_bef: k value for the point (index-1) before index; calulated in other method
+    @param k_act: k value for the point (index) at index; calulated in other method
+    @param p: Polygon (as Geopanda.Geoseries Object)
+    @return arr: 2 dim array, with updatet values on 2 indices
+    """
+    NoP_Poly = get_number_of_points(p) #get the actual number of points from the polygon
+   
+    sort_arr = np.delete(sort_arr, 0, axis = 0) #delete the lowest k value from the (sorted) array
+    temp = sort_arr[np.argsort(sort_arr[:,0], kind="quicksort")] #temp variable, where the 'new' sorted array with the lowest value at the top is saved
+    
+    new_val_arr = np.array([indic, k_act]) #variable for the new k_value at the considered index
+    sort_arr = np.concatenate((sort_arr, [new_val_arr]), axis =0) #add the considered index and their k value to the temp variable
+    temp = sort_arr[np.argsort(sort_arr[:,0], kind="quicksort")] #sort the temp variable, to get the lowest value at the top
+    
+    #if clause for updating the values
+    if indic == 0:  #if clause, for the case that index is the first point in the polygon 
+        temp[NoP_Poly-1][1] = k_bef #the k value before the index in this case, is the last point on polygon p
+    else: #if this is not the case, there values updatet normally
+        upd_indic = np.where(np.isin(temp[:,0], indic-1)) #search the index on the temp array, where the value (index-1) is saved
+        upd_indic = int(upd_indic[0][0]) #cast this value to an int
+        temp[upd_indic][1] = k_bef #update the k value to the given  new k value
+    
+    #if clause for deleting the redundant value
+    if indic+1 == NoP_Poly: #if clause, for the case that the index is teh last point of the polygon
+        del_ind = len(sort_arr)-1 #get the index of the last value in the array
+        temp = np.delete(temp, del_ind, axis = 0) #delete the last value from array
+    else: #if this is not the case, the value are deleted normally
+        del_ind = np.where(np.isin(temp[:,0], indic+1)) #search the index where the value is, that would be deleted
         
-        if del_ind[0].size == 0:
+        if del_ind[0].size == 0: #if there is no value found, the last element of the array would be deleted
             temp = np.delete(temp, (len(sort_arr)-1), axis = 0)
-        else:
-            del_ind = del_ind[0][0]
-            temp = np.delete(temp, del_ind, axis = 0)
+        else: #case for found a value
+            del_ind = del_ind[0][0] #cast the founded value to an int
+            temp = np.delete(temp, del_ind, axis = 0) #delete the founded value on this index
 
-    
-    if indic != (len(sort_arr)-1):
-        for i in range(len(temp)):
-            if temp[i][0]>del_ind:
-               
-                temp[i][0] = temp[i][0]-1
+    if indic != (len(sort_arr)-1): #if clause to decrease the index on all values in the sort array, if there index is bigger than the deleted index
+        for i in range(len(temp)): #iterate over the whole array
+            if temp[i][0]>del_ind: #if the index is bigger than the deleted index
+                temp[i][0] = temp[i][0]-1 #decrease the index value by 1
    
-    if len(temp) != get_number_of_points(p):
-        print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
-        print("Fehler")
-        print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
-    return temp[np.argsort(temp[:,1], kind="quicksort")]
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    if len(temp) != get_number_of_points(p): #exception handler; the array and the polygon must be have the same number of values always
+        print("Error; Array and Number of points in the polygon must be have the same number of values always")
+        quit()
+    return temp[np.argsort(temp[:,1], kind="quicksort")] #return the updated array
 
 
 
 
 def calc_k_for_all_points(p):
+    """
+    returns an array with the k value for every point/index on the polygon p
+
+    @param p: Polygon (as Geopanda.Geoseries Object)
+    @return array: 2-dim array with [[index, k_value],...]
+    """
     NoP = get_number_of_points(p)
     temp_k_val_arr = []
     for i in range(NoP):
@@ -186,20 +195,21 @@ def calc_k_with_points(polygon,p,s1,s2):
     @param s2: Point which describes the end of the second line from p
     @returns k: as Int
 
-    moegliche Quelle : https://cis.temple.edu/~latecki/Software/Evo.zip
+    Source Code; simliar implementation by Latecki/Opfer, 2002 : https://cis.temple.edu/~latecki/Software/Evo.zip
     """
     angle = get_angle_two_lines(polygon,p,s1,s2)
     dist_between_p_s1 = calc_distance_between_two_points(polygon,p,s1)
     dist_between_p_s2 = calc_distance_between_two_points(polygon,p,s2)
 
     k =  (angle*dist_between_p_s1*dist_between_p_s2)/(dist_between_p_s1+dist_between_p_s2)
-    if angle <=0 or dist_between_p_s1 <=0 or dist_between_p_s2 <=0:
+    if angle <=0 or dist_between_p_s1 <=0 or dist_between_p_s2 <=0: #Exception if any value is lower than 0
         print("problem" + "angle" + str(angle))
         print("dist p s1" + str(dist_between_p_s1) + " dist p s2" + str(dist_between_p_s2))
         print("p " + str(p) + "s1 " +str(s1)+ "s2 " + str(s2))
         print("stop")
         print(k)
         print("__________")
+        quit()
     return [k, angle]
 
 
@@ -376,7 +386,7 @@ def readtextfile(path):  #
     @param path: Path where the reading file is located
     @returns Geoseries Polygon: which are created from array
 
-    Source: Quelle https://www.opengeodata.nrw.de/produkte/geobasis/vkg/dvg/dvg2/
+    Source data:  https://www.opengeodata.nrw.de/produkte/geobasis/vkg/dvg/dvg2/
     """
     test = pandas.read_table(path, delimiter=';')
     array = convert_table_in_array(test)
@@ -464,6 +474,7 @@ def polygon_to_pixels(p):
 
 
 
+
 def simplify_polygon_k_with_angle_old(arr, final_number_of_points, options):
     """
     returns a polygon, which is simplified to a given number of points
@@ -528,9 +539,6 @@ def test():
     timestamp_old_a = time.time()
     plot_GS_polygon(create_Polygon_from_array(polygon_in_arr),"Ursprung"+str(fnop),write_path)
 
-   
-
-
     old_poly = simplify_polygon_k_with_angle_old(polygon_in_arr,fnop,options)
 
     plot_GS_polygon(create_Polygon_from_array(old_poly)," Alte Methode 15 P"+str(fnop),write_path) #write polygon
@@ -550,9 +558,6 @@ def test():
 
     plot_GS_polygon(create_Polygon_from_array(final_number_poly),"Neue Mehtode10 P"+str(fnop),write_path) #write polygon
     timestamp_new_e = time.time()
-
-    
-
 
    # print("laenge alt: "+ str(len(old_poly)) + "laenge neu: " + str(len(final_number_poly)))
     print("Alte Methode: " + str(timestamp_old_e-timestamp_old_a) + "neue Methode: "+ str(timestamp_new_e-timestamp_new_a))

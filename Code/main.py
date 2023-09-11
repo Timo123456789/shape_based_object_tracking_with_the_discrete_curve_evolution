@@ -1,3 +1,13 @@
+"""
+Main File for a prototypical implemenation for the combination of "You Only Look Once" (YOLO) (Redmon, 2016, doi: 10.1109/CVPR.2016.91 ) (Vers. YOLOv8x, Ultralytics, 2023) and Discrete Curce Evolution (DCE) (Latecki, 1999, doi: 10.1006/cviu.1998.0738 ); based on hypothesis by Dorr, Latecki and  Moratz (2015, doi: 10.1007/978-3-319-23374-1_7 )
+
+Implementation for bachelor thesis: "Formbasiertes Objekttracking mit der Discrete Curve Evolution"
+                                    "Shape-based object tracking with the Discrete Curve Evolution"
+
+@author: Timo Lietmeyer, 11.09.2023
+
+"""
+
 from YOLO.yolo_result_version import *
 from YOLO.yolo_every_frame import *
 from Shape_Similiarity.shape_sim_meas import *
