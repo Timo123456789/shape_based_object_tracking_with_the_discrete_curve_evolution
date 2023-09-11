@@ -14,7 +14,6 @@ Implementation for bachelor thesis: "Formbasiertes Objekttracking mit der Discre
 @contact: timolietmeyer@uni-muenster.de (for question, etc.)
 
 """
-
 from YOLO.yolo_result_version import *
 from YOLO.yolo_every_frame import *
 from Shape_Similiarity.shape_sim_meas import *
