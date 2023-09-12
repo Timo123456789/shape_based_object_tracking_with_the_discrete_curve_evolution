@@ -69,29 +69,22 @@ def simplify_polygon_fast_sec(arr, fNoP):
         NoP_temp = get_number_of_points(DCE_Polygon) #get the actual number of points from the polygon 
 
         if indic == 0: # if the index is 0; the k value for the before point must be the last point on the polygon; the actual point is the first 
-            k_bef = calc_k_with_points(DCE_Polygon, (NoP_temp-1),0, (NoP_temp-2)) #calculate the k value for the last point on polygon   
-                                                                                  #scheme: (Polygon, Index of (considered) last point on the polygon, 0 for the first neighbour at this point, and the index for the second neigbour at this point (the point 2 indices before last point))
-            k_act = calc_k_with_points(DCE_Polygon, 0,(NoP_temp-1), 1 ) #calculate the k value for the considerd/actual point of the polygon
-            #scheme: (Polygon, Index of the (considered) first point on the polygon, index from the last point of the polygon (as first neighbour), 1 as index for the second neighbour (point after the considered point))
+            k_bef = calc_k_with_points(DCE_Polygon, (NoP_temp-1),0, (NoP_temp-2)) #calculate the k value for the last point on polygon  #scheme: (Polygon, Index of (considered) last point on the polygon, 0 for the first neighbour at this point, and the index for the second neigbour at this point (the point 2 indices before last point))
+            k_act = calc_k_with_points(DCE_Polygon, 0,(NoP_temp-1), 1 ) #calculate the k value for the considerd/actual point of the polygon #scheme: (Polygon, Index of the (considered) first point on the polygon, index from the last point of the polygon (as first neighbour), 1 as index for the second neighbour (point after the considered point))
         else: #if index is not 0; there would be calculate normally
 
             if indic-1 == 0: #if index decreased by 1 is 0; the k_value for the point before must be the last point on the polygon
-                k_bef = calc_k_with_points(DCE_Polygon, 0,1, (NoP_temp-1))  #calculate k for the point before the considered point
-                #scheme: (Polygon, 0 as the considered/acutal point of the polygon, 1 as the index for the first neigbour (point after the considered point); and the last point on the polygon as second neigbour)
+                k_bef = calc_k_with_points(DCE_Polygon, 0,1, (NoP_temp-1))  #calculate k for the point before the considered point  #scheme: (Polygon, 0 as the considered/acutal point of the polygon, 1 as the index for the first neigbour (point after the considered point); and the last point on the polygon as second neigbour)
             else: #other case if indic+1 is bigger than the number of points at the polygon / in the array
                 if indic+1 > NoP_temp: #if case when indic+1 is bigger than the number of points at the polygon / in the array
-                    k_bef = calc_k_with_points(DCE_Polygon, indic-1, 0, indic) #calculate k for the point before the considered point
-                                                                                                  #Schema: (Polygon, indic-1 for the actual/considered point, who would be k calculated, 0 for the first neighbour (after the considered point indic-1), indic for the point before the considered point (as seocnd neighbour))
+                    k_bef = calc_k_with_points(DCE_Polygon, indic-1, 0, indic) #calculate k for the point before the considered point #Schema: (Polygon, indic-1 for the actual/considered point, who would be k calculated, 0 for the first neighbour (after the considered point indic-1), indic for the point before the considered point (as seocnd neighbour))
                 else: #if this is not the case k_bef would be calculated normaly 
-                    k_bef = calc_k_with_points(DCE_Polygon, indic-1, indic, indic-2) #calculate k for the point before the considered point
-                                                                                     #Schema. (Polygon, indic-1 for the actual/considered point, who would be k calculated; indic for the first neighbour (after the considered point indic-1), indic-2 for the second neigbour (before the considered point))
+                    k_bef = calc_k_with_points(DCE_Polygon, indic-1, indic, indic-2) #calculate k for the point before the considered point #Schema: (Polygon, indic-1 for the actual/considered point, who would be k calculated; indic for the first neighbour (after the considered point indic-1), indic-2 for the second neigbour (before the considered point))
 
             if indic+1 > NoP_temp: #if case if indic increase by 1 is bigger than the number of points at the polygon / in the array
-                k_act = calc_k_with_points(DCE_Polygon,indic-1, 0, indic-2) #calculate k for the point, which is the considered point
-                 #Schema: (Polygon, indic-1 for the actual/considered point, who would be k calculated; 0 for the first neigbour (after the considered point indic-1), indic -2 for the second neigbour (before the considered point))
+                k_act = calc_k_with_points(DCE_Polygon,indic-1, 0, indic-2) #calculate k for the point, which is the considered point #Schema: (Polygon, indic-1 for the actual/considered point, who would be k calculated; 0 for the first neigbour (after the considered point indic-1), indic -2 for the second neigbour (before the considered point))
             else: #if this is not the case, k would be calculated normally
-                k_act = calc_k_with_points(DCE_Polygon,indic, indic-1, indic+1) #calculate k for the point, which is the considered point
-                                                                                #Schema: (Polygon, indic for the actual/considered point, who would be k calculated; indic-1 for the first neigbour (before the considered point), indic+1 for the second neighbour (after the considered point))     
+                k_act = calc_k_with_points(DCE_Polygon,indic, indic-1, indic+1) #calculate k for the point, which is the considered point #Schema: (Polygon, indic for the actual/considered point, who would be k calculated; indic-1 for the first neigbour (before the considered point), indic+1 for the second neighbour (after the considered point))     
    
         sort_arr = update_sort_array_sec(sort_arr,indic,k_bef[0], k_act[0],DCE_Polygon) #update the sort array with the calculated k values
 
@@ -346,11 +339,11 @@ def get_angle_two_lines(polygon,p,s1,s2):
     s2 = polygon[0].exterior.coords[s2]
 
     #Following is the answer of Bing Bot for get a python function to calculate Angels between two poinst (minor changes for this use case)
-    v1 = [s1[0]-p[0],s1[1]-p[1]]
-    v2 = [s2[0]-p[0],s2[1]-p[1]]
-    angle = np.degrees(np.arctan2(np.cross(v1,v2), np.dot(v1,v2)))
-    if angle < 0:
-        angle = angle * -1
+    # v1 = [s1[0]-p[0],s1[1]-p[1]]
+    # v2 = [s2[0]-p[0],s2[1]-p[1]]
+    # angle = np.degrees(np.arctan2(np.cross(v1,v2), np.dot(v1,v2)))
+    # if angle < 0:
+    #     angle = angle * -1
 
     #this code is from Source above
     x = np.array([p[1],p[0],s1[1],s1[0]])

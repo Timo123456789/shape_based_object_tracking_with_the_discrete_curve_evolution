@@ -43,7 +43,7 @@ EF Version ist die Abkürzung für \glqq Every Frame\grqq{} Version (1. YOLO Var
 	Ausschnitte der \lstinline|run_yolo| Funktion sind in Listing \ref{cd:run_yolo_func_in_yolo_every_frame.py} zu sehen. Zuerst wird hier das YOLO Modell festgelegt. Danach wird der Frame von YOLO analysiert, welches in der yolo\_segmentation.py erfolgt. Hier wird ein Objekt zurückgeben, welches die Boundingboxen der detektierten Objekte, die jeweiligen Klassen, die segmentierten Umrisse und den jeweiligen Confidence Score enthält. \\
 	Dieses Objekt wird in der darauffolgenden Schleife durchlaufen. Hier werden zunächst die Koordinaten der jeweiligen Boundingbox gesetzt und im nächsten Schritt werden die Umrisse mit der DCE vereinfacht (für eine genauere Beschreibung in der Theorie siehe Kap. \ref{sec:Discrete Curve Evolution} und im Code siehe Kap. \ref{py:DCE}). 
 	Zuvor wird noch die Variable abgefragt, ob die Boundingboxen der erkannten Objekte mit schwarzen Pixeln gefüllt werden sollen. Mit CV2 werden danach die Boundingboxen und die Umrisse der Polygone gezeichnet. Für den Fall, dass die \lstinline|write_Labels| Variable im \lstinline|options| Dictionary auf True gesetzt ist, werden im nächsten Schritt der Confidence Score und die Class ID an die Boundingbox geschrieben. \\
-	Zur Evaluation werden im nächsten Schritt die Winkelsummen für jedes Polygon summiert und in einem Array im  \lstinline|options| Dictionary gespeichert. \\
+	Zur Evaluation werden im nächsten Schritt die Winkelsummen für jedes Polygon summiert und in einem Array im \lstinline|options| Dictionary gespeichert. \\
 	Wenn alle Frames des Videos durchlaufen wurden, werden die einzelnen Frames wieder zu einem Video zusammengesetzt und statistische Auswertungen (siehe Kap. \ref{py:Shape_Sim_Meas}) durchgeführt. Damit ist dieser Abschnitt des Programmes abgeschlossen.
 
 	\lstinputlisting[style=intext,linerange={31,37,46-48,59,61-64,68,70,72,73}, caption={Ausschnitt aus  yolo\_segementation.py}, label = {cd:yolo_in_yolo_segmentation.py}]{../Code/YOLO/yolo_segmentation.py}
@@ -84,19 +84,19 @@ EF Version ist die Abkürzung für \glqq Every Frame\grqq{} Version (1. YOLO Var
 	\end{equation}
 	Im Programmcode ist dies folgendermaßen implementiert (siehe Listing \ref{cd:DCE_calc_k_with_points.py}). Als Eingabe wird das Polygon, der betrachtete Punkt (\lstinline|p|), der folgende (\lstinline|s1|) und der vorherige (\lstinline|s2|) Punkt erwartet. Die Reihenfolge von betrachteter, folgender und vorheriger Punkt bei der Parameterübergabe kann aufgrund von Sonderfallbehandlung in den Beschreibungen in Kap. \ref{impl:DCE_SimplyfierFunc} abweichen. \\ 
 	Es wird zunächst der Winkel $\beta$ berechnet, indem alle drei Punkte und das Polygon übergeben werden. Danach werden die beiden Distanzen zwischen $p, S_1$ und $p, S_2$ berechnet. Die Winkelberechnungsfunktion arbeitet mit NumPy und die Distanzberechnungsfunktion basiert auf Funktionen, die GeoPandas bietet.
-	\lstinputlisting[style=intext,linerange={210,224-226,228,229}, caption={Ausschnitt aus \protect\lstinline|calc_k_with_points| Funktion in DCE.py}, label = {cd:DCE_calc_k_with_points.py}]{../Code/DCE/DCE.py}
+	\lstinputlisting[style=intext,linerange={203,217-219,221,222}, caption={Ausschnitt aus \protect\lstinline|calc_k_with_points| Funktion in DCE.py}, label = {cd:DCE_calc_k_with_points.py}]{../Code/DCE/DCE.py}
 	Diese drei Werte werden dann analog zur Formel \ref{equ_K_DCE_points} zum Wert K berechnet. Als letzten Schritt wird dieser Wert und der Winkel als Array zurückgegeben.
 	
 	In Listing \ref{cd:DCE_angle_and_distance.py} ist zu sehen, dass die Winkelberechnungsfunktion mit dem Arcustangens und $\pi$ arbeitet. Dies basiert auf der Dokumentation von NumPy \citep{numpy_angle}. Da die Berechnung ein Array ausgibt, müssen alle Elemente aufsummiert werden, um einen Wert zu erhalten. Dieser Wert wird dann in Radiant umgerechnet und zurückgeben. \\
 	Die Distanzberechnung erfolgt mit einer Funktion, die GeoPandas bei \lstinline|Geopanda.Geoseries| Objekt bietet. Diese errechnet die Distanz zwischen den Punkten \lstinline|p1| und \lstinline|p2|. Danach wird diese zurückgegeben.
-
-	\lstinputlisting[style=intext,linerange={332,344-346,356,357,359,360,364,381,390-393}, caption={Ausschnitte aus \protect\lstinline|get_angle_two_lines| und \protect\lstinline|get_distance_between_two_points| Funktionen in DCE.py}, label = {cd:DCE_angle_and_distance.py}]{../Code/DCE/DCE.py}
+	\todo{Listing kann eigentlich weg}
+	\lstinputlisting[style=intext,linerange={325,337-339,349,350,352,353,357,374,383-386}, caption={Ausschnitte aus \protect\lstinline|get_angle_two_lines| und \protect\lstinline|get_distance_between_two_points| Funktionen in DCE.py}, label = {cd:DCE_angle_and_distance.py}]{../Code/DCE/DCE.py}
 
 	\subsection{Implementierung der Vereinfachungsfunktion \label{impl:DCE_SimplyfierFunc}}
 
 	
 
-	Nun wird der Prozess innerhalb der DCE.py Datei genauer erläutert (siehe Listing \ref{cd:DCE_simplify_polygon_A1.py} - \ref{cd:DCE_simplify_polygon_A4.py}). Es ist zu beachten, dass die Berechnungsfunktion nur mit den Inidzes für die Punkte des Polygons arbeiten, sodass die Punkte nicht direkt angesteuert werden können. Da die DCE in dieser Arbeit mit GeoPandas (siehe Kap. \ref{subsec:Geopandas}) implementiert wurde, muss das Array zuerst in ein \lstinline|Geopandas.Geoseries| Objekt transformiert werden. \\
+	Nun wird der Prozess innerhalb der DCE.py Datei genauer erläutert (siehe Listing \ref{cd:DCE_simplify_polygon_A1.py} - \ref{cd:DCE_simplify_polygon_A4.py}). Es ist zu beachten, dass die Berechnungsfunktion nur mit den Indizes für die Punkte des Polygons arbeiten, sodass die Punkte nicht direkt angesteuert werden können. Da die DCE in dieser Arbeit mit GeoPandas (siehe Kap. \ref{subsec:Geopandas}) implementiert wurde, muss das Array zuerst in ein \lstinline|Geopandas.Geoseries| Objekt transformiert werden. \\
 	Danach kann von diesem Polygon die Gesamtpunktanzahl berechnet werden und der Fall abgefangen werden, dass ein Polygon bereits weniger Punkte als die Punktanzahl, auf die das Polygon reduziert werden soll, hat. \\
 
 	\lstinputlisting[style=intext,linerange={47,56-57,59-63}, caption={Ausschnitt 1 aus \protect\lstinline|simplify_polygon_fast_sec| Funktion in DCE.py}, label = {cd:DCE_simplify_polygon_A1.py}]{../Code/DCE/DCE.py}
@@ -104,14 +104,14 @@ EF Version ist die Abkürzung für \glqq Every Frame\grqq{} Version (1. YOLO Var
 	
 	Es folgt die Berechnung der K Werte für alle Punkte (s. Listing \ref{cd:DCE_calc_k_for_all_points.py}), indem das Polygon einmal vollständig durchlaufen wird. Diese werden in einem zweidimensionalen Array gespeichert. Danach wird dieses Array in ein Numpy Array umgewandelt, damit die Funktionen der Bibliothek auf dieses angewendet werden können. Als nächsten Schritt wird dieses Array nach dem zweiten Index, dem K-Wert für jeden Punkt, sortiert, sodass der Index mit dem geringsten K-Wert an der ersten Stelle des Arrays steht. Hierzu wird das Quicksort-Verfahren (s. Kap. \ref{subsec:NumPy}), welches Numpy bereits integriert hat, genutzt. \\
 
-	\lstinputlisting[style=intext,firstnumber=9, linerange={65,66,68,69,71,72,74,76}, caption={Ausschnitt 2 aus \protect\lstinline|simplify_polygon_fast_sec| Funktion in DCE.py}, label = {cd:DCE_simplify_polygon_A2.py}]{../Code/DCE/DCE.py}
+	\lstinputlisting[style=intext,firstnumber=9, linerange={65,66,68,69,71,72,73,74}, caption={Ausschnitt 2 aus \protect\lstinline|simplify_polygon_fast_sec| Funktion in DCE.py}, label = {cd:DCE_simplify_polygon_A2.py}]{../Code/DCE/DCE.py}
 
 
 	Im weiteren Verlauf folgt eine While Schleife (siehe Listing \ref{cd:DCE_simplify_polygon_A1.py}) in der zuerst der Index des Punktes mit dem geringsten K abgespeichert wird. Anhand dieses Indexes können nun die neuen K-Werte nach einer Entfernung dieses Punktes berechnet werden. Dieser Punkt wird nun im weiteren Verlauf aus dem Polygon entfernt, sodass im weiteren Verlauf die neuen K-Werte berechnet werden können. Es wird nun die neue verringerte Punktzahl des Polygons abgespeichert. \\
 	Nun werden verschiedene Sonderfälle zur Berechnung erklärt. Der erste Sonderfall ist, dass \lstinline|indic| dem Wert 0 entspricht. Daraus kann der vorherige K-Wert \lstinline|k_bef| berechnet werden, indem als betrachteter Punkt der letzte Punkt des Polygons (Index: \lstinline|NoP_temp-1|) mit den Nachbarpunkten (als Index) \lstinline|0|  als folgender Punkt und \lstinline|NoP-2| als vorherigen Punkt der Berechungsfunktion übergeben wird. \\
 	Bei der Berechnung des K-Wertes für den aktuellen Punkt \lstinline|k_act| muss als Parameter der erste Punkt des Polygons (Index: 0), der vorherige Punkt (\lstinline|NoP-1|) und \lstinline|1| als folgenden Punkt der Funktion \lstinline|calc_k_with_points| (s. Kap. \ref{impl:Calc_K_Val}) übergeben werden. \\
 
-	\lstinputlisting[firstnumber=17, style=intext, linerange={78,79,81,82,83,85,86,89,90,92,93}, caption={Ausschnitt 3 aus \protect\lstinline|simplify_polygon_fast_sec| Funktion in DCE.py}, label = {cd:DCE_simplify_polygon_A3.py}]{../Code/DCE/DCE.py}
+	\lstinputlisting[firstnumber=17, style=intext, linerange={76,77,78,79,80,81,82,84,85,86,87}, caption={Ausschnitt 3 aus \protect\lstinline|simplify_polygon_fast_sec| Funktion in DCE.py}, label = {cd:DCE_simplify_polygon_A3.py}]{../Code/DCE/DCE.py}
 
 	Wenn \lstinline|indic| nicht dem Wert 0 entspricht, wird wie in Listing \ref{cd:DCE_simplify_polygon_A3.py} verfahren. Dieses Listing wird nun näher erläutert.
 	Es wird zunächst der Fall behandelt, dass \lstinline|indic-1| dem Wert 0 entspricht. Wenn dies der Fall ist, muss Berechnung von \lstinline|k_bef| angepasst werden, indem als für die Übergabeparameter der K-Wert Berechnung, der erste Punkt des Polygons (\lstinline|0|), der folgende Punkt (\lstinline|1|) an zweiter Stelle und der letzte Punkt des Polygons (\lstinline|NoP-1|) an dritter Stelle übergeben werden. \\
@@ -120,14 +120,20 @@ EF Version ist die Abkürzung für \glqq Every Frame\grqq{} Version (1. YOLO Var
 	Nun wird der Sonderfall behandelt, dass \lstinline|indic+1| größer als die Anzahl der Punkte im Polygon nach dem Entfernen des Punktes mit dem geringsten K Wert ist, um \lstinline|k_act| zu berechnen. Diese Variable speichert den aktuellen neuen K-Wert des vorher entfernten Punktes. \\
 	Wenn \lstinline|indic+1| größer ist, als die aktuelle Anzahl der Punkte im Polygon, muss die Berechnung dahingehend abgeändert werden, dass als aktueller betrachteter Punkt der K Berechnungsfunktion \lstinline|indic-1| übergeben wird, mit dem ersten Punkt (\lstinline|0|) des Polygons als ersten Nachbarn und dem vorherigen Punkt (\lstinline|indic-2|) als zweiten Nachbarn. Sollte \lstinline|indic+1| nicht größer als die aktuelle Anzahl der Punkte im Polygon sein, kann \lstinline|k_act| wie vorgesehenen berechnet werden mit den Parametern \lstinline|(indic, indic-1, indic+1)|.
 
-	\lstinputlisting[firstnumber=28, style=intext, linerange={96,98,99,101}, caption={Ausschnitt 4 aus \protect\lstinline|simplify_polygon_fast_sec| Funktion in DCE.py}, label = {cd:DCE_simplify_polygon_A4.py}]{../Code/DCE/DCE.py}
+	\lstinputlisting[firstnumber=28, style=intext, linerange={89,91,92,94}, caption={Ausschnitt 4 aus \protect\lstinline|simplify_polygon_fast_sec| Funktion in DCE.py}, label = {cd:DCE_simplify_polygon_A4.py}]{../Code/DCE/DCE.py}
 
-	Wenn die Sonderfälle behandelt und \lstinline|k_bef| und \lstinline|k_act| berechnet wurden, können beide Werte im \lstinline|sort_arr| aktualisiert werden. Dazu existiert die Funktion \lstinline|update_sort_arr_sec|. Danach folgt eine Abfrage, ob das Polygon bereits auf die geforderte Anzahl Punkte vereinfacht worden ist. in diesem Fall wird das Polygon in Pixelwerte, bzw. ein Array, umgewandelt und zurückgeben. Ansonsten beginnt die Schleife von vorne. \\
+	Wenn die Sonderfälle behandelt und \lstinline|k_bef| und \lstinline|k_act| berechnet wurden, können beide Werte im \lstinline|sort_arr| aktualisiert werden. Dazu existiert die Funktion \lstinline|update_sort_arr_sec|. Danach folgt eine Abfrage, ob das Polygon bereits auf die geforderte Anzahl Punkte vereinfacht worden ist. In diesem Fall wird das Polygon in Pixelwerte, bzw. ein Array, umgewandelt und zurückgeben. Ansonsten beginnt die Schleife von vorne. \\
 	Außerhalb der Schleife ist die gleiche Rückgabefunktion \lstinline|polygon_to_pixels| vorhanden, um in jedem Fall ein vereinfachtes Polygon zurückzugeben.
 
-	\lstinputlisting[style=intext,linerange={160,167-176}, caption={Ausschnitt aus \protect\lstinline|calc_k_for_all_points| Funktion in DCE.py}, label = {cd:DCE_calc_k_for_all_points.py}]{../Code/DCE/DCE.py}
 
-	Es folgt eine Beschreibung der \lstinline|update_sort_array_sec| Methode, die dazu gedacht ist, das Array mit den Indexen und K-Werten um einen Punkt zu reduzieren und die benachbarten Punkte mit neuen K-Werten zu aktualisieren.
+	\todo{eigentlich auch überflüssiges Listing}
+	\lstinputlisting[style=intext,linerange={153,160-169}, caption={Ausschnitt aus \protect\lstinline|calc_k_for_all_points| Funktion in DCE.py}, label = {cd:DCE_calc_k_for_all_points.py}]{../Code/DCE/DCE.py}
+
+	Es folgt eine Beschreibung der \lstinline|update_sort_array_sec| Methode, die dazu gedacht ist, das Array mit den Indexen und K-Werten um einen Punkt zu reduzieren und die benachbarten Punkte mit neuen K-Werten zu aktualisieren. \\
+	Wie auch im Polygon muss der Punkt mit dem geringsten K Wert im Array gelöscht werden. Dieser ist aufgrund der Sortierung des Arrays, das erste Tupel im Array. Nach diesem Schritt wird das Array sortiert und der neu berechnete K-Wert des aktuellen Punktes, der gerade entfernt wurde, an das Array angefügt. \\
+	Danach werden verschiedene Sonderfälle für das Einfügen des neuen K Wertes für den vorherigen Punkt behandelt. Wenn der \lstinline|k_act| der erste Punkt im Polygon ist, ist der vorherige Punkt für \lstinline|k_bef| der letzte Punkt im Polygon (\lstinline|NoP_Poly-1|). Sonst kann der vorherige Punkt wie vorgesehen im Array mit einer Numpy internen Funktion gesucht werden und an dem gefundenen Index wird der K-Wert aktualisiert. \\
+	In der nächsten IF Abfrage  wird der redundante Wert gelöscht, der durch das Hinzufügen der \lstinline|k_act| Variable entstanden ist. Dies ist der Index und der K-Wert des nachfolgenden Punktes (\lstinline|indic+1|). Hier wird ebenfalls zuerst der Sonderfall abgefangen, dass \lstinline|indic+1| der Gesamtpunktzahl im Polygon entspricht. Wenn dies feststeht, wird der letzte Wert des Arrays gelöscht, ansonsten muss der Wert im Array gesucht werden. Falls dieser Wert nicht gefunden wird, löscht das Programm wieder das letzte Tupel aus dem Array, sonst wird an das gefundene Tupel an der Stelle gelöscht. Durch diese Löschung muss der Index aller nachfolgenden Punkte um 1 verringert werden, damit die Punktindexe im Array mit den Punkten im Polygon übereinstimmen. Dies muss nur gemacht werden, wenn nicht das letzte Tupel im Array gelöscht wurde, und wird durch eine Schleife mit einer integrierten \lstinline|if| Abfrage implementiert. Diese IF Abfrage vergleicht den ersten Wert des Tupels (den Index) mit dem des gelöschten Tupel (an Stelle des Punktindizes) und verringert diesen um 1, wenn er größer ist.
+	Im letzten Schritt wird das Array nochmals mit Quicksort sortiert und zurückgeben.
 
 	\lstinputlisting[style=intext,linerange={106,117,119,120,122,123,124}, caption={Ausschnitt 1 aus \protect\lstinline|update_sort_array_sec| Funktion in DCE.py}, label = {cd:update_sort_arr_sec_A1.py}]{../Code/DCE/DCE.py}
 
@@ -143,7 +149,7 @@ EF Version ist die Abkürzung für \glqq Every Frame\grqq{} Version (1. YOLO Var
 }
 
 
-\section{Shape Similarity Measure}{
+\section{Shape Similarity Measure (SSM)}{
 	\label{py:Shape_Sim_Meas}
 	Beide Versionen der YOLO Implementierung erzeugen ein mehrdimensionales Array, welches für jedes Frame jedes Polygon mit Gesamtwinkelsumme, Class ID und Umriss enthält. Dieses mehrdimensionale Array wird ausgewertet, um einzuschätzen, ob die DCE zum Objekttracking geeignet ist. 
 
