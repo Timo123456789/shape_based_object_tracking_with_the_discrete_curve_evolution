@@ -8,35 +8,35 @@
 
 %\section{\glqq You Only Look Once\grqq{}(YOLO)}
 {
-	\section{Grundlagen im Maschinellen Lernen}
-	{ 
-	Im Folgenden werden mehrere Begriffe und Abkürzungen für \Ref{subsec:YOLO_Alg} erklärt. \\ \todo{Anführungszeichen checken ' ' "" etc}
-	\begin{figure}[ht]
-		\centering
-		\includegraphics*[scale = 0.8, keepaspectratio, trim=2 2 2 2 ]{images/YOLO/YOLO_Preamble_Simple_CNN.png}
-		\caption[Ein einfaches Convolutional Neural Network]{Ein einfaches CNN, welches aus 5 Layern besteht \citep{OSheaRyan2022}}
-		\label{YOLO_simple_CNN}
- 	\end{figure}
+	% \section{Grundlagen im Maschinellen Lernen}
+	% { 
+	% Im Folgenden werden mehrere Begriffe und Abkürzungen für \Ref{subsec:YOLO_Alg} erklärt. \\ \todo{Anführungszeichen checken ' ' "" etc}
+	% \begin{figure}[ht]
+	% 	\centering
+	% 	\includegraphics*[scale = 0.8, keepaspectratio, trim=2 2 2 2 ]{images/YOLO/YOLO_Preamble_Simple_CNN.png}
+	% 	\caption[Ein einfaches Convolutional Neural Network]{Ein einfaches CNN, welches aus 5 Layern besteht \citep{OSheaRyan2022}}
+	% 	\label{YOLO_simple_CNN}
+ 	% \end{figure}
 
-	Ein Bereich im Maschinellem Lernen basiert auf Convolutional Neural Networks (CNN). Diese beschreiben ein künstliches neuronales Netz, welches von biologischen Konzepten beeinflusst wurde und sich gut für Mustererkennung eignet. \citep{Matsugu2003}. 
-	CNNs bestehen aus 3 verschiedenen Arten von Layern, die aufeinander gelegt wurden. Ein einfaches CNN ist in Abb. \Ref{YOLO_simple_CNN} zu sehen. Dessen 4 Grundfunktionalitäten werden im Folgenden näher erläutert. \\
-	Der Input Layer speichert die Pixelwerte des eingegebenen Bildes und leitet diese an den nächsten Layer weiter. Ein Convolutional (CN) Layer berechnet den Output der Neuronen, die mit den lokalen Regionen des Input Layers verbunden sind. Dies geschieht, indem das Skalarprodukt zwischen den Gewichten und Regionen berechnet wird, die mit dem Input verbunden sind. Hier kann auch eine 'Rectified Linear Unit' (ReLu) eingesetzt werden, welche 'elementweise' eine Aktivierungfunktion auf die von der vorherigen Schicht erzeugten Ausgabe angewendet wird \citep{OSheaRyan2022}. \\
-	Ein Pooling Layer verringert dann die Komplexität der Eingabe entlang der räumlichen Dimension, um die Anzahl der Parameter zu reduzieren. Die letzte Schicht ist ein fully-connected Layer, der aus Aktivierungen Werte erzeugt, die für die Klassifizierung verwendet werden können. Hier kann man ebenfalls eine ReLu anwenden, um die Leistung zu verbessern \citep{OSheaRyan2022}. \\
+	% Ein Bereich im Maschinellem Lernen basiert auf Convolutional Neural Networks (CNN). Diese beschreiben ein künstliches neuronales Netz, welches von biologischen Konzepten beeinflusst wurde und sich gut für Mustererkennung eignet. \citep{Matsugu2003}. 
+	% CNNs bestehen aus 3 verschiedenen Arten von Layern, die aufeinander gelegt wurden. Ein einfaches CNN ist in Abb. \Ref{YOLO_simple_CNN} zu sehen. Dessen 4 Grundfunktionalitäten werden im Folgenden näher erläutert. \\
+	% Der Input Layer speichert die Pixelwerte des eingegebenen Bildes und leitet diese an den nächsten Layer weiter. Ein Convolutional (CN) Layer berechnet den Output der Neuronen, die mit den lokalen Regionen des Input Layers verbunden sind. Dies geschieht, indem das Skalarprodukt zwischen den Gewichten und Regionen berechnet wird, die mit dem Input verbunden sind. Hier kann auch eine 'Rectified Linear Unit' (ReLu) eingesetzt werden, welche 'elementweise' eine Aktivierungfunktion auf die von der vorherigen Schicht erzeugten Ausgabe angewendet wird \citep{OSheaRyan2022}. \\
+	% Ein Pooling Layer verringert dann die Komplexität der Eingabe entlang der räumlichen Dimension, um die Anzahl der Parameter zu reduzieren. Die letzte Schicht ist ein fully-connected Layer, der aus Aktivierungen Werte erzeugt, die für die Klassifizierung verwendet werden können. Hier kann man ebenfalls eine ReLu anwenden, um die Leistung zu verbessern \citep{OSheaRyan2022}. \\
 
-	'Mean Average Precision' (mAP) bezeichnet den Mittelwert über die Klassen der interpolierten Average Precision (AP). Diese AP pro Klasse ist die Fläche unter der Precision-/Recall- (PR) Kurve für die detektierten Objekte. %In Abbildung \Ref{YOLO_PR_Curve} ist dies grafisch dargestellt \citep{Henderson2017}. 
+	% 'Mean Average Precision' (mAP) bezeichnet den Mittelwert über die Klassen der interpolierten Average Precision (AP). Diese AP pro Klasse ist die Fläche unter der Precision-/Recall- (PR) Kurve für die detektierten Objekte. %In Abbildung \Ref{YOLO_PR_Curve} ist dies grafisch dargestellt \citep{Henderson2017}. 
 	
-	'Intersection over Union' (IOU) ist eine Metrik zum Vergleich der Ähnlichkeit zwischen zwei beliebigen Formen. Hierfür werden die Maße normalisiert, sodass diese unabhängig von der Größe der zu vergleichenden Objekte sind \citep{Rezatofighi2019}. 
+	% 'Intersection over Union' (IOU) ist eine Metrik zum Vergleich der Ähnlichkeit zwischen zwei beliebigen Formen. Hierfür werden die Maße normalisiert, sodass diese unabhängig von der Größe der zu vergleichenden Objekte sind \citep{Rezatofighi2019}. 
 
-	Loss bezeichnet einen Wert, der angibt, wie schlecht die Vorhersage eines Modells für ein einzelnes Objekt ist. Dieser Wert ist 0, wenn die Vorhersage perfekt wäre, sonst steigt dieser Wert. Wenn ein Modell trainiert wird, ist das Ziel dieses Trainings, eine Reihe von Gewichten zu finden, die für alle Trainingsdaten im Durchschnitt den geringsten Loss aufweisen. In Abb. \ref{Loss_desc} auf Seite \pageref{Loss_desc} ist ein einfaches Beispiel zu sehen \citep{loss_google}. 
+	% Loss bezeichnet einen Wert, der angibt, wie schlecht die Vorhersage eines Modells für ein einzelnes Objekt ist. Dieser Wert ist 0, wenn die Vorhersage perfekt wäre, sonst steigt dieser Wert. Wenn ein Modell trainiert wird, ist das Ziel dieses Trainings, eine Reihe von Gewichten zu finden, die für alle Trainingsdaten im Durchschnitt den geringsten Loss aufweisen. In Abb. \ref{Loss_desc} auf Seite \pageref{Loss_desc} ist ein einfaches Beispiel zu sehen \citep{loss_google}. 
 
-	Non-Maximum-Supression (NMS) ist ein Algorithmus, der überlappende Boundingboxen, die von Objektdetektoren erzeugt wurden, entfernt. Es werden die Detektionen mit dem geringsten Loss genommen und die nächsten benachbarten Boundingboxen mit höherem Loss gelöscht, wenn diese das gleiche Objekt überlappen \citep{Hosang2017}. 
+	% Non-Maximum-Supression (NMS) ist ein Algorithmus, der überlappende Boundingboxen, die von Objektdetektoren erzeugt wurden, entfernt. Es werden die Detektionen mit dem geringsten Loss genommen und die nächsten benachbarten Boundingboxen mit höherem Loss gelöscht, wenn diese das gleiche Objekt überlappen \citep{Hosang2017}. 
 
-	Ground-Truth bezeichnet Daten, die dafür genutzt werden können, die Qualität von Modellen zu überprüfen. Da diese Daten vorab manuell klassifiziert und bewertet wurden, ist bekannt, welches Ergebnis Sie bei der Eingabe in ein Modell liefern müssen \citep{Ground_truth_desc}.
+	% Ground-Truth bezeichnet Daten, die dafür genutzt werden können, die Qualität von Modellen zu überprüfen. Da diese Daten vorab manuell klassifiziert und bewertet wurden, ist bekannt, welches Ergebnis Sie bei der Eingabe in ein Modell liefern müssen \citep{Ground_truth_desc}.
 
-	Der Sum-Squarred-Error ist die Summe aller Differenzen zwischen jeder Beobachtung und des Gruppenmittelwertes. Dieser kann als Maß zur Variation innerhalb einer Gruppe verwendet werden und ist 0, wenn alle Fälle innerhalb einer Gruppe gleich sind \citep{SOSQE_desc}.
+	% Der Sum-Squarred-Error ist die Summe aller Differenzen zwischen jeder Beobachtung und des Gruppenmittelwertes. Dieser kann als Maß zur Variation innerhalb einer Gruppe verwendet werden und ist 0, wenn alle Fälle innerhalb einer Gruppe gleich sind \citep{SOSQE_desc}.
 
-	PASCAL VOC 2007, 2012 und ImageNet 1000-Class-Competition \citep{Russakovsky2015} sind drei Datensätze, die zum Training von YOLO durch \citeauthor{Redmon2016} verwendet wurden. Der PASCAL VOC Datensatz wurde in der Version von 2007 und 2012 verwendet. Diese Versionen enthalten 20 Klassen, die erkannt werden müssen  \citep{pascal_voc}.  Der ImageNet Datensatz besteht aus ca. 1000 Bilder, die von Menschen annotiert und klassifiziert wurden \citep{imageNET_about}.
-	}
+	% PASCAL VOC 2007, 2012 und ImageNet 1000-Class-Competition \citep{Russakovsky2015} sind drei Datensätze, die zum Training von YOLO durch \citeauthor{Redmon2016} verwendet wurden. Der PASCAL VOC Datensatz wurde in der Version von 2007 und 2012 verwendet. Diese Versionen enthalten 20 Klassen, die erkannt werden müssen  \citep{pascal_voc}.  Der ImageNet Datensatz besteht aus ca. 1000 Bilder, die von Menschen annotiert und klassifiziert wurden \citep{imageNET_about}.
+	% }
 	\section{Der YOLO Algorithmus \label{subsec:YOLO_Alg}} 
 	{Da der Blick des Menschen Objekterkennung, -einordnung und -wirkung intuitiv ermöglicht, ist es unserem Gehirn im Zusammenspiel mit unseren Augen möglich, schnell und genau zu sehen. Durch diese Fähigkeiten können wir mit nur wenig bewussten Gedanken komplexe Aufgaben, wie Fahrradfahren bewältigen, bei denen gleichzeitig mehrere Sinne beansprucht werden. \citep{Redmon2016}. \\
 	Dem Computer kann dies mit schnellen und genauen Algorithmen zur Objekterkennung beigebracht werden. Aktuelle Systeme nutzen Klassifikatoren zur Objekterkennung. Dieser wird an verschiedenen Stellen in variablen Skalierungen im Testbild angewendet, um eine Klassifizierung eines Objektes zu ermöglichen \citep{Redmon2016}. \\ 
@@ -185,7 +185,7 @@ Für die Anwendung in dieser Arbeit ist die DCE wegen ihrer geringen Komplexitä
 
 \section{Formähnlichkeitsmaß (NICHT FERTIG)}{
 	\todo{überarbeiten}
-	Zur Evaluation des Objekttrackings wird ein Formähnlichkeitsmaß (\glqq Shape Similarity Measure\grqq{}, SSM) genutzt, welches die Winkel der Polygone vergleicht \\
+	Zur Evaluation des Objekttrackings wird ein Formähnlichkeitsmaß (\glqq Shape Similarity Measure\grqq{}, SSM) genutzt, welches die Winkel der Polygone vergleicht. \\
 	Da ein von DCE vereinfachtes Polygon sich von Frame zu Frame nicht ändert, kann die Winkelsumme der exakt gleichen Polygone voneinander subtrahiert werden, um eine Winkelabweichung nahe oder gleich 0 zu erhalten. Da jedoch der Umriss eines Objekts, durch dessen Bewegung beeinflusst wird, wird das Formähnlichkeitsmaß Schwankungen unterliegen.\\
 	Um vergleichbare Werte zu erhalten, darf nur innerhalb einer von YOLO detektierten Klasse die Winkelabweichung berechnet werden. Dies ist der Fall, da jede Klasse auf verschiedene Punktzahlen vereinfacht wird, und damit die Winkelsummen der einzelnen Polygone sich stark unterscheiden. Diese Berechnungsmethode ermöglicht eine Betrachtung der Abweichung für jede von YOLO detektierte Objektklasse.  	
 }
