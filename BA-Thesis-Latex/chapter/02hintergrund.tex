@@ -183,11 +183,18 @@ Eine formale Definition dieser Funktion kann folgendermaßen erfolgen. Zwei kons
 Für die Anwendung in dieser Arbeit ist die DCE wegen ihrer geringen Komplexität sehr gut geeignet.
 }
 
-\section{Formähnlichkeitsmaß (NICHT FERTIG)}{
-	\todo{überarbeiten}
+\section{Formähnlichkeitsmaß (NICHT FERTIG)}{ \label{theo:SSM}
+	\todo{Klare Benennung Formähnlichkeitsmaß oder Formähnlichkeitsmesswert}
 	Zur Evaluation des Objekttrackings wird ein Formähnlichkeitsmaß (\glqq Shape Similarity Measure\grqq{}, SSM) genutzt, welches die Winkel der Polygone vergleicht. \\
-	Da ein von DCE vereinfachtes Polygon sich von Frame zu Frame nicht ändert, kann die Winkelsumme der exakt gleichen Polygone voneinander subtrahiert werden, um eine Winkelabweichung nahe oder gleich 0 zu erhalten. Da jedoch der Umriss eines Objekts, durch dessen Bewegung beeinflusst wird, wird das Formähnlichkeitsmaß Schwankungen unterliegen.\\
-	Um vergleichbare Werte zu erhalten, darf nur innerhalb einer von YOLO detektierten Klasse die Winkelabweichung berechnet werden. Dies ist der Fall, da jede Klasse auf verschiedene Punktzahlen vereinfacht wird, und damit die Winkelsummen der einzelnen Polygone sich stark unterscheiden. Diese Berechnungsmethode ermöglicht eine Betrachtung der Abweichung für jede von YOLO detektierte Objektklasse.  	
+	Da ein von DCE vereinfachtes Polygon sich von Frame zu Frame nicht ändert, kann die Winkeldifferenz der Polygone voneinander subtrahiert werden. Diese Subtraktion muss als Absolutbetrag erfolgen, um bei der folgenden Aufsummierung aller Winkeldifferenzen eines Polygons im Vergleich zum nächsten, einen Wert zu erhalten, welcher gegen 0 geht. Um die Möglichkeit zu finden, wo beide Polygone die höchste Formähnlichkeit haben, muss ein Polygon rotiert werden. Ohne die Verwendung des Absolutbetrages würde bei einer Rotation stets das gleiche Ergebnis als Winkeldifferenzgesamtssumme berechnet werden, weil bei der Addition der einzelnen Winkeldifferenzen zur Gesamtwinkeldifferenzsumme das Kommutativgesetz gilt. Die höchste Formähnlichkeit wird durch die geringste Winkeldifferenzgesamtssumme beim Vergleich der Polygone repräsentiert.\\
+	In der Formel \ref{equ:SSM} ist dies dargestellt. Das Summenzeichen selbst steht für die Winkeldifferenzgesamtssumme, $W$ für Winkel, $i$ für den jeweiligen Winkel im Polygon, $P1$ und $P2$ für die beiden Polygone.
+
+	\begin{equation} \label{equ:SSM}
+		\sum_{i = 0}^{n}  (\lvert P1[i].W - P2[i].W \rvert)
+	\end{equation}	
+
+	Um vergleichbare Werte zu erhalten, darf nur innerhalb einer von YOLO detektierten Klasse die Winkeldifferenz berechnet werden. Dies ist der Fall, da jede Klasse auf verschiedene Punktzahlen vereinfacht wird, und damit die Winkeldifferenzssummen der einzelnen Polygone sich nicht zu stark unterscheiden. Diese Berechnungsmethode ermöglicht eine Betrachtung der Abweichung für jede von YOLO detektierte Objektklasse.  
+	
 }
 
 \chapter{Verwendete Technologien}

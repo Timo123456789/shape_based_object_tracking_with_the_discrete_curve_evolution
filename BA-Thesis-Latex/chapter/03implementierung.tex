@@ -159,6 +159,7 @@ EF Version ist die Abkürzung für \glqq Every Frame\grqq{} Version (1. YOLO Var
 
 \section{Shape Similarity Measure (SSM)}{
 	\label{py:Shape_Sim_Meas}
+	\todo{auf theorie verweisen}
 	Beide Versionen der YOLO Implementierung erzeugen ein mehrdimensionales Array, welches für jedes Frame jedes Polygon mit Gesamtwinkelsumme, Class ID und Umriss enthält. Dieses mehrdimensionale Array wird ausgewertet, um einzuschätzen, ob die DCE zum Objekttracking geeignet ist. 
 
 	Die Ergebnisse werden in einem weiteren Dictionary gespeichert, welches als letzten Schritt in eine Textdatei geschrieben wird, um alle Ergebnisse und Einstellungen zentral zu speichern. In Listing \ref{cd:SSM_main.py} ist zu sehen, in welcher Reihenfolge das \lstinline|result_dictionary| mit Elementen gefüllt wird. Die ersten Zeilen des Dictionary bestehen immer aus einer Zeitangabe, wann das Programm abgeschlossen wurde und Daten zu den Polygonen und Winkeln. Hier werden für jeden Testfall die Anzahl der verglichenen Polygone, die Gesamtanzahl dieser gespeichert. Außerdem wird die Zahl der verglichenen Winkel und die Punktanzahl der Polygone vor und nach der Vereinfachung durch DCE aufgelistet. \\

@@ -20,6 +20,30 @@
 	\end{itemize}
 
 
+	Evaluation Stichpunkte
+	\begin{itemize}
+		\item A10s Allgemeine Daten
+		\begin{itemize}
+			\item Zahl der Punkte vor DCE steigt minimal, weil auch die Zahl der erkannten Polygone ansteigt (bzw. bei größeren Modellen YOLO sicherer ist das ein Objekt einer Klasse entspricht, bzw. überhaupt detektiert wird)
+			\item Zahl der Punkte nach DCE steigt mit der Zahl der erkannten Polygone (bzw. besseren YOLO Modellen) an, weil beides miteinander korreliert (voneinander abhängt)
+			\item Zahl der Punkte nach DCE im Vergleich zwischen 8m und 8x bleibt konstant, weil 8m schon gut genug alle Objekte richtig klassifziert und die Reduktion durch DCE dann alle Werte auf ähnliche Punktzahlen reduziert
+			\item Die Anzahl der verglichenen Winkel ist deutlich höher, als die Punktanzahl aufgrund der Permutation der zu vergleichenden Polygone.
+			\item XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+			\item Zahl der Polygone steigt von 8n zu 8m stark an, weil mehr Objekte detektiert werden, im Vergleich von 8m zu 8x bleibt die Zahl relativ konstant, weil beide Modelle alle Objekte detektieren, bzw. Steigerung ist nicht mehr so extrem, weil einfach nicht mehr vorhanden ist
+			\item Berechnungszeit unterscheidet sich zwischen den Implementierungen, da YOLO bei der direkten Verarbeitung den Vorteil der effizienten Implementierung und vollen CPU Auslastung vollständig nutzen kann; EFV ist einfach zu ineffektiv implementiert, weil YOLO jedes Bild einzeln bearbeitet, stoppt, DCE anwendet, und wieder von vorne beginnt 
+			\item Unterschied ist inbesondere bei Verwendung der besseren Modelle zu erkennen, weil diese mehr Rechenzeit von YOLO fordern
+			\item Züge werden erkannt weil LKW falsch detektiert werden (kurz Zahlen anschauen zur Untermauerung (zug anzahl entspricht ungefähr differnz zu LKW Zahl bei größerem Modell))
+		\end{itemize}
+		\item Beurteilung des Formähnlichkeitsmesswertes
+		\begin{itemize}
+			\item Absolute SSM steigt, weil mehr Autos/Objekte der jeweiligen Klasse erkannt werden; SSM pro Frame und Auto hängt davon ab und steigt deshalb ebenfalls; SSM pro Auto sinkt, weil mehr Autos richtig detektiert werden und damit weniger Falschdetektionen das Ergebnis verzerren; absoloute Anz. detektierter Autos steigt weil besseres Modell und damit bessere Erkennung
+			\item Verdoppelung der Absoluten SSM bei LKW so hoch, weil LKW mehr Punkte haben, bei 8m und 8x nicht mehr so starke Steigung
+			\item Da alle anderen Werte vom SSM abhängen ist dies auch bei den anderen Werten der Fall
+			\item Bei dem Zug/Bus ist die Verringerung durch die besseren Modelle zu erklären, da die Modelle genauer und besser Autos/LKW detektieren, ist insbesondere bei 8x zu sehen wo nur noch 1 Zug falsch detektiert wird und kein Bus mehr (Folgerung besser trainiertes Modell gleich bessere Erkennungsleistung -> Logisch)
+		\end{itemize}
+	\end{itemize}
+
+
 
 }
 % {
