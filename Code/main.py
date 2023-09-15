@@ -34,21 +34,21 @@ def main():
     __init__.py files are important for connecting DCE.py with yolo_every_frame.py and yolo_result_version.py
     """
     options = {
-            "path_directory": r'Code\vid_examples\evaluation',  #main path for storing files
-            "source_video": r'Code\vid_examples\evaluation\Autobahn1s.mp4', #name for source video
-            "write_video": r'\temp.mp4', #storing name for result video
-            "results": r'\temp_results.txt', # storing name for statistics
+            "path_directory": r'Code\vid_examples\evaluation\weitere_testfaelle\sameDCESubst',  #main path for storing files
+            "source_video": r'Code\vid_examples\evaluation\Autobahn10s.mp4', #name for source video
+            "write_video": r'\A10s_RV_more_Same.mp4', #storing name for result video
+            "results": r'\A10s_RV_moreSame_results.txt', # storing name for statistics
 
             "path_source_video": r'temp', #temp variable for storing path for source video
             "path_write_video": r'temp', #temp variable for storing path for write video
             "path_write_timestamps": r'temp', #temp variable for storing path for statistics txt
 
-        	"NoP_Cars": 10, #Number of final Points for Cars #bei 6 recht hohe Spruenge, 8 passt gut
-        	"NoP_Motorcycle": 5, #Number of final Points for Motorcycles
-        	"NoP_Truck": 11, #Number of final Points for Trucks #11 P ist vllt ideal
+        	"NoP_Cars": 20, #Number of final Points for Cars #bei 6 recht hohe Spruenge, 8 passt gut
+        	"NoP_Motorcycle": 20, #Number of final Points for Motorcycles
+        	"NoP_Truck": 20, #Number of final Points for Trucks #11 P ist vllt ideal
         	"NoP_other_Object": 20, #Number of final Points for other Objects
 
-            "YOLO_model": 'yolov8n-seg.pt',  #set YOLO Model
+            "YOLO_model": 'yolov8x-seg.pt',  #set YOLO Model
             "black_video": False, #Bool that turns the whole video black, so that only white sillhouettes are shown in the video
             "black_bboxes": True, #Bool that turns the bounding boxes for detected objects black; overwritten by black_video variable
             "write_labels": True, #Bool that ensures that a label with scores is written to the video for each polygon
@@ -387,5 +387,5 @@ def set_options_on_default():
 
 
 
-run_evaluation()
-#main()
+#run_evaluation()
+main()
