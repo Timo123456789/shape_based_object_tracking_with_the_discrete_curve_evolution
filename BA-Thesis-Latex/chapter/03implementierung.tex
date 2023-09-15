@@ -68,7 +68,6 @@ EF Version ist die Abkürzung für \glqq Every Frame\grqq{} Version (1. YOLO Var
 
 	Da hier das gesamte Video in dem von YOLO generierten \lstinline|results| Objekt gespeichert wird, benötigt die Funktion, die das Video verändert nur dieses Objekt und das \lstinline|options| Dictionary. \\
 	
-
 	Die \lstinline|get_outline_for_every_object| Funktion \ifimportant (siehe Listing \ref{cd:yolo_result_get_outline_for_every_object.py}) \fi läuft folgendermaßen ab. \\
 	Die Schleife iteriert über die Gesamtanzahl der Frames im Video. Durch die IF Abfrage wird der Fall abgefangen, dass kein Objekt im Frame erkannt wurde. Wenn ein Objekt erkannt wurde, werden mit der \lstinline|get_data| Funktion die Daten der detektierten Objekte aus dem Frame exportiert. Ansonsten wird das Frame ohne Veränderung überschrieben, wenn das Video im \lstinline|options| Dictionary nicht auf schwarz gesetzt wurde. Die \lstinline|get_data| Funktion basiert auf \citeauthor{Canu_pysource} \citep{Canu_pysource} und ist ähnlich zu der in Kap. \ref{py:YOLO_every_frame} \ifimportant (s. Listing \ref{cd:yolo_in_yolo_segmentation.py}) \fi aufgebaut. \\
 	Diese Daten werden in einzelne Variablen abgespeichert. Danach wird auf die Umrisse die DCE (siehe Kap. \ref{py:DCE}) angewendet. Mit CV2 werden die vereinfachten Umrisse dann in das Frame gespeichert, indem das gerade analysierte Frame überschrieben wird. Im weiteren Verlauf wird dann das Frame, bzw. je nach Einstellung nur die Boundingboxen der detektierten Objekte, mit schwarzen Pixeln ausgefüllt. \\
@@ -113,8 +112,6 @@ EF Version ist die Abkürzung für \glqq Every Frame\grqq{} Version (1. YOLO Var
 
 	\subsection{Implementierung der Vereinfachungsfunktion \label{impl:DCE_SimplyfierFunc}}
 
-	
-
 	Nun wird der Prozess innerhalb der DCE.py Datei genauer erläutert \ifimportant (siehe Listing \ref{cd:DCE_simplify_polygon_A1.py} - \ref{cd:DCE_simplify_polygon_A4.py}) \fi. Es ist zu beachten, dass die Berechnungsfunktion nur mit den Indizes für die Punkte des Polygons arbeiten, sodass die Punkte nicht direkt angesteuert werden können. Da die DCE in dieser Arbeit mit GeoPandas (siehe Kap. \ref{subsec:Geopandas}) implementiert wurde, muss das Array zuerst in ein \lstinline|Geopandas.Geoseries| Objekt transformiert werden. \\
 	Danach kann von diesem Polygon die Gesamtpunktanzahl berechnet werden und der Fall abgefangen werden, dass ein Polygon bereits weniger Punkte als die Punktanzahl, auf die das Polygon reduziert werden soll, hat. \\
 	\ifimportant
@@ -129,7 +126,6 @@ EF Version ist die Abkürzung für \glqq Every Frame\grqq{} Version (1. YOLO Var
 	Im weiteren Verlauf folgt eine While Schleife \ifimportant(siehe Listing \ref{cd:DCE_simplify_polygon_A1.py}) \fi in der zuerst der Index des Punktes mit dem geringsten K abgespeichert wird. Anhand dieses Indexes können nun die neuen K-Werte nach einer Entfernung dieses Punktes berechnet werden. Dieser Punkt wird nun im weiteren Verlauf aus dem Polygon entfernt, sodass im weiteren Verlauf die neuen K-Werte berechnet werden können. Es wird nun die neue verringerte Punktzahl des Polygons abgespeichert. \\
 	Nun werden verschiedene Sonderfälle zur Berechnung erklärt. Der erste Sonderfall ist, dass \lstinline|indic| dem Wert 0 entspricht. Daraus kann der vorherige K-Wert \lstinline|k_bef| berechnet werden, indem als betrachteter Punkt der letzte Punkt des Polygons (Index: \lstinline|NoP_temp-1|) mit den Nachbarpunkten (als Index) \lstinline|0|  als folgender Punkt und \lstinline|NoP-2| als vorherigen Punkt der Berechungsfunktion übergeben wird. \\
 	Bei der Berechnung des K-Wertes für den aktuellen Punkt \lstinline|k_act| muss als Parameter der erste Punkt des Polygons (Index: 0), der vorherige Punkt (\lstinline|NoP-1|) und \lstinline|1| als folgenden Punkt der Funktion \lstinline|calc_k_with_points| (s. Kap. \ref{impl:Calc_K_Val}) übergeben werden. \\
-
 	\ifimportant
 	\lstinputlisting[firstnumber=17, style=intext, linerange={76,77,78,79,80,81,82,84,85,86,87}, caption={Ausschnitt 3 aus \protect\lstinline|simplify_polygon_fast_sec| Funktion in DCE.py}, label = {cd:DCE_simplify_polygon_A3.py}]{../Code/DCE/DCE.py}
 	\fi
@@ -140,40 +136,31 @@ EF Version ist die Abkürzung für \glqq Every Frame\grqq{} Version (1. YOLO Var
 
 	Nun wird der Sonderfall behandelt, dass \lstinline|indic+1| größer als die Anzahl der Punkte im Polygon nach dem Entfernen des Punktes mit dem geringsten K Wert ist, um \lstinline|k_act| zu berechnen. Diese Variable speichert den aktuellen neuen K-Wert des vorher entfernten Punktes. \\
 	Wenn \lstinline|indic+1| größer ist, als die aktuelle Anzahl der Punkte im Polygon, muss die Berechnung dahingehend abgeändert werden, dass als aktueller betrachteter Punkt der K Berechnungsfunktion \lstinline|indic-1| übergeben wird, mit dem ersten Punkt (\lstinline|0|) des Polygons als ersten Nachbarn und dem vorherigen Punkt (\lstinline|indic-2|) als zweiten Nachbarn. Sollte \lstinline|indic+1| nicht größer als die aktuelle Anzahl der Punkte im Polygon sein, kann \lstinline|k_act| wie vorgesehenen berechnet werden mit den Parametern \lstinline|(indic, indic-1, indic+1)|.
-
 	\ifimportant
 	\lstinputlisting[firstnumber=28, style=intext, linerange={89,91,92,94}, caption={Ausschnitt 4 aus \protect\lstinline|simplify_polygon_fast_sec| Funktion in DCE.py}, label = {cd:DCE_simplify_polygon_A4.py}]{../Code/DCE/DCE.py}
 	\fi
 
 	Wenn die Sonderfälle behandelt und \lstinline|k_bef| und \lstinline|k_act| berechnet wurden, können beide Werte im \lstinline|sort_arr| aktualisiert werden. Dazu existiert die Funktion \lstinline|update_sort_arr_sec|. Danach folgt eine Abfrage, ob das Polygon bereits auf die geforderte Anzahl Punkte vereinfacht worden ist. In diesem Fall wird das Polygon in Pixelwerte, bzw. ein Array, umgewandelt und zurückgeben. Ansonsten beginnt die Schleife von vorne. \\
 	Außerhalb der Schleife ist die gleiche Rückgabefunktion \lstinline|polygon_to_pixels| vorhanden, um in jedem Fall ein vereinfachtes Polygon zurückzugeben.
-
 	\ifimportant
 	\lstinputlisting[style=intext,linerange={153,160-169}, caption={Ausschnitt aus \protect\lstinline|calc_k_for_all_points| Funktion in DCE.py}, label = {cd:DCE_calc_k_for_all_points.py}]{../Code/DCE/DCE.py}
 	
-
 	\lstinputlisting[style=intext,linerange={99,110,112,113,115,116,117}, caption={Ausschnitt 1 aus \protect\lstinline|update_sort_array_sec| Funktion in DCE.py}, label = {cd:update_sort_arr_sec_A1.py}]{../Code/DCE/DCE.py}
 	\fi
 
 	Es folgt eine Beschreibung der \lstinline|update_sort_array_sec| Methode, die dazu gedacht ist, das Array mit den Indexen und K-Werten um einen Punkt zu reduzieren und die benachbarten Punkte mit neuen K-Werten zu aktualisieren. \ifimportant Der folgende Text bezieht sich auf Listing \ref{cd:update_sort_arr_sec_A1.py}. \fi \\
 	Wie auch im Polygon muss der Punkt mit dem geringsten K Wert im Array gelöscht werden. Dieser ist aufgrund der Sortierung des Arrays, das erste Tupel im Array. Nach diesem Schritt wird das Array sortiert und der neu berechnete K-Wert des aktuellen Punktes, der gerade entfernt wurde, an das Array angefügt. \\
-
 	\ifimportant
 	\lstinputlisting[firstnumber=8,style=intext,linerange={120,121,122,123,124,125}, caption={Ausschnitt 2 aus \protect\lstinline|update_sort_array_sec| Funktion in DCE.py}, label = {cd:update_sort_arr_sec_A2.py}]{../Code/DCE/DCE.py}
 	\fi
-
 	Danach werden verschiedene Sonderfälle für das Einfügen des neuen K Wertes für den vorherigen Punkt behandelt \ifimportant (s. Listing \ref{cd:update_sort_arr_sec_A2.py} - \ref{cd:update_sort_arr_sec_A4.py})\fi. Wenn der \lstinline|k_act| der erste Punkt im Polygon ist, ist der vorherige Punkt für \lstinline|k_bef| der letzte Punkt im Polygon (\lstinline|NoP_Poly-1|). Sonst kann der vorherige Punkt wie vorgesehen im Array mit einer Numpy internen Funktion gesucht werden und an dem gefundenen Index wird der K-Wert aktualisiert. \\
-
 	\ifimportant
 	\lstinputlisting[firstnumber=14,style=intext,linerange={128,129,130,131,132,134,135,136,137,138}, caption={Ausschnitt 3 aus \protect\lstinline|update_sort_array_sec| Funktion in DCE.py}, label = {cd:update_sort_arr_sec_A3.py}]{../Code/DCE/DCE.py}
 	\fi
-
 	In der nächsten IF Abfrage \ifimportant (s. Listing \ref{cd:update_sort_arr_sec_A3.py})\fi  wird der redundante Wert gelöscht, der durch das Hinzufügen der \lstinline|k_act| Variable entstanden ist. Dies ist der Index und der K-Wert des nachfolgenden Punktes (\lstinline|indic+1|). Hier wird ebenfalls zuerst der Sonderfall abgefangen, dass \lstinline|indic+1| der Gesamtpunktzahl im Polygon entspricht. Wenn dies feststeht, wird der letzte Wert des Arrays gelöscht, ansonsten muss der Wert im Array gesucht werden. Falls dieser Wert nicht gefunden wird, löscht das Programm wieder das letzte Tupel aus dem Array, sonst wird an das gefundene Tupel an der Stelle gelöscht.
-	
 	\ifimportant
 	\lstinputlisting[firstnumber=24,style=intext,linerange={140,141,142,143,145,146,147,148}, caption={Ausschnitt 4 aus \protect\lstinline|update_sort_array_sec| Funktion in DCE.py}, label = {cd:update_sort_arr_sec_A4.py}]{../Code/DCE/DCE.py}
 	\fi
-
 	Durch diese Löschung muss der Index aller nachfolgenden Punkte um 1 verringert werden, damit die Punktindexe im Array mit den Punkten im Polygon übereinstimmen \ifimportant (s. Listing \ref{cd:update_sort_arr_sec_A4.py}) \fi. Dies muss nur gemacht werden, wenn nicht das letzte Tupel im Array gelöscht wurde, und wird durch eine Schleife mit einer integrierten IF Abfrage implementiert. Diese IF Abfrage vergleicht den ersten Wert des Tupels (den Index) mit dem des gelöschten Tupel (an Stelle des Punktindizes) und verringert diesen um 1, wenn er größer ist.
 	Im letzten Schritt wird das Array nochmals mit Quicksort sortiert und zurückgeben.
 	
@@ -183,47 +170,42 @@ EF Version ist die Abkürzung für \glqq Every Frame\grqq{} Version (1. YOLO Var
 \section{Shape Similarity Measure (SSM)}{
 	\label{py:Shape_Sim_Meas}
 	\todo{auf theorie verweisen}
-	Beide Versionen der YOLO Implementierung erzeugen ein mehrdimensionales Array, welches für jedes Frame jedes Polygon mit Gesamtwinkelsumme, Class ID und Umriss enthält. Dieses mehrdimensionale Array wird ausgewertet, um einzuschätzen, ob die DCE zum Objekttracking geeignet ist. 
-
+	Beide Versionen der YOLO Implementierung erzeugen ein mehrdimensionales Array, welches für jedes Frame jedes Polygon mit Gesamtwinkelsumme, Class ID und Umriss enthält. Dieses mehrdimensionale Array wird ausgewertet, um einzuschätzen, ob die DCE zum Objekttracking geeignet ist. \\
 	\ifimportant
 	\lstinputlisting[style=intext, linerange={29,37,38,40,45,46,47,48}, caption={Ausschnitt aus \protect\lstinline|calc_shape_similarity| Funktion in shape\_sim\_meas.py}, label = {cd:SSM_main.py}]{../Code/Shape_Similiarity/shape_sim_meas.py}
 	\todo{Listing ist eigentlich überflüssig?}
 	\fi
 
 	Die Ergebnisse werden in einem weiteren Dictionary (\lstinline|result_dictionary|) gespeichert, welches als letzten Schritt in eine Textdatei geschrieben wird, um alle Ergebnisse und Einstellungen zentral zu speichern. \ifimportant In Listing \ref{cd:SSM_main.py} ist zu sehen, in welcher Reihenfolge das \lstinline|result_dictionary| mit Elementen gefüllt wird. \fi Die ersten Zeilen des Dictionary bestehen immer aus einer Zeitangabe, wann das Programm abgeschlossen wurde und Daten zu den Polygonen und Winkeln. Hier werden für jeden Testfall die Anzahl der verglichenen Polygone, die Gesamtanzahl dieser gespeichert. Außerdem wird die Zahl der verglichenen Winkel und die Punktanzahl der Polygone vor und nach der Vereinfachung durch DCE aufgelistet. \\
-	Wenn die ersten Zeilen im Dictionary geschrieben wurden, wird der Formähnlichkeitsmesswert, im folgenden auch als \glqq Shape Similarity Measure\grqq{} (SSM) bezeichnet, berechnet. Nach diesem Schritt werden die Zeitstempel kalkuliert und in das \lstinline|result_dictionary| geschrieben, sowie die Programmeinstellungen im Dictionary gespeichert. Der letzte Schritt besteht daraus, dass \lstinline|result_dictionary| als Textdatei an dem entsprechend festgelegten Pfad zu speichern.
+	Wenn die ersten Zeilen im Dictionary geschrieben wurden, wird der Formähnlichkeitsmesswert, im folgenden auch als \glqq Shape Similarity Measure\grqq{} (SSM) bezeichnet, berechnet. Nach diesem Schritt werden die Zeitstempel kalkuliert und in das \lstinline|result_dictionary| geschrieben, sowie die Programmeinstellungen im Dictionary gespeichert. Der letzte Schritt besteht daraus, dass \lstinline|result_dictionary| als Textdatei an dem entsprechend festgelegten Pfad zu speichern. \\
 	\ifimportant
 	\lstinputlisting[style=intext, linerange={53,62,63,83,85,86,87,88,89,90,91}, caption={Ausschnitt 1 aus \protect\lstinline|calc_SSM_illustration| Funktion in shape\_sim\_meas.py}, label = {cd:SSM_illu_A1.py}]{../Code/Shape_Similiarity/shape_sim_meas.py} 
 	\fi
+
 	Die \lstinline|calc_SSM_illustration| Funktion läuft folgendermaßen ab \ifimportant(s. Listing \ref{cd:SSM_illu_A1.py})\fi. Nachdem aus dem \lstinline|options| Dictionary die Liste aller Polygone in eine neue Variable gespeichert wurde, kann über diese Variable iteriert werden. Hierfür wird die Anzahl der Frames, bzw. die Länge des Arrays genutzt, da mit jedem Frame alle Polygone die in diesem detektiert wurden, verknüpft sind. \\
 	In der FOR Schleife wird zunächst mit einer IF Abfrage eine Variable (\lstinline|compare_polys|) mit der geringeren Polygonanzahl zum nächsten Frame initialisiert. Dies ist wichtig, da das Frame mit der geringeren Polygonanzahl die Berechnung des Formähnlichkeitsmesswertes limitiert, um nur Polygone zu vergleichen, die auch im nächsten Frame noch vorhanden sind. In dieser IF Abfrage wird auch eine Zählvariable erhöht, die die Zahl der verglichenen Polygone speichert. \\
-
 	\ifimportant
 	\lstinputlisting[style=intext, linerange={93,95,96,67,98,99,100,101,112,113,114,115,116}, caption={Ausschnitt 2 aus \protect\lstinline|calc_SSM_illustration| Funktion in shape\_sim\_meas.py}, label = {cd:SSM_illu_A2.py}]{../Code/Shape_Similiarity/shape_sim_meas.py}
 	\fi
 
 	Im nächsten Schritt wird über alle Polygone des jeweiligen Frames mit einer weiteren FOR Schleife iteriert \ifimportant (s. Listing \ref{cd:SSM_illu_A2.py})\fi. Da nur Polygone verglichen werden dürfen, deren detektierte Klasse die gleiche ist, ist in dieser Schleife ein MATCH CASE Fall vorhanden. Hier wird nach den drei Hauptklassen und \lstinline|other_Objects|, bzw. anderen Klassen, unterschieden. Wenn im aktuellen und im nächsten Frame die gleichen Klassen bei dem gleichen Polygon erkannt wurden, kann die geringste SSM mit der Methode \lstinline|calc_minor_SSM| berechnet werden. Dieser Rückgabewert wird dann dem Array übergeben, welches alle Werte speichert. Bei allen drei Hauptklassen geschieht dies ähnlich. Wenn jedoch eine andere Klasse erkannt wurde, wird dem entsprechenden Array die Klassen ID und der geringste SSM als Tupel hinzugefügt. \\
-
 	\ifimportant
 	\lstinputlisting[style=intext, linerange={118,119,120,122,124,125,126,127,128,130,131,135}, caption={Ausschnitt 3 aus \protect\lstinline|calc_SSM_illustration| Funktion in shape\_sim\_meas.py}, label = {cd:SSM_illu_A3.py}]{../Code/Shape_Similiarity/shape_sim_meas.py}
 	\fi
 
 	Damit sind die beiden ineinander verschachtelten FOR Schleifen durchlaufen und die Anzahl der detektierten Objekte für jede Hauptklasse kann an der Länge der Arrays mit den SSM Werten gespeichert werden \ifimportant (s. Listing \ref{cd:SSM_illu_A3.py})\fi. Dies ist der Fall, weil für jedes detektierte Objekt der Klassen exakt ein Element in das Array gespeichert wurde, welches die geringste Abweichung besitzt. Für das Array, welches die Tupel mit allen weiteren Objekten enthält, wird eine Methode aufgerufen, die von Bucketsort inspiriert wurde, in welcher alle Elemente nach der jeweiligen Klasse sortiert und in Teilen summiert werden \ifimportant (s. Listing \ref{cd:SSM_sort_oO_arr.py})\fi. \todo{ Sortierung Ausführlicher beschreiben?} \\
 	Im nächsten Schritt werden die berechneten Werte in das \lstinline|result_dictionary| gespeichert. Dies geschieht alle Objekte, die nicht den Hauptklassen entsprechen, mit einer FOR Schleife, damit die Ausgabe dynamisch an alle erkannten Klassen angepasst werden kann. Damit ist diese Funktion abgeschlossen. \\
-
 	\ifimportant
 	\lstinputlisting[style=intext, linerange={230,238-248,255}, caption={Ausschnitt aus \protect\lstinline|calc_minor_SSM| Funktion in shape\_sim\_meas.py}, label = {cd:SSM_calc_minor_SSM.py}]{../Code/Shape_Similiarity/shape_sim_meas.py}
 	\fi
 
 	Die Funktion \lstinline|calc_minor_SSM| \ifimportant (s. Listing \ref{cd:SSM_calc_minor_SSM.py})\fi arbeitet mit zwei Arrays, die die jeweiligen Winkelindizes und Winkel für jeden Punkt für jeweils ein Polygon enthalten. Es wird zunächst ein Array initialisiert, indem alle berechneten SSMs gespeicehrt werden. Danach wird eine FOR Schleife genutzt um alle Permutationen für den Vergleich der beiden Arrays zu durchlaufen. In dieser Schleife ist eine IF Abfrage vorhanden, um zu verhindern, dass ein Array keine Werte zum Vergleich enthält (bzw. die Länge 0 hat). Wenn kein Array die Länge 0 besitzt, kann die \lstinline|compare_arrays| Methode gestartet werden, die alle Elemente des ersten Arrays von allen Elementen des zweiten Arrays an der gleichen Stele abzieht. Dieser SSM wird dann dem Array hinzugefügt und das zweite Polygon wird um ein Element verschoben. Bei dem zweiten Array wird das unterste Element zum ersten Element kopiert, sodass das Array permutiert. Diese Schritte wiederholen sich, bis das zweite Array einmal vollständig permutiert wurde. Danach wird aus dem \lstinline|SSM_arr| Array der geringste Wert und der Index von diesem Wert mit Numpy internen Funktionen gesucht und als Array zurückgegeben. \\
-
 	\ifimportant
 	\lstinputlisting[style=intext, linerange={260,269-278,280,282-284,286,291,298-302}, caption={Ausschnitte aus \protect\lstinline|compare_arrays| und \protect\lstinline|permute_arr| Funktionen in shape\_sim\_meas.py}, label = {cd:SSM_compare_and_permute_arr.py}]{../Code/Shape_Similiarity/shape_sim_meas.py}
 	\fi
 
 	In der Funktion \lstinline|compare_arr| \ifimportant (s. Listing \ref{cd:cd:SSM_compare_and_permute_arr.py})\fi wird zunächst eine Variable gespeichert, die die Länge des kürzesten Arrays von beiden besitzt. Anhand dieser wird die folgende FOR Schleife limitiert, damit nur Werte verglichen werden, für die auch ein Gegenstück vorhanden ist.
 	In der FOR Schleife wird ein Variable erhöht, indem immer der Absolutbetrag der Differenzen zwischen dem ersten Array an der entsprechenden Stelle und dem zweiten Array an der gleichen Stelle addiert wird. Dieser Absolutbetrag sorgt dafür, dass die Variable gegen 0 geht und das Formähnlichkeitsmaß eine bessere Formähnlichkeit durch einen geringeren Wert repräsentiert. Danach wird die Variable zur weiteren Verarbeitung zurückgeben.
-
 	\ifimportant
 	\lstinputlisting[style=intext, linerange={200,209-212,214-217,219-223,225}, caption={Ausschnitt aus \protect\lstinline|sort_oO_arr_new| Funktion in shape\_sim\_meas.py}, label = {cd:SSM_sort_oO_arr.py}]{../Code/Shape_Similiarity/shape_sim_meas.py}
 	\fi

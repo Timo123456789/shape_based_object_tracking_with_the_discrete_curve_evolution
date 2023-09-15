@@ -96,41 +96,45 @@
 
     \clearpage
 \subsection{Evaluation}{
-    \begin{table}[ht]
-        \caption{Vergleich der SSMs bei verschiedenen DCE Substitionslimits bei einem 10-sekündigem Video (300 Frames) (Quelle: eigene Darstellung; \ref{cd:listing_A10s_RV_minor_results.txt(Y8x)}, \ref{cd:listing_A10s_RV_more_results.txt(Y8x)})}
-        \label{tab:Minor_More_DCE_SSMs_A10s}
-        \centering
-        \begin{tabular}{l|l|l|l}
-         & \textbf{\begin{tabular}[c]{@{}l@{}}geringe DCE\\ Punktgrenzen\end{tabular}} & \textbf{Referenz} & \textbf{\begin{tabular}[c]{@{}l@{}}hohe DCE\\ Punktgrenzen\end{tabular}} \\ \hline
-        \textit{SSM pro Fr. und Kl. Auto} & 18,12 & 344.68 & 5550,03 \\ \hline
-        \textit{SSM pro detektiertes Auto} & 6,01 & 114.40 & 1841,82 \\ \hline
-        \textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ Autos (in Klam. pro Fr.)\end{tabular}} & \begin{tabular}[c]{@{}l@{}}904 \\ (3,01)\end{tabular} & \begin{tabular}[c]{@{}l@{}}904 \\ (3,01)\end{tabular} & \begin{tabular}[c]{@{}l@{}}904 \\ (3,01)\end{tabular} \\ \hline
-         &  &  &  \\ \hline
-        \textit{SSM pro Fr. und Kl. LKW} & 29,01 & 12,86 & 8506,60 \\ \hline
-        \textit{SSM pro detektierter LKW} & 8,00 & 3,54 & 2345,57 \\ \hline
-        \textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ LKW (in Klam. pro Fr.)\end{tabular}} & \begin{tabular}[c]{@{}l@{}}108 8\\ (3,63)\end{tabular} & \begin{tabular}[c]{@{}l@{}}108 8\\ (3,63)\end{tabular} & \begin{tabular}[c]{@{}l@{}}108 8\\ (3,63)\end{tabular}
-        \end{tabular}
-        \end{table}
+    
 
-
-        \begin{table}[ht]
-            \caption{Vergleich der Statistik bei 10 Sekunde Video (300 Frames) und verschiedenen DCE Substitutionsgrenzen (Quelle: eigene Darstellung; \ref{cd:listing_A10s_RV_minor_results.txt(Y8x)}, \ref{cd:listing_A10s_RV_more_results.txt(Y8x)})}
-            \label{tab:YOLO8_minor_more_DCE_A10s}
-            \centering
-            \begin{tabular}{l|l|l|l}
-             & \textbf{\begin{tabular}[c]{@{}l@{}}geringe DCE\\ Punktgrenzen\end{tabular}} & \textbf{Referenz} & \textbf{\begin{tabular}[c]{@{}l@{}}hohe DCE\\ Punktgrenzen\end{tabular}} \\ \hline
-            \textit{\begin{tabular}[c]{@{}l@{}}Durchschn. Abweichung\\ p. Polygon (in Deg.)\end{tabular}} & 5,57 & 58,04 & 842.51 \\ \hline
-            \textit{\begin{tabular}[c]{@{}l@{}}Durchschn. Abweichung  \\ p. Winkel (in Deg.)\end{tabular}} & 1,25 & 6,6 & 41.19 \\ \hline
-            \textit{} &  &  &  \\ \hline
-            \textit{\begin{tabular}[c]{@{}l@{}}absolute Abweichung  \\ (in Deg)\end{tabular}} & 11.729,32 & 122.113,17 & 1.772.644,29 \\ \hline
-            \textit{erkannte Punkte/Winkel} & 9.408 & 18.498 & 43.040 \\ \hline
-            \textit{erkannte Polygone} & 2.104 & 2.104 & 2.104 \\ \hline
-            \textit{verglichene Polygone} & 1.960 & 1.960 & 1.960 \\ \hline
-            \textit{Prozessierungszeit (in Min.)} & 24.56 & 23,84 & 17,09
-            \end{tabular}
-            \end{table}
+            \begin{table}[ht]
+                \centering
+                \caption{Vergleich der Statistik bei 1 Sekunde Video (30 Frames) und verschiedenen DCE Substitutionsgrenzen (Quelle: eigene Darstellung; \ref{cd:listing_A1s_RV_minor_results.txt(Y8x)}, \ref{cd:listing_A1s_RV_more_results.txt(Y8x)})}
+                \label{tab:YOLO8_minor_more_DCE_A1s}
+                \begin{tabular}{l|l|l|l}
+                    & \textbf{\begin{tabular}[c]{@{}l@{}}geringe DCE\\ Punktgrenzen\end{tabular}} & \textbf{Referenz} & \textbf{\begin{tabular}[c]{@{}l@{}}hohe DCE\\ Punktgrenzen\end{tabular}} \\ \hline
+                   \textit{\begin{tabular}[c]{@{}l@{}}Anzahl Punkte/Winkel \\ vor DCE\end{tabular}} & 5.325 & 5.325 & 5.325 \\ \hline
+                   \textit{\begin{tabular}[c]{@{}l@{}}Anzahl Punkte/Winkel\\ nach DCE\end{tabular}} & 1.174 & 1.988 & 4.026 \\ \hline
+                   \textit{\begin{tabular}[c]{@{}l@{}}Anzahl vergl. Winkel\\ bei SSM Berechnung\end{tabular}} & 3.987 & 11.858 & 74.312 \\ \hline
+                   \textit{} &  &  &  \\ \hline
+                   \textit{Gesamtwinkelsumme} & 3.688,93 & 6.238,21 & 12.630,05 \\ \hline
+                   \textit{erkannte Polygone} & 214 & 214 & 214 \\ \hline
+                   \textit{verglichene Polygone} & 194 & 194 & 194 \\ \hline
+                   \textit{Prozessierungszeit (in Sek.)} & 45,24 & 44,09 & 43,45
+                   \end{tabular}
+                \end{table}
+    
+                \begin{table}[ht]
+                    \caption{Vergleich der SSMs bei verschiedenen DCE Substitionslimits bei einem 1-sekündigem Video (30 Frames) (Quelle: eigene Darstellung; \ref{cd:listing_A1s_RV_minor_results.txt(Y8x)}, \ref{cd:listing_A1s_RV_more_results.txt(Y8x)})}
+                    \label{tab:Minor_More_DCE_SSMs_A1s}
+                    \centering
+                    \begin{tabular}{l|l|l|l}
+                        & \textbf{\begin{tabular}[c]{@{}l@{}}geringe DCE\\ Punktgrenzen\end{tabular}} & \textbf{Referenz} & \textbf{\begin{tabular}[c]{@{}l@{}}hohe DCE\\ Punktgrenzen\end{tabular}} \\ \hline
+                       \textit{Absolute SSM Auto} & 3,0831 & 4,1018 & 7,7453 \\ \hline
+                       \textit{SSM pro Kl. und Fr. Auto} & 0,1028 & 0,1367 & 0,2582 \\ \hline
+                       \textit{SSM pro detektiertes Auto} & 0,0505 & 0,0672 & 0,1270 \\ \hline
+                       \textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ Autos (in Kl. pr. Fr.)\end{tabular}} & \begin{tabular}[c]{@{}l@{}}61\\ (2,03)\end{tabular} & \begin{tabular}[c]{@{}l@{}}61\\ (2,03)\end{tabular} & \begin{tabular}[c]{@{}l@{}}61\\ (2,03)\end{tabular} \\ \hline
+                       \textit{} &  &  &  \\ \hline
+                       \textit{Absolute SSM LKW} & 9,4661 & 11,8367 & 22,6788 \\ \hline
+                       \textit{SSM pro Kl. und Fr. LKW} & 0,3155 & 0,3946 & 0,7560 \\ \hline
+                       \textit{SSM pro detektierten LKW} & 0,1413 & 0,1767 & 0,3385 \\ \hline
+                       \textit{\begin{tabular}[c]{@{}l@{}}Absolute Anz. detektierter\\ LKW (in Kl. pro Fr.)\end{tabular}} & \begin{tabular}[c]{@{}l@{}}67\\ (2,23)\end{tabular} & \begin{tabular}[c]{@{}l@{}}67\\ (2,23)\end{tabular} & \begin{tabular}[c]{@{}l@{}}67\\ (2,23)\end{tabular}
+                       \end{tabular}
+                    \end{table}		
 }
 }
+\clearpage
 \lstset{commentstyle=\color{black}, stepnumber=2, basicstyle=\ttfamily\scriptsize} 
 \section{Listing der Evaluationsergebnisse}
 \subsection{Listing der Result Textdaten für YOLO8n Testdurchläufe}{ \label{ls:result_txts}

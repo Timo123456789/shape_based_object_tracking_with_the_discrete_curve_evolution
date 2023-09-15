@@ -41,6 +41,28 @@
 			\item Da alle anderen Werte vom SSM abhängen ist dies auch bei den anderen Werten der Fall
 			\item Bei dem Zug/Bus ist die Verringerung durch die besseren Modelle zu erklären, da die Modelle genauer und besser Autos/LKW detektieren, ist insbesondere bei 8x zu sehen wo nur noch 1 Zug falsch detektiert wird und kein Bus mehr (Folgerung besser trainiertes Modell gleich bessere Erkennungsleistung -> Logisch)
 		\end{itemize}
+		\item Weitere Testfälle
+		\item shiptracking
+		\begin{itemize}
+			\item Faktorsteigung steigt grob gesehen um das 21 fache (also in etwa die Videolänge)
+			\item Anzahl verglichener Winkel steigt exponentiell an, wegen der Permutation der Polygone
+			\item Steigerung der Prozessierungszeit korreliert ungefähr mit Unterschied der Sekundenzahl zwischen den Videos
+			\item Anstieg der DCE Berechnungszeit lässt sich mit mehr Polygonen erkären, recht kurz trotzdem weil wenig vereinfacht werden muss (ähnliche Punktzahlen vor und nach DCE Durchlauf)
+			\item Minderung bei SSM pro Frame und Boot hängt mit nicht so stark steigender absoluten SSM wie steigender Anzahl detektierte Boote zusammengesetzt
+			\item steigende Anzahl detektierte Boote ist durch wachsende Länge zu erklären
+		\end{itemize}
+		\item geringe und hohe DCE Substitution
+		\begin{itemize}
+			\item 
+		\end{itemize}
+		\item lange Testdatensätze
+		\begin{itemize}
+			\item 
+		\end{itemize}
+		\item Gleiche DCE Substitionslimits
+		\begin{itemize}
+			\item 
+		\end{itemize}
 	\end{itemize}
 
 
