@@ -1,10 +1,11 @@
 %!TEX root = ../thesis.tex
 \chapter{Implementierung (LISTINGS ÜBERPRÜFEN)} 
 \label{ch:implementierung}
-
+\section{Meta-Ablauf im Programm}{ \todo{Ablaufdiagramm basteln}
+	Der Programmablauf ist folgendermaßen geplant. Der erste Schritt besteht darin, dass Video einzulesen und dann mit YOLO zu analysieren. Danach wird im zweiten Schritt auf alle von YOLO segmentierten Objektumrisse die DCE angewendet. Diese werden, bis zu einer bestimmten vorher festgelegten Punktanzahl, vereinfacht. Als letzten Schritt werden diese vereinfachten Umrisse ins Video eingefügt, um das Ursprungspolygon zu überschreiben und um als Endprodukt ein anonymisiertes Video zu erhalten.}
 
 %\section{Implementierung in Python}
-{\label{implementation_in_python}} 
+{\label{implementation_in_python}} \todo{Eingangstext überarbeiten} 
 Im Folgenden wird die Implementierung anhand von Codebeispielen erläutert. Die angegebenen Listings sind zum einfachen Verständnis gekürzt und ohne Kommentare. Für ein Listing des gesamten Codes mit Kommentaren siehe Anhang \ref{cd:gesamt_listing}. \\ 
 EF Version ist die Abkürzung für \glqq Every Frame\grqq{} Version (1. YOLO Variante) und RV Version ist die Abkürzung für \glqq Result\grqq{} Version (2. YOLO Variante), die direkt mit einem von YOLO generierten Objekt arbeitet. 
 \section{Main File}

@@ -1,6 +1,10 @@
 %!TEX root = ../thesis.tex
 \chapter{Evaluation}
 \label{ch:Evaluation}
+\section{Testumgebung}{ \label{sec:testumgebung}
+Das Testsystem besteht aus einem Lenovo Thinkpad P14s. Dieses besitzt einen AMD Ryzen 7 PRO 5850U Prozessor mit 8 Kernen und 16 Threads bei einem Basistakt von 1,9 GHz und einem Höchsttakt von 4,4 GHz. Die integrierte Grafikeinheit AMD Radeon Graphics Einheit kann auf 8 GB VRAM zugreifen, sodass der effektive verfügbare Arbeitsspeicher des Systems bei 39,8 GB liegt \citep{PSREF21}. Die Entwicklungsumgebung 'Visual Studio Code' ist auf einer 64-bit Windows 11 Pro Installation in der Version 22H2 installiert. Für Details in der Python Konfiguration siehe Kap. \ref{sec:Python}. Für die Testdurchläufe ist der Laptop an ein 65 Watt Netzteil angeschlossen, um ein Throttling der CPU zu verhindern.}
+
+
 \section{Datensammlung und -grundlage}
 { \label{sec:datengrundlage}
 	Die Datengrundlage zur Analyse bilden Videos im MP4 Format in der Auflösung 1920 \texttimes 1080 Pixeln. Diese wurden an der Autobahnbrücke zur A1 in Münster-Nienberge aufgenommen \citep{GMaps}. Das Wetter war bedeckt, somit konnte die Sonne nicht einzelne Objekte überstrahlen. Das Videomaterial mit dem evaluiert wurde, stammt vom 17.07.2023 und wurde mittags (12:53 Uhr) aufgenommen. Es zeigt primär die beiden Fahrspuren der Autobahn (siehe Abb. \ref{Bsp_Evaluations_Vidmat}). \\
@@ -191,7 +195,7 @@ Alle Angaben in den Tabellen, außer bei den absoluten Zahlen sind in Grad (Deg.
 
 
 }
-\clearpage
+%\clearpage
 \subsection{Geringe und hohe DCE Substitution} \
 	{Bei diesen Testdaten werden die Fälle betrachtet, bei denen DCE geringere und höhere Punktgrenzen beachten muss. Als Referenz wird der 8x Datensatz in der Länge 1 Sekunde und in der Länge 10 Sekunden genutzt. Es wird immer die RV Version der Implementierung mit dem YOLOv8x Modell betrachtet. Die DCE Grenzen sind in Tabelle \ref{tab:YOLO8_minor_more_DCE_Limits} aufgelistet. Der SSM wird aufgrund von nur kleineren Unterschieden bei den anderen Klassen anhand der beiden Hauptklassen Auto und LKW beurteilt. \\
 		Im Folgenden wird sich auf den 10-sekündigen Testdatensatz bezogen, da die Ergebnisse auf den 1-sekündigen Datensatz übertragbar sind. Hier ist die einzige Besonderheit das alle Werte deutlich geringer sind (siehe Tabelle \ref{tab:YOLO8_minor_more_DCE_A1s}, S. \pageref{tab:YOLO8_minor_more_DCE_A1s}  und Tabelle \ref{tab:Minor_More_DCE_SSMs_A1s}, S. \pageref{tab:Minor_More_DCE_SSMs_A1s}). \\
@@ -253,7 +257,7 @@ Alle Angaben in den Tabellen, außer bei den absoluten Zahlen sind in Grad (Deg.
 
 
 
-\clearpage
+%\clearpage
 
 
 \subsection{Gleiche DCE Substitionslimits}{
@@ -324,7 +328,7 @@ Alle Angaben in den Tabellen, außer bei den absoluten Zahlen sind in Grad (Deg.
 
 				}
 				
-				\clearpage
+				%\clearpage
 \subsection{Langer Testdatensatz}{
 
 
