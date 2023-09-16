@@ -1,0 +1,53 @@
+%!TEX root = ../thesis.tex
+\chapter{Formverarbeitung}
+
+\section{Discrete Curve Evolution (DCE)}
+\label{sec:Discrete Curve Evolution}
+{Die \glqq Discrete Curve Evolution\grqq{} (DCE, \cite{Latecki1999a,Latecki1999c}) ist eine Methode zur Polygonvereinfachung, die die Formähnlichkeit des Polygons beibehält und 1999 von Longin Latecki und Rolf Lakämper vorgestellt wurde (\citep{Barkowsky2000,Latecki1999a,Latecki1999c}). Im Folgenden wird diese Methode genauer erläutert. 
+\\
+Die Vereinfachung von Polygonen, während die Form der Polygone erkennbar bleibt und kleinere Knicke verschwinden, ist die wichtigste Eigenschaft der DCE. Dies basiert auf der schrittweisen Entfernung von Punkten, die den geringsten Beitrag zur Form des Polygons leisten. Dieser Beitrag des einzelnen Punktes zur Form des Polygons kann in einem Relevanzmaß gemessen werden \citep{Barkowsky2000}. 
+\\
+\begin{figure}[ht]
+	   \centering
+	   \includegraphics*[scale = 0.8, keepaspectratio, trim=2 2 2 2 ]{images/DCE/schem_maps_paper_kinks.png}
+	   \caption[Beispielpolygone für die Erläuterung der Relevanz des Knicks]{Beispielpolygone für die Erläuterung der Relevanz des Knicks. Die fettgedruckten Knicke stellen die betrachteten Liniensegmente dar \citep{Barkowsky2000}.} 
+	   \label{Bsp_Rev_Measur_K}
+\end{figure}
+In Abbildung \ref{Bsp_Rev_Measur_K} ist ein Beispiel zu sehen. Bei diesen Formen sind die Knicke durch den Fettdruck zu erkennen. Der Knick in (a) kann als irrelevante Formänderung interpretiert werden, während die Knicke in (b) und (c) deutlich stärker zu erkennen sind. Diese beiden Knicke leisten einen relevanten Beitrag zur Form des Polygons. Der Knick in (d) hat jedoch den größten Anteil an der Form des Beispielobjektes \citep{Barkowsky2000}. 
+\\
+Diese Unterschiede zum Beitrag eines einzelnen Punktes zur Form eines Polygons lässt sich durch existierende geometrische Konzepte erklären. Wenn man den Knick in Abbildung \ref{Bsp_Rev_Measur_K} (a) mit (b) vergleicht, ist zu erkennen, dass (b) den gleichen Winkel hat wie (a). Der Unterschied ist jedoch, dass die Strecken bei (b) länger sind. Dies erhöht den Beitrag des Punktes in (b) zur Form des Polygons im Vergleich zu dem Punkt in (a).
+Der Knick in (c) hat einen größeren Winkel im Vergleich zu (a). Die Länge der Strecken ist jedoch gleich. Bei dem Knick in (d) ist deutlich zu erkennen, dass dieser den signifikantesten Anteil zur Form des Polygons leistet. Dies ist durch den größten Winkel in Verbindung mit den längsten Strecken zwischen Punkten gegeben \citep{Barkowsky2000}.
+\\
+Dieses Beispiel zeigt, dass die Relevanz jedes Knicks für ein Polygon durch den Winkel und die Länge der an den Punkt anschließenden Liniensegmente definiert werden kann. Je größer der Winkel und die Länge der Liniensegmente sind, desto wichtiger ist der Beitrag des Knicks zur Form der Kurve. Aus diesen Beobachtungen kann eine Funktion K gebildet werden, die den Beitrag eines Knicks zur Form des Polygons misst. Diese sollte monoton steigend sein, wenn die Länge der benachbarten Liniensegmente wächst und der Winkel größer wird \citep{Barkowsky2000}.
+\\
+Eine formale Definition dieser Funktion kann folgendermaßen erfolgen. Zwei konsekutive Liniensegmente werden als $S_1, S_2$ definiert. Das Maß für die Relevanz des Knicks K, welches aus $S_1 \cup S_2$, dem Winkel  $\beta(S_1, S_2)$ am Scheitelpunkt von $S_1,  S_2$ und den Längen von $S_1, S_2$ besteht, kann nach folgender Formel berechnet werden (nach \citet{Latecki1999a}):
+\\
+\begin{equation}
+	K(S_1,S_2) = \frac{\beta(S_1,S_2)l(S_1)l(S_2)}{l(S_1) + l(S_2)} 
+	\label{Equ_K_Bark} 
+\end{equation}
+ Hier ist $l$ als Funktion definiert, welche die Länge des Segments berechnet. \\
+ Der Vorteil dieser Formel ist, dass je höher der Wert von $K(S_1, S_2)$ ist, desto größer ist der Beitrag des Knicks von $S_1 \cup S_2$ zur Form des Polygons \citep{Barkowsky2000}.
+ \\
+ Nun wird der Prozess der \glqq Discrete Curve Evolution\grqq{} beschrieben.\\ Das Minimum der Kostenfunktion \ref{Equ_K_Bark} ergibt ein Tupel von Liniensegmenten, welches durch eine einzelne Linie ersetzt wird, indem ihre Endpunkte verbunden werden. Dies beschreibt eine Iteration der DCE. Dies wird für jede sich daraus neu ergebene Form wiederholt, indem $K$ für jeden Punkt immer neu berechnet wird \citep{Barkowsky2000}.
+ \\ 
+ Letztendlich ist die DCE folgendermaßen aufgebaut. Der kleinste Wert von $K(S_1,S_2)$ definiert in jedem Iterationsschritt das Paar von konsekutiven Liniensegmenten $S_1, S_2$, welches durch ein einzelnes Liniensegment von den Endpunkten $S_1 \cup S_2$ ersetzt wird. Das Relevanzmaß $K$ wird lokal für jeden Iterationsschritt der DCE neu berechnet und ist deshalb eine lokale Eigenschaft der Form des ursprünglichen Polygons. \\ Die DCE ermöglicht, wie in den Abbildungen \ref{Bsp_DCE_Bark_Paper} (S. \pageref{Bsp_DCE_Bark_Paper}) und \ref{Scr:DCE_test_run_nrw} (S. \pageref{Scr:DCE_test_run_nrw}) zu erkennen, die Substitution kleinerer Knicke ohne den Gesamteindruck der Form des Polygons nachhaltig zu verändern \citep{Barkowsky2000}.
+ \\
+ Ein weiterer Vorteil dieses Algorithmus ist, dass er immer terminiert, da in jedem Iterationsschritt die Zahl der Punkte um eins reduziert wird. Die DCE konvergiert für geschlossene Polygone gegen einen Zustand, wo nur noch drei Liniensegmente im Polygon vorhanden sind. Durch einen Abbruch des Prozesses ist es jedoch möglich, ein Polygon auf eine bestimmte vorgegebenen Punktanzahl zu reduzieren.\citep{Barkowsky2000}. \\ 
+Für die Anwendung in dieser Arbeit ist die DCE wegen ihrer geringen Komplexität sehr gut geeignet.
+}
+
+\section{Formähnlichkeitsmaß (NICHT FERTIG)}{ \label{theo:SSM}
+	\todo{Klare Benennung Formähnlichkeitsmaß oder Formähnlichkeitsmesswert}
+	Zur Evaluation des Objekttrackings wird ein Formähnlichkeitsmaß (\glqq Shape Similarity Measure\grqq{}, SSM) genutzt, welches die Winkel der Polygone vergleicht. \\
+	Da ein von DCE vereinfachtes Polygon sich von Frame zu Frame nicht ändert, kann die Winkeldifferenz der Polygone voneinander subtrahiert werden. Diese Subtraktion muss als Absolutbetrag erfolgen, um bei der folgenden Aufsummierung aller Winkeldifferenzen eines Polygons im Vergleich zum nächsten, einen Wert zu erhalten, welcher gegen 0 geht. Um die Möglichkeit zu finden, wo beide Polygone die höchste Formähnlichkeit haben, muss ein Polygon rotiert werden. Ohne die Verwendung des Absolutbetrages würde bei einer Rotation stets das gleiche Ergebnis als Winkeldifferenzgesamtssumme berechnet werden, weil bei der Addition der einzelnen Winkeldifferenzen zur Gesamtwinkeldifferenzsumme das Kommutativgesetz gilt. Die höchste Formähnlichkeit wird durch die geringste Winkeldifferenzgesamtssumme beim Vergleich der Polygone repräsentiert.\\
+	In der Formel \ref{equ:SSM} ist dies dargestellt. Das Summenzeichen selbst steht für die Winkeldifferenzgesamtssumme, $W$ für Winkel, $i$ für den jeweiligen Winkel im Polygon, $P1$ und $P2$ für die beiden Polygone.
+
+	\begin{equation} \label{equ:SSM}
+		\sum_{i = 0}^{n}  (\lvert P1[i].W - P2[i].W \rvert)
+	\end{equation}	
+
+	Um vergleichbare Werte zu erhalten, darf nur innerhalb einer von YOLO detektierten Klasse die Winkeldifferenz berechnet werden. Dies ist der Fall, da jede Klasse auf verschiedene Punktzahlen vereinfacht wird, und damit die Winkeldifferenzssummen der einzelnen Polygone sich nicht zu stark unterscheiden. Diese Berechnungsmethode ermöglicht eine Betrachtung der Abweichung für jede von YOLO detektierte Objektklasse.  
+	\todo{eben noch erklären wie sich SSM pro Frame und Klasse; SSM pro detektierter Klasse, und absolute Anzahl detektierte Klassenobjekte (auch pro Frame) berechnen?}
+	
+}
