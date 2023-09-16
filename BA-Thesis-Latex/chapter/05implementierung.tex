@@ -113,7 +113,7 @@ EF Version ist die Abkürzung für \glqq Every Frame\grqq{} Version (1. YOLO Var
 	\subsection{Implementierung der Vereinfachungsfunktion \label{impl:DCE_SimplyfierFunc}}
 
 	Nun wird der Prozess innerhalb der DCE.py Datei genauer erläutert \ifimportant (siehe Listing \ref{cd:DCE_simplify_polygon_A1.py} - \ref{cd:DCE_simplify_polygon_A4.py}) \fi. Es ist zu beachten, dass die Berechnungsfunktion nur mit den Indizes für die Punkte des Polygons arbeiten, sodass die Punkte nicht direkt angesteuert werden können. Da die DCE in dieser Arbeit mit GeoPandas (siehe Kap. \ref{subsec:Geopandas}) implementiert wurde, muss das Array zuerst in ein \lstinline|Geopandas.Geoseries| Objekt transformiert werden. \\
-	Danach kann von diesem Polygon die Gesamtpunktanzahl berechnet werden und der Fall abgefangen werden, dass ein Polygon bereits weniger Punkte als die Punktanzahl, auf die das Polygon reduziert werden soll, hat. \\
+	Danach kann von diesem Polygon die Gesamtpunktanzahl berechnet werden und der Fall abgefangen werden, dass ein Polygon bereits weniger Punkte als die Punktanzahl, auf die das Polygon reduziert werden soll, hat. Außerdem wird hier der Fall abgefangen, dass ein Polygon aus 3 Punkten besteht, da dies die geringstmögliche Vereinfachung ist, die im Frame von CV2 gerendert werden kann. \\
 	\ifimportant
 	\lstinputlisting[style=intext,linerange={47,56-57,59-63}, caption={Ausschnitt 1 aus \protect\lstinline|simplify_polygon_fast_sec| Funktion in DCE.py}, label = {cd:DCE_simplify_polygon_A1.py}]{../Code/DCE/DCE.py}
 	\fi
@@ -140,7 +140,7 @@ EF Version ist die Abkürzung für \glqq Every Frame\grqq{} Version (1. YOLO Var
 	\lstinputlisting[firstnumber=28, style=intext, linerange={89,91,92,94}, caption={Ausschnitt 4 aus \protect\lstinline|simplify_polygon_fast_sec| Funktion in DCE.py}, label = {cd:DCE_simplify_polygon_A4.py}]{../Code/DCE/DCE.py}
 	\fi
 
-	Wenn die Sonderfälle behandelt und \lstinline|k_bef| und \lstinline|k_act| berechnet wurden, können beide Werte im \lstinline|sort_arr| aktualisiert werden. Dazu existiert die Funktion \lstinline|update_sort_arr_sec|. Danach folgt eine Abfrage, ob das Polygon bereits auf die geforderte Anzahl Punkte vereinfacht worden ist. In diesem Fall wird das Polygon in Pixelwerte, bzw. ein Array, umgewandelt und zurückgeben. Ansonsten beginnt die Schleife von vorne. \\
+	Wenn die Sonderfälle behandelt und \lstinline|k_bef| und \lstinline|k_act| berechnet wurden, können beide Werte im \lstinline|sort_arr| aktualisiert werden. Dazu existiert die Funktion \lstinline|update_sort_arr_sec|. Danach folgt eine Abfrage, ob das Polygon bereits auf die geforderte Anzahl Punkte vereinfacht worden oder die Anzahl der Punkte im Polygon kleiner gleich 3 ist. In diesem Fall wird das Polygon in Pixelwerte, bzw. ein Array, umgewandelt und zurückgeben. Ansonsten beginnt die Schleife von vorne. \\
 	Außerhalb der Schleife ist die gleiche Rückgabefunktion \lstinline|polygon_to_pixels| vorhanden, um in jedem Fall ein vereinfachtes Polygon zurückzugeben.
 	\ifimportant
 	\lstinputlisting[style=intext,linerange={153,160-169}, caption={Ausschnitt aus \protect\lstinline|calc_k_for_all_points| Funktion in DCE.py}, label = {cd:DCE_calc_k_for_all_points.py}]{../Code/DCE/DCE.py}

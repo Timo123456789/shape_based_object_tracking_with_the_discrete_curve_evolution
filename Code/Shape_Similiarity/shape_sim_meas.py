@@ -620,7 +620,7 @@ def calc_timestamps(options, rD):
     else:
 
         rD["Duration Program"] = ret_timestampline(options, "prog")
-        rD["Duration YOLO"] = ret_timestampline(options, "yolo") + " ms"
+        rD["Duration YOLO"] = ret_timestampline(options, "yolo") 
         rD["Duration write_Outline(include DCE Calculation)"] = str(round((options["timestamp_write_outline_end"]-options["timestamp_write_outline_start"]),2))+" ms"
         rD["Duration DCE"] = str(round(options["timestamp_DCE_dur"],2)) + " ms"
         rD["Duration write_video"] = ret_timestampline(options, "write_video")

@@ -43,57 +43,27 @@
 		An diesem Testfall konnte gut erläutert werden, welche Änderungen an den Einstellungen die Ergebnisse beim Objekttracking beeinflussen. Es konnte herausgefunden werden, dass der DCE Algorithmus mit optimierten Substitionslimits eine bessere Leistung erzielt. \\
 
 
-		
+		An dem Testfall, der gleiche DCE Substitionslimits für alle Klassen verwendet, sieht man, dass ein Anstieg der Punktanzahl nach der DCE Berechnung bei den geringen gleichen Limits vorhanden ist. Dies ist durch das Anheben mancher DCE Klassensubstitutionslimits im Vergleich zur Referenz zu erklären. Ähnlich lässt sich der Anstieg der Punktanzahl im Vergleich mit den hohen gleichen Limits interpretieren. Die Schwankungen im Vergleich zur Referenz bei der Anzahl der verglichenen Winkel zur SSM Berechnung bei geringen und hohen DCE Substitionslimits ist ebenfalls mit der Anzahl der Punkte nach dem Durchlauf der DCE zu begründen, da diese Werte korrelieren. Dies gilt auch für die Gesamtwinkelsumme. \\
+		Die Anzahl der erkannten und verglichenen Punkte bleibt über alle Testdatensätze bei diesem Testfall gleich, weil das gleiche Video mit dem gleichen YOLO Modell analysiert wurde und nur die DCE Einstellungen geändert wurden. Es ist außerdem zu erkennen, dass die Prozessierungszeit bei den geringen gleichen DCE Substitionslimits ansteigt, da die DCE Berechnung aufwendiger ist. Bei den hohen gleichen Substitionslimits ist der Anstieg nur marginal, da die Erhöhung der DCE Substitionslimits über alle 4 Klassen hinweg im Vergleich zur Referenz die Gesamtprozessierungszeit ausgleicht. \\
+		Da auch hier die absolute SSM Zahl mit der Punktanzahl nach der DCE Vereinfachung korreliert und von dieser die SSM pro Frame und Klasse, sowie pro detektiertes Auto, abhängen, ist ein geringer Anstieg bei den hohen gleichen Substitionslimits zu sehen. Es gibt keinen Unterschied zwischen der SSM der Klasse LKW und den von ihr abhängenden Werten im Vergleich von dem Testfall mit den geringen gleichen Limits und der Referenz, weil das Substitionslimit exakt der Referenz mit der Klasse LKW entspricht. Bei der Klasse Auto hingegen sind geringe Schwankungen zu erkennen. Die absolute Anzahl detektierter Objekte bleibt über alle Videos gleich, wegen des deterministischen Algorithmus und der gleichen Testdatensätze, sowie fast gleichen Einstellungen. \\
+		Bei diesem Testfall waren die Ergebnisse nicht wie erwartet, dass die SSM weiter als in den vorgesehenen Testfällen gegen 0 geht. Dies liegt voraussichtlich an der Ungenauigkeit von YOLO in Verbindung mit Berechnungsungenauigkeiten der DCE. \\
+
+		Bei den Ergebnissen des langen Testdatensatzes sieht man, dass die Zahl der Punkte nach und vor der DCE Berechnung mit der Länge des Eingabevideos korreliert. Diese Beobachtung gilt auch für die Anzahl der verglichenen Winkel zur SSM Berechnung, der Gesamtwinkelsumme und der Anzahl der erkannten und verglichenen Polygone. Von dieser Folgerung weicht die Prozessierungszeit ab, da die Dauer des Programms mit längerem Eingabevideo steigt. Dieser Anstieg ist im Vergleich von dem 1-sekündigen Testdatensatz über den 10-sekündigen Testdatensatz bis hin zum 30-sekündigen Testdatensatz recht linear, da die gleiche Hardware, gleiche Einstellungen und die gleiche Programmcodeversion genutzt wurden. \\
+		Der Wert der absoluten SSM steigt aufgrund des längeren Videos, weil mehr Objekte zu höheren aufsummierten Winkeldifferenzen führen. Dies ist auch bei den davon abhängigen Variablen zu sehen und ebenfalls bei der SSM pro Frame und Klasse Auto und LKW, wenn man die beiden Referenzvideos von 1 Sekunden und 10 Sekunden Länge miteinander vergleicht. Falls man hier aber den 30-sekündigen Testdatensatz betrachtet, ist zu erkennen, dass die absolute Anzahl detektierter Objekte schneller ansteigt als der Wert der absoluten SSM. Dies führt bei der Klasse Auto dazu, dass die SSM pro Frame und Klasse Auto minimal beim längeren Video absinkt. Ebenfalls davon ist die SSM pro detektiertes Auto. \\
+		Bei der Klasse LKW hingegen steigt die absolute Anzahl beim längeren Video stärker an als bei der Klasse Auto, sodass bei der SSM pro detektiertes Auto eine Verringerung im Vergleich von der 10-sekündigen Referenz zum 30-sekündigem Testdatensatz entsteht und die SSM pro detektiertem LKW leicht ansteigt. Dieser Effekt betrifft auch die SSM pro Frame und Klasse LKW- Bei der Klasse LKW steigt auch die pro Frame detektierter Anzahl LKW konstant über die steigende Videolänge an, während bei der Klasse Auto dieser Wert erst kurz sinkt, bevor er beim langen Testdatensatz sehr gering ansteigt. \\
+		Bei diesem Testfall ist zu sehen, dass die berechneten Werte übertragbar sind auf längere Videos. Damit ist eine Beurteilung möglich, wie das Programm mit noch längeren Videos arbeitet, solange die Begrenzungen der Hardware es ermöglichen. Der erkannte Werteverlauf ist ein teilweise linearer Anstieg. \\
+
+
 
 
 
 
 	}
 
-	Evaluation Stichpunkte
-	\begin{itemize}
-		
-		
 	
-		
-		
-		\item Gleiche DCE Substitionslimits
-		\begin{itemize}
-			\item Anstieg der Anzahl Punkte nach DCE bei geringen gleichen Limits ist durch das Anheben mancher Substitutionslimits im VGL zur Referenz zu erklären; erklärt auch großen Anstieg bei hohen gleichen Limits
-			\item Anzahl vergl. Winkel korreliert mit Anzahl Punkte nach DCE -> Deshalb die Schwankungen bei geringen und hohen Limits im Vergleich zur Referenz
-			\item gilt auch für Gesamtwinkelsumme
-			\item Erkannte und verglichene Polygone bleiben gleich (gleiches Video, gleicher deterministischer Algorithmus)
-			\item Prozessierungszeit bei geringen gleichen Limits steigt an, weil DCE länger rechnen muss: bei hohen gleichen Limits ebenfalls marginaler Anstieg, aber fast gleich; weil sich die Erhöhung über alle Klassen hinweg im Vergleich zur Referenz ausgleicht
-			\item XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-			\item abs. SSM korreliert mit Winkel/Punktanzahl und SSM pro Fr und Kl (bzw. pro detektiertes Auto) hängen von abs. SSM ab
-			\item absolute Anz. detektierter Autos (auch detektierte LKW) bleibt gleich weil gleiches Video; deterministischer Algorithmus etc.
-			\item kein Unterschied der SSM LKW zwischen Referenz und geringen gleichen Limits, weil geringes Limit mit 11 Punkten exakt der Referenz entspricht
-	
-		\end{itemize}
-
-		\item langer Testdatensatz
-		\begin{itemize}
-			\item Zahl von Punkten/Winkeln nach und vor DCE korreliert mit Länge der Videos (gilt auch für Anz. vergl. Winkel, Gesamtwinkelsumme, erkannte Polygone, und verglichene Polygone)
-			\item Prozessierungszeit weicht davon ab, wegen Videolänge einfach. Ist bei 30sekündigem Testdatensatz länger; Anstieg ist im Kontext von den 1s vlg zu 10s vgl. zu 30 Sekunden auch recht linear (liegt an gleicher Hardware und gleichen Einstellungen, sowie gleicher Codeversion)
-			\item XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-			\item absolute SSM steigt aufgrund von längerem Video (= mehr Objekte = höhere Differenzen); deshalb steigt auch die SSM pro Fr. und Kl. bei 1s vs 10s
-			\item Da aber bei 30s die absolute Anzahl massiver ansteigt als die absolute SSM sinkt die SSM pro Fr und Kl wieder bei 30s
-			\item absolute Anzahl Autos steigt nicht so massiv wie die absolute Anzahl detektierter LKW an -> Anzahl Autos pro Frame sinkt ein wenig, Anzahl LKW pro Frame steigt ein wenig (über alle 3 Videos)
-		\end{itemize}
-	\end{itemize}
-
 
 
 }
-% {
-% 	\begin{itemize}
-		
-% 		\item höhere SSMs bei als 'andere Objekte' deklarierte Polygone, da die Punktzahlen auf die diese reduziert werden höher ist, was zu einer höheren Gesamtwinkelsumme pro Polygon führt und damit die Abweichung zur nächsten Gesamtwinkelsumme im nächsten Frame steigt
-% 		\item LKW werden aufgrund der langen Form mit recht monotonem Aussehen als Zug oder Bus Fehldetektiert
-% 		\item LKW, die Autos transportieren können die absolute Anzahl der PKW stark verfälschen
-% 		\item Falsche Detektierungen von Yolo werden durch Schilder und andere Objekte verursacht
-% 	\end{itemize}
 
-% }
 
 

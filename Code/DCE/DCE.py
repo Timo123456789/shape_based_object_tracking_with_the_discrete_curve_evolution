@@ -88,7 +88,7 @@ def simplify_polygon_fast_sec(arr, fNoP):
    
         sort_arr = update_sort_array_sec(sort_arr,indic,k_bef[0], k_act[0],DCE_Polygon) #update the sort array with the calculated k values
 
-        if (get_number_of_points(DCE_Polygon) == fNoP): #exception if the polygon has reached the final number of points fNoP
+        if (get_number_of_points(DCE_Polygon) == fNoP) or get_number_of_points(DCE_Polygon)<=3: #exception if the polygon has reached the final number of points fNoP or number of points is <=3
             return polygon_to_pixels(DCE_Polygon) #convert the polygon to a array with pixels and return
 
     return polygon_to_pixels(DCE_Polygon) #convert the polygon to a array with pixels and return
