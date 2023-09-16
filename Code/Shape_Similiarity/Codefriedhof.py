@@ -347,3 +347,11 @@
 # 	% 		\textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ Motorräder (in Kl. pro Fr.)\end{tabular}} & - & - & \begin{tabular}[c]{@{}l@{}}4\\ (0,01)\end{tabular} & \begin{tabular}[c]{@{}l@{}}4 \\ (0,01)\end{tabular} & - & -
 # 	% 		\end{tabular}
 # 	% 	\end{table}
+
+
+
+# %alter Text anfnag
+# 		In Tabelle \ref{tab:YOLO8_minor_more_DCE_A1s} ist zu sehen, dass die durchschnittliche Abweichung pro Polygon und Winkel bei geringeren Punktgrenzen stark absinkt und bei höheren Punktgrenzen stark ansteigt. Dies kann man auch auf die absolute Abweichung und die erkannten Punkte übertragen. Da die Zahl der erkannten Punkte steigt, wenn die DCE weniger Punkte entfernt, steigen auch die anderen Werte. Dies gilt auch analog dafür, wenn die DCE mehr Punkte entfernt. \\
+# 		Ein ähnliches Phänomen ist bei der Tabelle \ref{tab:Minor_More_DCE_SSMs_A1s} zu erkennen, wo die SSMs aufgelistet sind. Hier steigt die SSM massiv an, wenn DCE Grenzen angehoben werden und analog dazu sinkt die SSM, wenn die DCE Grenzen verringert werden. Dies ist gleichbleibend bei der absoluten Anzahl der beiden betrachteten Klassen Auto und LKW. \\
+# 		Für die Ergebnisse bei dem 10-sekündigen Video siehe die Tabellen \ref{tab:Minor_More_DCE_SSMs_A10s} (S. \pageref{tab:Minor_More_DCE_SSMs_A10s})  und  \ref{tab:YOLO8_minor_more_DCE_A10s} (S. \pageref{tab:YOLO8_minor_more_DCE_A10s})  im Anhang. Diese Ergebnisse sind auf die oben beschriebenen übertragbar, außer das alle Werte deutlich ansteigen. \\
+# 		%alter text ende

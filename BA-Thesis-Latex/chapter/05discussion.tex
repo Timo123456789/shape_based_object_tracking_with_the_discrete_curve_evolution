@@ -53,7 +53,13 @@
 		\end{itemize}
 		\item geringe und hohe DCE Substitution
 		\begin{itemize}
-			\item 
+			\item Anzahl Punkte vor DCE ist gleich, weil Datensätze und YOLO Modell exakt gleich sind (YOLO ist deterministischer Algorithmus) (gilt auch für erkannte und vergl. Polygone und Absolute Anz. Auto/ LKW (bzw. auch pro Frame))
+			\item Anzahl Punkte nach DCE ist so unterschiedlich, weil DCE auf verschieden große Punktgrenzen vereinfacht -> trivial weil am Ende wegen der niedrigeren/höheren Grenzwerte einfach weniger/mehr Punkte übrig bleiben
+			\item betrifft auch die Zahl der vergl. Winkel bei SSM Berechnung (steigt exponentiell wg. Permutation)
+			\item Gesamtwinkelsumme hängt an Punktzahl nach DCE -> daher so starker Anstieg
+			\item Dauer der Prozessierung sinkt, weil DCE nicht mehr so viel vereinfachen muss
+			\item Ähnliche Steigerungen bei SSM, weil  absolute SSM ja auch von Punktzahl abhängt, bzw. die unteren Werte ja von absoluter SSM
+			\item Absolute Anzahl Auto/LKW bleibt gleich weil 
 		\end{itemize}
 		\item lange Testdatensätze
 		\begin{itemize}
