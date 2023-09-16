@@ -19,57 +19,44 @@
 		\item warum kann man das alles nicht direkt mit YOLO machen? Rechenleistung ist doch eigentlich genug vorhanden (auch auf Drohnen bzw. Wildkameras)
 	\end{itemize}
 
+	\section{Einordnung der Evaluationsergebnisse}
+	{
+		Bei den allgemeinen Daten, die der Evaluation (s. Kap. \ref{subsec:allgErkenntis}) beschrieben wurden, ist zu erkennen, dass die Zahl der Punkte vor DCE minimal steigt, da auch die Zahl der Polygone ansteigt (s. Tabelle \ref{tab:YOLO8_A10s}). Dies kann daran liegen, dass bei den größeren YOLO Modellen die Detektion und Klassifizierung von Objekten genauer und häufiger erfolgt. Die steigende Punktanzahl nach der DCE Vereinfachung kann ebenfalls mit den größeren YOLO Modellen erklärt werden, da diese auch zu einer höheren Zahl von erkannten Polygonen führen. Aus diesem Grund korreliert die Zahl der Punkte nach der DCE Vereinfachung mit der Zahl der erkannten Polygone (bzw. detektierter Objekte).\\
+		Die Anzahl der Punkte nach der DCE Vereinfachung bleibt relativ konstant zwischen den Modellen 8m und 8x, da 8m recht zuverlässig alle Objekte im Video detektiert. Dadurch, dass diese Objekte als Polygone danach von der DCE vereinfacht werden, bleibt die Anzahl der Punkte nach der DCE Vereinfachung recht konstant. Die Anzahl der verglichenen Winkel steigt hingegen deutlich schneller an als die Punktanzahl, da die Polygone permutiert werden. \\
+		Bei der SSM ist zu sehen, dass die Zahl der Polygone von 8n zu 8m stark ansteigt, weil mehr Objekte detektiert werden. Im Vergleich von 8m zu 8x bleibt die Zahl der Polygone relativ  konstant, weil beide Modelle alle Objekte detektieren, bzw. die Steigerung zwischen 8m und 8x ist sehr gering, weil im Testdatensatz selbst nicht mehr Objekte enthalten sind. \\
+		Die Laufzeit des Programmes unterscheidet sich zwischen den Implementierungen, da YOLO bei direkter Verarbeitung den Vorteil der effizienten Implementierung und vollständigen CPU Auslastung nutzen kann. Die EV Version ist ineffektiv implementiert, weil YOLO jedes Bild einzeln analysiert; das Programm auf dieses Einzelbild DCE anwendet und wieder mit dem nächsten Frame von vorne anfängt. Dieser Unterschied ist insbesondere bei der Verwendung der besser trainierten YOLO Modelle zu erkennen, da dort die Analyse mit YOLO mehr Zeit und Ressourcen benötigt. \\
+		Außerdem ist auffällig, dass in den Testdatensätzen Züge detektiert werden. Diese Fehldetektion von LKW kann mit besseren Modellen stark verringert und nahezu eliminiert werden, wie auch in Tabelle \ref{tab:YOLO8_A10s_SSM} zu sehen. Die Anzahl der detektierten Züge entspricht ungefähr der Anzahl der im nächsthöheren Modell mehr detektierten LKW. \\
+
+		Wenn man nun die SSM beurteilt, ist zu erkennen, dass die absolute SSM mit der Verwendung des größeren YOLO Modell steigt, weil mehr Objekte der jeweiligen Klasse richtig detektiert und erkannt werden. Da die SSM pro Frame und Klasse direkt von dem Absolutwert abhängt und weniger Falschdetektionen diesen Wert verzerren, steigt dieser Wert ebenfalls bei Verwendung der besseren YOLO Modelle. Dieser Effekt ist auch bei der absoluten Anzahl detektierter Objekte (bspw. Autos) zu erkennen (s. Tab. \ref{tab:YOLO8_A10s_SSM}). \\
+		Bei der Klasse LKW verdoppelt sich die absolute SSM, weil die Punktzahl, auf die DCE diese Objekte reduziert, deutlich höher ist (11) als die von der Klasse Autos (8). Da die absolute SSM steigt, wachsen auch hier die anderen Werte, wie SSM pro Frame und Klasse LKW und SSM pro detektiertem LKW. Bei der absoluten Anzahl der Klasse Zug ist hingegen die Verringerung auf 1 durch die Verwendung der besseren YOLO Modelle zu erklären, da bei 8x 1 LKW falsch detektiert wird. Außerdem wird bei 8x kein LKW als Bus mehr (falsch) detektiert. 
+		Aus den obigen Gründen folgt, dass ein bessere trainiertes Modell eine bessere Erkennungsleistung bei längerer Berechnungsdauer hat.  \\
+
+		Bei den weiteren Testfällen ist beim Schiffstracking Datensatz zu sehen, dass die Punktanzahlen vor und nach der DCE Berechnung in etwa um die Videolänge ansteigen. Auch hier ist der Anstieg der Anzahl der verglichenen Winkel bei der SSM Berechnung exponentiell aufgrund der Polygonpermutation. Der Anstieg der Prozessierungszeit entspricht ebenfalls ungefähr dem Unterschied der Sekundenzahl der Testdatensätze (1 Sekunde und 21 Sekunden, Anstiegsfaktor 22 bei Prozessierungszeit). Recht kurz ist hingegen die Berechnungszeit der DCE, die dennoch zwischen den Testdatensätzen ansteigt. Dieser Anstieg liegt an der steigenden Polygonanzahl, ist aber sehr gering, weil allgemein bei diesen Testdaten wenige Polygone vereinfacht werden müssen. \\
+		Die Minderung der SSM pro Frame und Klasse Boot hängt mit der nicht so stark ansteigenden absoluten SSM im Gegensatz zur stark steigenden absoluten Anzahl detektierter Boote  zusammen. Die Anzahl der detektierten Boote steigt beim 21-sekündigen Testdatensatz aufgrund der Länge an.\\
+		Aus diesem Testfall gefolgert werden, dass sich der Anwendungszweck des formbasierten Objekttrackings mit der DCE nicht nur auf den angedachten Anwendungsfall Verkehrstracking beschränkt, sondern auch andere Anwendungsfälle, wie Schiffs- oder Flugzeugtracking, möglich sind. Damit ist der in Kap. \ref{sec:Aufbau_Arbeit} genannte Grund für den Testfall erfüllt. Die einzige Einschränkung hier ist die Anzahl der Klassen, die von YOLO unterschieden werden können.\\
+
+		Bei dem Testfall, der geringe und hohe DCE Substitionslimits abdeckt, ist Folgendes aufgefallen. Die Anzahl der Punkte vor dem DCE Durchlauf ist bei allen 3 Vergleichstestdatensätzen exakt gleich, weil das Quellvideo und das YOLO Modell übereinstimmen. Außerdem ist YOLO ein deterministischer Algorithmus, der bei gleichen Einstellungsparametern und gleichem Modell, stets das exakt gleiche Ergebnis berechnet. Dies gilt auch für die Anzahlen der erkannten und verglichenen Polygone, sowie bei der absoluten Anzahl detektierte Objekte (und dieser Anzahl der Objekte pro Frame), die aus diesen Gründen exakt gleich sind bei allen 3 Vergleichstestdatensätzen. \\
+		Die Anzahl der Punkte nach der DCE Berechnung ist unterschiedlich, weil DCE durch die verschiedenen Substitionslimits auf die Polygone auf verschiedenen Punktgrenzen reduziert. Dies ist der Fall, weil durch die Reduktion der Punkte durch DCE, je nach Einstellungen, mehr oder weniger Punkte die Polygon repräsentieren. Dieser Effekt betrifft auch die Zahl der verglichenen Winkel bei der SSM Berechnung, die jedoch exponentiell wegen der Permutation ansteigt. Von der Punktanzahl nach der DCE Vereinfachung ist die Gesamtwinkelsumme ebenfalls abhängig, deshalb steigt diese stark an. \\
+		Die Dauer der Prozessierung sinkt, weil der Berechnungsaufwand für die DCE Vereinfachung nicht mehr so hoch ist. \\
+		Da die weiteren SSM Werte von dem absoluten SSM Wert und dieser von der Punktanzahl nach der DCE abhängig ist, sind dort ähnliche Steigerungen zu erkennen. \\
+		Die absolute Anzahl detektierter Autos und LKW, bzw. die Anzahl dieser Objekte pro Frame, bleibt über alle 3 Testdatensätze gleich, weil der YOLO Algorithmus, wie oben erläutert, deterministisch ist. \\
+		An diesem Testfall konnte gut erläutert werden, welche Änderungen an den Einstellungen die Ergebnisse beim Objekttracking beeinflussen. Es konnte herausgefunden werden, dass der DCE Algorithmus mit optimierten Substitionslimits eine bessere Leistung erzielt. \\
+
+
+		
+
+
+
+
+	}
 
 	Evaluation Stichpunkte
 	\begin{itemize}
-		\item A10s Allgemeine Daten
-		\begin{itemize}
-			\item Zahl der Punkte vor DCE steigt minimal, weil auch die Zahl der erkannten Polygone ansteigt (bzw. bei größeren Modellen YOLO sicherer ist das ein Objekt einer Klasse entspricht, bzw. überhaupt detektiert wird)
-			\item Zahl der Punkte nach DCE steigt mit der Zahl der erkannten Polygone (bzw. besseren YOLO Modellen) an, weil beides miteinander korreliert (voneinander abhängt)
-			\item Zahl der Punkte nach DCE im Vergleich zwischen 8m und 8x bleibt konstant, weil 8m schon gut genug alle Objekte richtig klassifziert und die Reduktion durch DCE dann alle Werte auf ähnliche Punktzahlen reduziert
-			\item Die Anzahl der verglichenen Winkel ist deutlich höher, als die Punktanzahl aufgrund der Permutation der zu vergleichenden Polygone.
-			\item XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-			\item Zahl der Polygone steigt von 8n zu 8m stark an, weil mehr Objekte detektiert werden, im Vergleich von 8m zu 8x bleibt die Zahl relativ konstant, weil beide Modelle alle Objekte detektieren, bzw. Steigerung ist nicht mehr so extrem, weil einfach nicht mehr vorhanden ist
-			\item Berechnungszeit unterscheidet sich zwischen den Implementierungen, da YOLO bei der direkten Verarbeitung den Vorteil der effizienten Implementierung und vollen CPU Auslastung vollständig nutzen kann; EFV ist einfach zu ineffektiv implementiert, weil YOLO jedes Bild einzeln bearbeitet, stoppt, DCE anwendet, und wieder von vorne beginnt 
-			\item Unterschied ist inbesondere bei Verwendung der besseren Modelle zu erkennen, weil diese mehr Rechenzeit von YOLO fordern
-			\item Züge werden erkannt weil LKW falsch detektiert werden (kurz Zahlen anschauen zur Untermauerung (zug anzahl entspricht ungefähr differnz zu LKW Zahl bei größerem Modell))
-		\end{itemize}
-		\item Beurteilung des Formähnlichkeitsmesswertes
-		\begin{itemize}
-			\item Absolute SSM steigt, weil mehr Autos/Objekte der jeweiligen Klasse erkannt werden; SSM pro Frame und Auto hängt davon ab und steigt deshalb ebenfalls; SSM pro Auto sinkt, weil mehr Autos richtig detektiert werden und damit weniger Falschdetektionen das Ergebnis verzerren; absoloute Anz. detektierter Autos steigt weil besseres Modell und damit bessere Erkennung
-			\item Verdoppelung der Absoluten SSM bei LKW so hoch, weil LKW mehr Punkte haben, bei 8m und 8x nicht mehr so starke Steigung
-			\item Da alle anderen Werte vom SSM abhängen ist dies auch bei den anderen Werten der Fall
-			\item Bei dem Zug/Bus ist die Verringerung durch die besseren Modelle zu erklären, da die Modelle genauer und besser Autos/LKW detektieren, ist insbesondere bei 8x zu sehen wo nur noch 1 Zug falsch detektiert wird und kein Bus mehr (Folgerung besser trainiertes Modell gleich bessere Erkennungsleistung -> Logisch)
-		\end{itemize}
-		\item Weitere Testfälle
-		\item shiptracking
-		\begin{itemize}
-			\item Faktorsteigung steigt grob gesehen um das 21 fache (also in etwa die Videolänge)
-			\item Anzahl verglichener Winkel steigt exponentiell an, wegen der Permutation der Polygone
-			\item Steigerung der Prozessierungszeit korreliert ungefähr mit Unterschied der Sekundenzahl zwischen den Videos
-			\item Anstieg der DCE Berechnungszeit lässt sich mit mehr Polygonen erkären, recht kurz trotzdem weil wenig vereinfacht werden muss (ähnliche Punktzahlen vor und nach DCE Durchlauf)
-			\item Minderung bei SSM pro Frame und Boot hängt mit nicht so stark steigender absoluten SSM wie steigender Anzahl detektierte Boote zusammengesetzt
-			\item steigende Anzahl detektierte Boote ist durch wachsende Länge zu erklären
-		\end{itemize}
-		\item geringe und hohe DCE Substitution
-		\begin{itemize}
-			\item Anzahl Punkte vor DCE ist gleich, weil Datensätze und YOLO Modell exakt gleich sind (YOLO ist deterministischer Algorithmus) (gilt auch für erkannte und vergl. Polygone und Absolute Anz. Auto/ LKW (bzw. auch pro Frame))
-			\item Anzahl Punkte nach DCE ist so unterschiedlich, weil DCE auf verschieden große Punktgrenzen vereinfacht -> trivial weil am Ende wegen der niedrigeren/höheren Grenzwerte einfach weniger/mehr Punkte übrig bleiben
-			\item betrifft auch die Zahl der vergl. Winkel bei SSM Berechnung (steigt exponentiell wg. Permutation)
-			\item Gesamtwinkelsumme hängt an Punktzahl nach DCE -> daher so starker Anstieg
-			\item Dauer der Prozessierung sinkt, weil DCE nicht mehr so viel vereinfachen muss
-			\item Ähnliche Steigerungen bei SSM, weil  absolute SSM ja auch von Punktzahl abhängt, bzw. die unteren Werte ja von absoluter SSM
-			\item Absolute Anzahl Auto/LKW bleibt gleich weil 
-		\end{itemize}
-		\item lange Testdatensätze
-		\begin{itemize}
-			\item Zahl von Punkten/Winkeln nach und vor DCE korreliert mit Länge der Videos (gilt auch für Anz. vergl. Winkel, Gesamtwinkelsumme, erkannte Polygone, und verglichene Polygone)
-			\item Prozessierungszeit weicht davon ab, wegen Videolänge einfach. Ist bei 30sekündigem Testdatensatz länger; Anstieg ist im Kontext von den 1s vlg zu 10s vgl. zu 30 Sekunden auch recht linear (liegt an gleicher Hardware und gleichen Einstellungen, sowie gleicher Codeversion)
-			\item XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-			\item absolute SSM steigt aufgrund von längerem Video (= mehr Objekte = höhere Differenzen); deshalb steigt auch die SSM pro Fr. und Kl. bei 1s vs 10s
-			\item Da aber bei 30s die absolute Anzahl massiver ansteigt als die absolute SSM sinkt die SSM pro Fr und Kl wieder bei 30s
-			\item absolute Anzahl Autos steigt nicht so massiv wie die absolute Anzahl detektierter LKW an -> Anzahl Autos pro Frame sinkt ein wenig, Anzahl LKW pro Frame steigt ein wenig (über alle 3 Videos)
-		\end{itemize}
+		
+		
+	
+		
+		
 		\item Gleiche DCE Substitionslimits
 		\begin{itemize}
 			\item Anstieg der Anzahl Punkte nach DCE bei geringen gleichen Limits ist durch das Anheben mancher Substitutionslimits im VGL zur Referenz zu erklären; erklärt auch großen Anstieg bei hohen gleichen Limits
@@ -82,6 +69,16 @@
 			\item absolute Anz. detektierter Autos (auch detektierte LKW) bleibt gleich weil gleiches Video; deterministischer Algorithmus etc.
 			\item kein Unterschied der SSM LKW zwischen Referenz und geringen gleichen Limits, weil geringes Limit mit 11 Punkten exakt der Referenz entspricht
 	
+		\end{itemize}
+
+		\item langer Testdatensatz
+		\begin{itemize}
+			\item Zahl von Punkten/Winkeln nach und vor DCE korreliert mit Länge der Videos (gilt auch für Anz. vergl. Winkel, Gesamtwinkelsumme, erkannte Polygone, und verglichene Polygone)
+			\item Prozessierungszeit weicht davon ab, wegen Videolänge einfach. Ist bei 30sekündigem Testdatensatz länger; Anstieg ist im Kontext von den 1s vlg zu 10s vgl. zu 30 Sekunden auch recht linear (liegt an gleicher Hardware und gleichen Einstellungen, sowie gleicher Codeversion)
+			\item XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+			\item absolute SSM steigt aufgrund von längerem Video (= mehr Objekte = höhere Differenzen); deshalb steigt auch die SSM pro Fr. und Kl. bei 1s vs 10s
+			\item Da aber bei 30s die absolute Anzahl massiver ansteigt als die absolute SSM sinkt die SSM pro Fr und Kl wieder bei 30s
+			\item absolute Anzahl Autos steigt nicht so massiv wie die absolute Anzahl detektierter LKW an -> Anzahl Autos pro Frame sinkt ein wenig, Anzahl LKW pro Frame steigt ein wenig (über alle 3 Videos)
 		\end{itemize}
 	\end{itemize}
 

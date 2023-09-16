@@ -56,7 +56,7 @@ def simplify_polygon_fast_sec(arr, fNoP):
     DCE_Polygon = create_Polygon_from_array(arr) #create a Geopanda.Geoseries Object from the given array; to calculate the k value with the DCE Method
     NoP = get_number_of_points(DCE_Polygon) #get the actual number of points from the polygon
    
-    if NoP <= fNoP: #if clause to return the polygon directly when the given polygon has fewer points than required
+    if NoP <= fNoP or NoP <= 3: #if clause to return the polygon directly when the given polygon has fewer points than required or fewer than 3
         return polygon_to_pixels(DCE_Polygon)
     k_val_arr = calc_k_for_all_points(DCE_Polygon) #init the k value array with calculate the k value for all points on the polygon
     sort_arr = np.asarray(k_val_arr, dtype="float") #cast the k value array to a numpy array for further calculations
