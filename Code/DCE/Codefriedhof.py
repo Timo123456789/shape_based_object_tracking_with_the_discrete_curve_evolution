@@ -1596,7 +1596,7 @@
 #         #     print("Fehler; Gesamtpunktanzahl ist verschieden")
 
 #         if (get_number_of_points(DCE_Polygon) == fNoP):
-#             print("statistik:")
+#             print("Basisdaten:")
 #             print(indic_arr)
 #             DCE_Polygon.plot()
 #             plt.show()

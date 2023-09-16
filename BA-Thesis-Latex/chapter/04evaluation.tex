@@ -1,7 +1,7 @@
 %!TEX root = ../thesis.tex
 \chapter{Evaluation}
 \label{ch:Evaluation}
-\section{Datensammlung und Grundlage}
+\section{Datensammlung und -grundlage}
 { \label{sec:datengrundlage}
 	Die Datengrundlage zur Analyse bilden Videos im MP4 Format in der Auflösung 1920 \texttimes 1080 Pixeln. Diese wurden an der Autobahnbrücke zur A1 in Münster-Nienberge aufgenommen \citep{GMaps}. Das Wetter war bedeckt, somit konnte die Sonne nicht einzelne Objekte überstrahlen. Das Videomaterial mit dem evaluiert wurde, stammt vom 17.07.2023 und wurde mittags (12:53 Uhr) aufgenommen. Es zeigt primär die beiden Fahrspuren der Autobahn (siehe Abb. \ref{Bsp_Evaluations_Vidmat}). \\
 	Am unteren Rand ist im Vordergrund rechts das Geländer der Autobahnbrücke zu erkennen. Links unten im Bild ist ein Warnkegel zu sehen. Der mittlere Bereich des Bildes wird von den Fahrspuren dominiert, rechts mittig sind zwei Verkehrsschilder. Im Hintergrund ist ein weiteres Verkehrsschild zu erkennen, welches über die sich vom Betrachter entfernende führende Fahrspur ragt. An den Seiten der beiden Fahrspuren sind Bäume. \\
@@ -60,7 +60,7 @@ Alle Angaben in den Tabellen, außer bei den absoluten Zahlen sind in Grad (Deg.
 {	
 	\begin{table}[h]
 		\centering
-		\caption[Vergleich der verschiedenen YOLO Modelle bei 10 Sekunde Video (300 Frames) (Quelle: eigene Darstellung)]{Vergleich der verschiedenen YOLO Modelle bei 10 Sekunde Video (300 Frames) (Quelle: eigene Darstellung; \ref{cd:listing_A10s_EF_results.txt(Y8n)}; \ref{cd:listing_A10s_RV_results.txt(Y8n)}; \ref{cd:listing_A10s_EF_results.txt(Y8m)}; \ref{cd:listing_A10s_RV_results.txt(Y8m)}; \ref{cd:listing_A10s_EF_results.txt(Y8x)}; \ref{cd:listing_A10s_RV_results.txt(Y8x)})}
+		\caption[Vergleich der verschiedenen YOLO Modelle bei 10 Sekunde Video (300 Frames)]{Vergleich der verschiedenen YOLO Modelle bei 10 Sekunde Video (300 Frames) (Quelle: eigene Darstellung; \ref{cd:listing_A10s_EF_results.txt(Y8n)}; \ref{cd:listing_A10s_RV_results.txt(Y8n)}; \ref{cd:listing_A10s_EF_results.txt(Y8m)}; \ref{cd:listing_A10s_RV_results.txt(Y8m)}; \ref{cd:listing_A10s_EF_results.txt(Y8x)}; \ref{cd:listing_A10s_RV_results.txt(Y8x)})}
 		\label{tab:YOLO8_A10s}
 		\begin{tabular}{l|l|l|l|l|l|l}
 			& \textbf{8n (EFV)} & \textbf{8n (RV)} & \textbf{8m (EFV)} & \textbf{8m (RV)} & \textbf{8x (EFV)} & \textbf{8x (RV)} \\ \hline
@@ -74,29 +74,14 @@ Alle Angaben in den Tabellen, außer bei den absoluten Zahlen sind in Grad (Deg.
 		   \textit{\begin{tabular}[c]{@{}l@{}}Prozessierungszeit\\ (in Min.)\end{tabular}} & 5,46 & 4,1 & 9,11 & 5,85 & 14,94 & 7,99
 		   \end{tabular}
 	\end{table}
-	In Tabelle \ref{tab:YOLO8_A10s} sind allgemeine Daten zur den Testdurchläufen bei dem 10-sekündigen Testdatensatz dargestellt. Es wird zunächst auf allgemeine Erkenntnisse eingegangen, da die beiden verschiedenen YOLO Implementierungen sich nur marginal unterscheiden. Die Tabelle \ref{tab:YOLO8_A1s} zeigt die Ergebnisse für den 1-sekündigen Testdatensatz. Diese Ergebnisse sind ähnlich zu den im Folgenden beschriebenen, außer das die Zahlen und Ergebnisse deutlich kleiner sind. 
+	In Tabelle \ref{tab:YOLO8_A10s} sind allgemeine Daten zur den Testdurchläufen bei dem 10-sekündigen Testdatensatz dargestellt. Es wird zunächst auf allgemeine Erkenntnisse eingegangen, da die beiden verschiedenen YOLO Implementierungen sich nur marginal unterscheiden. Die Ergebnisse des 1-sekündigen Testdatensatzes  (s. Tabelle  \ref{tab:YOLO8_A1s}, S. \pageref{tab:YOLO8_A1s})sind ähnlich zu den im Folgenden beschriebenen, außer das die Zahlen und Ergebnisse deutlich kleiner sind. \\
 	Wenn man die verschiedenen YOLO Modelle im Bereich der Punktzahlen vor der Vereinfachung mit der DCE betrachtet, ist auffällig, dass diese Zahlen relativ konstant bleiben. Es ist jedoch ein kleiner Anstieg bei Verwendung der mit mehr Testdaten trainierten Modell zu erkennen. Insbesondere ist ein  Unterschied von ca. 4.000 Punkten zwischen 8n und 8m vorhanden, während die Punktzahl im Vergleich von 8m zu 8x um ca. 2.000 Punkte sinkt. \\
-	Wenn man nun die Anzahl der Punkte nach der Vereinfachung betrachtet, ist auch hier ein kleiner Anstieg zwischen 8n und 8m zu erkennen, auch wenn die Zahlen von 8m und 8x im Vergleich sehr konstant sind. Der Unterschied beim Anstieg von 8n zu 8m beträgt ungefähr 3.000 Punkte. 
+	Wenn man nun die Anzahl der Punkte nach der Vereinfachung betrachtet, ist auch hier ein kleiner Anstieg zwischen 8n und 8m zu erkennen, auch wenn die Zahlen von 8m und 8x im Vergleich sehr konstant sind. Der Unterschied beim Anstieg von 8n zu 8m beträgt ungefähr 3.000 Punkte. \\
 	Die Anzahl der verglichenen Winkel ist deutlich höher, als die Punktanzahl. Diese Zahlen sind mit ca. 100.000 Vergleichen um das ca. 5-fache höher als überhaupt Punkte nach der Vereinfachung vorhanden sind. Es ist auffällig, dass die Zahlen zwischen 8n und 8m relativ konstant sind, während die Vergleichsanzahl bei 8x um ca. 20.000 Punkte ansteigt.\\
 	Bei der Zahl der verglichenen und erkannten Polygone ist ein Anstieg bei der Verwendung des besseren YOLO Modelles erkennbar. Dieser Anstieg ist insbesondere zwischen 8n und 8m mit ca. 700 Polygonen bei der Polygongesamtanzahl sehr ausgeprägt, während die Zahlen beim Vergleich von 8m und 8x relativ konstant bleiben, bzw. der Anstieg mit ca. 100 Polygonen sehr viel geringer vorhanden ist. Ein ähnliches Phänomen ist bei der Anzahl der verglichenen Polygone erkennbar, hier ist der Anstieg von 8n zu 8m mit ca. 600 Polygonen geringer als bei der Gesamtanzahl der Polygone. Jedoch ist auch hier ein minimaler Anstieg von ca. 100 Polygonen im Vergleich von 8m zu 8x zu erkennen.\\
 	Bei der Prozessierungszeit ist einer der wenigen Unterschiede bei den verschiedenen Implementierung von YOLO zu erkennen. Bei dem kleinsten YOLO Modell 8n ist der Unterschied zwischen EFV und RV mit ca. 1 Minute noch sehr gering, während er bei Verwendung des mittleren YOLO Modell mit ca. 4 Minuten ausgeprägter ist. Bei der Verwendung des größten YOLO Modells kann die Rechenzeit mit der RV Version fast halbiert werden im Vergleich zu der EV Version. Der Unterschied beträgt hier ca. 7 Minuten. 
 
-	\begin{table}[h]
-		\centering
-	\caption[Vergleich der verschiedenen YOLO Modelle bei 1 Sekunde Video (30 Frames) (Quelle: eigene Darstellung)]{Vergleich der verschiedenen YOLO Modelle bei 1 Sekunde Video (30 Frames) (Quelle: eigene Darstellung; \ref{cd:listing_A1s_EF_results.txt(Y8n)}; \ref{cd:listing_A1s_RV_results.txt(Y8n)}; \ref{cd:listing_A1s_EF_results.txt(Y8m)}; \ref{cd:listing_A1s_RV_results.txt(Y8m)}; \ref{cd:listing_A1s_EF_results.txt(Y8x)}; \ref{cd:listing_A1s_RV_results.txt(Y8x)})}
-	\label{tab:YOLO8_A1s}
-	\begin{tabular}{l|l|l|l|l|l|l}
-		& \textbf{8n (EFV)} & \textbf{8n (RV)} & \textbf{8m (EFV)} & \textbf{8m (RV)} & \textbf{8x (EFV)} & \textbf{8x (RV)} \\ \hline
-	\textit{\begin{tabular}[c]{@{}l@{}}Anzahl Punkte/Winkel\\ vor DCE\end{tabular}} & 5.353 & 5.303 & 5.863 & 5.885 & 5.306 & 5.325 \\ \hline
-	\textit{\begin{tabular}[c]{@{}l@{}}Anzahl Punkte/Winkel\\ nach DCE\end{tabular}} & 1.919 & 1.880 & 2.168 & 2.185 & 1.965 & 1.988 \\ \hline
-	\textit{\begin{tabular}[c]{@{}l@{}}Anzahl vergl. Winkel\\ bei SSM Berechnung\end{tabular}} & 19.100 & 17.811 & 10.251 & 10.130 & 11.803 & 11.858 \\ \hline
-	\textit{} &  &  &  &  &  &  \\ \hline
-	\textit{\begin{tabular}[c]{@{}l@{}}Gesamtwinkelsumme\\ (in Deg.)\end{tabular}} & 6.020,32 & 5.898,2 & 6.802,79 & 6.856,27 & 6.166,18 & 6.238,21 \\ \hline
-	\textit{erkannte Polygone} & 147 & 145 & 209 & 210 & 212 & 214 \\ \hline
-	\textit{verglichene Polygone} & 131 & 129 & 188 & 189 & 193 & 194 \\ \hline
-	\textit{Prozessierungszeit (in Sek.)} & 29,54 & 20,19 & 47,92 & 30.64 & 80,15 & 44,09
-	\end{tabular}
-	\end{table}
+	
 }
 
 
@@ -107,7 +92,7 @@ Alle Angaben in den Tabellen, außer bei den absoluten Zahlen sind in Grad (Deg.
 
 	
 \begin{table}[h]
-	\caption{Vergleich der SSMs bei verschiedenen YOLO8 bei 10 Sekunde Video (300 Frames)}
+	\caption[Vergleich der SSMs bei verschiedenen YOLO Modellen bei 10 Sekunde Video (300 Frames)]{Vergleich der SSMs bei verschiedenen YOLO Modellen bei 10 Sekunde Video (300 Frames) (Quelle: eigene Darstellung; \ref{cd:listing_A10s_EF_results.txt(Y8n)}; \ref{cd:listing_A10s_RV_results.txt(Y8n)}; \ref{cd:listing_A10s_EF_results.txt(Y8m)}; \ref{cd:listing_A10s_RV_results.txt(Y8m)}; \ref{cd:listing_A10s_EF_results.txt(Y8x)}; \ref{cd:listing_A10s_RV_results.txt(Y8x)})}
 	\label{tab:YOLO8_A10s_SSM}
 	\begin{tabular}{l|l|l|l|l|l|l}
 	 & \textbf{8n (EFV)} & \textbf{8n (RV)} & \textbf{8m (EFV)} & \textbf{8m (RV)} & \textbf{8x (EFV)} & \textbf{8x (RV)} \\ \hline
@@ -132,7 +117,7 @@ Alle Angaben in den Tabellen, außer bei den absoluten Zahlen sind in Grad (Deg.
 	\textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ Busse (in Klam. pro Fr.)\end{tabular}} & \begin{tabular}[c]{@{}l@{}}12\\ (0,04)\end{tabular} & \begin{tabular}[c]{@{}l@{}}12\\ (0,04)\end{tabular} & \begin{tabular}[c]{@{}l@{}}11\\ (0,04)\end{tabular} & \begin{tabular}[c]{@{}l@{}}11\\ (0,04)\end{tabular} &  & 
 	\end{tabular}
 	\end{table}
-	Es wird nun auf die Tabelle \ref{tab:YOLO8_A10s_SSM} mit dem 10-sekündigen Testdatensatz eingegangen. Bei dem 1-sekündigen Testdatensatz sind ähnliche Effekte bei geringeren Werten zu erkennen. \\
+	Es wird nun auf die Tabelle \ref{tab:YOLO8_A10s_SSM} mit dem 10-sekündigen Testdatensatz eingegangen. Bei dem 1-sekündigen Testdatensatz sind ähnliche Effekte bei geringeren Werten zu erkennen (s. Tabelle \ref{tab:YOLO8_A1s_SSM}, S. \pageref{tab:YOLO8_A1s_SSM}). \\
 	Wenn man beide Implementierungen von YOLO vergleicht, sieht man bei den SSM Werten ebenfalls, dass der Unterschied nur marginal ist. Aus diesem Grund wird im folgenden kein dedizierter Vergleich zwischen den Implementierungen stattfinden. \\
 	Wenn man den Absolutbetrag der SSM betrachtet, sieht man bei der Klasse Auto eine Steigerung im Vergleich von 8n zu 8m. Diese Steigerung ist auch bei 8m und 8x in geringerem Ausmaß vorhanden. Bei der Abweichung pro Frame und Klasse Auto sind diese Effekte in abgeschwächter Form ebenfalls vorhanden. Hingegen ist bei der SSM pro Auto eine Verringerung bei größer werdendem Modell zu erkennen. Diese Verringerung ist besonders zwischen 8n und 8m zu erkennen, während zwischen 8m und 8x der Unterschied nur marginal ist. \\
 	Bei der absoluten Anzahl detektierter Autos ist fast eine Verdoppelung zwischen 8n und 8m vorhanden. Zwischen 8m und 8x ist die Steigerung mit ca. 100 geringer ausgeprägt. \\
@@ -140,32 +125,7 @@ Alle Angaben in den Tabellen, außer bei den absoluten Zahlen sind in Grad (Deg.
 	Bei der Klasse Zug ist hingegen eine deutliche Verringerung der absoluten SSM vorhanden. Dies betrifft auch die SSM pro Frame und Klasse Zug, während die SSM pro detektiertem Zug in geringem Maße bei bessere Modell von 8n zu 8x weiter ansteigt. Besonders ist jedoch die starke Reduzierung der absoluten Anzahl von Zügen zwischen 8n und 8m von 87 auf 5 und der noch weiteren Verringerung bei der Verwendung von 8x auf 1. \\
 	Bei der Klasse Bus sind ähnliche Effekte wie bei der Klasse Zug zu beobachten. Besonders ist hier, dass diese Klasse von 8x nicht mehr detektiert wird und damit auch keine Werte für diese Klasse vorhanden sind.
 
-	\begin{table}[]
-		\caption{Vergleich der SSMs bei verschiedenen YOLO8 bei 1 Sekunde Video (30 Frames)}
-		\label{tab:YOLO8_A1s_SSM}
-		\begin{tabular}{l|l|l|l|l|l|l}
-		 & \textbf{8n (EFV)} & \textbf{8n (RV)} & \textbf{8m (EFV)} & \textbf{8m (RV)} & \textbf{8x (EFV)} & \textbf{8x (RV)} \\ \hline
-		\textit{Absolute SSM Auto} & 2,0174 & 2,0174 & 2,2393 & 2,3659 & 3,8058 & 4,1018 \\ \hline
-		\textit{SSM pro Fr. und Kl. Auto} & 0,0672 & 0,0672 & 0,0746 & 0,0789 & 0,1269 & 0,1637 \\ \hline
-		\textit{SSM pro detektiertes Auto} & 0,0672 & 0,0721 & 0,0622 & 0,0676 & 0,0634 & 0,0672 \\ \hline
-		\textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ Autos (in Klam. pro Fr.)\end{tabular}} & \begin{tabular}[c]{@{}l@{}}30\\ (1,00)\end{tabular} & \begin{tabular}[c]{@{}l@{}}28\\ (0,93)\end{tabular} & \begin{tabular}[c]{@{}l@{}}36\\ (1,2)\end{tabular} & \begin{tabular}[c]{@{}l@{}}35\\ (1,17)\end{tabular} & \begin{tabular}[c]{@{}l@{}}60\\ (2,00)\end{tabular} & \begin{tabular}[c]{@{}l@{}}61\\ (2,23)\end{tabular} \\ \hline
-		 &  &  &  &  &  &  \\ \hline
-		\textit{Absolute SSM LKW} & 4,4640 & 4,6617 & 13,3996 & 14,2144 & 11,5296 & 11,8367 \\ \hline
-		\textit{SSM pro Fr. und Kl. LKW} & 0,1488 & 0,1554 & 0,4467 & 0,4738 & 0,3843 & 0,3946 \\ \hline
-		\textit{SSM pro detektierter LKW} & 0,2349 & 0,2454 & 0,2197 & 0,2330 & 0,1696 & 0,1767 \\ \hline
-		\textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ LKW (in Klam. pro Fr.)\end{tabular}} & \begin{tabular}[c]{@{}l@{}}19\\ (0,63)\end{tabular} & \begin{tabular}[c]{@{}l@{}}19\\ (0,63)\end{tabular} & \begin{tabular}[c]{@{}l@{}}61\\ (2,03)\end{tabular} & \begin{tabular}[c]{@{}l@{}}61\\ (2,03)\end{tabular} & \begin{tabular}[c]{@{}l@{}}68\\ (2,27)\end{tabular} & \begin{tabular}[c]{@{}l@{}}67\\ (2,23)\end{tabular} \\ \hline
-		 &  &  &  &  &  &  \\ \hline
-		\textit{Absolute SSM Zug} & 11,8231 & 11,8231 &  &  &  &  \\ \hline
-		\textit{SSM pro Fr. und Kl. Zug} & 0,3941 & 0,3941 &  &  &  &  \\ \hline
-		\textit{SSM pro detektierten Zug} & 0,3111 & 0,3378 &  &  &  &  \\ \hline
-		\textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ Züge (in Klam. pro Fr.)\end{tabular}} & \begin{tabular}[c]{@{}l@{}}38\\ (1,27)\end{tabular} & \begin{tabular}[c]{@{}l@{}}35\\ (1,17)\end{tabular} &  &  &  &  \\ \hline
-		 &  &  &  &  &  &  \\ \hline
-		\textit{Absolute SSM Bus} &  &  & 1,8576 & 1,8576 &  &  \\ \hline
-		\textit{SSM pro Fr. und Kl. Bus} &  &  & 0,0619 & 0,0619 &  &  \\ \hline
-		\textit{SSM pro detektiertem Bus} &  &  & 0,4644 & 0,4644 &  &  \\ \hline
-		\textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ Busse (in Klam. pro Fr.)\end{tabular}} &  &  & \begin{tabular}[c]{@{}l@{}}4\\ (0,13)\end{tabular} & \begin{tabular}[c]{@{}l@{}}4\\ (0,13)\end{tabular} &  & 
-		\end{tabular}
-		\end{table}
+	
 
 	
 } 
@@ -200,7 +160,7 @@ Alle Angaben in den Tabellen, außer bei den absoluten Zahlen sind in Grad (Deg.
 	Bei der Prozessierungszeit ist eine Steigerung um den Faktor 22 zu erkennen, während YOLO den größten Teil davon mit 31,51 Sekunden bei dem 1-sekündigem Testdatensatz, bzw. 706,76 Sekunden (11,33 Minuten) bei dem 21-sekündigem Testdatensatz ausmacht. Die DCE hat mit 0,15 Millisekunden (bzw. 19,62 Millisekunden) einen sehr geringen Anteil an der Laufzeit bei diesen Testdatensätzen, jedoch ist hier der Faktor für den Anstieg zwischen den Videos mit ca. 130 sehr hoch. \\
 	Bei der SSM ist der absolute Anstieg zwischen den Videos bemerkenswert, da dieser von ca. 2 auf ca. 150 wächst und damit ungefähr um den Faktor 80 ansteigt. Der SSM pro Frame und Klasse Boot sinkt hingegen, während die Anzahl erkannter Boote massiv um den Faktor 12 (von 46 auf 1212 detektierten Booten auf allen Frames) ansteigt. Letzteres ist auch bei der Zahl der erkannten Boote pro Frame zu erkennen. \\
 
-	\begin{table}[]
+	\begin{table}[ht]
 		\centering
 		\caption[Auswertung Schiffstracking Datensatz]{Auswertung Schiffstracking Datensatz; S1s ist der 1-sekündige Datensatz, S21s ist der 21-sekündige Datensatz (Quelle: eigene Darstellung; \ref{cd:listing_A1s_RV_shiptracking_results.txt(Y8x)}, \ref{cd:listing_A21s_RV_shiptracking_results.txt(Y8x)})}
 		\label{tab:Shiptracking_Analysis}
@@ -226,17 +186,17 @@ Alle Angaben in den Tabellen, außer bei den absoluten Zahlen sind in Grad (Deg.
 		\end{table}
 
 	
-       \todo{Abschluss finden?}
+    
 
 
 
 }
-\subsection{Geringe und hohe DCE Substitution (NICHT FERTIG)} \todo{ab hier muss noch text überarbeitet/geschrieben werden}
-	{ \todo{tabelen mit quellen versehen!}
-		Bei diesem Testdaten werden die Fälle betrachtet, bei denen DCE geringere und höhere Punktgrenzen beachten muss. Als Referenz wird der 8x Datensatz in der Länge 1 Sekunde und in der Länge 10 Sekunden genutzt. Es wird immer die RV Version der Implementierung mit dem YOLOv8x Modell betrachtet. Die DCE Grenzen sind in Tabelle \ref{tab:YOLO8_minor_more_DCE_Limits} aufgelistet. Der SSM wird aufgrund von nur kleineren Unterschieden bei den anderen Klassen anhand der beiden Hauptklassen Auto und LKW beurteilt. \\
+%\clearpage
+\subsection{Geringe und hohe DCE Substitution} \
+	{Bei diesen Testdaten werden die Fälle betrachtet, bei denen DCE geringere und höhere Punktgrenzen beachten muss. Als Referenz wird der 8x Datensatz in der Länge 1 Sekunde und in der Länge 10 Sekunden genutzt. Es wird immer die RV Version der Implementierung mit dem YOLOv8x Modell betrachtet. Die DCE Grenzen sind in Tabelle \ref{tab:YOLO8_minor_more_DCE_Limits} aufgelistet. Der SSM wird aufgrund von nur kleineren Unterschieden bei den anderen Klassen anhand der beiden Hauptklassen Auto und LKW beurteilt. \\
 		Im Folgenden wird sich auf den 10-sekündigen Testdatensatz bezogen, da die Ergebnisse auf den 1-sekündigen Datensatz übertragbar sind. Hier ist die einzige Besonderheit das alle Werte deutlich geringer sind (siehe Tabelle \ref{tab:YOLO8_minor_more_DCE_A1s}, S. \pageref{tab:YOLO8_minor_more_DCE_A1s}  und Tabelle \ref{tab:Minor_More_DCE_SSMs_A1s}, S. \pageref{tab:Minor_More_DCE_SSMs_A1s}). \\
 	\begin{table}[ht]
-		\caption{Einstellungen der verschiedenen DCE Substitutionsgrenzen (Quelle: eigene Darstellung; \ref{cd:listing_A1s_RV_minor_results.txt(Y8x)}, \ref{cd:listing_A1s_RV_more_results.txt(Y8x)}, \ref{cd:listing_A10s_RV_minor_results.txt(Y8x)}, \ref{cd:listing_A10s_RV_more_results.txt(Y8x)})}
+		\caption[Einstellungen der verschiedenen DCE Substitutionsgrenzen]{Einstellungen der verschiedenen DCE Substitutionsgrenzen (Quelle: eigene Darstellung; \ref{cd:listing_A1s_RV_minor_results.txt(Y8x)}, \ref{cd:listing_A1s_RV_more_results.txt(Y8x)}, \ref{cd:listing_A10s_RV_minor_results.txt(Y8x)}, \ref{cd:listing_A10s_RV_more_results.txt(Y8x)})}
 		\label{tab:YOLO8_minor_more_DCE_Limits}
 		\centering
 		\begin{tabular}{l|l|l|l}
@@ -246,14 +206,14 @@ Alle Angaben in den Tabellen, außer bei den absoluten Zahlen sind in Grad (Deg.
 		\textit{Kl. LKW} & 6 & 11 & 40 \\ \hline
 		\textit{anderes Objekt} & 5 & 20 & 100
 		\end{tabular}
-		\end{table} In Tabelle \ref{tab:YOLO8_minor_more_DCE_A10s} ist zu sehen, dass die Punktanzahl vor der DCE Vereinfachung bei allen drei Testdurchläufen exakt gleich gewesen ist. Ein Unterschied ist bei der Anzahl der Punkte nach dem Durchlauf der DCE zu erkennen, da bei der geringen Punktgrenze ein niedriger Wert und bei der hohen Punktgrenze ein höherer Wert als beim Referenzdatensatz gemessen wurde. Die Anzahl der verglichenen Winkel steigt im Vergleich zwischen allen drei Durchläufen stark an. \\
+		\end{table}In Tabelle \ref{tab:YOLO8_minor_more_DCE_A10s} ist zu sehen, dass die Punktanzahl vor der DCE Vereinfachung bei allen drei Testdurchläufen exakt gleich gewesen ist. Ein Unterschied ist bei der Anzahl der Punkte nach dem Durchlauf der DCE zu erkennen, da bei der geringen Punktgrenze ein niedriger Wert und bei der hohen Punktgrenze ein höherer Wert als beim Referenzdatensatz gemessen wurde. Die Anzahl der verglichenen Winkel steigt im Vergleich zwischen allen drei Durchläufen stark an. \\
 		Dieser starke Anstieg ist auch bei der Gesamtwinkelsumme zu erkennen. Die erkannten und verglichenen Polygone bleiben hingegen über alle 3 Testdurchläufe exakt gleich. \\
 		Bei der Dauer der Prozessierung ist eine geringe Verbesserung zu einer kürzeren Dauer zu erkennen.\\
 
 		
 	
 			\begin{table}[ht]
-				\caption{Vergleich der Statistik bei 10 Sekunde Video (300 Frames) und verschiedenen DCE Substitutionsgrenzen (Quelle: eigene Darstellung; \ref{cd:listing_A10s_RV_minor_results.txt(Y8x)}, \ref{cd:listing_A10s_RV_more_results.txt(Y8x)})}
+				\caption[Vergleich der Basisdaten bei 10 Sekunde Video (300 Frames) und verschiedenen DCE Substitutionsgrenzen]{Vergleich der Basisdaten bei 10 Sekunde Video (300 Frames) und verschiedenen DCE Substitutionsgrenzen (Quelle: eigene Darstellung; \ref{cd:listing_A10s_RV_minor_results.txt(Y8x)}, \ref{cd:listing_A10s_RV_more_results.txt(Y8x)})}
 				\label{tab:YOLO8_minor_more_DCE_A10s}
 				\centering
 				\begin{tabular}{l|l|l|l}
@@ -272,7 +232,7 @@ Alle Angaben in den Tabellen, außer bei den absoluten Zahlen sind in Grad (Deg.
 				Bei der SSM von den Klassen Auto und LKW (s. Tabelle \ref{tab:Minor_More_DCE_SSMs_A10s}) sind ähnliche Effekte zu sehen. Die absolute Abweichung bei der Klasse Auto, wie auch bei der Klasse LKW steigt um mehr als das Doppelte im Vergleich von dem geringen zum hohen DCE Substitionslimit. Den gleichen Effekt kann man auch der SSM pro Frame und Klasse Auto oder LKW und bei der SSM pro detektiertem Auto oder LKW sehen. Die absolute Anzahl Auto und LKW (auch pro Frame) bleibt hingegen über alle drei Testfälle exakt gleich.	
 	
 				\begin{table}[ht]
-					\caption{Vergleich der SSMs bei verschiedenen DCE Substitionslimits bei einem 10-sekündigem Video (300 Frames) (Quelle: eigene Darstellung; \ref{cd:listing_A10s_RV_minor_results.txt(Y8x)}, \ref{cd:listing_A10s_RV_more_results.txt(Y8x)})}
+					\caption[Vergleich der SSMs bei verschiedenen DCE Substitionslimits bei einem 10-sekündigem Video (300 Frames) ]{Vergleich der SSMs bei verschiedenen DCE Substitionslimits bei einem 10-sekündigem Video (300 Frames) (Quelle: eigene Darstellung; \ref{cd:listing_A10s_RV_minor_results.txt(Y8x)}, \ref{cd:listing_A10s_RV_more_results.txt(Y8x)})}
 					\label{tab:Minor_More_DCE_SSMs_A10s}
 					\centering
 					\begin{tabular}{l|l|l|l}
@@ -290,17 +250,128 @@ Alle Angaben in den Tabellen, außer bei den absoluten Zahlen sind in Grad (Deg.
 					\end{table}
 		
 	}
-	 \clearpage
-\subsection{lange Testdatensätze (NICHT FERTIG)}{
-	\todo{müssen noch gemacht werden }
+\clearpage
+\subsection{Langer Testdatensatz}{
+
+
+	Bei diesem Testfall wurde ein längerer Testdatensatz von 30 Sekunden, bzw. 900 Frames, durch die DCE vereinfacht. Es wurden die gleichen Einstellungen, wie bei den Standardtestfällen eingesetzt, außer das das Video nicht vollständig schwarz gerendert wurde, sondern nur die Boundingboxen der detektierten Objekte durch schwarze Pixel gefüllt wurden. Als Referenzvideos sind in den Tabellen \ref{tab:YOLO8_longshot_A30s_basicdata} und \ref{tab:YOLO8_longshots_SSM} die Datensätze mit jeweils der Dauer 1 Sekunde (30 Frames) und 10 Sekunden (300 Frames) aufgeführt. Der SSM wird aufgrund von nur kleineren Unterschieden bei den anderen Klassen anhand der beiden Hauptklassen Auto und LKW beurteilt. \\
+	Bei Tabelle \ref{tab:YOLO8_longshot_A30s_basicdata} ist zu erkennen, dass die Anzahl der detektierten Punkte sich zwischen den beiden Referenzdaten um den Faktor 10 erhöht und bei dem 30-sekündigem Datensatz der Faktor ungefähr 3 beträgt, wenn man ihn mit der 10-sekündigen Referenz vergleicht. Ähnliche Steigerungsfaktoren kann man auch bei der Anzahl der Punkte nach der Vereinfachung durch DCE zwischen allen drei Videos erkennen. Bei der Anzahl der verglichenen Winkel ist wiederum ein deutlich höhere Anstieg zu erkennen, während bei der Gesamtwinkelsumme, der Anzahl der erkannten und den verglichenen Polygone wieder ungefähr die gleichen Faktoren, wie bei der Gesamtpunktanzahl vor und nach DCE angewendet werden können. \\
+	Bei der Prozessierungszeit ist jedoch ein deutlicher Anstieg bei dem 30-sekündigen Testdatensatz zu sehen, der jedoch auch recht linear verläuft.
+
+	\begin{table}[h]
+		\centering
+		\caption[Vergleich der Basisdaten bei 30 Sekunden Video (900 Frames)]{Vergleich der Basisdaten bei 30 Sekunden Video (900 Frames) (Quelle: eigene Darstellung; \ref{cd:listing_A1s_RV_results.txt(Y8x)}; \ref{cd:listing_A10s_RV_results.txt(Y8x)}; \ref{cd:listing_A30s_RV_results.txt(Y8x)})}
+		\label{tab:YOLO8_longshot_A30s_basicdata}
+		\begin{tabular}{l|l|l|l}
+		 & \textbf{\begin{tabular}[c]{@{}l@{}}Referenz\\ (1 Sek. Video)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}l@{}}Referenz \\ (10 Sek. Video)\end{tabular}} & \textbf{30 Sek. Video} \\ \hline
+		\textit{\begin{tabular}[c]{@{}l@{}}Anzahl Punkte/Winkel \\ vor DCE\end{tabular}} & 5.325 & 57.673 & 193.384 \\ \hline
+		\textit{\begin{tabular}[c]{@{}l@{}}Anzahl Punkte/Winkel\\ nach DCE\end{tabular}} & 1.988 & 20.132 & 66.931 \\ \hline
+		\textit{\begin{tabular}[c]{@{}l@{}}Anzahl vergl. Winkel\\ bei SSM Berechnung\end{tabular}} & 44.858 & 119.714 & 407.057 \\ \hline
+		\textit{} &  &  &  \\ \hline
+		\textit{Gesamtwinkelsumme} & 6.237,21 & 63.172,79 & 210.030,73 \\ \hline
+		\textit{erkannte Polygone} & 214 & 2.104 & 6.877 \\ \hline
+		\textit{verglichene Polygone} & 194 & 1.960 & 6.492 \\ \hline
+		\textit{Prozessierungszeit (in Min.)} & 0,73 & 7,99 & 27,32
+		\end{tabular}
+		\end{table}
+
+		Bei der absoluten SSM der Klasse Auto sind ähnliche Steigerungsfakoren, wie bei der Punktanzahl vor und nach DCE zu vorhanden (s. Tabelle \ref{tab:YOLO8_longshots_SSM}). Die SSM pro Frame und Klasse Auto, bzw. LKW, steigt hingegen minimal bei dem 10-sekündigen Testdatensatz an, während die SSM bei dem 30-sekündigen Testdatensatz marginal absinkt. Dies ist auch bei der SSM pro detektiertem Auto und LKW zu erkennen. Die absolute Anzahl detektierter Autos und LKW steigt mit der Länge des Testdatensatzes an. Jedoch sinkt die Anzahl detektierter Autos pro Frame, während die Anzahl detektierter LKW pro Frame ansteigt.
+
+		\begin{table}[h]
+			\centering
+			\caption[Vergleich der SSM bei 30 Sekunde Video (900 Frames)]{Vergleich der SSM bei 30 Sekunde Video (900 Frames) (Quelle: eigene Darstellung; \ref{cd:listing_A1s_RV_results.txt(Y8x)}; \ref{cd:listing_A10s_RV_results.txt(Y8x)}; \ref{cd:listing_A30s_RV_results.txt(Y8x)}) }
+			\label{tab:YOLO8_longshots_SSM}
+			\begin{tabular}{l|l|l|l}
+			 & \textbf{\begin{tabular}[c]{@{}l@{}}Referenz\\ (1 Sek. Video)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}l@{}}Referenz\\ (10 Sek. Video)\end{tabular}} & \textbf{30 Sek. Video} \\ \hline
+			\textit{Absolute SSM Auto} & 4,1018 & 58,6721 & 161,3262 \\ \hline
+			\textit{SSM pro Fr. und Kl. Auto} & 0,1367 & 0,1956 & 0,1793 \\ \hline
+			\textit{SSM pro detektiertes Auto} & 0,0672 & 0,1118 & 0,1014 \\ \hline
+			\textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ Autos (in Kl. pr. Fr.)\end{tabular}} & \begin{tabular}[c]{@{}l@{}}60\\ (2,03)\end{tabular} & \begin{tabular}[c]{@{}l@{}}525\\ (1,75)\end{tabular} & \begin{tabular}[c]{@{}l@{}}1591\\ (1,77)\end{tabular} \\ \hline
+			\textit{} &  &  &  \\ \hline
+			\textit{Absolute SSM LKW} & 11,8367 & 154,3962 & 540,7660 \\ \hline
+			\textit{SSM pro Fr. und Kl. LKW} & 0,3946 & 0,5147 & 0,6009 \\ \hline
+			\textit{SSM pro detektierten LKW} & 0,1767 & 0,2127 & 0,2120 \\ \hline
+			\textit{\begin{tabular}[c]{@{}l@{}}Absolute Anz. detektierter\\ LKW (in Kl. pro Fr.)\end{tabular}} & \begin{tabular}[c]{@{}l@{}}67\\ (2,23)\end{tabular} & \begin{tabular}[c]{@{}l@{}}726\\ (2,42)\end{tabular} & \begin{tabular}[c]{@{}l@{}}2.551\\ (2,83)\end{tabular}
+			\end{tabular}
+			\end{table}
 	
 }
-\subsection{Gleiche DCE Substitionslimits (NICHT FERTIG)}{
-	\todo{müssen noch gemacht werden }}
-{
+
+
+\clearpage
+
+
+\subsection{Gleiche DCE Substitionslimits}{
+
+	Bei diesem Testfall wurden gleiche DCE Substitionslimits (s. Tabelle \ref{tab:YOLO8_sameDCELimits_overview}) für alle Objekte in den Einstellungen vermerkt. Alle anderen Einstellungen wurden aus den Standardtestfällen übernommen, außer das das Video nicht vollständig schwarz gerendert wurde, sondern nur die Boundingboxen der detektierten Objekte durch schwarze Pixel gefüllt wurden. Der SSM wird aufgrund von nur kleineren Unterschieden bei den anderen Klassen anhand der beiden Hauptklassen Auto und LKW beurteilt. \\
+		
+
+
+	\begin{table}[h]
+		\centering
+		\caption[Vergleich der Basisdaten bei 10 Sekunde Video (300 Frames) und verschiedenen gleichen DCE Substitutionsgrenzen]{Vergleich der Basisdaten bei 10 Sekunde Video (300 Frames) und verschiedenen gleichen DCE Substitutionsgrenzen (Quelle: eigene Darstellung; \ref{cd:listing_A10s_RV_minorSame_results.txt(Y8x)}; \ref{cd:listing_A10s_RV_results.txt(Y8x)}; \ref{cd:listing_A10s_RV_moreSame_results.txt(Y8x)})}
+		\label{tab:YOLO8_sameDCELimits_basicdata}
+		\begin{tabular}{l|l|l|l}
+		 & \textbf{\begin{tabular}[c]{@{}l@{}}geringe gleiche \\ Limits\end{tabular}} & \textbf{\begin{tabular}[c]{@{}l@{}}Referenz \\ (10 Sek. Video)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}l@{}}hohe gleiche \\ Limits\end{tabular}} \\ \hline
+		\textit{\begin{tabular}[c]{@{}l@{}}Anzahl Punkte/Winkel \\ vor DCE\end{tabular}} & 57.673 & 57.673 & 57.673 \\ \hline
+		\textit{\begin{tabular}[c]{@{}l@{}}Anzahl Punkte/Winkel\\ nach DCE\end{tabular}} & 21.540 & 20.132 & 30.611 \\ \hline
+		\textit{\begin{tabular}[c]{@{}l@{}}Anzahl vergl. Winkel\\ bei SSM Berechnung\end{tabular}} & 135.024 & 119.714 & 307.261 \\ \hline
+		\textit{} &  &  &  \\ \hline
+		\textit{Gesamtwinkelsumme} & 67.586,21 & 63.172,79 & 96.037,00 \\ \hline
+		\textit{erkannte Polygone} & 2.104 & 2.104 & 2.104 \\ \hline
+		\textit{verglichene Polygone} & 1.960 & 1.960 & 1.960 \\ \hline
+		\textit{Prozessierungszeit (in Min.)} & 8,28 & 7,99 & 8,07
+		\end{tabular}
+		\end{table}
+
+	Die Anzahl der detektierten Punkte vor DCE entspricht von beiden Testdurchläufen exakt der Differenz und ist damit exakt auch zueinander gleich. Bei der Anzahl von Punkten nach der DCE ist die Zahl bei geringen gleichen Limits minimal höher als bei der Referenz, während bei hohen Limits die Zahl stark ansteigt. Die Zahl der verglichenen Winkel bei der SSM Berechnung ist bei geringen gleichen Limits höher als bei dem Referenzdatensatz und bei hohen gleichen Limits steigt diese Zahl sehr stark an. Ähnliche Phänomene sind bei der Gesamtwinkelsumme zu sehen. Die Zahl der erkannten und verglichenen Polygone bleibt bei allen drei Videos gleich. \\
+	Bei der Prozessierungszeit ist eine etwas längere Dauer bei geringen gleichen Limits zu erkennen, während bei hohen gleichen Limits die Dauer fast gleich bleibt.
+
+
+
+		
+
+			\begin{table}[h]
+				\centering
+				\caption[Vergleich der SSM bei 10 Sekunde Video (300 Frames) und verschiedenen gleichen DCE Substitutionsgrenzen]{Vergleich der SSM bei 10 Sekunde Video (300 Frames) und verschiedenen gleichen DCE Substitutionsgrenzen (Quelle: eigene Darstellung; \ref{cd:listing_A10s_RV_minorSame_results.txt(Y8x)}; \ref{cd:listing_A10s_RV_results.txt(Y8x)}; \ref{cd:listing_A10s_RV_moreSame_results.txt(Y8x)})}
+				\label{tab:YOLO8_SameDCESubst_A10s_SSM}
+				\begin{tabular}{l|l|l|l}
+				 & \textbf{\begin{tabular}[c]{@{}l@{}}geringe gleiche\\ Limits\end{tabular}} & \textbf{\begin{tabular}[c]{@{}l@{}}Referenz\\ (10 Sek. Video)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}l@{}}hohe gleiche\\ Limits\end{tabular}} \\ \hline
+				\textit{Absolute SSM Auto} & 67,2633 & 58,6721 & 83,1752 \\ \hline
+				\textit{SSM pro Fr. und Kl. Auto} & 0,2242 & 0,1956 & 0,2773 \\ \hline
+				\textit{SSM pro detektiertes Auto} & 0,1281 & 0,1118 & 0,1584 \\ \hline
+				\textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ Autos (in Kl. pr. Fr.)\end{tabular}} & \begin{tabular}[c]{@{}l@{}}525\\ (1,75)\end{tabular} & \begin{tabular}[c]{@{}l@{}}525\\ (1,75)\end{tabular} & \begin{tabular}[c]{@{}l@{}}525\\ (1,75)\end{tabular} \\ \hline
+				\textit{} &  &  &  \\ \hline
+				\textit{Absolute SSM LKW} & 154,3962 & 154,3962 & 212,9169 \\ \hline
+				\textit{SSM pro Fr. und Kl. LKW} & 0,5147 & 0,5147 & 0,7097 \\ \hline
+				\textit{SSM pro detektierten LKW} & 0,2127 & 0,2127 & 0,2933 \\ \hline
+				\textit{\begin{tabular}[c]{@{}l@{}}Absolute Anz. detektierter\\ LKW (in Kl. pro Fr.)\end{tabular}} & \begin{tabular}[c]{@{}l@{}}726\\ (2,42)\end{tabular} & \begin{tabular}[c]{@{}l@{}}726\\ (2,42)\end{tabular} & \begin{tabular}[c]{@{}l@{}}726\\ (2,42)\end{tabular}
+				\end{tabular}
+				\end{table}
+
+				Bei SSM ist für die Klasse Autos zu erkennen, dass die absolute Zahl bei geringen gleichen Limits im Vergleich zur Referenz ansteigt. In größerem Maße ist dies auch bei den hohen gleichen Limits vorhanden. Bei der SSM pro Frame und Klasse Auto und bei der SSM pro detektiertes Auto ist dieser Effekt ebenfalls erkennbar, während die absolute Anzahl detektierter Autos konstant bleibt. \\
+				Bei der absoluten SSM pro LKW ist zwischen der Referenz und den geringen gleichen Limits kein Unterschied vorhanden. Ein Unterschied zu den hohen gleichen Limits ist hingegen mit einer Steigerung der absoluten SSM mit einem kleinen Anstieg der SSM pro Frame und Klasse LKW, bzw. pro detektiertem LKW, zu sehen. Die absolute Anzahl detektierte LKW und die Zahl der LKW pro Frame bleibt, wie bei der Klasse Autos, über alle Videos konstant. 
+
+				\begin{table}[h]
+					\centering
+					\caption[DCE Substitutionslimits bei gleichen Limits für alle Klassen]{DCE Substitutionslimits bei gleichen Limits für alle Klassen (Quelle: eigene Darstellung; \ref{cd:listing_A10s_RV_minorSame_results.txt(Y8x)}; \ref{cd:listing_A10s_RV_results.txt(Y8x)}; \ref{cd:listing_A10s_RV_moreSame_results.txt(Y8x)})}
+					\label{tab:YOLO8_sameDCELimits_overview}
+					\begin{tabular}{l|l|l|l}
+					 & \textbf{\begin{tabular}[c]{@{}l@{}}geringe gleiche\\ Limits\end{tabular}} & \textbf{Referenz} & \textbf{\begin{tabular}[c]{@{}l@{}}hohe gleiche\\ Limits\end{tabular}} \\ \hline
+					\textit{Kl. Auto} & 11 & 8 & 20 \\ \hline
+					\textit{KL. Motorrad} & 11 & 5 & 20 \\ \hline
+					\textit{Kl. LKW} & 11 & 11 & 20 \\ \hline
+					\textit{anderes Objekt} & 11 & 20 & 20
+					\end{tabular}
+					\end{table}
+			
+			
+
+				}		
+
 	
 
-}
+
 % 	\section{Bewertung}
 % 	{ %Zusammenfassen kann man sagen, dass die durchschnittliche Abweichung pro Polygon nach der Vereinfachung von DCE zu hoch ist, um ein Tracking zu ermöglichen. Beim Einsatz der größeren Modelle steigt die Winkelabweichung und SSM an, dies ist aber zu vernachlässigen, da die Klassifizierung der Objekte genauer erfolgt. Insbesondere der Vergleich der SSM innerhalb einer Klasse  ist die Abweichung sehr hoch. \\
 % 	%Die Implementierung der YOLO Version in der Variante, dass das Video in einzelne Frames zerlegt wird und diese einzeln analysiert werden, hat sich im Vergleich zur direkten vollständigen Analyse mit YOLO als zu ineffektiv herausgestellt und kann damit verworfen werden. 

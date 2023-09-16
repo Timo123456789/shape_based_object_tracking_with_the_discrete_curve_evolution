@@ -232,7 +232,7 @@
 
 # 		\begin{table}[ht]
 # 			\centering
-# 			\caption{Vergleich der Statistik bei 1 Sekunde Video (30 Frames) und verschiedenen DCE Substitutionsgrenzen (Quelle: eigene Darstellung; \ref{cd:listing_A1s_RV_minor_results.txt(Y8x)}, \ref{cd:listing_A1s_RV_more_results.txt(Y8x)})}
+# 			\caption{Vergleich der Basisdaten bei 1 Sekunde Video (30 Frames) und verschiedenen DCE Substitutionsgrenzen (Quelle: eigene Darstellung; \ref{cd:listing_A1s_RV_minor_results.txt(Y8x)}, \ref{cd:listing_A1s_RV_more_results.txt(Y8x)})}
 # 			\label{tab:YOLO8_minor_more_DCE_A1s}
 # 			\begin{tabular}{l|l|l|l}
 # 				& \textbf{\begin{tabular}[c]{@{}l@{}}geringe DCE\\ Punktgrenzen\end{tabular}} & \textbf{Referenz} & \textbf{\begin{tabular}[c]{@{}l@{}}hohe DCE\\ Punktgrenzen\end{tabular}} \\ \hline

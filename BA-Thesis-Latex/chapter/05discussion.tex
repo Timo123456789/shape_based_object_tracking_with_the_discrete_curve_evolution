@@ -2,7 +2,7 @@
 \chapter{Diskussion}
 \label{ch:Diskussion}
 { \todo{überarbeiten alles}
-	Die beiden verschiedenen YOLO Implementierungen in der EF und RV Version sind sehr ähnlich im Ergebnis und Aufbau. Es zeigt sich jedoch in der Evaluation , dass die EF Variante länger für die Berechnung benötigt und damit ineffektiver ist (siehe Kap. \ref{sec:Ergebnisse}). Dies liegt daran, dass die EF Variante das Video erst in einzelne Frames zerlegt und erst dann YOLO anwendet. Dadurch ist die Prozessierung mit YOLO ineffektiver aber möglicherweise ressourcenschonender im RAM Verbrauch. \todo{das muss überprüft werden; muss mal in die längeren Evaluationsvideos gucken, wie da die Statistik ist} Das Zusammensetzen der einzelnen analysierten Frames zu einem Video verlängert die Prozessierungszeit zusätzlich, dies geschieht jedoch auch in der RV Version. \\
+	Die beiden verschiedenen YOLO Implementierungen in der EF und RV Version sind sehr ähnlich im Ergebnis und Aufbau. Es zeigt sich jedoch in der Evaluation , dass die EF Variante länger für die Berechnung benötigt und damit ineffektiver ist (siehe Kap. \ref{sec:Ergebnisse}). Dies liegt daran, dass die EF Variante das Video erst in einzelne Frames zerlegt und erst dann YOLO anwendet. Dadurch ist die Prozessierung mit YOLO ineffektiver aber möglicherweise ressourcenschonender im RAM Verbrauch. \todo{das muss überprüft werden; muss mal in die längeren Evaluationsvideos gucken, wie da die Basisdaten ist} Das Zusammensetzen der einzelnen analysierten Frames zu einem Video verlängert die Prozessierungszeit zusätzlich, dies geschieht jedoch auch in der RV Version. \\
 	Die RV Version besitzt den Vorteil, dass durch die direkte Verarbeitung des Videos mit dem sehr effiziente geschriebenen YOLO Algorithmus alle Prozessorkerne mitsamt der Grafikkarte vollständig ausgelastet werden können. Zusätzlich steigt jedoch der RAM Verbrauch stark an, da YOLO dort jedes Frame speichert und analysiert. Dies sorgt für eine Zeitersparnis beim Programm. \\ 
 	Die DCE Implementierung ist relativ ineffizient, da der K Wert für jeden Punkt im Polygon neu berechnet werden muss, nachdem ein Punkt entfernt wurde. Dies könnte optimiert werden, indem mehrere Punkte eines Polygons gleichzeitig während einer DCE Iteration entfernt werden. Weitere Möglichkeiten wären effizientere Schleifenstrukturen oder Multithreading bei der Berechnung des K Wertes. \\
 	Es ist außerdem zu erkennen, dass unterschiedliche YOLO Modelle nur geringe Auswirkungen auf die Gesamtlaufzeit des Programmes haben. Die DCE hat deutlich höheren Einfluss. \\
@@ -63,11 +63,25 @@
 		\end{itemize}
 		\item lange Testdatensätze
 		\begin{itemize}
-			\item 
+			\item Zahl von Punkten/Winkeln nach und vor DCE korreliert mit Länge der Videos (gilt auch für Anz. vergl. Winkel, Gesamtwinkelsumme, erkannte Polygone, und verglichene Polygone)
+			\item Prozessierungszeit weicht davon ab, wegen Videolänge einfach. Ist bei 30sekündigem Testdatensatz länger; Anstieg ist im Kontext von den 1s vlg zu 10s vgl. zu 30 Sekunden auch recht linear (liegt an gleicher Hardware und gleichen Einstellungen, sowie gleicher Codeversion)
+			\item XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+			\item absolute SSM steigt aufgrund von längerem Video (= mehr Objekte = höhere Differenzen); deshalb steigt auch die SSM pro Fr. und Kl. bei 1s vs 10s
+			\item Da aber bei 30s die absolute Anzahl massiver ansteigt als die absolute SSM sinkt die SSM pro Fr und Kl wieder bei 30s
+			\item absolute Anzahl Autos steigt nicht so massiv wie die absolute Anzahl detektierter LKW an -> Anzahl Autos pro Frame sinkt ein wenig, Anzahl LKW pro Frame steigt ein wenig (über alle 3 Videos)
 		\end{itemize}
 		\item Gleiche DCE Substitionslimits
 		\begin{itemize}
-			\item 
+			\item Anstieg der Anzahl Punkte nach DCE bei geringen gleichen Limits ist durch das Anheben mancher Substitutionslimits im VGL zur Referenz zu erklären; erklärt auch großen Anstieg bei hohen gleichen Limits
+			\item Anzahl vergl. Winkel korreliert mit Anzahl Punkte nach DCE -> Deshalb die Schwankungen bei geringen und hohen Limits im Vergleich zur Referenz
+			\item gilt auch für Gesamtwinkelsumme
+			\item Erkannte und verglichene Polygone bleiben gleich (gleiches Video, gleicher deterministischer Algorithmus)
+			\item Prozessierungszeit bei geringen gleichen Limits steigt an, weil DCE länger rechnen muss: bei hohen gleichen Limits ebenfalls marginaler Anstieg, aber fast gleich; weil sich die Erhöhung über alle Klassen hinweg im Vergleich zur Referenz ausgleicht
+			\item XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+			\item abs. SSM korreliert mit Winkel/Punktanzahl und SSM pro Fr und Kl (bzw. pro detektiertes Auto) hängen von abs. SSM ab
+			\item absolute Anz. detektierter Autos (auch detektierte LKW) bleibt gleich weil gleiches Video; deterministischer Algorithmus etc.
+			\item kein Unterschied der SSM LKW zwischen Referenz und geringen gleichen Limits, weil geringes Limit mit 11 Punkten exakt der Referenz entspricht
+	
 		\end{itemize}
 	\end{itemize}
 
