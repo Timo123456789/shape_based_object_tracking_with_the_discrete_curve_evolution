@@ -1,3 +1,23 @@
+"""
+YOLO Result Version Code File for a prototypical implementation for the combination of "You Only Look Once" (YOLO) (Redmon, 2016, doi: 10.1109/CVPR.2016.91 ) (Vers. YOLOv8x, Ultralytics, 2023) and Discrete Curce Evolution (DCE) (Latecki, 1999, doi: 10.1006/cviu.1998.0738 ); based on hypothesis by Dorr, Latecki and  Moratz (2015, doi: 10.1007/978-3-319-23374-1_7 )
+
+Runs the YOLO AI Model in form of run YOLO for the whole video and calculate DCE after this for all detected polygons
+
+Must be used with the files: Main.py, DCE.py,  yolo_every_frame.py, yolo_segementation.py, shape_sim_meas.py
+
+Implementation for bachelor thesis: "Formbasiertes Objekttracking mit der Discrete Curve Evolution"
+                                    "Shape-based object tracking with the Discrete Curve Evolution"
+
+                                    at Westfaelische Wilhelms Universitaet Muenster
+                                    First Supervisor: Prof. Dr. Ing. Reinhard Moratz
+                                    Second Supervisor: Dr. Christian Knoth
+
+@author: Timo Lietmeyer, 11.09.2023
+@contact: timolietmeyer@uni-muenster.de (for question, etc.)
+
+supported by Vocavit GmbH, Hamburg
+
+"""
 from ultralytics import YOLO
 import cv2
 import numpy as np
@@ -29,6 +49,9 @@ def get_outline_for_every_object(res, options):
             scores = data_arr[3]
             img_size = data_arr[4]
 
+            temp = get_number_of_points_result(data_arr[2])
+            options["number_of_angles_bef_DCE"] =  options["number_of_angles_bef_DCE"] + temp
+
             options["timestamp_DCE_start"] = time.time()
             outline_DCE = run_DCE(data_arr[2],data_arr[1] ,options) #run DCE with polygons that yolo detected in the frame, the class_ids for every object; the actual number of points and the options dataset
 
@@ -40,20 +63,32 @@ def get_outline_for_every_object(res, options):
 
             if(options["black_video"] == True): #If clause to set the result video to black
                 res_cop[i] = cv2.rectangle(res_cop[i], (0,0),(img_size[0],img_size[1]), (0, 0, 0), -1)
+                res_cop[i] = cv2.putText(res_cop[i], "RV Version", (img_size[0]-200, img_size[1] - 1050), cv2.FONT_HERSHEY_PLAIN, 2, (255, 255, 255), 2) #write the used version at the right top of the video
+            else:
+                res_cop[i] = cv2.putText(res_cop[i], "RV Version", (img_size[0]-200, img_size[1] - 1050), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 0), 2) #write the used version at the right top of the video
 
             for b in range(len(bbox)): #iterate over every polygon to write a individual label for all polygons on the frame
-                NoP = NoP-1 #reduce number of points for progress bar
-                res_cop[i] = cv2.rectangle(res_cop[i], (bbox[b][0],bbox[b][1]),(bbox[b][2],bbox[b][3]), (0, 0, 0), -1)
+                if options["black_bboxes"] == True or options["black_video"] == True: #if clause to set the bboxes to black
+                     res_cop[i] = cv2.rectangle(res_cop[i], (bbox[b][0],bbox[b][1]),(bbox[b][2],bbox[b][3]), (0, 0, 0), -1)
+
+                res_cop[i] = cv2.rectangle(res_cop[i], (bbox[b][0],bbox[b][1]),(bbox[b][2],bbox[b][3]), (255, 0, 0), 2)
 
                 if(options["write_labels"] == True): #if clause to write the labels and scores to every polygon
                     res_cop[i] = cv2.putText(res_cop[i], get_text_string(class_id[b],scores[b]), (bbox[b][0], bbox[b][1] - 10), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
                 pbar.update(1) #set progress bar one step further
-    
-                sum_of_angles = get_sum_of_angles([outline_DCE[b]]) #calculates the sum of angles in one polygon
-                options["angle_sums_polygons"].append(sum_of_angles)  #append sum of angles in one polygon to a array, where all angle sums of the polygons in the image saved      
+
+                sum_of_angles_var = get_sum_of_angles([outline_DCE[b]])
+                sum_of_angles =  sum_of_angles_var[0] #calculates the sum of angles in one polygon
+                options["angle_sums_polygons"].append(sum_of_angles)  #append sum of angles in one polygon to a array, where all angle sums of the polygons in the image saved    
+
+                options["list_of_polygons_in_one_frame"].append([i,b,sum_of_angles,class_id[b],outline_DCE[b], sum_of_angles_var[1]])
                 
             options["angle_sums_images"].append(sum(options["angle_sums_polygons"])) #sum up all angle sums in the image and append it to an array, where all sum of angles from all images would be saved
             options["angle_sums_polygons"] = [] # set for the next image the variable, which saved the sum of all angles from all polygon in the image,  to None/0
+          
+            options["list_of_all_polygons"].append(options["list_of_polygons_in_one_frame"])
+            options["list_of_polygons_in_one_frame"] = []
+            options["number_of_polygons"] = options["number_of_polygons"] + len(bbox)
 
             res_cop[i]= cv2.polylines(res[i], outline_DCE, True, (255, 255, 255), 1)  #draw simplified polygon on the specific frame
 
@@ -77,7 +112,7 @@ def run_DCE(outline, class_id, options):
     @param class_ID = array, which the class_IDs from all detected objects on the image saved; only ints
     @param options: Dictionary with options set in main
     @return: array with simplified olygons
-    """         
+    """    
     for i in range(len(outline)): #iterate over all polygons in the outline array
         match class_id[i]: #case case to distinguish the different CLass IDs; 2 = Car, 3 = motorcycle, 7 = Truck
             case 2:
@@ -89,6 +124,20 @@ def run_DCE(outline, class_id, options):
             case _:
                 outline[i] = simplify_polygon_k_with_angle(outline[i],options["NoP_other_Object"], options) 
     return outline
+
+
+
+
+def plot_poly(outline):
+    """
+    plot polygons on a window; given from a 2 dim array
+
+    @param outline: 2 dim array with tupels, draw this polygons and show there on a window
+    """
+    for i in range(len(outline)):
+        p = create_Polygon_from_array(outline[i])
+        p.plot()
+        plt.show()
 
 
 

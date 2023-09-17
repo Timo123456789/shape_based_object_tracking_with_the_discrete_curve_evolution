@@ -7,8 +7,8 @@
 \newcommand{\printname}{Timo Lietmeyer}
 \newcommand{\printnumber}{459 169}
 
-\newcommand{\printtitle}{Semantische Kompression von Drohnenvideos \\ mit der Discrete Curve Evolution}
-\newcommand{\printalttitle}{Semantic compression of drone videos \\ with discrete curve evolution}
+\newcommand{\printtitle}{Formbasiertes Objekttracking \\ mit der Discrete Curve Evolution}
+\newcommand{\printalttitle}{Shape-based object tracking \\ with the Discrete Curve Evolution}
 \newcommand{\printcity}{Münster}
 \newcommand{\printtype}{Bachelorarbeit}
 \newcommand{\printdegree}{Bachelor of Science}
@@ -21,10 +21,12 @@
 % !!!only for pseudo text, can be deleted!!!
 \usepackage{blindtext}
 
+
 \begin{document}
 % set the pager numbering to big roman numbers for firt few pages
 \pagenumbering{Roman}
 \listoftodos
+
 
 % titlepage does not need cleardoubleoddemptypage
 \begin{titlepage}
@@ -47,19 +49,28 @@
 \input{chapter/01intro.tex}
 \cleardoubleoddemptypage
 
-\input{chapter/02hintergrund.tex}
-cleardoubleoddemptypage
+\input{chapter/02Objekterkennung.tex}
+\cleardoubleoddemptypage
 
+\input{chapter/03Formverarbeitung.tex}
+\cleardoubleoddemptypage
 
-\input{chapter/03implementierung.tex}
+\input{chapter/04verwendeteTechnologie.tex}
+\cleardoubleoddemptypage
+
+\input{chapter/05implementierung.tex}
 \cleardoubleoddemptypage
 
 
-\input{chapter/04evaluation.tex}
+\input{chapter/06evaluation.tex}
 \cleardoubleoddemptypage
 
 
-\input{chapter/05conclusion.tex}
+\input{chapter/07discussion.tex}
+\cleardoubleoddemptypage
+
+
+\input{chapter/08conclusion.tex}
 \cleardoubleoddemptypage
 
 % when adding a new chapter comment out this line
@@ -67,7 +78,7 @@ cleardoubleoddemptypage
 %cleardoubleoddemptypage
 
 \appendix % hier beginnt der Anhang
-\input{chapter/06appendix_chapter.tex}
+\input{chapter/09appendix_chapter.tex}
 \cleardoubleoddemptypage
 
 \listoffigures
@@ -75,6 +86,10 @@ cleardoubleoddemptypage
 
 \listoftables
 \cleardoubleoddemptypage
+
+\lstlistoflistings
+\cleardoubleoddemptypage
+
 
 \printbibliography
 \cleardoubleoddemptypage

@@ -2,50 +2,51 @@
 \chapter{Einleitung}
 \label{ch:intro}
 
-\blindtext
+\section{Motivation}{ 
+	
+Durch die Verfügbarkeit von Open-Source Software, die neuronale Lernverfahren verwendet und eine sehr schnelle Objekterkennung auf Videoströmen anbietet, lassen sich viele relevante Anwendungen in der Geoinformatik realisieren, beispielsweise im Bereich der Verkehrsüberwachung. \\
+In der Arbeitsgruppe \glqq Theoretische und kognitive Grundlagen der Geoinformatik\grqq{} am Institut für Geoinformatik der Universität Münster ist es geplant mit einem hybriden Ansatz Anwendungsmöglichkeiten solcher Systeme zu verbessern. Dabei soll eine geometrische Analyse Ergebnisse der neuronalen Erkennung verifizieren, um das Risiko von Fehldetektionen zu minimieren. Unsere Hypothese vermutet, dass der Ansatz der Discrete Curve Evolution (DCE) von \citet{Latecki1999a}  eine wichtige Stufe sein kann. Diese Vermutung basiert auf Vorarbeiten von \citet*{Dorr2015} an der Universität Maine.\\
 
-\section{Motivation}
-\blindtext
+Dieses System wird für den Bereich der Verkehrsüberwachung mit anschließender Anonymisierung im Rahmen dieser Arbeit entwickelt, getestet und evaluiert. Für diesen Anwendungsfall können ohne viel Aufwand Evaluationsdaten erstellt werden, da Autoverkehr im Mobilitätsverhalten eine große Rolle spielt. Die Anonymisierung des Einzelnen kann durch die DCE ermöglicht werden, da das Mobilitätsverhalten selbst, aber auch Fehlverhalten des Einzelnen, aus Datenschutzgründen nicht einzelnen Individuen zuzuordnen sein darf.
+}
 
-\section{Zielsetzung}
-Ein paar Zitate \cite{Hartley2004} und \cite{Bishop2006} Hier kommt noch ein Zitat 
-\cite{DorrChristopherH.2015SSBo}\todo{mehr TODOs}
-\blindmathpaper
-% \Blindtext
-\section{Aufbau der Arbeit}
 
-Ein paar Zitate \cite{Hartley2004} und \cite{Bishop2006} Hier kommt noch ein Zitat 
-\cite{DorrChristopherH.2015SSBo}\todo{mehr TODOs}
 
-\begin{table}[ht]
-	\centering
-	\begin{tabular}{c|c|c}
-		a & b & c \\ \hline
-		1 & 2 & 3 \\
-		1 & 2 & 3 \\
-		1 & 2 & 3
-	\end{tabular}
-	\caption{Eine Tabelle}
-\end{table}
+\section{Forschungskontext und Zielsetzung}
+{%Forschungskontext Reintext
+
+Die Forschung im Bereich Verkehrsmonitoring mit der Unterstützung von Künstlicher Intelligenz (KI), bzw. konkret YOLO, zeigt, dass die Erkennung und Klassifizierung von Fahrzeugen zu den Aufgaben zählen \citep{Lin2021}. Bei einem Echtzeitbetrieb bestehen die Herausforderungen in der genauen Lokalisierung und Klassifizierung von Verkehrsteilnehmern \citep{Lin2021}. \\
+Ein weiterer Anwendungsfall ist das Zählen von Fahrzeugen auf Videosequenzen, bzw. im Echtzeitbetrieb. Hierzu kann KI, bzw. YOLO ebenfalls eingesetzt werden und akzeptable Ergebnisse generieren \citep{Al-qaness2021}. \\
+
+Der Forschungskontext für Anwendungsfälle der DCE besteht als Basis aus dem Paper von \citeauthor*{Dorr2015}. Bei \citeauthor*{Barkowsky2000} wird die DCE zur Vereinfachung von geometrischen Strukturen auf Karten verwendet \citep{Barkowsky2000}. \\
+Weitere Anwendungsfälle sind die Vereinfachung von Skeletten \citep{Latecki2007}, die automatische Kartierung von Entwässerungsnetzen anhand der Geländetopografie mit der Unterstützung der DCE zur Erkennung relevanter Punkte \citep{ZHENG201517} oder auch der medizinische Bereich. Im letzteren kann die DCE bei der Analyse von MRI (Magnetic Resonance Images) helfen \citep{Supot2007}. Des Weiteren kann die DCE bei Gesten- und Handdetektion mit einem Kinect Sensor eingesetzt werden \citep{Lai2016}. Ein ähnlicher Anwendungsfall zu dieser Arbeit, der sich damit beschäftigt nur die relevante Frames aus einem Video zu extrahieren, um die Frames per Second (\glqq Bilder pro Sekunde\grqq{}, FPS) zu minimieren, wurde von \citeauthor*{Latecki2000a} bereits erprobt \citep{Latecki2000a}. \\
+
+Ziel dieser Arbeit ist es ein prototypisches System zu entwickeln, welches Objekte in Videomaterial detektiert und deren Umrisse mit der DCE vereinfacht. Diese Objektumrisse können dann in ihrer Ähnlichkeit verglichen werden, um einzuschätzen, ob die Objekte verfolgbar sind. Durch die Vereinfachung der Objektumrisse ist außerdem eine Anonymisierung des Verkehrsteilnehmers insgesamt gegeben. Zur Detektion der Objekte wird Künstliche Intelligenz eingesetzt und zur Vereinfachung der detektierten Objektumrisse die Discrete Curve Evolution (DCE). \\
+Zur Evaluation wird Videomaterial von Autobahnen aufgenommen, welches im Rahmen der Bachelorarbeit analysiert wird. Ein beispielhafter Verlauf anhand eines einzelnen Bildes ist in Abb. \ref{Bsp_Dorr} zu sehen. \\
 
 \begin{figure}[ht]
-	\centering
-	\includegraphics[width=0.3\textwidth]{example-image-a}
-	\caption{Eine Unterschrift}
+	\vspace{-0.5cm}
+	   \centering
+	   \includegraphics*[scale = 0.5, keepaspectratio, trim=2 2 2 2 ]{images/Example_bird.png}
+	   \caption[Beispielablauf der Segmentierung und DCE]{Beispielablauf einer Vereinfachung mit der DCE \citep{Dorr2017}.}
+	   \label{Bsp_Dorr}
 \end{figure}
+Die Evaluation wird aus verschieden langen Videosequenzen bestehen, die mit diversen Einstellungen vom Programm analysiert wurden. Es wird eine Reihe weiterer Testfälle geben, in denen andere Szenarien abgedeckt werden, um die Robustheit der Hypothese zu überprüfen. \\
+Einer dieser Testfälle wird sich mit dem Tracking von Objekten befassen, welche nicht der Hauptfokus dieser Arbeit sind, bspw. Schiffstracking. \\
+In weiteren Testfällen werden verschiedenen Grenzen zur Polygonvereinfachung durch die DCE genutzt, um das Verhalten des Formähnlichkeitsmaßes und der Umrisse der detektierten Objekte im Video zu erfassen. Bei gleichen Vereinfachunsgrenzen für alle Objekte müsste der Formähnlichkeitsmaß gegen 0 gehen, da die Detektierung von YOLO durch die hohe Genauigkeit des Modells sehr exakt ist. Hier kann auch der Unterschied zwischen niedrigen und hohen gleichen Limits ermittelt werden. Der letzte Testfall ist die Auswertung und Analyse eines sehr langen Testdatensatzes um zu klären, ob die Ergebnisse von kurzen Videos auf lange Videos übertragbar sind. Dadurch kann eine Beurteilung für noch längere Testdatensätze möglich werden, solange es die vorhandene Hardware ermöglicht.
 
-\begin{figure}[ht]
-	\centering
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[width=\textwidth]{example-image-a}
-		\caption{Eine Unterschrift}
-	\end{subfigure} \hfill
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[width=\textwidth]{example-image-b}
-		\caption{Noch eine Unterschrift}
-	\end{subfigure}
-	\caption{Mehr Unterschriften}
-\end{figure}
+
+
+}
+
+\section{Aufbau der Arbeit}  \label{sec:Aufbau_Arbeit}
+{Diese Bachelorarbeit ist in 8 Kapitel aufgeteilt. \\ 
+Es wird zuerst eine Einführung in die Objekterkennung mit neuronalen Netzwerken mit dem YOLO-Algorithmus und dessen Weiterentwicklungen als Beispiel gegeben. Danach wird die Theorie hinter der Formverarbeitung im zweiten Kapitel erläutert. Das dritte Kapitel umfasst die verwendeten Technologien und die genutzte Programmiersprache, sowie eine Beschreibung der genutzten externen Bibliotheken. Des Weiteren werden weitere im Programm benutzte Algorithmen erklärt. \\
+Die Implementierung bildet mit der Evaluation und Diskussion den Hauptteil der Arbeit. Ersteres beschreibt zunächste den Meta-Ablauf des Programmes und dann den Programmablauf konkret um Änderungen im Rahmen der Implementierung zum Theoretischen Hintergrund aufzuzeigen. Die Evaluation beschreibt die Ergebnisse verschiedener Testdurchläufe. Die Diskussion benennt Gründe für die gewonnenen Ergebnisse der Evaluation und ordnet diese in den Gesamtkontext ein. \\
+Nach diesem Abschnitt wird ein Fazit gezogen. Der Ausblick in dem Weiterentwicklungen zum Thema dieser Arbeit erläutert werden, schließt diese Arbeit ab.
+
+}
+
 
 
 

@@ -1,0 +1,262 @@
+%!TEX root = ../thesis.tex
+\chapter{Anhang}
+\section{Weitere Abbildungen und Tabellen}
+\subsection{Theoretischer Hintergrund}{
+
+    
+  
+    \begin{figure}[h]
+		\centering
+		\includegraphics*[scale = 0.4, keepaspectratio]{images/YOLO/YOLO_loss_function_detail_expl.png}
+		\caption[Detaillierte Erklärung der YOLO Loss Funktion]{Detaillierte Erklärung der YOLO Loss Funktion\citep{Terven2023}}
+		\label{YOLO_loss_function_detail}
+ 	\end{figure}
+
+     \begin{figure}
+        \begin{multline}
+            \lambda_{coord} \sum_{i=0}^{s^2} \sum_{j=0}^{B} \mathbb{1}_{i j}^{obj}\left[(x_i-\hat{x}_i)^2 + (y_i - \hat{y}_i)^2\right]\\
+            + \lambda_{coord} \sum_{i=0}^{s^2} \sum_{j=0}^{B} \mathbb{1}_{i j}^{obj}\left[\left(\sqrt{w_i} - \sqrt{\hat{w_i}}\right)^2 + \left(\sqrt{h_i}-\sqrt{\hat{h_i}}\right)^2\right]\\
+            + \sum_{i=0}^{s^2} \sum_{j=0}^{B} \mathbb{1}_{i j}^{obj}\left(C_i - \hat{C_i}\right)^2\\
+            + \lambda_{coord} \sum_{i=0}^{s^2} \sum_{j=0}^{B} \mathbb{1}_{i j}^{obj}\left(C_i - \hat{C_i}\right)^2\\
+            + \sum_{i=0}^{s^2} \mathbb{1}_{i j}^{obj} \sum_{c \in classes } \left(p_i(c)-\hat{p_i}(c)\right)^2
+        \end{multline} 
+        \caption{Mehrteilige Verlustfunktion, die von YOLO während des Trainings optimiert wird \citep{Redmon2016}}
+        \label{YOLO_Loss_function}
+    \end{figure}
+
+    
+	
+	
+
+    \begin{figure}[h]
+		\centering
+		\includegraphics*[scale = 0.15, keepaspectratio]{images/YOLO/YOLO_timeline_vers.png}
+		\caption[Übersicht über verschiedene YOLO Versionen im Zeitverlauf]{Übersicht über verschiedene YOLO-Versionen im Zeitverlauf \citep{Terven2023}}
+		\label{YOLO_timeline_vers}
+		\end{figure}
+
+    \begin{figure}[h]
+        \centering
+        \includegraphics*[scale = 0.35, keepaspectratio]{images/YOLO/YOLOv8_Arch.png}
+        \caption[Die Architektur von YOLOv8]{Die Architektur von YOLOv8 \citep{Terven2023}}
+        \label{YOLOv8_Arch}
+    \end{figure}
+
+
+    \begin{figure}[ht]
+        \centering
+        \includegraphics*[scale = 0.65, keepaspectratio, trim=2 2 2 2 ]{images/DCE/schem_maps_paper_DCE.png}
+        \caption[Anwendungsbeispiele für die \glqq Discrete Curve Evolution\grqq{}]{Anwendungsbeispiele für die \glqq Discrete Curve Evolution\grqq{}  \citep{Barkowsky2000}.}
+        \label{Bsp_DCE_Bark_Paper}
+    \end{figure}
+
+
+    \begin{figure}[ht]
+		\centering
+		\begin{subfigure}[b]{0.30\textwidth}
+			\frame{\includegraphics[width=\textwidth]{images/DCE/kleines Beispiel erweitert/testpng0.png}}
+            \caption{Polygon ohne Vereinfachung}
+		\end{subfigure} 
+		\begin{subfigure}[b]{0.30\textwidth}
+            \frame{
+			\includegraphics[width=\textwidth]{images/DCE/kleines Beispiel erweitert/testpng419.png}}
+            \caption{Polygon (80 Punkte) }
+		\end{subfigure}
+        \begin{subfigure}[b]{0.30\textwidth}
+			\frame{\includegraphics[width=\textwidth]{images/DCE/kleines Beispiel erweitert/testpng429.png}}
+            \caption{Polygon (70 Punkte)}
+		\end{subfigure}
+        \begin{subfigure}[b]{0.30\textwidth}
+			\frame{\includegraphics[width=\textwidth]{images/DCE/kleines Beispiel erweitert/testpng439.png}}
+            \caption{Polygon (60 Punkte)}
+		\end{subfigure}
+        \begin{subfigure}[b]{0.30\textwidth}
+			\frame{\includegraphics[width=\textwidth]{images/DCE/kleines Beispiel erweitert/testpng449.png}}
+            \caption{Polygon (50 Punkte)}
+		\end{subfigure}
+        \begin{subfigure}[b]{0.30\textwidth}
+			\frame{\includegraphics[width=\textwidth]{images/DCE/kleines Beispiel erweitert/testpng459.png}}
+            \caption{Polygon (40 Punkte)}
+		\end{subfigure}
+        \begin{subfigure}[b]{0.30\textwidth}
+			\frame{\includegraphics[width=\textwidth]{images/DCE/kleines Beispiel erweitert/testpng469.png}}
+            \caption{Polygon (30 Punkte)}
+		\end{subfigure}
+        \begin{subfigure}[b]{0.30\textwidth}
+			\frame{\includegraphics[width=\textwidth]{images/DCE/kleines Beispiel erweitert/testpng479.png}}
+            \caption{Polygon (20 Punkte)}
+		\end{subfigure}
+        \begin{subfigure}[b]{0.30\textwidth}
+			\frame{\includegraphics[width=\textwidth]{images/DCE/kleines Beispiel erweitert/testpng489.png}}
+            \caption{Polygon (10 Punkte)}
+		\end{subfigure}
+		\caption[Anwendungsbeispiel für DCE aus eigenen Daten]{Anwendungsbeispiel für die DCE anhand eines Teilumrisses von Nordrhein Westfalen; (a) zeigt das Ursprungspolygon mit 499 Punkten; (b) bis (i) zeigen um je 10 Punkte reduzierte Polygone, von 80 Punkten bis 10 Punkten (Quelle: eigene Darstellung)}
+		\label{Scr:DCE_test_run_nrw}
+	\end{figure}
+
+
+
+
+
+    \clearpage
+\subsection{Evaluation}{
+
+
+\begin{table}[h]
+    \centering
+\caption[Vergleich der verschiedenen YOLO Modelle bei 1 Sekunde Video (30 Frames)]{Vergleich der verschiedenen YOLO Modelle bei 1 Sekunde Video (30 Frames) (Quelle: eigene Darstellung; \ref{cd:listing_A1s_EF_results.txt(Y8n)}; \ref{cd:listing_A1s_RV_results.txt(Y8n)}; \ref{cd:listing_A1s_EF_results.txt(Y8m)}; \ref{cd:listing_A1s_RV_results.txt(Y8m)}; \ref{cd:listing_A1s_EF_results.txt(Y8x)}; \ref{cd:listing_A1s_RV_results.txt(Y8x)})}
+\label{tab:YOLO8_A1s}
+\begin{tabular}{l|l|l|l|l|l|l}
+    & \textbf{8n (EFV)} & \textbf{8n (RV)} & \textbf{8m (EFV)} & \textbf{8m (RV)} & \textbf{8x (EFV)} & \textbf{8x (RV)} \\ \hline
+\textit{\begin{tabular}[c]{@{}l@{}}Anzahl Punkte/Winkel\\ vor DCE\end{tabular}} & 5.353 & 5.303 & 5.863 & 5.885 & 5.306 & 5.325 \\ \hline
+\textit{\begin{tabular}[c]{@{}l@{}}Anzahl Punkte/Winkel\\ nach DCE\end{tabular}} & 1.919 & 1.880 & 2.168 & 2.185 & 1.965 & 1.988 \\ \hline
+\textit{\begin{tabular}[c]{@{}l@{}}Anzahl vergl. Winkel\\ bei SSM Berechnung\end{tabular}} & 19.100 & 17.811 & 10.251 & 10.130 & 11.803 & 11.858 \\ \hline
+\textit{} &  &  &  &  &  &  \\ \hline
+\textit{\begin{tabular}[c]{@{}l@{}}Gesamtwinkelsumme\\ (in Deg.)\end{tabular}} & 6.020,32 & 5.898,2 & 6.802,79 & 6.856,27 & 6.166,18 & 6.238,21 \\ \hline
+\textit{erkannte Polygone} & 147 & 145 & 209 & 210 & 212 & 214 \\ \hline
+\textit{verglichene Polygone} & 131 & 129 & 188 & 189 & 193 & 194 \\ \hline
+\textit{Prozessierungszeit (in Sek.)} & 29,54 & 20,19 & 47,92 & 30.64 & 80,15 & 44,09
+\end{tabular}
+\end{table}
+
+
+    \begin{table}[ht]
+        \centering
+		\caption[Vergleich der SSMs bei verschiedenen YOLO Modellen bei 1 Sekunde Video (30 Frames)]{Vergleich der SSMs bei verschiedenen YOLO Modellen bei 1 Sekunde Video (30 Frames) (Quelle: eigene Darstellung; \ref{cd:listing_A10s_EF_results.txt(Y8n)}; \ref{cd:listing_A10s_RV_results.txt(Y8n)}; \ref{cd:listing_A10s_EF_results.txt(Y8m)}; \ref{cd:listing_A10s_RV_results.txt(Y8m)}; \ref{cd:listing_A10s_EF_results.txt(Y8x)}; \ref{cd:listing_A10s_RV_results.txt(Y8x)})}
+		\label{tab:YOLO8_A1s_SSM}
+		\begin{tabular}{l|l|l|l|l|l|l}
+		 & \textbf{8n (EFV)} & \textbf{8n (RV)} & \textbf{8m (EFV)} & \textbf{8m (RV)} & \textbf{8x (EFV)} & \textbf{8x (RV)} \\ \hline
+		\textit{Absolute SSM Auto} & 2,0174 & 2,0174 & 2,2393 & 2,3659 & 3,8058 & 4,1018 \\ \hline
+		\textit{SSM pro Fr. und Kl. Auto} & 0,0672 & 0,0672 & 0,0746 & 0,0789 & 0,1269 & 0,1637 \\ \hline
+		\textit{SSM pro detektiertes Auto} & 0,0672 & 0,0721 & 0,0622 & 0,0676 & 0,0634 & 0,0672 \\ \hline
+		\textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ Autos (in Klam. pro Fr.)\end{tabular}} & \begin{tabular}[c]{@{}l@{}}30\\ (1,00)\end{tabular} & \begin{tabular}[c]{@{}l@{}}28\\ (0,93)\end{tabular} & \begin{tabular}[c]{@{}l@{}}36\\ (1,2)\end{tabular} & \begin{tabular}[c]{@{}l@{}}35\\ (1,17)\end{tabular} & \begin{tabular}[c]{@{}l@{}}60\\ (2,00)\end{tabular} & \begin{tabular}[c]{@{}l@{}}61\\ (2,23)\end{tabular} \\ \hline
+		 &  &  &  &  &  &  \\ \hline
+		\textit{Absolute SSM LKW} & 4,4640 & 4,6617 & 13,3996 & 14,2144 & 11,5296 & 11,8367 \\ \hline
+		\textit{SSM pro Fr. und Kl. LKW} & 0,1488 & 0,1554 & 0,4467 & 0,4738 & 0,3843 & 0,3946 \\ \hline
+		\textit{SSM pro detektierter LKW} & 0,2349 & 0,2454 & 0,2197 & 0,2330 & 0,1696 & 0,1767 \\ \hline
+		\textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ LKW (in Klam. pro Fr.)\end{tabular}} & \begin{tabular}[c]{@{}l@{}}19\\ (0,63)\end{tabular} & \begin{tabular}[c]{@{}l@{}}19\\ (0,63)\end{tabular} & \begin{tabular}[c]{@{}l@{}}61\\ (2,03)\end{tabular} & \begin{tabular}[c]{@{}l@{}}61\\ (2,03)\end{tabular} & \begin{tabular}[c]{@{}l@{}}68\\ (2,27)\end{tabular} & \begin{tabular}[c]{@{}l@{}}67\\ (2,23)\end{tabular} \\ \hline
+		 &  &  &  &  &  &  \\ \hline
+		\textit{Absolute SSM Zug} & 11,8231 & 11,8231 &  &  &  &  \\ \hline
+		\textit{SSM pro Fr. und Kl. Zug} & 0,3941 & 0,3941 &  &  &  &  \\ \hline
+		\textit{SSM pro detektierten Zug} & 0,3111 & 0,3378 &  &  &  &  \\ \hline
+		\textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ Züge (in Klam. pro Fr.)\end{tabular}} & \begin{tabular}[c]{@{}l@{}}38\\ (1,27)\end{tabular} & \begin{tabular}[c]{@{}l@{}}35\\ (1,17)\end{tabular} &  &  &  &  \\ \hline
+		 &  &  &  &  &  &  \\ \hline
+		\textit{Absolute SSM Bus} &  &  & 1,8576 & 1,8576 &  &  \\ \hline
+		\textit{SSM pro Fr. und Kl. Bus} &  &  & 0,0619 & 0,0619 &  &  \\ \hline
+		\textit{SSM pro detektiertem Bus} &  &  & 0,4644 & 0,4644 &  &  \\ \hline
+		\textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ Busse (in Klam. pro Fr.)\end{tabular}} &  &  & \begin{tabular}[c]{@{}l@{}}4\\ (0,13)\end{tabular} & \begin{tabular}[c]{@{}l@{}}4\\ (0,13)\end{tabular} &  & 
+		\end{tabular}
+		\end{table}
+        \clearpage
+
+        \subsubsection{Geringe und hohe DCE Substitionslimits}
+            \begin{table}[ht]
+                \centering
+                \caption[Vergleich der Basisdaten bei 1 Sekunde Video (30 Frames) und verschiedenen DCE Substitutionslimits]{Vergleich der Basisdaten bei 1 Sekunde Video (30 Frames) und verschiedenen DCE Substitutionslimits (Quelle: eigene Darstellung; \ref{cd:listing_A1s_RV_minor_results.txt(Y8x)}, \ref{cd:listing_A1s_RV_more_results.txt(Y8x)})}
+                \label{tab:YOLO8_minor_more_DCE_A1s}
+                \begin{tabular}{l|l|l|l}
+                    & \textbf{\begin{tabular}[c]{@{}l@{}}geringe DCE\\ Punktgrenzen\end{tabular}} & \textbf{Referenz} & \textbf{\begin{tabular}[c]{@{}l@{}}hohe DCE\\ Punktgrenzen\end{tabular}} \\ \hline
+                   \textit{\begin{tabular}[c]{@{}l@{}}Anzahl Punkte/Winkel \\ vor DCE\end{tabular}} & 5.325 & 5.325 & 5.325 \\ \hline
+                   \textit{\begin{tabular}[c]{@{}l@{}}Anzahl Punkte/Winkel\\ nach DCE\end{tabular}} & 1.174 & 1.988 & 4.026 \\ \hline
+                   \textit{\begin{tabular}[c]{@{}l@{}}Anzahl vergl. Winkel\\ bei SSM Berechnung\end{tabular}} & 3.987 & 11.858 & 74.312 \\ \hline
+                   \textit{} &  &  &  \\ \hline
+                   \textit{Gesamtwinkelsumme} & 3.688,93 & 6.238,21 & 12.630,05 \\ \hline
+                   \textit{erkannte Polygone} & 214 & 214 & 214 \\ \hline
+                   \textit{verglichene Polygone} & 194 & 194 & 194 \\ \hline
+                   \textit{Prozessierungszeit (in Sek.)} & 45,24 & 44,09 & 43,45
+                   \end{tabular}
+                \end{table}
+    
+                \begin{table}[ht]
+                    \caption[Vergleich der SSMs bei verschiedenen DCE Substitionslimits bei einem 1-sekündigem Video (30 Frames) ]{Vergleich der SSMs bei verschiedenen DCE Substitionslimits bei einem 1-sekündigem Video (30 Frames) (Quelle: eigene Darstellung; \ref{cd:listing_A1s_RV_minor_results.txt(Y8x)}, \ref{cd:listing_A1s_RV_more_results.txt(Y8x)})}
+                    \label{tab:Minor_More_DCE_SSMs_A1s}
+                    \centering
+                    \begin{tabular}{l|l|l|l}
+                        & \textbf{\begin{tabular}[c]{@{}l@{}}geringe DCE\\ Punktgrenzen\end{tabular}} & \textbf{Referenz} & \textbf{\begin{tabular}[c]{@{}l@{}}hohe DCE\\ Punktgrenzen\end{tabular}} \\ \hline
+                       \textit{Absolute SSM Auto} & 3,0831 & 4,1018 & 7,7453 \\ \hline
+                       \textit{SSM pro Fr. und Kl. Auto} & 0,1028 & 0,1367 & 0,2582 \\ \hline
+                       \textit{SSM pro detektiertes Auto} & 0,0505 & 0,0672 & 0,1270 \\ \hline
+                       \textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ Autos (in Kl. pr. Fr.)\end{tabular}} & \begin{tabular}[c]{@{}l@{}}61\\ (2,03)\end{tabular} & \begin{tabular}[c]{@{}l@{}}61\\ (2,03)\end{tabular} & \begin{tabular}[c]{@{}l@{}}61\\ (2,03)\end{tabular} \\ \hline
+                       \textit{} &  &  &  \\ \hline
+                       \textit{Absolute SSM LKW} & 9,4661 & 11,8367 & 22,6788 \\ \hline
+                       \textit{SSM pro Fr. und Kl. LKW} & 0,3155 & 0,3946 & 0,7560 \\ \hline
+                       \textit{SSM pro detektierten LKW} & 0,1413 & 0,1767 & 0,3385 \\ \hline
+                       \textit{\begin{tabular}[c]{@{}l@{}}Absolute Anz. detektierter\\ LKW (in Kl. pro Fr.)\end{tabular}} & \begin{tabular}[c]{@{}l@{}}67\\ (2,23)\end{tabular} & \begin{tabular}[c]{@{}l@{}}67\\ (2,23)\end{tabular} & \begin{tabular}[c]{@{}l@{}}67\\ (2,23)\end{tabular}
+                       \end{tabular}
+                    \end{table}	
+                    
+                
+            
+}
+}
+\clearpage
+\lstset{commentstyle=\color{black}, stepnumber=2, basicstyle=\ttfamily\scriptsize} 
+\section{Listing der Evaluationsergebnisse}
+\subsection{Listing der Result Textdaten für YOLO8n Testdurchläufe}{ \label{ls:result_txts}
+    \lstinputlisting[caption={Statistikdatei zu A1s\_EF\_results.txt (YoloV8n)}, label = {cd:listing_A1s_EF_results.txt(Y8n)}, language={}]{../Code/vid_examples/evaluation/01Yolo8n/A1s_EF_results.txt}
+    \lstinputlisting[caption={Statistikdatei zu A1s\_RV\_results.txt (YoloV8n)}, label = {cd:listing_A1s_RV_results.txt(Y8n)}, language={}]{../Code/vid_examples/evaluation/01Yolo8n/A1s_RV_results.txt}
+    \lstinputlisting[caption={Statistikdatei zu A10s\_EF\_results.txt (YoloV8n)}, label = {cd:listing_A10s_EF_results.txt(Y8n)}, language={}]{../Code/vid_examples/evaluation/01Yolo8n/A10s_EF_results.txt}
+    \lstinputlisting[caption={Statistikdatei zu A10s\_RV\_results.txt (YoloV8n)}, label = {cd:listing_A10s_RV_results.txt(Y8n)}, language={}]{../Code/vid_examples/evaluation/01Yolo8n/A10s_RV_results.txt}
+}
+\subsection{Listing der Result Textdaten für YOLO8m Testdurchläufe}{
+    \lstinputlisting[caption={Statistikdatei zu A1s\_EF\_results.txt (YoloV8m)}, label = {cd:listing_A1s_EF_results.txt(Y8m)}, language={}]{../Code/vid_examples/evaluation/02Yolo8m/A1s_EF_results.txt}
+    \lstinputlisting[caption={Statistikdatei zu A1s\_RV\_results.txt (YoloV8m)}, label = {cd:listing_A1s_RV_results.txt(Y8m)}, language={}]{../Code/vid_examples/evaluation/02Yolo8m/A1s_RV_results.txt}
+    \lstinputlisting[caption={Statistikdatei zu A10s\_EF\_results.txt (YoloV8m)}, label = {cd:listing_A10s_EF_results.txt(Y8m)}, language={}]{../Code/vid_examples/evaluation/02Yolo8m/A10s_EF_results.txt}
+    \lstinputlisting[caption={Statistikdatei zu A10s\_RV\_results.txt (YoloV8m)}, label = {cd:listing_A10s_RV_results.txt(Y8m)}, language={}]{../Code/vid_examples/evaluation/02Yolo8m/A10s_RV_results.txt}
+}
+\subsection{Listing der Result Textdaten für YOLO8x Testdurchläufe}{
+    \lstinputlisting[caption={Statistikdatei zu A1s\_EF\_results.txt (YoloV8x)}, label = {cd:listing_A1s_EF_results.txt(Y8x)}, language={}]{../Code/vid_examples/evaluation/03Yolo8x/A1s_EF_results.txt}
+    \lstinputlisting[caption={Statistikdatei zu A1s\_RV\_results.txt (YoloV8x)}, label = {cd:listing_A1s_RV_results.txt(Y8x)}, language={}]{../Code/vid_examples/evaluation/03Yolo8x/A1s_RV_results.txt}
+    \lstinputlisting[caption={Statistikdatei zu A10s\_EF\_results.txt (YoloV8x)}, label = {cd:listing_A10s_EF_results.txt(Y8x)}, language={}]{../Code/vid_examples/evaluation/03Yolo8x/A10s_EF_results.txt}
+    \lstinputlisting[caption={Statistikdatei zu A10s\_RV\_results.txt (YoloV8x)}, label = {cd:listing_A10s_RV_results.txt(Y8x)}, language={}]{../Code/vid_examples/evaluation/03Yolo8x/A10s_RV_results.txt}
+}
+\subsection{Listing der Result Textdaten der weiteren Testfälle}{
+    \subsubsection{Schiffstracking}{
+        \lstinputlisting[caption={Statistikdatei zu S1s\_RV\_10.txt (YoloV8x, Schiffstracking)}, label = {cd:listing_A1s_RV_shiptracking_results.txt(Y8x)}, language={}]{../Code/vid_examples/evaluation/weitere_testfaelle/shiptracking/A1s_RV_10.txt}
+        \lstinputlisting[caption={Statistikdatei zu S21s\_RV\_10.txt (YoloV8x, Schiffstracking)}, label = {cd:listing_A21s_RV_shiptracking_results.txt(Y8x)}, language={}]{../Code/vid_examples/evaluation/weitere_testfaelle/shiptracking/A21s_RV_10.txt}
+    }
+    \subsubsection{Geringe und hohe DCE Substitionslimits}{
+        \lstinputlisting[caption={Statistikdatei zu A1s\_RV\_minor.txt (YoloV8x, geringes DCE Substitionslimit)}, label = {cd:listing_A1s_RV_minor_results.txt(Y8x)}, language={}]{../Code/vid_examples/evaluation/weitere_testfaelle/minor_more_DCEPoints/A1s_RV_minor.txt}  
+        \lstinputlisting[caption={Statistikdatei zu A1s\_RV\_more.txt (YoloV8x, hohes DCE Substitionslimit)}, label = {cd:listing_A1s_RV_more_results.txt(Y8x)}, language={}]{../Code/vid_examples/evaluation/weitere_testfaelle/minor_more_DCEPoints/A1s_RV_more.txt}     
+        \lstinputlisting[caption={Statistikdatei zu A10s\_RV\_minor.txt (YoloV8x, geringes DCE Substitionslimit)}, label = {cd:listing_A10s_RV_minor_results.txt(Y8x)}, language={}]{../Code/vid_examples/evaluation/weitere_testfaelle/minor_more_DCEPoints/A10s_RV_minor.txt}  
+        \lstinputlisting[caption={Statistikdatei zu A10s\_RV\_more.txt (YoloV8x, hohes DCE Substitionslimit)}, label = {cd:listing_A10s_RV_more_results.txt(Y8x)}, language={}]{../Code/vid_examples/evaluation/weitere_testfaelle/minor_more_DCEPoints/A10s_RV_more.txt} 
+
+    }
+   
+    \subsubsection{Gleiche DCE Substitionslimits}{
+        \lstinputlisting[caption={Statistikdatei zu A10s\_RV\_minorSame\_results.txt (YoloV8x, gleich wenige DCE Substitionslimits)}, label = {cd:listing_A10s_RV_minorSame_results.txt(Y8x)}, language={}]{../Code/vid_examples/evaluation/weitere_testfaelle/sameDCESubst/A10s_RV_minorSame_results.txt} 
+        \lstinputlisting[caption={Statistikdatei zu A10s\_RV\_moreSame\_results.txt (YoloV8x, gleich hohe DCE Substitionslimits)}, label = {cd:listing_A10s_RV_moreSame_results.txt(Y8x)}, language={}]{../Code/vid_examples/evaluation/weitere_testfaelle/sameDCESubst/A10s_RV_moreSame_results.txt} 
+
+
+    }
+    \subsubsection{Langer Testdatensatz}{
+        \lstinputlisting[caption={Statistikdatei zu A30s\_RV\_results.txt (YoloV8x, 30-sekündiger Testdatensatz)}, label = {cd:listing_A30s_RV_results.txt(Y8x)}, language={}]{../Code/vid_examples/evaluation/weitere_testfaelle/longshots/A30s_RV_results.txt}  
+
+    }
+
+}
+\section{Listing mit Dokumentation und Kommentaren}{\label{cd:gesamt_listing}}
+
+
+
+
+
+\subsection{Vollständiges Listing von Main.py}{
+    \lstinputlisting[caption={Main.py}, label = {cd:listing_main.py}]{../Code/main.py}}
+
+\subsection{Vollständiges Listing von yolo\_every\_frame.py}{
+    \lstinputlisting[caption={YOLO\_every\_frame.py}, label = {cd:listing_yolo_every_frame_py}]{../Code/YOLO/yolo_every_frame.py}}
+
+\subsection{Vollständiges Listing von yolo\_result\_version.py}{
+    \lstinputlisting[caption={YOLO\_result\_version.py}, label = {cd:listing_yolo_result_version}]{../Code/YOLO/yolo_result_version.py}}
+
+\subsection{Vollständiges Listing von yolo\_segmentation.py}{
+    \lstinputlisting[caption={YOLO\_segementation.py}, label = {cd:listing_yolo_segmentation.py}]{../Code/YOLO/yolo_segmentation.py}}
+
+\subsection{Vollständiges Listing von DCE.py}{
+    \lstinputlisting[caption={DCE.py}, label = {cd:listing_DCE.py}]{../Code/DCE/DCE.py}}
+
+\subsection{ Vollständiges Listing von Shape\_Similarity\_meas.py}{
+    \lstinputlisting[caption={shape\_sim\_meas.py}, label = {cd:listing_shape_sim_meas.py}]{../Code/Shape_Similiarity/shape_sim_meas.py}
+}
+

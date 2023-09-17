@@ -8,13 +8,17 @@ a4paper,
 parskip=half,
 index=totoc,
 toc=listof,
-fontsize=11,
+fontsize = 10, %a5
+%fontsize=11, %a4
 headinclude,
 twoside,
-BCOR=12mm,
+BCOR = 10mm, %a5
+%BCOR=12mm, %a4
 cleardoublepage=empty,
-DIV=13,
-% draft=false,
+DIV=22, %a5
+&DIV=13, %a4
+numbers = noenddot,
+%draft=false
 final
 ]{scrreprt}
 
@@ -34,6 +38,62 @@ final
 \usepackage[libertine,cmintegrals,bigdelims,varbb]{newtxmath}
 \usepackage[ngerman]{babel}
 \usepackage[babel=true, tracking=true,final]{microtype}
+
+%eigene Packages hinzgefügt für Listings und Courier New als Schriftart für Variablen
+\usepackage{courier}
+\usepackage{listings}
+\lstset{
+        basicstyle=\ttfamily\normalsize,
+        language = Python,
+        breaklines = true,
+        numbers=left,
+        stepnumber=1,
+        numbersep=10pt,
+        frame = lines,
+        %commentstyle = \color{white},
+        %morecomment  = [l][\@gobble]{\#}, 
+        %morecomment  = [is]{\"""}{\"""},
+        breakatwhitespace = false,
+}
+\lstdefinestyle{intext}{
+        basicstyle=\ttfamily\scriptsize,
+        language = Python,
+        breaklines = true,
+        numbers=left,
+        stepnumber=1,
+        numbersep=10pt,
+        frame = lines,
+        %commentstyle = \color{white},
+        morecomment  = [l][\@gobble]{\#}, 
+        morecomment  = [is]{\"""}{\"""},
+        breakatwhitespace = false,
+}
+
+%Package für Tabellen
+\usepackage[normalem]{ulem}
+\useunder{\uline}{\ul}{}
+%weitere Abänderungen von mir für Verhinderung von Schusterjunge
+\widowpenalty=10000
+\clubpenalty=10000
+\displaywidowpenalty = 10000
+
+%Abänderungen Parametersatz
+% \renewcommand{\topfraction}{0.9}
+% \renewcommand{\bottomfraction}{0.8}
+
+% \setcounter{topnumber}{2}
+% \setcounter{bottomnumber}{2}
+% \setcounter{totalnumber}{4}
+% \setcounter{dbltopnumber}{2}
+% \renewcommand{\dbltopfraction}{0.9}
+% \renewcommand{\textfraction}{0.7}
+
+% \renewcommand{\floatpagefraction}{0.7}
+% \renewcommand{\dblfloatpagefraction}{0.7}
+
+%Abänderung Lange/Kurze Version False = wenige Listings; True = alle Listings
+\newif\ifimportant
+\importantfalse
 
 
 
@@ -103,7 +163,6 @@ psdextra
 \pagestyle{scrheadings}
 \clearpairofpagestyles % clear defaults
 \setkomafont{headsepline}{\color{gray}} % adds a gray line under the header
-
 % set section title on the right, and chapter title on the left page in a double page
 % document
 \automark[section]{chapter}
@@ -127,9 +186,9 @@ psdextra
 % afterskip=1\baselineskip,%
 % beforeskip=-1\baselineskip]{chapter}
 
-% \setkomafont{chapter}{\LARGE}
-% \setkomafont{section}{\Large}
-% \setkomafont{subsection}{\large}
+\setkomafont{chapter}{\LARGE}
+\setkomafont{section}{\Large}
+\setkomafont{subsection}{\large}
 
 % adds a thick gray line after the chapter number
 \renewcommand*{\chapterformat}{%
