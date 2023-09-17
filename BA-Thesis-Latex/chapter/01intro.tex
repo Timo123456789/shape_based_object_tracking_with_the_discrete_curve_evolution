@@ -2,9 +2,6 @@
 \chapter{Einleitung}
 \label{ch:intro}
 
-
-
- \todo{entweder DCE Substitutionslimits oder -grenzen schreiben}
 \section{Motivation}{ 
 	
 Durch die Verfügbarkeit von Open-Source Software, die neuronale Lernverfahren verwendet und eine sehr schnelle Objekterkennung auf Videoströmen anbietet, lassen sich viele relevante Anwendungen in der Geoinformatik realisieren, beispielsweise im Bereich der Verkehrsüberwachung. \\
@@ -36,54 +33,17 @@ Zur Evaluation wird Videomaterial von Autobahnen aufgenommen, welches im Rahmen 
 \end{figure}
 Die Evaluation wird aus verschieden langen Videosequenzen bestehen, die mit diversen Einstellungen vom Programm analysiert wurden. Es wird eine Reihe weiterer Testfälle geben, in denen andere Szenarien abgedeckt werden, um die Robustheit der Hypothese zu überprüfen. \\
 Einer dieser Testfälle wird sich mit dem Tracking von Objekten befassen, welche nicht der Hauptfokus dieser Arbeit sind, bspw. Schiffstracking. \\
-In weiteren Testfällen werden verschiedenen Grenzen zur Polygonvereinfachung durch die DCE genutzt, um das Verhalten des Formähnlichkeitsmesswertes und der Umrisse der detektierten Objekte im Video zu erfassen. Bei gleichen Vereinfachunsgrenzen für alle Objekte müsste der Formähnlichkeitsmesswert gegen 0 gehen, da die Detektierung von YOLO durch die hohe Genauigkeit des Modells sehr exakt ist. Hier kann auch der Unterschied zwischen niedrigen und hohen gleichen Limits ermittelt werden. Der letzte Testfall ist die Auswertung und Analyse eines sehr langen Testdatensatzes um zu klären, ob die Ergebnisse von kurzen Videos auf lange Videos übertragbar sind. Dadurch kann eine Beurteilung für noch längere Testdatensätze möglich werden, solange es die vorhandene Hardware ermöglicht.
+In weiteren Testfällen werden verschiedenen Grenzen zur Polygonvereinfachung durch die DCE genutzt, um das Verhalten des Formähnlichkeitsmaßes und der Umrisse der detektierten Objekte im Video zu erfassen. Bei gleichen Vereinfachunsgrenzen für alle Objekte müsste der Formähnlichkeitsmaß gegen 0 gehen, da die Detektierung von YOLO durch die hohe Genauigkeit des Modells sehr exakt ist. Hier kann auch der Unterschied zwischen niedrigen und hohen gleichen Limits ermittelt werden. Der letzte Testfall ist die Auswertung und Analyse eines sehr langen Testdatensatzes um zu klären, ob die Ergebnisse von kurzen Videos auf lange Videos übertragbar sind. Dadurch kann eine Beurteilung für noch längere Testdatensätze möglich werden, solange es die vorhandene Hardware ermöglicht.
 
 
 
 }
 
-
-% \todo{mussn noch ausformuliert werden}
-% Forschungskontext:
-% \begin{itemize}
-% 	\item Vereinfachung von Karten (Geometrische Strukturen) \citep{Barkowsky2000}
-% 	\item Skeletvereinfachungsmethode \citep{Latecki2007}
-% 	\item Kombinierung DCE und Skeleton Construction Technik \citep{ZHENG201517}
-% 	\item Medizinischer Kontext MRI \citep{Supot2007}
-% 	\item DCE auf digitale Bilder (Videos ) \citep{Latecki2000}
-% 	\item Gesten (Fingertips) und Handdetection basierend auf DCE mit Kinect Sensor \citep{Lai2016}
-% 	\item DCE Grundlagen \citep{Latecki1998}
-% \end{itemize}
-\section{Aufbau der Arbeit} \todo{muss überarbeitet werden (Begründung für weitere TR hier ein?) \label{sec:Aufbau_Arbeit}}
-{Diese Bachelorarbeit ist in 6 Kapitel aufgeteilt. \\ 
-Der Theoretische Hintergrund wird zuerst beschrieben. Dieser enthält eine Einführung in den YOLO-Algorithmus mit einer kurzen Erläuterung der Grundlagen im Maschinellen Lernen, sowie eine Erklärung der Theorie hinter der Discrete Curve Evolution. Außerdem wird die genutzte Programmiersprache definiert und die externen Bibliotheken beschrieben. Des Weiteren werden weitere vom Programm genutzte Algorithmen erklärt und ein kurzer Meta-Ablauf des Programmes skizziert. \\
-Die Implementierung bildet mit der Evaluation den Hauptteil der Arbeit. Ersteres beschreibt den Programmablauf an ausgewählten Codebeispielen und zeigt Änderungen im Rahmen der Implementierung zum Theoretischen Hintergrund auf. Die Evaluation ordnet die Ergebnisse verschiedener Testdurchläufe ein. Die Diskussion benennt Gründe für die gewonnenen Ergebnisse der Evaluation. \\
+\section{Aufbau der Arbeit}  \label{sec:Aufbau_Arbeit}
+{Diese Bachelorarbeit ist in 8 Kapitel aufgeteilt. \\ 
+Es wird zuerst eine Einführung in die Objekterkennung mit neuronalen Netzwerken mit dem YOLO-Algorithmus und dessen Weiterentwicklungen als Beispiel gegeben. Danach wird die Theorie hinter der Formverarbeitung im zweiten Kapitel erläutert. Das dritte Kapitel umfasst die verwendeten Technologien und die genutzte Programmiersprache, sowie eine Beschreibung der genutzten externen Bibliotheken. Des Weiteren werden weitere im Programm benutzte Algorithmen erklärt. \\
+Die Implementierung bildet mit der Evaluation und Diskussion den Hauptteil der Arbeit. Ersteres beschreibt zunächste den Meta-Ablauf des Programmes und dann den Programmablauf konkret um Änderungen im Rahmen der Implementierung zum Theoretischen Hintergrund aufzuzeigen. Die Evaluation beschreibt die Ergebnisse verschiedener Testdurchläufe. Die Diskussion benennt Gründe für die gewonnenen Ergebnisse der Evaluation und ordnet diese in den Gesamtkontext ein. \\
 Nach diesem Abschnitt wird ein Fazit gezogen. Der Ausblick in dem Weiterentwicklungen zum Thema dieser Arbeit erläutert werden, schließt diese Arbeit ab.
-
-% Begründung weitere TR
-% \begin{itemize}
-% 	\item Schiffstracking
-% 	\begin{itemize}
-% 		\item Schiffstracking um nur andere Objekte zu detektieren, bzw. ein ganz anderes Szenario als für das die BA eigentlich gedacht war, zu testen
-% 		\item Gucken ob sich das auch die BA auch für Szenarien außerhalb der angedachten Szenarien eignet 
-% 		\item weitere Verwendung möglich in andren Szenarien zum Schiffszählen; Flugzeuge zählen etc.
-% 	\end{itemize}
-% 	\item geringe und hohe DCE Substitution
-% 	\begin{itemize}
-% 		\item andere Einstellungen, wie verhalten sich die detektierten Objekte und Formähnlichkeitsmesswerte etc.
-% 		\item 
-% 	\end{itemize}
-% 	\item gleiche DCE Substitutionslimits
-% 	\begin{itemize}
-% 		\item was passiert wenn DCE Substitionslimits auf den gleichen Wert für alle Objekte gesetzt werden (SSM müsste gegen 0 gehen?)
-% 		\item Was passiert wenn dies einmal ein niedriger Wert und einmal ein hoher Wert ist?
-% 	\end{itemize}
-% 	\item langer Testdatensatz
-% 	\begin{itemize}
-% 		\item was passiert bei sehr langem Testdatensatz
-% 		\item sind die Werte von 1s auf 10s auf 30s übertragbar und damit auch eine Beurteilung für noch längere Testdatensätze möglich (solange es die Hardware hergibt?)
-% 	\end{itemize}
-% \end{itemize}
 
 }
 
