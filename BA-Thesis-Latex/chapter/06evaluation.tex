@@ -26,7 +26,7 @@ Das Testsystem besteht aus einem Lenovo Thinkpad P14s. Dieses besitzt einen AMD 
 \section{Einstellungen und Testdatensätze}
 {
 	Es werden 2 Videodaten genommen, die sich jeweils in der Länge unterscheiden. Beide Testdatensätze basieren auf dem gleichen Video. Die Länge unterscheidet sich, da das erste Video 1 Sekunde, bzw. 30 Frames, lang ist und das zweite Video 10 Sekunden dauert, bzw. 300 Frames besitzt. Hier überschneidet sich die erste Sekunde. \\
-	Es werden 3 YOLO Modelle benutzt: YOLO8n, YOLOv8n (small), YOLOv8m (medium) und YOLOv8x (extra large). Diese sind mit verschieden großen Datensätzen trainiert worden, für Details s. Kap. \ref{subsec:YOLOv8_theoretic}.
+	Es werden 3 YOLO Modelle benutzt: YOLOv8n (small), YOLOv8m (medium) und YOLOv8x (extra large). Diese sind mit verschieden großen Datensätzen trainiert worden, für Details s. Kap. \ref{subsec:YOLOv8_theoretic}.
 	Die Einstellungen des Programms für die Grenze der Punktsubstitution der DCE sind, dass Autos auf 8 Punkte, Motorräder auf 5 und Lkw auf 11 Punkte reduziert werden.
 
 	Objekte, welche nicht den drei Hauptklassen entsprechen werden immer auf 20 Punkte vereinfacht. Das Video wird  schwarz gerendert, sodass sich nur weiße Polygone im Video bewegen. Außerdem werden für jedes Polygon die detektierte Klasse und der Confidence Score in jedem Frame angezeigt.
@@ -34,7 +34,7 @@ Das Testsystem besteht aus einem Lenovo Thinkpad P14s. Dieses besitzt einen AMD 
 
 }
 \section{Ergebnisse\label{sec:Ergebnisse}}  
-{Die Formähnlichkeit der einzelnen Polygone zueinander wird einem Messwert  (s. Kap. \ref{theo:SSM} und \ref{py:Shape_Sim_Meas}) berechnet. Es wird zunächst auf allgemeine Erkenntnisse eingegangen und danach werden die Ergebnisse mit Klassenunterscheidung erläutert. Der gleiche Frame aus Abb. \ref{Bsp_Evaluations_Vidmat} aus dem 10-sekündigen Datensatz ist in Abb. \ref{Bsp_ErgebRVA10s_Vidmat} mit der RV Version analysiert zu sehen.\\
+{Die Formähnlichkeit der einzelnen Polygone zueinander wird einem Messwert  (s. Kap. \ref{theo:SSM} und \ref{py:Shape_Sim_Meas}) berechnet. Es wird zunächst auf allgemeine Erkenntnisse eingegangen und danach werden die Ergebnisse mit Klassenunterscheidung erläutert. Der gleiche Frame aus Abb. \ref{Bsp_Evaluations_Vidmat} aus dem 10-sekündigen Datensatz ist in Abb. \ref{Bsp_ErgebRVA10s_Vidmat} mit der RV Version (Modell: YOLOv8x) analysiert zu sehen.\\
 Alle Angaben in den Tabellen, außer bei den absoluten Zahlen sind in Grad (Deg.). Die Modelle von YOLO werden mit 8n, 8m, 8x entsprechend abgekürzt. Die unterschiedlichen YOLO Implementierungen werden mit EV (Every Frame Version, 1. YOLO Implementierung) und RV (Result Version, 2. YOLO Implementierung) abgekürzt.
 
 \begin{figure}[ht]
