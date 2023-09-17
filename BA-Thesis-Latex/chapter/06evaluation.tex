@@ -1,13 +1,16 @@
 %!TEX root = ../thesis.tex
 \chapter{Evaluation}
 \label{ch:Evaluation}
+Die Evaluation besteht aus einer kurzen Erläuterung der Testumgebung und einer darauffolgenden Erklärung der Quelle der Datensammlung udn -grundlage
 \section{Testumgebung}{ \label{sec:testumgebung}
-Das Testsystem besteht aus einem Lenovo Thinkpad P14s. Dieses besitzt einen AMD Ryzen 7 PRO 5850U Prozessor mit 8 Kernen und 16 Threads bei einem Basistakt von 1,9 GHz und einem Höchsttakt von 4,4 GHz. Die integrierte Grafikeinheit AMD Radeon Graphics Einheit kann auf 8 GB VRAM zugreifen, sodass der effektive verfügbare Arbeitsspeicher des Systems bei 39,8 GB liegt \citep{PSREF21}. Die Entwicklungsumgebung \glqq Visual Studio Code\grqq{} ist auf einer 64-bit Windows 11 Pro Installation (Version: 22H2) installiert. Für Details in der Python Konfiguration s. Kap. \ref{sec:Python}. Für die Testdurchläufe ist der Laptop an ein 65 Watt Netzteil angeschlossen, um ein Throttling der CPU zu verhindern.}
+Das Testsystem besteht aus einem Lenovo Thinkpad P14s. Dieses besitzt einen AMD Ryzen 7 PRO 5850U Prozessor mit 8 Kernen und 16 Threads bei einem Basistakt von 1,9 GHz und einem Höchsttakt von 4,4 GHz. Die integrierte Grafikeinheit AMD Radeon Graphics Einheit kann auf 8 GB VRAM zugreifen, sodass der effektive verfügbare Arbeitsspeicher des Systems bei 39,8 GB liegt \citep{PSREF21}. Die Entwicklungsumgebung \glqq Visual Studio Code\grqq{} ist auf einer 64-bit Windows 11 Pro Installation (Version: 22H2) installiert. Für Details in der Python Konfiguration s. Kap. \ref{sec:Python}. Für die Testdurchläufe ist der Laptop an ein 65 Watt Netzteil angeschlossen, um ein Throttling der CPU zu verhindern. \\ }
 
 
 \section{Datensammlung und -grundlage}
 { \label{sec:datengrundlage}
-	Die Datengrundlage zur Analyse bilden Videos im MP4 Format in der Auflösung 1920 \texttimes 1080 Pixeln. Diese wurden an der Autobahnbrücke zur A1 in Münster-Nienberge aufgenommen \citep{GMaps}. Das Wetter war bedeckt, somit konnte die Sonne nicht einzelne Objekte überstrahlen. Das Videomaterial mit dem evaluiert wurde, stammt vom 17.07.2023 und wurde mittags (12:53 Uhr) aufgenommen. Es zeigt primär die beiden Fahrspuren der Autobahn (s. Abb. \ref{Bsp_Evaluations_Vidmat}). \\
+	Die Datengrundlage zur Analyse bilden Videos im MP4 Format in der Auflösung 1920 \texttimes 1080 Pixeln. Diese wurden an der Autobahnbrücke zur A1 in Münster-Nienberge aufgenommen \citep{GMaps}. \\
+	Als Aufnahmegerät wurde ein Nokia X20 verwendet. Dieses Smartphone besitzt auf der Rückseite 4 Objektive mit einer Hauptkamera von 64 Megapixeln Auflösung, einer Weitwinkelkamera von 2 Megapixeln Auflösung und einem Makroobjektiv von 2 Megapixeln. Die Hauptkamera benutzt Pixel Binning, um jeweils 4 Pixel zu einem Bildpunkt zusammenzufassen, damit eine höhere Lichtausbeute erreicht wird \citep{Schmitt2021}. In den Einstellungen für die Aufnahmen war die Videostabilisierung und die Windgeräuschreduzierung aktiviert. \\
+	Das Wetter war bedeckt, somit konnte die Sonne nicht einzelne Objekte überstrahlen. Das Videomaterial mit dem evaluiert wurde, stammt vom 17.07.2023 und wurde mittags (12:53 Uhr) aufgenommen. Es zeigt primär die beiden Fahrspuren der Autobahn (s. Abb. \ref{Bsp_Evaluations_Vidmat}). \\
 	Am unteren Rand ist im Vordergrund rechts das Geländer der Autobahnbrücke zu erkennen. Links unten im Bild ist ein Warnkegel zu sehen. Der mittlere Bereich des Bildes wird von den Fahrspuren dominiert, rechts mittig sind zwei Verkehrsschilder. Im Hintergrund ist ein weiteres Verkehrsschild zu erkennen, welches über die sich vom Betrachter entfernende führende Fahrspur ragt. An den Seiten der beiden Fahrspuren sind Bäume. \\
 	Das Videomaterial wurde mit der Software DaVinci Resolve \citep{davinciresolve} geschnitten um die für die Evaluation wichtige Vergleichbarkeit und Frameanzahl zu erhalten.
 	\begin{figure}[ht]
@@ -319,7 +322,9 @@ Alle Angaben in den Tabellen, außer bei den absoluten Zahlen sind in Grad (Deg.
 			\textit{\begin{tabular}[c]{@{}l@{}}Absolute Anz. detektierter\\ LKW (in Kl. pro Fr.)\end{tabular}} & \begin{tabular}[c]{@{}l@{}}67\\ (2,23)\end{tabular} & \begin{tabular}[c]{@{}l@{}}726\\ (2,42)\end{tabular} & \begin{tabular}[c]{@{}l@{}}2.551\\ (2,83)\end{tabular}
 			\end{tabular}
 			\end{table}
-	Bei der absoluten SSM der Klasse Auto sind ähnliche Steigerungsfakoren, wie bei der Punktanzahl vor und nach DCE zu vorhanden (s. Tabelle \ref{tab:YOLO8_longshots_SSM}). Die SSM pro Frame und Klasse Auto, bzw. LKW, steigt hingegen minimal bei dem 10-sekündigen Testdatensatz an, während die SSM bei dem 30-sekündigen Testdatensatz marginal absinkt. Dies ist auch bei der SSM pro detektiertem Auto und LKW zu erkennen. Die absolute Anzahl detektierter Autos und LKW steigt mit der Länge des Testdatensatzes an. Jedoch sinkt die Anzahl detektierter Autos pro Frame, während die Anzahl detektierter LKW pro Frame ansteigt.
+	Bei der absoluten SSM der Klasse Auto sind ähnliche Steigerungsfakoren, wie bei der Punktanzahl vor und nach DCE zu vorhanden (s. Tabelle \ref{tab:YOLO8_longshots_SSM}). Die SSM pro Frame und Klasse Auto, bzw. LKW, steigt hingegen minimal bei dem 10-sekündigen Testdatensatz an, während die SSM bei dem 30-sekündigen Testdatensatz marginal absinkt. Dies ist auch bei der SSM pro detektiertem Auto und LKW zu erkennen. Die absolute Anzahl detektierter Autos und LKW steigt mit der Länge des Testdatensatzes an. Jedoch sinkt die Anzahl detektierter Autos pro Frame, während die Anzahl detektierter LKW pro Frame ansteigt.\\
+	
+
 		
 	
 }
