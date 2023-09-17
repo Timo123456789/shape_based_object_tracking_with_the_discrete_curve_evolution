@@ -1252,7 +1252,7 @@
  
 
 
-# Nun wird der Prozess innerhalb der DCE.py Datei genauer erläutert (siehe Listing \ref{cd:DCE_simplify_polygon.py}). Da die DCE in dieser Arbeit mit GeoPandas (siehe Kap. \ref{subsec:Geopandas}) implementiert wurde, muss das Array zuerst in ein \lstinline|Geopandas.Geoseries| Objekt transformiert werden. Danach kann von diesem Polygon die Gesamtpunktanzahl berechnet werden, die die Begrenzung des folgenden Iterators in der Schleife darstellt. Zuvor kann der Fall abgefangen werden, dass ein Polygon bereits weniger Punkte als die Punktanzahl auf die das Polygon reduziert werden soll, hat. \\
+# Nun wird der Prozess innerhalb der DCE.py Datei genauer erläutert (s. Listing \ref{cd:DCE_simplify_polygon.py}). Da die DCE in dieser Arbeit mit GeoPandas (s. Kap. \ref{subsec:Geopandas}) implementiert wurde, muss das Array zuerst in ein \lstinline|Geopandas.Geoseries| Objekt transformiert werden. Danach kann von diesem Polygon die Gesamtpunktanzahl berechnet werden, die die Begrenzung des folgenden Iterators in der Schleife darstellt. Zuvor kann der Fall abgefangen werden, dass ein Polygon bereits weniger Punkte als die Punktanzahl auf die das Polygon reduziert werden soll, hat. \\
 # 	\lstinputlisting[linerange={11,20-23,25-27,29,30,32,34,35}, caption={Ausschnitt aus \protect\lstinline|simplify_polygon_k_with_angle| Funktion in DCE.py}, label = {cd:DCE_simplify_polygon.py}]{../Code/DCE/DCE.py}
 # 	Die Schleife iteriert über alle Punkte im Polygon und berechnet dabei zuerst den niedrigsten K Wert. Diese Funktion wirft auch den Index des niedrigsten Wertes zurück. Dann wird überprüft, ob das Polygon bereits ein Dreieck ist. In diesem Fall wird die Schleife abgebrochen und das Polygon wird als Array zurückgegeben. Falls dies nicht passiert, wird das Polygon mit einem neuen Polygon überschrieben, bei welchem der Punkt an dem Index des geringsten K Wertes entfernt worden ist. Danach wird abgefragt, ob bereits die gewünschte Anzahl der Punkte erreicht worden ist. Wenn in diese Abfrage gegangen wird, wird das Polygon als Array zurückgegeben, ansonsten beginnt die Schleife von vorne. 
 # 	Dies \lstinline|get_lowest_k| Funktion ist in Listing \ref{cd:DCE_get_lowest_k.py} abgebildet. Diese Funktion iteriert über alle Punkte des gegebenen Polygons und berechnet für jeden Punkt den K Wert. Wenn der betrachtete Punkt der erste Punkt im Polygon ist, wird der K Wert mit diesem Punkt, dem nächsten Punkt und dem letzten Punkt berechnet. Falls dies nicht der Fall ist, wird überprüft ob \lstinline|i| der Gesamtpunktanzahl entspricht. Dies bedeutet, dass der K Wert für jeden Punkt im Polygon berechnet wurde, woraus folgt, dass die Schleife abgebrochen werden kann. \\
@@ -1261,13 +1261,13 @@
 # 	Wenn die Schleife abgebrochen worden ist, wird der Index des geringsten K Wertes und der K Wert selbst in einem Array zurückgegeben.\\
 
 
-# Nun wird der Prozess innerhalb der DCE.py Datei genauer erläutert (siehe Listing \ref{cd:DCE_simplify_polygon_A1.py}). Da die DCE in dieser Arbeit mit GeoPandas (siehe Kap. \ref{subsec:Geopandas}) implementiert wurde, muss das Array zuerst in ein \lstinline|Geopandas.Geoseries| Objekt transformiert werden. \\
-# 	Für dieses Objekt wird dann ein 2 dimensionales Array mit dem Index des jeweiligen Punktes und dem dazugehörigen K Wert erzeugt (siehe Listing \ref{cd:DCE_calc_k_for_all_points.py}). Hier wird mit einer IF Abfrage der Sonderfall abgefangen, dass der erste Punkt des Polygons (an Stelle 0) für die K Wert Berechnung genutzt wird.
+# Nun wird der Prozess innerhalb der DCE.py Datei genauer erläutert (s. Listing \ref{cd:DCE_simplify_polygon_A1.py}). Da die DCE in dieser Arbeit mit GeoPandas (s. Kap. \ref{subsec:Geopandas}) implementiert wurde, muss das Array zuerst in ein \lstinline|Geopandas.Geoseries| Objekt transformiert werden. \\
+# 	Für dieses Objekt wird dann ein 2 dimensionales Array mit dem Index des jeweiligen Punktes und dem dazugehörigen K Wert erzeugt (s. Listing \ref{cd:DCE_calc_k_for_all_points.py}). Hier wird mit einer IF Abfrage der Sonderfall abgefangen, dass der erste Punkt des Polygons (an Stelle 0) für die K Wert Berechnung genutzt wird.
 # 	Das Array, welches diese Funktion zurückgibt, kann mit der Numpy internen Funktion \lstinline|argsort| aufgrund des 1. Wertes im Array sortiert werden. Dadurch gelangt der geringste K Wert mitsamt dem entsprechenden Index im Polygon an die erste Stelle Arrays. Dieses Array wird im folgenden als \lstinline|sort_arr| bezeichnet. Ein Punkt wird immer mit zwei neu berechneten K Werten ersetzt. \\
 
 # 	\lstinputlisting[basicstyle=\ttfamily\scriptsize,firstnumber = 6,linerange={109,115,124,135,137,138,140,141,145,147,149,150,152,153,157,159,161,162,172,190,200,210}, caption={Ausschnitt 2 aus \protect\lstinline|simplify_polygon| Funktion in DCE.py}, label = {cd:DCE_simplify_polygon_A2.py}]{../Code/DCE/DCE.py}
 
-# 	Es folgt danach eine While Schleife (siehe Listing \ref{cd:DCE_simplify_polygon_A2.py}) mit der Abbruchbedingung, dass die Länge von \lstinline|sort_arr| größer gleich der gewünschten Endpunktzahl (\lstinline|fNoP|, final Number of Points) ist. \\
+# 	Es folgt danach eine While Schleife (s. Listing \ref{cd:DCE_simplify_polygon_A2.py}) mit der Abbruchbedingung, dass die Länge von \lstinline|sort_arr| größer gleich der gewünschten Endpunktzahl (\lstinline|fNoP|, final Number of Points) ist. \\
 # 	In dieser Schleife wird der Index des Punktes mit dem geringsten K Wert (\lstinline|indic|) aus dem \lstinline|sort_arr| gelesen und zur Löschung des Punktes an dieser Stelle im Polygon genutzt. Dieses um einen Punkt reduzierte Polygon überschreibt dann das ursprüngliche Polygon. In einer weiteren Variable wird dann die aktuelle Punktzahl des neuen Polygons gespeichert, um die Sonderfälle bei der Berechnung der K Werte abzufangen. \\
 	
 # 	Wenn \lstinline|indic| der aktuellen Punktanzahl im Polygon entspricht, werden als vorheriger Punkt der letzte Punkt und als aktueller Punkt der erste Punkt im Polygon genutzt. \\
@@ -1280,7 +1280,7 @@
 	
 # 	\lstinputlisting[basicstyle=\ttfamily\scriptsize,linerange={218,220,221,229,231,232,240-244}, caption={Ausschnitt 1 aus \protect\lstinline|update_sort_array| Funktion in DCE.py}, label = {cd:DCE_update_sort_array_A1.py}]{../Code/DCE/DCE.py}
 
-# 	Da die K Werte nun berechnet wurden, müssen diese im \lstinline|sort_arr| aktualisiert werden. Dies geschieht in der Funktion \lstinline|update_sort_array| (siehe Listings \ref{cd:DCE_update_sort_array_A1.py} - \ref{cd:DCE_update_sort_array_A4.py}), die nun näher erläutert wird. \\
+# 	Da die K Werte nun berechnet wurden, müssen diese im \lstinline|sort_arr| aktualisiert werden. Dies geschieht in der Funktion \lstinline|update_sort_array| (s. Listings \ref{cd:DCE_update_sort_array_A1.py} - \ref{cd:DCE_update_sort_array_A4.py}), die nun näher erläutert wird. \\
 # 	Die Funktion benötigt, das \lstinline|sort_arr|, den aktuellen Index \lstinline|indic|, sowie die zuvor berechneten K Werte für den vorherigen Punkt \lstinline|k_bef|, den aktuellen Punkt \lstinline|k_act| und das Polygon. \\
 # 	\newpage
 # 	Es werden zunächst zwei Boolean Variablen initialisiert, die anzeigen, ob ein Wert im \lstinline|sort_arr| gefunden wurde und überschrieben werden muss. Außerdem wird der erste Wert aus dem \lstinline|sort_arr| gelöscht. \todo{Zweimal den ersten Wert zu löschen ist doch eigentlich sinnfrei? Aber sonst schrumpft das sort Array nicht, weil immer zwei Elemente hinzugefügt werden und nur eins gelöscht wird...}\\
@@ -1293,7 +1293,7 @@
 
 # 	\lstinputlisting[firstnumber=28, basicstyle=\ttfamily\scriptsize,linerange={273-280}, caption={Ausschnitt 3 aus \protect\lstinline|update_sort_array| Funktion in DCE.py}, label = {cd:DCE_update_sort_array_A3.py}]{../Code/DCE/DCE.py}
 
-# 	In Ausschnitt 3 (siehe Listing \ref{cd:DCE_update_sort_array_A3.py}) werden die K Werte im \lstinline|sort_arr| aktualisiert. Auch hier wird zunächst der Sonderfall betrachtet, wenn \lstinline|Indic = 0| ist, da nun der letzte Punkt (als vorheriger) und erste Punkt (als aktueller) im Array aktualisiert werden muss. Sonst wird abgefragt, ob ein Wert an das \lstinline|sort_arr| angehängt wurde, was ein Überschreiben des Wertes überflüssig macht. Wenn dies nicht der Fall ist, wird das entsprechende Element im Array mit dem neuberechneten K Wert überschrieben.
+# 	In Ausschnitt 3 (s. Listing \ref{cd:DCE_update_sort_array_A3.py}) werden die K Werte im \lstinline|sort_arr| aktualisiert. Auch hier wird zunächst der Sonderfall betrachtet, wenn \lstinline|Indic = 0| ist, da nun der letzte Punkt (als vorheriger) und erste Punkt (als aktueller) im Array aktualisiert werden muss. Sonst wird abgefragt, ob ein Wert an das \lstinline|sort_arr| angehängt wurde, was ein Überschreiben des Wertes überflüssig macht. Wenn dies nicht der Fall ist, wird das entsprechende Element im Array mit dem neuberechneten K Wert überschrieben.
 
 # 	\lstinputlisting[firstnumber=36, basicstyle=\ttfamily\scriptsize,linerange={289,292,293,304,306}, caption={Ausschnitt 4 aus \protect\lstinline|update_sort_array| Funktion in DCE.py}, label = {cd:DCE_update_sort_array_A4.py}]{../Code/DCE/DCE.py}
 
@@ -1308,7 +1308,7 @@
 	# 	K(p,S_1,S_2) = \frac{\beta(p, S_1, S_2)l(p, S_1)l(p, S_2)}{l(p, S_1) + l(p, S_2)} 
 	# 	\label{equ_K_DCE_points}
 	# \end{equation}
-	# Im Programmcode ist dies folgendermaßen implementiert (siehe Listing \ref{cd:DCE_calc_k_with_points.py}). Es wird zunächst der Winkel $\beta$ berechnet, indem alle drei Punkte und das Polygon übergeben werden. Danach werden die beiden Distanzen zwischen $p, S_1$ und $p, S_2$ berechnet. Die Winkelberechnungsfunktion arbeitet mit NumPy und die Distanzberechnungsfunktion basiert auf Funktionen, die GeoPandas bietet.
+	# Im Programmcode ist dies folgendermaßen implementiert (s. Listing \ref{cd:DCE_calc_k_with_points.py}). Es wird zunächst der Winkel $\beta$ berechnet, indem alle drei Punkte und das Polygon übergeben werden. Danach werden die beiden Distanzen zwischen $p, S_1$ und $p, S_2$ berechnet. Die Winkelberechnungsfunktion arbeitet mit NumPy und die Distanzberechnungsfunktion basiert auf Funktionen, die GeoPandas bietet.
 	# \lstinputlisting[basicstyle=\ttfamily\scriptsize,linerange={406,418-420,422,423}, caption={Ausschnitt aus \protect\lstinline|calc_k_with_points| Funktion in DCE.py}, label = {cd:DCE_calc_k_with_points.py}]{../Code/DCE/DCE.py}
 	# Diese drei Werte werden dann analog zur Formel \ref{equ_K_DCE_points} zum Wert K berechnet. Als letzten Schritt wird dieser Wert und der Winkel als Array zurückgegeben.
 	

@@ -2,30 +2,31 @@
 \chapter{Einleitung}
 \label{ch:intro}
 
- \todo{siehe und s. immer gleich benutzen (entweder ausschreiben oder nur s.)}
- \todo{Alle Verweise auf Anhang mit Seitenzahl versehen}
+
+
  \todo{entweder DCE Substitutionslimits oder -grenzen schreiben}
 \section{Motivation}{ 
 	
 Durch die Verfügbarkeit von Open-Source Software, die neuronale Lernverfahren verwendet und eine sehr schnelle Objekterkennung auf Videoströmen anbietet, lassen sich viele relevante Anwendungen in der Geoinformatik realisieren, beispielsweise im Bereich der Verkehrsüberwachung. \\
-In der Arbeitsgruppe \glqq Theoretische und kognitive Grundlagen der Geoinformatik \grqq{} am Institut für Geoinformatik der Universität Münster ist es geplant mit einem hybriden Ansatz Anwendungsmöglichkeiten solcher Systeme zu verbessern. Dabei soll eine geometrische Analyse Ergebnisse der neuronalen Erkennung verifizieren, um das Risiko von Fehldetektionen zu minimieren. Unsere Hypothese vermutet, dass der Ansatz der Discrete Curve Evolution (DCE) von \citet{Latecki1999a}  eine wichtige Stufe sein kann. Diese Vermutung basiert auf Vorarbeiten von \citet*{Dorr2015} an der Universität Maine.
+In der Arbeitsgruppe \glqq Theoretische und kognitive Grundlagen der Geoinformatik \grqq{} am Institut für Geoinformatik der Universität Münster ist es geplant mit einem hybriden Ansatz Anwendungsmöglichkeiten solcher Systeme zu verbessern. Dabei soll eine geometrische Analyse Ergebnisse der neuronalen Erkennung verifizieren, um das Risiko von Fehldetektionen zu minimieren. Unsere Hypothese vermutet, dass der Ansatz der Discrete Curve Evolution (DCE) von \citet{Latecki1999a}  eine wichtige Stufe sein kann. Diese Vermutung basiert auf Vorarbeiten von \citet*{Dorr2015} an der Universität Maine.\\
+
+Dieses System wird für den Bereich der Verkehrsüberwachung mit anschließender Anonymisierung im Rahmen dieser Arbeit entwickelt, getestet und evaluiert. Für diesen Anwendungsfall können ohne viel Aufwand Evaluationsdaten erstellt werden, da Autoverkehr im Mobilitätsverhalten eine große Rolle spielt. Die Anonymisierung des Einzelnen kann durch die DCE ermöglicht werden, da das Mobilitätsverhalten selbst, aber auch Fehlverhalten des Einzelnen, da dies aus Datenschutzgründen nicht einzelnen Individuen zuzuordnen sein darf.
 }
 
 
 
-\section{Zielsetzung und Forschungskontext}
+\section{Forschungskontext und Zielsetzung}
 {%Forschungskontext Reintext
-Der Forschungskontext besteht als Basis aus dem Paper von \citeauthor*{Dorr2015}. Bei \citeauthor*{Barkowsky2000} wird die DCE zur Vereinfachung von geometrischen Strukturen auf Karten verwendet \citep{Barkowsky2000}. \\
+
+Die Forschung im Bereich Verkehrsmonitoring mit der Unterstützung von Künstlicher Intelligenz (KI), bzw. konkret YOLO, zeigt, dass die Erkennung und Klassifizierung von Fahrzeugen zu den Aufgaben zählen \citep{Lin2021}. Bei einem Echtzeitbetrieb bestehen die Herausforderungen in der genauen Lokalisierung und Klassifizierung von Verkehrsteilnehmern \citep{Lin2021}. \\
+Ein weiterer Anwendungsfall ist das Zählen von Fahrzeugen auf Videosequenzen, bzw. im Echtzeitbetrieb. Hierzu kann KI, bzw. YOLO ebenfalls eingesetzt werden und akzeptable Ergebnisse generieren \citep{Al-qaness2021}. \\
+
+Der Forschungskontext für Anwendungsfälle der DCE besteht als Basis aus dem Paper von \citeauthor*{Dorr2015}. Bei \citeauthor*{Barkowsky2000} wird die DCE zur Vereinfachung von geometrischen Strukturen auf Karten verwendet \citep{Barkowsky2000}. \\
 Weitere Anwendungsfälle sind die Vereinfachung von Skeletten \citep{Latecki2007}, die automatische Kartierung von Entwässerungsnetzen anhand der Geländetopografie mit der Unterstützung der DCE zur Erkennung relevanter Punkte \citep{ZHENG201517} oder auch der medizinische Bereich. Im letzteren kann die DCE bei der Analyse von MRI (Magnetic Resonance Images) helfen \citep{Supot2007}. Des Weiteren kann die DCE bei Gesten- und Handdetektion mit einem Kinect Sensor eingesetzt werden \citep{Lai2016}. Ein ähnlicher Anwendungsfall zu dieser Arbeit, der sich damit beschäftigt nur die relevante Frames aus einem Video zu extrahieren, um die Frames per Second (\glqq Bilder pro Sekunde\grqq{}, FPS) zu minimieren, wurde von \citeauthor*{Latecki2000a} bereits erprobt \citep{Latecki2000a}. \\
 
-
-Ziel dieser Arbeit ist es ein prototypisches System zu entwickeln, welches Objekte in Videomaterial detektiert und deren Umrisse vereinfacht. Diese Objektumrisse können dann in ihrer Ähnlichkeit verglichen werden, um einzuschätzen, ob die Objekte trackbar sind. Der Ablauf des Programmes ist folgendermaßen geplant. \\ 
+Ziel dieser Arbeit ist es ein prototypisches System zu entwickeln, welches Objekte in Videomaterial detektiert und deren Umrisse mit der DCE vereinfacht. Diese Objektumrisse können dann in ihrer Ähnlichkeit verglichen werden, um einzuschätzen, ob die Objekte verfolgbar sind. Durch die Vereinfachung der Objektumrisse ist außerdem eine Anonymisierung des Verkehrsteilnehmers insgesamt gegeben. Zur Detektion der Objekte wird Künstliche Intelligenz eingesetzt und zur Vereinfachung der detektierten Objektumrisse die Discrete Curve Evolution (DCE). \\
 Zur Evaluation wird Videomaterial von Autobahnen aufgenommen, welches im Rahmen der Bachelorarbeit analysiert wird. Ein beispielhafter Verlauf anhand eines einzelnen Bildes ist in Abb. \ref{Bsp_Dorr} zu sehen. \\
-Die folgenden Schritte werden für jeden Frame im Video ausgeführt. 
-Als ersten Schritt müssen die zu erkennenden Objekte detektiert werden. Dies kann mit der Schwellwertsegmentierung nach Otsu erfolgen, da die Objekte eindeutig zu erkennen sind \citep{Otsu1979}. Außerdem ist die Schwellwertsegmentierung sehr ressourcenschonend, da kein maschinelles Lernverfahren verwendet wird. Eine andere Methode mit einem maschinellen Lernverfahren wäre die Benutzung von YOLO zur Segmentierung. Beide Verfahren beinhalten das Umwandeln in eine Binärmaske als zweiten Schritt. Diese Binärmaske wird im dritten Schritt in ein Polygon umgewandelt, welches mit der DCE vereinfacht wird. Dem Maschinellen Lernverfahren YOLO wird gegenüber der Schwellwertsegmentierung den Vorzug gegeben, da die ersten beiden Schritte Detektierung und das Erzeugen der Binärmaske, bzw. des Umrisses der Objekte, bereits in YOLO integriert sind.\\
-Die DCE berechnet anhand eines Grenzwertes, welche Punkte für die Darstellung einer Form irrelevant sind, sodass diese ohne größeren Informationsverlust entfernt werden können \citep{Barkowsky2000}. Dadurch wird eine bedarfsbezogene Vereinfachung, anhand eines festen Grenzwertes, des Polygons ermöglicht. 
-Weiterhin kann die Vereinfachung die mit dem DCE Algorithmus erreicht wird, eine Überprüfung der Ergebnisse vereinfachen. Hierfür bietet sich Verwendung eines Formähnlichkeitsmaßes für Polygone an. \\
-Die Ergebnisevaluation ist durch eine Auswertung des Formähnlichkeitsmaßes möglich. Wenn dieses Maß den entsprechenden Wert hat, kann beurteilt werden, ob Objekttracking mit der DCE möglich ist. Außerdem ist eine visuelle Beurteilung des Videos, welches als Endprodukt entsteht, möglich.\\}
+
 \begin{figure}[ht]
 	\vspace{-0.5cm}
 	   \centering
@@ -33,6 +34,13 @@ Die Ergebnisevaluation ist durch eine Auswertung des Formähnlichkeitsmaßes mö
 	   \caption[Beispielablauf der Segmentierung und DCE]{Beispielablauf einer Vereinfachung mit der DCE \citep{Dorr2017}.}
 	   \label{Bsp_Dorr}
 \end{figure}
+Die Evaluation wird aus verschieden langen Videosequenzen bestehen, die mit diversen Einstellungen vom Programm analysiert wurden. Es wird eine Reihe weiterer Testfälle geben, in denen andere Szenarien abgedeckt werden, um die Robustheit der Hypothese zu überprüfen. \\
+Einer dieser Testfälle wird sich mit dem Tracking von Objekten befassen, welche nicht der Hauptfokus dieser Arbeit sind, bspw. Schiffstracking. \\
+In weiteren Testfällen werden verschiedenen Grenzen zur Polygonvereinfachung durch die DCE genutzt, um das Verhalten des Formähnlichkeitsmesswertes und der Umrisse der detektierten Objekte im Video zu erfassen. Bei gleichen Vereinfachunsgrenzen für alle Objekte müsste der Formähnlichkeitsmesswert gegen 0 gehen, da die Detektierung von YOLO durch die hohe Genauigkeit des Modells sehr exakt ist. Hier kann auch der Unterschied zwischen niedrigen und hohen gleichen Limits ermittelt werden. Der letzte Testfall ist die Auswertung und Analyse eines sehr langen Testdatensatzes um zu klären, ob die Ergebnisse von kurzen Videos auf lange Videos übertragbar sind. Dadurch kann eine Beurteilung für noch längere Testdatensätze möglich werden, solange es die vorhandene Hardware ermöglicht.
+
+
+
+}
 
 
 % \todo{mussn noch ausformuliert werden}
@@ -52,30 +60,30 @@ Der Theoretische Hintergrund wird zuerst beschrieben. Dieser enthält eine Einf�
 Die Implementierung bildet mit der Evaluation den Hauptteil der Arbeit. Ersteres beschreibt den Programmablauf an ausgewählten Codebeispielen und zeigt Änderungen im Rahmen der Implementierung zum Theoretischen Hintergrund auf. Die Evaluation ordnet die Ergebnisse verschiedener Testdurchläufe ein. Die Diskussion benennt Gründe für die gewonnenen Ergebnisse der Evaluation. \\
 Nach diesem Abschnitt wird ein Fazit gezogen. Der Ausblick in dem Weiterentwicklungen zum Thema dieser Arbeit erläutert werden, schließt diese Arbeit ab.
 
-Begründung weitere TR
-\begin{itemize}
-	\item Schiffstracking
-	\begin{itemize}
-		\item Schiffstracking um nur andere Objekte zu detektieren, bzw. ein ganz anderes Szenario als für das die BA eigentlich gedacht war, zu testen
-		\item Gucken ob sich das auch die BA auch für Szenarien außerhalb der angedachten Szenarien eignet 
-		\item weitere Verwendung möglich in andren Szenarien zum Schiffszählen; Flugzeuge zählen etc.
-	\end{itemize}
-	\item geringe und hohe DCE Substitution
-	\begin{itemize}
-		\item andere Einstellungen, wie verhalten sich die detektierten Objekte und Formähnlichkeitsmesswerte etc.
-		\item 
-	\end{itemize}
-	\item gleiche DCE Substitutionslimits
-	\begin{itemize}
-		\item was passiert wenn DCE Substitionslimits auf den gleichen Wert für alle Objekte gesetzt werden (SSM müsste gegen 0 gehen?)
-		\item Was passiert wenn dies einmal ein niedriger Wert und einmal ein hoher Wert ist?
-	\end{itemize}
-	\item langer Testdatensatz
-	\begin{itemize}
-		\item was passiert bei sehr langem Testdatensatz
-		\item sind die Werte von 1s auf 10s auf 30s übertragbar und damit auch eine Beurteilung für noch längere Testdatensätze möglich (solange es die Hardware hergibt?)
-	\end{itemize}
-\end{itemize}
+% Begründung weitere TR
+% \begin{itemize}
+% 	\item Schiffstracking
+% 	\begin{itemize}
+% 		\item Schiffstracking um nur andere Objekte zu detektieren, bzw. ein ganz anderes Szenario als für das die BA eigentlich gedacht war, zu testen
+% 		\item Gucken ob sich das auch die BA auch für Szenarien außerhalb der angedachten Szenarien eignet 
+% 		\item weitere Verwendung möglich in andren Szenarien zum Schiffszählen; Flugzeuge zählen etc.
+% 	\end{itemize}
+% 	\item geringe und hohe DCE Substitution
+% 	\begin{itemize}
+% 		\item andere Einstellungen, wie verhalten sich die detektierten Objekte und Formähnlichkeitsmesswerte etc.
+% 		\item 
+% 	\end{itemize}
+% 	\item gleiche DCE Substitutionslimits
+% 	\begin{itemize}
+% 		\item was passiert wenn DCE Substitionslimits auf den gleichen Wert für alle Objekte gesetzt werden (SSM müsste gegen 0 gehen?)
+% 		\item Was passiert wenn dies einmal ein niedriger Wert und einmal ein hoher Wert ist?
+% 	\end{itemize}
+% 	\item langer Testdatensatz
+% 	\begin{itemize}
+% 		\item was passiert bei sehr langem Testdatensatz
+% 		\item sind die Werte von 1s auf 10s auf 30s übertragbar und damit auch eine Beurteilung für noch längere Testdatensätze möglich (solange es die Hardware hergibt?)
+% 	\end{itemize}
+% \end{itemize}
 
 }
 

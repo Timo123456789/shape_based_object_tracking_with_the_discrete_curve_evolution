@@ -3,19 +3,7 @@
 \section{Weitere Abbildungen und Tabellen}
 \subsection{Theoretischer Hintergrund}{
 
-    % \begin{figure}[hb]
-    % \centering
-    % \includegraphics*[scale = 0.8, keepaspectratio, trim=2 2 2 2 ]{images/YOLO/YOLO_Preamble_PR_Curve.png}
-    % \caption[Precision-/Recall- Kurve für eine Sequenz richtig-positver und falsch-positiver Detektionen]{Precision-/Recall- Kurve für eine Sequenz richtig-positver und falsch-positiver Detektionen. Diese Kurve ist unten abgebildet. Die falsch-positiven Detektionen sind für eine Objektklasse mit 6 Ground-Truth Instanzen absteigend oben geordnet. Die Sequenz der Precision und Recall Wertefelder ist als schwarze Kurve abgedruckt. Das Ergebnis des Ersetzen jeder Precision mit dem maximalen oder gleichen Recall ist im pinken Areal zu sehen. Die Average Precision ist das gesamte blaue und pinke Feld. Der Effekt der positiven Störung auf die Ergebnisse der falsch-positiven Erkennungen ist in den Pfeilen (a-e) abgebildet. Die blauen (a-c) Pfeile stellen die Störung ohne Effekt auf die Average Precision dar: (a) Es ist keine Auswirkung auf die Reihenfolge der Detektion zu erkennen. (b) Mit einer anderen falsch-positiven Detektion wird der Platz getauscht. (c) Der Platz der Detektion wird mit einer richtig-positiven Detektion, jedoch mit einem höheren Recall richtig positiven (f), der eine höhere Precision hat, getauscht, sodasss kein Wechsel des Feldes unter der pink schattierten Kurve erfolgt. Störungen, die einen Effekt auf die Average Precision haben sind orange Pfeile (d-e): (d) hat den gleichen falsch-positiven Wert wie (c) und wird über einen richtig-positiven Wert hinaus vershcoben, der auf der ausgefüllten Kurve erscheint (und somit Auswirkungen zeigt); (e) der falsch-positive Wert wird über einen einzelnen richtig-positiven Wert hinaus verschoben, woraufhin die ausgefüllte Kurve bis zu einem Abstand von 0,5 Recallpunkten verschiebt. \citep{Henderson2017}}
-    % \label{YOLO_PR_Curve}
-    % \end{figure}
-
-    \begin{figure}[hb]
-        \centering
-        \includegraphics*[scale = 0.6, keepaspectratio, trim=2 2 2 2 ]{images/Loss_desc.png}
-        \caption[Erklärung einer einfachen Loss Funktion]{Erklärung einer einfachen Loss Funktion: Im linken Modell ist der Loss hoch, im rechten Modell ist der Loss geringer. Verluste werden durch Pfeile dargestellt und die Vorhersage stellen die blauen Linien dar \citep{loss_google}. }
-        \label{Loss_desc}
-        \end{figure}
+    
   
     \begin{figure}[h]
 		\centering
@@ -23,6 +11,22 @@
 		\caption[Detaillierte Erklärung der YOLO Loss Funktion]{Detaillierte Erklärung der YOLO Loss Funktion\citep{Terven2023}}
 		\label{YOLO_loss_function_detail}
  	\end{figure}
+
+     \begin{figure}
+        \begin{multline}
+            \lambda_{coord} \sum_{i=0}^{s^2} \sum_{j=0}^{B} \mathbb{1}_{i j}^{obj}\left[(x_i-\hat{x}_i)^2 + (y_i - \hat{y}_i)^2\right]\\
+            + \lambda_{coord} \sum_{i=0}^{s^2} \sum_{j=0}^{B} \mathbb{1}_{i j}^{obj}\left[\left(\sqrt{w_i} - \sqrt{\hat{w_i}}\right)^2 + \left(\sqrt{h_i}-\sqrt{\hat{h_i}}\right)^2\right]\\
+            + \sum_{i=0}^{s^2} \sum_{j=0}^{B} \mathbb{1}_{i j}^{obj}\left(C_i - \hat{C_i}\right)^2\\
+            + \lambda_{coord} \sum_{i=0}^{s^2} \sum_{j=0}^{B} \mathbb{1}_{i j}^{obj}\left(C_i - \hat{C_i}\right)^2\\
+            + \sum_{i=0}^{s^2} \mathbb{1}_{i j}^{obj} \sum_{c \in classes } \left(p_i(c)-\hat{p_i}(c)\right)^2
+        \end{multline} 
+        \caption{Mehrteilige Verlustfunktion, die von YOLO während des Trainings optimiert wird \citep{Redmon2016}}
+        \label{YOLO_Loss_function}
+    \end{figure}
+
+    
+	
+	
 
     \begin{figure}[h]
 		\centering
