@@ -39,7 +39,7 @@ Eine formale Definition dieser Funktion kann folgendermaßen erfolgen. Zwei kons
 \section{Formähnlichkeitsmaß }{ \label{theo:SSM}
 	Zur Evaluation des Objekttrackings wird ein Formähnlichkeitsmaß (\glqq Shape Similarity Measure\grqq{}, SSM) genutzt, welches die Winkel der Polygone vergleicht. \\
 	Da ein von DCE vereinfachtes Polygon sich von Frame zu Frame nicht ändert, kann die Winkeldifferenz der Polygone voneinander subtrahiert werden. Diese Subtraktion muss als Absolutbetrag erfolgen, um bei der folgenden Aufsummierung aller Winkeldifferenzen eines Polygons im Vergleich zum nächsten, einen Wert zu erhalten, welcher gegen 0 geht. Um die Möglichkeit zu finden, wo beide Polygone die höchste Formähnlichkeit haben, muss ein Polygon rotiert werden. Ohne die Verwendung des Absolutbetrages würde bei einer Rotation stets das gleiche Ergebnis als Winkeldifferenzgesamtssumme berechnet werden, weil bei der Addition der einzelnen Winkeldifferenzen zur Gesamtwinkeldifferenzsumme das Kommutativgesetz gilt. Die höchste Formähnlichkeit wird durch die geringste Winkeldifferenzgesamtssumme beim Vergleich der Polygone repräsentiert.\\
-	In der Formel \ref{equ:SSM} ist dies dargestellt. Das Summenzeichen selbst steht für die Winkeldifferenzgesamtssumme,$n$ für die Anzahl der Punkte im Polygon, $W$ für Winkel, $i$ für den jeweiligen Winkel im Polygon, $P1$ und $P2$ für die beiden Polygone.
+	In der Formel \ref{equ:SSM} ist dies dargestellt. Das Summenzeichen selbst steht für die Winkeldifferenzgesamtssumme, $n$ für die Anzahl der Punkte im Polygon, $W$ für Winkel, $i$ für den jeweiligen Winkel im Polygon, $P1$ und $P2$ für die beiden Polygone.
 
 	\begin{equation} \label{equ:SSM}
 		SSM = \sum_{i = 0}^{n}  (\lvert P1[i].W - P2[i].W \rvert)

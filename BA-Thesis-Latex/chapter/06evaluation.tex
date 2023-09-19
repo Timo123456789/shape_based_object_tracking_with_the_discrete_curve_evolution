@@ -1,7 +1,7 @@
 %!TEX root = ../thesis.tex
 \chapter{Evaluation}
 \label{ch:Evaluation} \todo{Eingangstext überarbeiten}
-Die Evaluation besteht aus einer kurzen Erläuterung der Testumgebung und einer darauffolgenden Erklärung der Quelle der Datensammlung und -grundlage. 
+Die Evaluation besteht aus einer kurzen Erläuterung der Testumgebung und einer darauffolgenden Erklärung der Quelle der Datensammlung und -grundlage. Danach erfolgt die Beschreibung der Ergebnisse, welche in allgemeine Erkenntnisse und eine Beschreibung des Formähnlichkeitsmaßes aufgeteilt ist. Als Letztes werden die weiteren Testfälle beschrieben. 
 \section{Testumgebung}{ \label{sec:testumgebung}
 Das Testsystem besteht aus einem Lenovo Thinkpad P14s. Dieses besitzt einen AMD Ryzen 7 PRO 5850U Prozessor mit 8 Kernen und 16 Threads bei einem Basistakt von 1,9 GHz und einem Höchsttakt von 4,4 GHz. Die integrierte Grafikeinheit AMD Radeon Graphics Einheit kann auf 8 GB VRAM zugreifen, sodass der effektive verfügbare Arbeitsspeicher des Systems bei 39,8 GB liegt \citep{PSREF21}. Die Entwicklungsumgebung \glqq Visual Studio Code\grqq{} ist auf einer 64-bit Windows 11 Pro Installation (Version: 22H2) installiert. Für Details in der Python Konfiguration s. Kap. \ref{sec:Python}. Für die Testdurchläufe ist der Laptop an ein 65 Watt Netzteil angeschlossen, um ein Throttling der CPU zu verhindern. \\ }
 
@@ -122,21 +122,21 @@ Alle Angaben in den Tabellen, außer bei den absoluten Zahlen sind in Grad (Deg.
 		\begin{subfigure}[b]{0.45\textwidth}
 			\centering
 			\includegraphics[width=\linewidth]{images/Evaluation/shiptrack_cut_not_analyzed.png}
-			\caption{Screenshot aus Testdatensatz Schiffstracking}
+			\caption{Frame aus Testdatensatz Schiffstracking}
 		\end{subfigure} \hfill
 		\begin{subfigure}[b]{0.45\textwidth}
 			\centering
 			\includegraphics[width=\linewidth]{images/Evaluation/shiptrack_cut_analyzed.png}
-			\caption{Screenshot aus analysiertem Testdatensatz Schiffstracking}
+			\caption{analysierter Testdatensatz Schiffstracking}
 		\end{subfigure}
-		\caption[Screenshots zu Testdatensatz für Schiffstracking]{Screenshots zu Testdatensatz für Schiffstracking. (a) zeigt die Testdaten ohne Bearbeitung; (b) zeigt den Frame mit YOLO analysiert und von der DCE vereinfacht (Quelle: eigene Darstellung)}
+		\caption[Screenshots zu Testdatensatz Schiffstracking]{Screenshots zu Testdatensatz Schiffstracking. (a) zeigt die Testdaten ohne Bearbeitung; (b) zeigt den Frame mit YOLO analysiert und von der DCE vereinfacht (Quelle: eigene Darstellung)}
 		\label{Scr:Testdatensatz_Shiptracking}
 	\end{figure} 
 	Die Ergebnisse der statistischen Auswertung (s. Tabelle \ref{tab:Shiptracking_Analysis}) zeigen steigende Werte in fast allen Bereichen. Die Anzahl der Punkte vor und nach DCE steigt um das ca. 26-fache im Vergleich zwischen den Videolängen an. Die Anzahl der verglichenen Winkel steigt um mehr als das 200-fache, während die Gesamtwinkelsumme wieder um den Faktor 26  ansteigt. Die Zahl der erkannten Polygone steigt hingegen nicht so stark an (ca. Faktor 22), wie die Zahl der verglichenen Polygone (ca. Faktor 25). \\
 	Bei der Prozessierungszeit ist eine Steigerung um den Faktor 22 zu erkennen, während YOLO den größten Teil davon mit 31,51 Sekunden bei dem 1-sekündigem Testdatensatz, bzw. 706,76 Sekunden (11,33 Minuten) bei dem 21-sekündigem Testdatensatz ausmacht. Die DCE hat mit 0,15 Millisekunden (bzw. 19,62 Millisekunden) einen sehr geringen Anteil an der Laufzeit bei diesen Testdatensätzen, jedoch ist hier der Faktor für den Anstieg zwischen den Videos mit ca. 130 sehr hoch. \\
 	Bei der SSM ist der absolute Anstieg zwischen den Videos bemerkenswert, da dieser von ca. 2 auf ca. 150 wächst und damit ungefähr um den Faktor 80 ansteigt. Der SSM pro Frame und Klasse Boot sinkt hingegen, während die Anzahl erkannter Boote massiv um den Faktor 12 (von 46 auf 1212 detektierten Booten auf allen Frames) ansteigt. Letzteres ist auch bei der Zahl der erkannten Boote pro Frame zu erkennen. \\
 
-	\begin{table}[ht]
+	\begin{table}[]
 		\centering
 		\caption[Auswertung Schiffstracking Datensatz]{Auswertung Schiffstracking Datensatz; S1s ist der 1-sekündige Datensatz, S21s ist der 21-sekündige Datensatz (Quelle: eigene Darstellung; Listings \ref{cd:listing_A1s_RV_shiptracking_results.txt(Y8x)}, \ref{cd:listing_A21s_RV_shiptracking_results.txt(Y8x)})}
 		\label{tab:Shiptracking_Analysis}

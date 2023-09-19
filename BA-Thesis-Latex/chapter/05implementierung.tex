@@ -1,17 +1,19 @@
 %!TEX root = ../thesis.tex
 \chapter{Implementierung} 
 \label{ch:implementierung}
-\section{Meta-Ablauf im Programm}{
-	Der Programmablauf ist folgendermaßen geplant. Der erste Schritt besteht darin, dass Video einzulesen und dann mit YOLO zu analysieren. Danach wird im zweiten Schritt auf alle von YOLO segmentierten Objektumrisse die DCE angewendet. Diese werden, bis zu einer bestimmten vorher festgelegten Punktanzahl, vereinfacht. Als letzten Schritt werden diese vereinfachten Umrisse ins Video eingefügt, um das Ursprungspolygon zu überschreiben und um als Endprodukt ein anonymisiertes Video zu erhalten. Ein Ablaufdiagramm ist in Abb. \ref{pic:Programmablaufplan} zu sehen. \\
-	
-	
+
+	\section{Meta-Ablauf im Programm}{
 	\begin{figure}[h]
 		\centering
-		\includegraphics*[scale = 0.6, keepaspectratio]{images/Ablaufdiagram.png}
+		\includegraphics*[scale = 0.5, keepaspectratio]{images/Ablaufdiagram.png}
 		\caption[Programmablaufplan]{Programmablaufplan: Blau ist die EF Version; Gelb die RV Version; Schwarz sind alle Programmteile, die von beiden Versionen genutzt werden (Quelle: eigene Darstellung)}
 		\label{pic:Programmablaufplan}
 	\end{figure}
+
+	Der Programmablauf ist folgendermaßen geplant. Ein Ablaufdiagramm ist in Abb. \ref{pic:Programmablaufplan} zu sehen. \\  Der erste Schritt besteht darin, dass Video einzulesen und dann mit der jeweiligen YOLO Implementierung zu analysieren. Danach wird im zweiten Schritt auf alle von YOLO segmentierten Objektumrisse die DCE angewendet. Diese werden, bis zu einer bestimmten vorher festgelegten Punktanzahl, vereinfacht. Als letzten Schritt werden diese vereinfachten Umrisse ins Video eingefügt, um das Ursprungspolygon zu überschreiben. Danach wird das Formähnlichkeitsmaß berechnet und als Endprodukt ein anonymisiertes Video ausgegeben. 
 	}
+
+
 %\clearpage
 
 \section{Implementierung in Python} 
@@ -113,7 +115,7 @@ EF Version ist die Abkürzung für \glqq Every Frame\grqq{} Version (1. YOLO Var
 	\fi
 	Im weiteren Verlauf folgt eine While Schleife \ifimportant(s. Listing \ref{cd:DCE_simplify_polygon_A1.py}) \fi in der zuerst der Index des Punktes mit dem geringsten K abgespeichert wird. Anhand dieses Indexes können nun die neuen K-Werte nach einer Entfernung dieses Punktes berechnet werden. Dieser Punkt wird nun im weiteren Verlauf aus dem Polygon entfernt, sodass im weiteren Verlauf die neuen K-Werte berechnet werden können. Es wird nun die neue verringerte Punktzahl des Polygons abgespeichert. \\
 	Nun werden verschiedene Sonderfälle zur Berechnung erklärt. Der erste Sonderfall ist, dass \lstinline|indic| dem Wert 0 entspricht. Daraus kann der vorherige K-Wert \lstinline|k_bef| berechnet werden, indem als betrachteter Punkt der letzte Punkt des Polygons (Index: \lstinline|NoP_temp-1|) mit den Nachbarpunkten (als Index) \lstinline|0|  als folgender Punkt und \lstinline|NoP-2| als vorherigen Punkt der Berechungsfunktion übergeben wird. \\
-	Bei der Berechnung des K-Wertes für den aktuellen Punkt \lstinline|k_act| muss als Parameter der erste Punkt des Polygons (Index: 0), der vorherige Punkt (\lstinline|NoP-1|) und \lstinline|1| als folgenden Punkt der Funktion \lstinline|calc_k_with_points| (s. Kap. \ref{impl:Calc_K_Val}) übergeben werden. \\
+	Bei der Berechnung des K-Wertes für den aktuellen Punkt \lstinline|k_act| muss als Parameter der erste Punkt des Polygons (Index: 0), der vorherige Punkt (\lstinline|NoP-1|) und \lstinline|1| als folgenden Punkt der K-Berechnungsfunktion (s. Kap. \ref{impl:Calc_K_Val}, Listing \ref{cd:DCE_calc_k_with_points.py}) übergeben werden. \\
 	\ifimportant
 	\lstinputlisting[firstnumber=17, style=intext, linerange={76,77,78,79,80,81,82,84,85,86,87}, caption={Ausschnitt 3 aus \protect\lstinline|simplify_polygon_fast_sec| Funktion in DCE.py}, label = {cd:DCE_simplify_polygon_A3.py}]{../Code/DCE/DCE.py}
 	\fi
