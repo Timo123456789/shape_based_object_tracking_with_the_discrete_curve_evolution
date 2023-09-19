@@ -3,7 +3,34 @@
 \label{ch:Theoretischer Hintergrund}
 
 \todo{Eingangstext überarbeiten}
+\begin{figure}[ht]
+	\centering
+	\begin{subfigure}[b]{0.415\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{images/yolo_comp/yolo_acc_perf.png}
+		\caption{Genauigkeitsperformance verschiedener Objektdetektoren in verschiedenen Iterationen \cite{Pavani2022}}
+		\label{Scr:comp_object_detectorAcc}
+	\end{subfigure}
+    \hfill
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{images/yolo_comp/yolo_prec_perf.png}
+		\caption{Präzisionsperformance verschiedener Objektdetektoren in verschiedenen Iterationen  \cite{Pavani2022}}
+		\label{Scr:comp_object_detectorPrec}
+	\end{subfigure} 
+	\caption[Vergleich von verschiedenen Objektdetektionsalgorithmen]{Vergleich von verschiedenen Objektdetektionsalgorithmen; die Werte von YOLO sind relativ konstant über alle 10 Iterationen \cite{Pavani2022}}
+	\label{Scr:comp_object_detector}
+\end{figure}
 \todo{Kapitel mit Vergleich von verschiedenne objektdetektoren anfügen}
+{Im Folgenden wird sich hauptsächlich auf Objektdetektion auf Bildern bezogen, weil Videos aus einzelnen schnell aufeinander folgenden Bildern (bzw. Frames) bestehen. \\
+Zur Objekterkennung auf Bildern gibt es verschiedene Ansätze. Es gibt ressourcenschonende Ansätze, wie die Schwellwertsegmentierung nach \citeauthor{Otsu1979} \cite{Otsu1979}. Dieses Segmentierungsverfahren ist zwar sehr schnell, nimmt aber keine Klassifikation der segmentierten Objekte vor, wodurch eine Nutzung im Rahmen dieser Arbeit als nicht sinnvoll erachtet wird. \\
+Maschinelles Lernen kann die Herausforderung der gleichzeitigen Objektdetektion mit entsprechender Klassifizierung lösen. Hierzu gibt es verschiedene Algorithmen, wie CNN (\glqq Convolutional Neural Network\grqq{}), KNN (\glqq k-nearest neighbors\grqq{} Algorithmus), den Haarcascade Algorithmus oder \glqq You Only Look Once\grqq{} (YOLO) 
+\cite{Pavani2022}. \\
+Von \citeauthor{Pavani2022} \cite{Pavani2022} wurde ein Vergleich dieser Algorithmen in einem  Verkehrsflussdetektionszenario vorgestellt \citep{Pavani2022}. Die hier vorgestellten Herausforderung, dass Verkehr immer heterogener wird, ähnelt dieser Arbeit, da Verkehrstracking von Genauigkeit und Performance der verwendeten Algorithmen abhängt.\\
+Wenn man die Präzision (s. \ref{Scr:comp_object_detectorAcc}) und Genauigkeit (s. \ref{Scr:comp_object_detectorPrec}) von den verschiedenen Algorithmen vergleicht, ist zu erkennen, dass YOLO die beste Performance bei Klassifikation, die beste mittlere Genauigkeit und Präzision besitzt (s. \ref{scr:comp_obj_det_mean_av}, \pageref{scr:comp_obj_det_mean_av}). Dies liegt an der neuartigen Implementierung von YOLO. Der KNN Algorithmus ist sehr ineffizient aufgrund der Anzahl der Berechnungsschritte.\\
+Aus diesen Gründen wird der YOLO Algorithmus in dieser Arbeit verwendet und im Folgenden genauer erläutert.
+
+ }
 
 
 %\section{\glqq You Only Look Once\grqq{}(YOLO)}
