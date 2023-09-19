@@ -1,13 +1,13 @@
 %!TEX root = ../thesis.tex
 \chapter{Objekterkennung mit neuronalen Netzen}
 \label{ch:Theoretischer Hintergrund}
-% {Die Einführung in den theoretischen Hintergrund dieser Arbeit umfasst die Erläuterung der Aufbereitung der Daten mit einem Maschinellem Lernverfahren, namens YOLO, und eine Einführung in die \glqq Discrete Curve Evolution\grqq{}. Beide Verfahren werden im Rahmen dieser Arbeit miteinander kombiniert.
-% }
 
+\todo{Eingangstext überarbeiten}
+\todo{Kapitel mit Vergleich von verschiedenne objektdetektoren anfügen}
 
 
 %\section{\glqq You Only Look Once\grqq{}(YOLO)}
-{
+{ 
 	
 	\section{Der YOLO Algorithmus \label{subsec:YOLO_Alg}} 
 	{Da der Blick des Menschen Objekterkennung, -einordnung und -wirkung intuitiv ermöglicht, ist es unserem Gehirn im Zusammenspiel mit unseren Augen möglich, schnell und genau zu sehen. Durch diese Fähigkeiten können wir mit nur wenig bewussten Gedanken komplexe Aufgaben, wie Fahrradfahren bewältigen, bei denen gleichzeitig mehrere Sinne beansprucht werden. \citep{Redmon2016}. \\
@@ -50,7 +50,7 @@
 	\section{YOLOv8 von Ultralytics}{ \label{subsec:YOLOv8_theoretic}
 	
 	Im Januar 2023 wurde von der Firma Ultralytics YOLOv8 veröffentlicht, welches auf YOLOv5 basiert. Diese Version beinhaltet 5 verschiedene Modelle (YOLOv8n (nano), YOLOv8s (small), YOLOv8m (medium), YOLOv8l (large), YOLOv8x (extra large)), die mit unterschiedlich großen Datensätzen trainiert wurden  \citep{Terven2023}. \\	
-	Ein Vorteil dieser YOLO Implementierung ist, dass verschiedene Varianten für Objektdetektion, -segmentierung und -verfolgung, sowie -klassifizierung existieren. In dieser Arbeit wird hauptsächlich die \grqq -seg\glqq{}-Variante verwendet, welches bereits eine Segmentierung der Umrisse der detektierten Objekte integriert hat.
+	Ein Vorteil dieser YOLO Implementierung ist, dass verschiedene Varianten für Objektdetektion, -segmentierung und -verfolgung, sowie -klassifizierung existieren. In dieser Arbeit wird hauptsächlich die \glqq -seg\grqq{}-Variante verwendet, welches bereits eine Segmentierung der Umrisse der detektierten Objekte integriert hat.
 	\begin{figure}[h]
 		\centering
 		\includegraphics*[scale = 0.20, keepaspectratio]{images/YOLO/YOLOv8_object_detector_general.png}

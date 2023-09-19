@@ -5,6 +5,7 @@
 
 \documentclass[%
 a4paper,
+%a5paper,
 parskip=half,
 index=totoc,
 toc=listof,
@@ -12,11 +13,11 @@ fontsize = 10, %a5
 %fontsize=11, %a4
 headinclude,
 twoside,
-BCOR = 10mm, %a5
-%BCOR=12mm, %a4
+%BCOR = 10mm, %a5
+BCOR=12mm, %a4 standard: 12
 cleardoublepage=empty,
-DIV=22, %a5
-&DIV=13, %a4
+DIV=13, %  a5
+%DIV=13, %a4
 numbers = noenddot,
 %draft=false
 final
@@ -93,7 +94,7 @@ final
 
 %Abänderung Lange/Kurze Version False = wenige Listings; True = alle Listings
 \newif\ifimportant
-\importanttrue
+\importantfalse
 
 
 

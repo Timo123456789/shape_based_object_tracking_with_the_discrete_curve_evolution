@@ -1,7 +1,7 @@
 %!TEX root = ../thesis.tex
 \chapter{Diskussion}
 \label{ch:Diskussion}
-{ 
+{ 	
 	Die Diskussion ist in zwei Teile aufgeteilt. Im ersten Teil werden die in Kap. \ref{subsec:allgErkenntis} beschriebenen Ergebnisse aufgegriffen, eingeordnet und begründet und im zweiten Teil findet eine Gesamteinordnung der Ergebnisse statt.
 
 	\section{Einordnung der Evaluationsergebnisse}
@@ -21,9 +21,9 @@
 		Aus diesem Testfall gefolgert werden, dass sich der Anwendungszweck des formbasierten Objekttrackings mit der DCE nicht nur auf den angedachten Anwendungsfall Verkehrstracking beschränkt, sondern auch andere Anwendungsfälle, wie Schiffs- oder Flugzeugtracking, möglich sind. Damit ist der in Kap. \ref{sec:Aufbau_Arbeit} genannte Grund für den Testfall erfüllt. Die einzige Einschränkung hier ist die Anzahl der Klassen, die von YOLO unterschieden werden können.\\
 
 		Bei dem Testfall, der geringe und hohe DCE Substitionslimits abdeckt, ist Folgendes aufgefallen. Die Anzahl der Punkte vor dem DCE Durchlauf ist bei allen 3 Vergleichstestdatensätzen exakt gleich, weil das Quellvideo und das YOLO Modell übereinstimmen. Außerdem ist YOLO ein deterministischer Algorithmus, der bei gleichen Einstellungsparametern und gleichem Modell, stets das exakt gleiche Ergebnis berechnet. Dies gilt auch für die Anzahlen der erkannten und verglichenen Polygone, sowie bei der absoluten Anzahl detektierte Objekte (und dieser Anzahl der Objekte pro Frame), die aus diesen Gründen exakt gleich sind bei allen 3 Vergleichstestdatensätzen. \\
-		Die Anzahl der Punkte nach der DCE Berechnung ist unterschiedlich, weil DCE durch die verschiedenen Substitionslimits die Polygone auf verschiedenen Punktgrenzen reduziert. Dies ist der Fall, weil durch die Reduktion der Punkte durch DCE, je nach Einstellungen, mehr oder weniger Punkte die Polygon repräsentieren. Dieser Effekt betrifft auch die Zahl der verglichenen Winkel bei der SSM Berechnung, die jedoch exponentiell wegen der Permutation ansteigt. Von der Punktanzahl nach der DCE Vereinfachung ist die Gesamtwinkelsumme ebenfalls abhängig, deshalb steigt diese stark an. \\
+		Die Anzahl der Punkte nach der DCE Berechnung ist unterschiedlich, weil DCE durch die verschiedenen Substitionslimits die Polygone auf verschiedenen Punktgrenzen reduziert. Dies ist der Fall, weil durch die Reduktion der Punkte durch DCE, je nach Einstellungen, mehr oder weniger Punkte die Polygone repräsentieren. Dieser Effekt betrifft auch die Zahl der verglichenen Winkel bei der SSM Berechnung, die jedoch exponentiell wegen der Permutation ansteigt. Von der Punktanzahl nach der DCE Vereinfachung ist die Gesamtwinkelsumme ebenfalls abhängig, deshalb steigt diese stark an. \\
 		Die Dauer der Prozessierung sinkt, weil der Berechnungsaufwand für die DCE Vereinfachung nicht mehr so hoch ist. \\
-		Da die weiteren SSM Werte von dem absoluten SSM Wert und dieser von der Punktanzahl nach der DCE abhängig ist, sind dort ähnliche Steigerungen zu erkennen. \\
+		Da die weiteren SSM Werte von dem absoluten SSM Wert abhängen und dieser von der Punktanzahl nach der DCE abhängig ist, sind dort ähnliche Steigerungen zu erkennen. \\
 		Die absolute Anzahl detektierter Autos und LKW, bzw. die Anzahl dieser Objekte pro Frame, bleibt über alle 3 Testdatensätze gleich, weil der YOLO Algorithmus, wie oben erläutert, deterministisch ist. \\
 		An diesem Testfall konnte gut erläutert werden, welche Änderungen an den Einstellungen die Ergebnisse beim Objekttracking beeinflussen. Es konnte herausgefunden werden, dass der DCE Algorithmus mit optimierten Substitionslimits eine bessere Leistung erzielt. \\
 
@@ -57,10 +57,14 @@
 	Einen Einfluss auf absolute Anzahl von Autos können LKW, die Autos transportieren, haben. Einer dieser Autotransporter ist im Testdatensatz zu sehen, was zu einer Erhöhung der absoluten Anzahl von Autos führt, als dieser teilweise aus dem Bild fährt, wodurch nur noch die auf dem Anhänger stehenden Autos von YOLO detektiert werden. Weitere falsche Detektierungen können durch Schilder und andere Objekte verursacht werden. \\
 	Allgemein sind die absoluten Zahlen detektierter Klassen nicht gleichzusetzen mit einem Zählen von bspw. Autos, die durch das Video gefahren sind. Dies ist der Fall, weil dieser Wert durch das Summieren aller erkannten Klassenobjekte aller Frames entsteht, was dazu führt, dass dieser Wert deutlich zu hoch ist.
 
-	Wenn man die Ergebnisse aus der Sicht der exakten Berechnungsmöglichkeiten heutiger Computer beurteilt, müsste die Abweichung aus gegen 0 konvergierende Werten bestehen. Durch die hohen Punktunterschiede zwischen den einzelnen Klassen und nicht exaktes Umriss- und Klassifizierungstracking von YOLO ist der leichte Anstieg der SSM erklärbar. Das Tracking von YOLO wechselt zwischen der am besten passenden Klassifizierung, obwohl das Objekt intuitiv vom Betrachter beurteilt auch weiterhin der wirklichen, real übereinstimmenden vorher erkannten Klasse entspricht. \\
+	Wenn man die Ergebnisse aus der Sicht der exakten Berechnungsmöglichkeiten heutiger Computer beurteilt, müsste die Formähnlichkeitsmesswerte aus gegen 0 konvergierende Werten bestehen. Durch die hohen Punktunterschiede zwischen den einzelnen Klassen und nicht exaktes Umriss- und Klassifizierungstracking von YOLO ist der leichte Anstieg der SSM erklärbar. Das Tracking von YOLO wechselt zwischen der am besten passenden Klassifizierung, obwohl das Objekt intuitiv vom Betrachter beurteilt auch weiterhin der wirklichen, real übereinstimmenden vorher erkannten Klasse entspricht. \\
 	Außerdem ist Objekttracking auch direkt mit YOLO möglich, die DCE hat zwar eine geringere Anforderung an die Hardware als YOLO, aber durch die fortschreitende technische Entwicklung wird dies möglicherweise in Zukunft nicht mehr relevant sein. \\
 
+	Ein weiterer Anwendungsfall für die in der Arbeit erprobte Technik wäre Signalkomprimierung von Videoströmen. Dadurch, dass durch die KI und Kamera getrackte Objekte detektiert werden, ist es möglich nur die Umrisse, bzw. Ausschnitte der Boundingboxen zu übertragen, um die Datenübertragung und -verbindung zur Drohne zu verbessern. Aufgrund der kompakteren Datenübertragung kann möglicherweise die Verbindung zur Drohne mit einer geringen Frequenzleistung zur Video- und Bildübertragung erfolgen. Dieses Anwendungsbeispiel ist nicht nur auf Drohnen, sondern auch auf andere kamerabasierte Tätigkeiten (bspw. Flugzeuge, Tauchroboter, etc.) übertragbar, bei denen der Betrachter durch eine Funkverbindung mit der Kamera verbunden ist.
+
 	Diese Arbeit hat einen Beitrag zur Anonymisierung von Verkehrsteilnehmern beim Verkehrsmonitoring geleistet, und eine Verknüpfung von Künstlicher Intelligenz in Form von YOLO mit der Discrete Curve Evolution erprobt. Im Forschungskontext gesehen, hat diese Arbeit eine Verbindung zwischen hocheffiziente Bildklassifizierungssystemen und schnellen Polygonvereinfachungsverfahren geschaffen. Es konnte ein Teil des Forschungskontextes Verkehrsmonitoring mit einem Teil des Forschungskontextes der Discrete Curve Evolution verbunden werden. Dadurch konnte gezeigt werden, dass die DCE sich auch zur Anwendung auf Videoströmen zum Verkehrsmonitoring in Verbindung mit KI eignet. Wenn man jetzt  die Zählung einzelner Klasse optimiert, ist bspw. eine Zählung aller durch das Video fahrenden Autos auch mit YOLO und der DCE möglich. \\
+
+
 
 	
 	}
