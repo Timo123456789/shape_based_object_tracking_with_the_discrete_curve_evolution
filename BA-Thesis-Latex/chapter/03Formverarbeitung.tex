@@ -49,12 +49,12 @@ Eine formale Definition dieser Funktion kann folgendermaßen erfolgen. Zwei kons
 	Aus dem absoluten SSM Wert können verschiedene weitere Variablen berechnet werden. Die erste Variable ist die SSM pro Frame und Klasse, welche aus der Divison der SSM durch die Gesamtanzahl der FPS, berechnet wird (s. Formel \ref{equ:SSM_p_fr_u_kl}). Der Wert $x$ steht für die betrachtete Sekunde, $l$ die Länge des Videos und $\textit{fps}$ für die Anzahl an Frames in der betrachteten Sekunde.
  
 	\begin{equation} \label{equ:SSM_p_fr_u_kl}
-		\textit{SSM (pro Fr. und Kl.)} = \frac{\sum_{i = 0}^{n}  (\lvert P1[i].W - P2[i].W\rvert) }{ \sum_{x=0}^{l} \textit{fps}[x]}
+		\textit{SSM (pro Fr. und Kl.)} = \frac{SSM }{ \sum_{x=0}^{l} \textit{fps}[x]}
 	\end{equation}
 
 	Die SSM pro detektierte Klasse berechnet sich ähnlich, außer das der Divisor nun die Anzahl der detektierten Objekte der jeweiligen Klasse im aktuellen Frame ($\textit{NodO}$, \glqq Number of detected Objects\grqq{}) über alle Frames summiert ist (s. Formel \ref{equ:SSM_pro_det_obj}).	 
 	\begin{equation} \label{equ:SSM_pro_det_obj}
-		\textit{SSM (pro detektiertem Objekt)} = \frac{\sum_{i = 0}^{n}  (\lvert P1[i].W - P2[i].W\rvert) }{ \sum_{x=0}^{l} \textit{NodO}[x]}
+		\textit{SSM (pro detektiertes Objekt)} = \frac{SSM }{ \sum_{x=0}^{l} \textit{NodO}[x]}
 	\end{equation} 
 	Die absolute Anzahl detektierte Objekte berechnet sich durch die Summierung der Anzahl aller Objekte der jeweiligen Klasse für jedes Frame über die gesamte Videolänge (s. Formel \ref{equ:abs_Anz_det_Obj}). 
 	\begin{equation} \label{equ:abs_Anz_det_Obj}
