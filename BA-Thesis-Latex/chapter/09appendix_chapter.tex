@@ -8,10 +8,27 @@
 \begin{figure}[h]
     \centering
     \includegraphics*[scale = 0.5, keepaspectratio]{images/yolo_comp/yolo_mean_prec.png}
-    \caption[Vergleich der durchschnittlichen Präzision bei verschiedenen Objektdetetkionsalgorithmen]{Vergleich der durchschnittlichen Präzision bei verschiedenen Objektdetetkionsalgorithmen \citep{Pavani2022}}
+    \caption[Vergleich der durchschnittlichen Präzision bei verschiedenen Objektdetektionsalgorithmen (YOLO, CNN, KNN, Haarcascade) ]{Vergleich der durchschnittlichen Präzision bei verschiedenen Objektdetektionsalgorithmen (YOLO, CNN, KNN, Haarcascade) \citep{Pavani2022}}
     \label{scr:comp_obj_det_mean_av}
  \end{figure}
-    
+ \begin{figure}[ht]
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/yolo_comp/yolo_acc_perf.png}
+        \caption{Genauigkeitsperformance verschiedener Objektdetektoren in verschiedenen Iterationen \cite{Pavani2022}}
+        \label{Scr:comp_object_detectorAcc}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/yolo_comp/yolo_prec_perf.png}
+        \caption{Präzisionsperformance verschiedener Objektdetektoren in verschiedenen Iterationen  \cite{Pavani2022}}
+        \label{Scr:comp_object_detectorPrec}
+    \end{subfigure} 
+    \caption[Vergleich von verschiedenen Objektdetektionsalgorithmen (YOLO, CNN, KNN, Haarcascade)]{Vergleich von verschiedenen Objektdetektionsalgorithmen (YOLO, CNN, KNN, Haarcascade); die Werte von YOLO sind relativ konstant über alle 10 Iterationen \cite{Pavani2022}}
+    \label{Scr:comp_object_detector}
+\end{figure}
   
     \begin{figure}[h]
 		\centering
@@ -19,6 +36,7 @@
 		\caption[Detaillierte Erklärung der YOLO Loss Funktion]{Detaillierte Erklärung der YOLO Loss Funktion\citep{Terven2023}}
 		\label{YOLO_loss_function_detail}
  	\end{figure}
+
 
      \begin{figure}
         \begin{multline}
@@ -130,7 +148,7 @@
         \caption[Screenshots aus dem 10- und 30-sekündigen Testdatensätzen]{Screenshots aus dem 10- und 30-sekündigen Testdatensätzen. (a) zeigt die Testdaten ohne Bearbeitung; (b) zeigt den gleichen Frame aus dem 30-sekündigen Testdatensatz, der mit YOLO analysiert und von der DCE vereinfacht wurde, es wurden jedoch nur die Bounding Boxen der erkannten Objekte schwarz gerendert; (c) zeigt den gleichen Frame aus dem 10-sekündigen Testdatensatz, hier wurde das gesamte Frame außer der vereinfachten Umrisse der detektierten Objekte schwarz gerendert (Quelle: eigene Darstellung)}
         \label{Scr:Settings_Comp}
     \end{figure} 
-
+\clearpage
 \begin{table}[h]
     \centering
 \caption[Vergleich der verschiedenen YOLO Modelle bei 1 Sekunde Video (30 Frames)]{Vergleich der verschiedenen YOLO Modelle bei 1 Sekunde Video (30 Frames) (Quelle: eigene Darstellung; \ref{cd:listing_A1s_EF_results.txt(Y8n)}; \ref{cd:listing_A1s_RV_results.txt(Y8n)}; \ref{cd:listing_A1s_EF_results.txt(Y8m)}; \ref{cd:listing_A1s_RV_results.txt(Y8m)}; \ref{cd:listing_A1s_EF_results.txt(Y8x)}; \ref{cd:listing_A1s_RV_results.txt(Y8x)})}
