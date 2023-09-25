@@ -48,7 +48,7 @@ Alle Angaben in den Tabellen, außer bei den absoluten Zahlen sind in Grad (Deg.
 {	
 	\begin{table}[h]
 		\centering
-		\caption[Vergleich der verschiedenen YOLO Modelle bei 10 Sekunde Video (300 Frames)]{Vergleich der verschiedenen YOLO Modelle bei 10 Sekunde Video (300 Frames) (Quelle: eigene Darstellung; Listings \ref{cd:listing_A10s_EF_results.txt(Y8n)}; \ref{cd:listing_A10s_RV_results.txt(Y8n)}; \ref{cd:listing_A10s_EF_results.txt(Y8m)}; \ref{cd:listing_A10s_RV_results.txt(Y8m)}; \ref{cd:listing_A10s_EF_results.txt(Y8x)}; \ref{cd:listing_A10s_RV_results.txt(Y8x)})}
+		\caption[Vergleich der verschiedenen YOLO Modelle bei 10 Sekunde Video (300 Frames)]{Vergleich der verschiedenen YOLO Modelle bei 10 Sekunde Video (300 Frames) (Quelle: eigene Darstellung; Listings \ref{cd:listing_A10s_EF_results.txt(Y8n)}, \ref{cd:listing_A10s_RV_results.txt(Y8n)}, \ref{cd:listing_A10s_EF_results.txt(Y8m)}, \ref{cd:listing_A10s_RV_results.txt(Y8m)}, \ref{cd:listing_A10s_EF_results.txt(Y8x)}, \ref{cd:listing_A10s_RV_results.txt(Y8x)})}
 		\label{tab:YOLO8_A10s}
 		\begin{tabular}{l|l|l|l|l|l|l}
 			& \textbf{8n (EFV)} & \textbf{8n (RV)} & \textbf{8m (EFV)} & \textbf{8m (RV)} & \textbf{8x (EFV)} & \textbf{8x (RV)} \\ \hline
@@ -72,7 +72,7 @@ Alle Angaben in den Tabellen, außer bei den absoluten Zahlen sind in Grad (Deg.
 \subsection{Formähnlichkeitsmaß \label{subsec:SSM}}
 \begin{table}[h]
 	\centering
-	\caption[Vergleich der SSMs bei verschiedenen YOLO Modellen bei 10-sekündigem Video (300 Frames)]{Vergleich der SSMs bei verschiedenen YOLO Modellen bei 10-sekündigem Video (300 Frames) (Quelle: eigene Darstellung; Listings \ref{cd:listing_A10s_EF_results.txt(Y8n)}; \ref{cd:listing_A10s_RV_results.txt(Y8n)}; \ref{cd:listing_A10s_EF_results.txt(Y8m)}; \ref{cd:listing_A10s_RV_results.txt(Y8m)}; \ref{cd:listing_A10s_EF_results.txt(Y8x)}; \ref{cd:listing_A10s_RV_results.txt(Y8x)})}
+	\caption[Vergleich der SSMs bei verschiedenen YOLO Modellen bei 10-sekündigem Video (300 Frames)]{Vergleich der SSMs bei verschiedenen YOLO Modellen bei 10-sekündigem Video (300 Frames) (Quelle: eigene Darstellung; Listings \ref{cd:listing_A10s_EF_results.txt(Y8n)}, \ref{cd:listing_A10s_RV_results.txt(Y8n)}, \ref{cd:listing_A10s_EF_results.txt(Y8m)}, \ref{cd:listing_A10s_RV_results.txt(Y8m)}, \ref{cd:listing_A10s_EF_results.txt(Y8x)}, \ref{cd:listing_A10s_RV_results.txt(Y8x)})}
 	\label{tab:YOLO8_A10s_SSM}
 	\begin{tabular}{l|l|l|l|l|l|l}
 	 & \textbf{8n (EFV)} & \textbf{8n (RV)} & \textbf{8m (EFV)} & \textbf{8m (RV)} & \textbf{8x (EFV)} & \textbf{8x (RV)} \\ \hline
@@ -221,7 +221,7 @@ Alle Angaben in den Tabellen, außer bei den absoluten Zahlen sind in Grad (Deg.
 	Bei diesem Testfall wurden gleiche DCE Substitionslimits (s. Tabelle \ref{tab:YOLO8_sameDCELimits_overview}) für alle Objekte in den Einstellungen vermerkt. Alle anderen Einstellungen wurden aus den Standardtestfällen übernommen, außer das das Video nicht vollständig schwarz gerendert wurde, sondern nur die Boundingboxen der detektierten Objekte durch schwarze Pixel gefüllt wurden. Der SSM wird aufgrund von nur kleineren Unterschieden bei den anderen Klassen anhand der beiden Hauptklassen Auto und LKW beurteilt. \\
 	\begin{table}[ht]
 		\centering
-		\caption[Vergleich der Basisdaten bei 10-sekündigem Video (300 Frames) und verschiedenen gleichen DCE Substitutionslimits]{Vergleich der Basisdaten bei 10-sekündigem Video (300 Frames) und verschiedenen gleichen DCE Substitutionslimits (Quelle: eigene Darstellung; Listings \ref{cd:listing_A10s_RV_minorSame_results.txt(Y8x)}; \ref{cd:listing_A10s_RV_results.txt(Y8x)}; \ref{cd:listing_A10s_RV_moreSame_results.txt(Y8x)})}
+		\caption[Vergleich der Basisdaten bei 10-sekündigem Video (300 Frames) und verschiedenen gleichen DCE Substitutionslimits]{Vergleich der Basisdaten bei 10-sekündigem Video (300 Frames) und verschiedenen gleichen DCE Substitutionslimits (Quelle: eigene Darstellung; Listings \ref{cd:listing_A10s_RV_minorSame_results.txt(Y8x)}, \ref{cd:listing_A10s_RV_results.txt(Y8x)}, \ref{cd:listing_A10s_RV_moreSame_results.txt(Y8x)})}
 		\label{tab:YOLO8_sameDCELimits_basicdata}
 		\begin{tabular}{l|l|l|l}
 		 & \textbf{\begin{tabular}[c]{@{}l@{}}geringe gleiche \\ Limits\end{tabular}} & \textbf{\begin{tabular}[c]{@{}l@{}}Referenz \\ (10 Sek. Video)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}l@{}}hohe gleiche \\ Limits\end{tabular}} \\ \hline
@@ -240,7 +240,7 @@ Alle Angaben in den Tabellen, außer bei den absoluten Zahlen sind in Grad (Deg.
 	Bei der Prozessierungszeit ist eine etwas längere Dauer bei geringen gleichen Limits zu erkennen, während bei hohen gleichen Limits die Dauer fast gleich bleibt.
 	\begin{table}[]
 		\centering
-		\caption[Vergleich der SSM bei 10-sekündigem Video (300 Frames) und verschiedenen gleichen DCE Substitutionslimits]{Vergleich der SSM bei 10-sekündigem Video (300 Frames) und verschiedenen gleichen DCE Substitutionslimits (Quelle: eigene Darstellung; Listings \ref{cd:listing_A10s_RV_minorSame_results.txt(Y8x)}; \ref{cd:listing_A10s_RV_results.txt(Y8x)}; \ref{cd:listing_A10s_RV_moreSame_results.txt(Y8x)})}
+		\caption[Vergleich der SSM bei 10-sekündigem Video (300 Frames) und verschiedenen gleichen DCE Substitutionslimits]{Vergleich der SSM bei 10-sekündigem Video (300 Frames) und verschiedenen gleichen DCE Substitutionslimits (Quelle: eigene Darstellung; Listings \ref{cd:listing_A10s_RV_minorSame_results.txt(Y8x)}, \ref{cd:listing_A10s_RV_results.txt(Y8x)}, \ref{cd:listing_A10s_RV_moreSame_results.txt(Y8x)})}
 		\label{tab:YOLO8_SameDCESubst_A10s_SSM}
 		\begin{tabular}{l|l|l|l}
 			& \textbf{\begin{tabular}[c]{@{}l@{}}geringe gleiche\\ Limits\end{tabular}} & \textbf{\begin{tabular}[c]{@{}l@{}}Referenz\\ (10 Sek. Video)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}l@{}}hohe gleiche\\ Limits\end{tabular}} \\ \hline
@@ -261,7 +261,7 @@ Alle Angaben in den Tabellen, außer bei den absoluten Zahlen sind in Grad (Deg.
 
 	\begin{table}[]
 		\centering
-		\caption[DCE Substitutionslimits bei gleichen Limits für alle Klassen]{DCE Substitutionslimits bei gleichen Limits für alle Klassen (Quelle: eigene Darstellung; Listings \ref{cd:listing_A10s_RV_minorSame_results.txt(Y8x)}; \ref{cd:listing_A10s_RV_results.txt(Y8x)}; \ref{cd:listing_A10s_RV_moreSame_results.txt(Y8x)})}
+		\caption[DCE Substitutionslimits bei gleichen Limits für alle Klassen]{DCE Substitutionslimits bei gleichen Limits für alle Klassen (Quelle: eigene Darstellung; Listings \ref{cd:listing_A10s_RV_minorSame_results.txt(Y8x)}, \ref{cd:listing_A10s_RV_results.txt(Y8x)}, \ref{cd:listing_A10s_RV_moreSame_results.txt(Y8x)})}
 		\label{tab:YOLO8_sameDCELimits_overview}
 		\begin{tabular}{l|l|l|l}
 			& \textbf{\begin{tabular}[c]{@{}l@{}}geringe gleiche\\ Limits\end{tabular}} & \textbf{Referenz} & \textbf{\begin{tabular}[c]{@{}l@{}}hohe gleiche\\ Limits\end{tabular}} \\ \hline
@@ -279,7 +279,7 @@ Alle Angaben in den Tabellen, außer bei den absoluten Zahlen sind in Grad (Deg.
 
 \begin{table}[h]
 	\centering
-	\caption[Vergleich der Basisdaten bei 30-sekündigem Video (900 Frames)]{Vergleich der Basisdaten bei 30-sekündigem Video (900 Frames) (Quelle: eigene Darstellung; Listings \ref{cd:listing_A1s_RV_results.txt(Y8x)}; \ref{cd:listing_A10s_RV_results.txt(Y8x)}; \ref{cd:listing_A30s_RV_results.txt(Y8x)})}
+	\caption[Vergleich der Basisdaten bei 30-sekündigem Video (900 Frames)]{Vergleich der Basisdaten bei 30-sekündigem Video (900 Frames) (Quelle: eigene Darstellung; Listings \ref{cd:listing_A1s_RV_results.txt(Y8x)}, \ref{cd:listing_A10s_RV_results.txt(Y8x)}, \ref{cd:listing_A30s_RV_results.txt(Y8x)})}
 	\label{tab:YOLO8_longshot_A30s_basicdata}
 	\begin{tabular}{l|l|l|l}
 	 & \textbf{\begin{tabular}[c]{@{}l@{}}Referenz\\ (1 Sek. Video)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}l@{}}Referenz \\ (10 Sek. Video)\end{tabular}} & \textbf{30 Sek. Video} \\ \hline
@@ -303,7 +303,7 @@ Alle Angaben in den Tabellen, außer bei den absoluten Zahlen sind in Grad (Deg.
 
 		\begin{table}[h]
 			\centering
-			\caption[Vergleich der SSM bei 30-sekündigem Video (900 Frames)]{Vergleich der SSM bei 30-sekündigem Video (900 Frames) (Quelle: eigene Darstellung; Listings \ref{cd:listing_A1s_RV_results.txt(Y8x)}; \ref{cd:listing_A10s_RV_results.txt(Y8x)}; \ref{cd:listing_A30s_RV_results.txt(Y8x)}) }
+			\caption[Vergleich der SSM bei 30-sekündigem Video (900 Frames)]{Vergleich der SSM bei 30-sekündigem Video (900 Frames) (Quelle: eigene Darstellung; Listings \ref{cd:listing_A1s_RV_results.txt(Y8x)}, \ref{cd:listing_A10s_RV_results.txt(Y8x)}, \ref{cd:listing_A30s_RV_results.txt(Y8x)}) }
 			\label{tab:YOLO8_longshots_SSM}
 			\begin{tabular}{l|l|l|l}
 			 & \textbf{\begin{tabular}[c]{@{}l@{}}Referenz\\ (1 Sek. Video)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}l@{}}Referenz\\ (10 Sek. Video)\end{tabular}} & \textbf{30 Sek. Video} \\ \hline
