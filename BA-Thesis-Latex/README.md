@@ -1,13 +1,8 @@
-# README
+# Formbasiertes Objekttracking mit der Discrete Curve Evolution
+# Shape-based object tracking with the Discrete Curve Evolution
 
-## Variants
-There are four versions in this repository (on different branches):
-- a5_english
-- a5_german
-- a4_english
-- a4_german
+## Bachelor Thesis an der Westfälischen Wilhelms-Universität Münster, 2023
 
-The default branch is a5_english as it is the most common option in our workgroup.
+In dieser Arbeit wird ein Ansatz zu formbasiertem Objekttracking mit der Discrete Curve Evolution (DCE) vorgestellt. Zur Detektion der Objekte wird maschinelles Lernen namens YOLO verwendet und das Ergebnis des Objekttrackings wird mit einem Formähnlichkeitsmaß für jedes Polygon bewertet. Es wird eine prototypische Implementierung beschrieben, die auf der Programmiersprache Python basiert. Die Evaluation des Ansatzes erfolgt an mehreren Testvideos für den Anwendungsfall Verkehrstracking mit verschiedenen YOLO-Modellen. Im Rahmen dieser Arbeit zeigt sich, dass detektierte Objekte und deren vereinfachte Umrisse geringe Abweichungen aufweisen. Diese Abweichungen bleiben auch bei Eingabedaten, die nicht dem ursprünglichen Anwendungsfall entsprechen, gering, sodass der Ansatz nicht nur auf Verkehrstracking beschränkt ist. Da diese Abweichungen außerdem gleichbleibend gering über den gesamten Verlauf eines Videos bleiben, ist ein formbasiertes Objekttracking mit der Discrete Curve Evolution möglich.
 
-## Cover
-For the a5 versions, there are cover pages to print the cover of the thesis.
+### Timo Lietmeyer, 28.09.2023
