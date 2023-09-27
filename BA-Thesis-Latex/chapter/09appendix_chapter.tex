@@ -145,7 +145,7 @@
             \includegraphics[width=\linewidth]{images/comp_pictures_settings/Scr2_FB.png}
             \caption{Screenshot aus dem analysierten 10-sekündigem Testdatensatz bei Frame 01:00:08:12}
         \end{subfigure}
-        \caption[Screenshots aus dem 10- und 30-sekündigen Testdatensätzen]{Screenshots aus dem 10- und 30-sekündigen Testdatensätzen. (a) zeigt die Testdaten ohne Bearbeitung; (b) zeigt den gleichen Frame aus dem 30-sekündigen Testdatensatz, der mit YOLO analysiert und von der DCE vereinfacht wurde, es wurden jedoch nur die Bounding Boxen der erkannten Objekte schwarz gerendert; (c) zeigt den gleichen Frame aus dem 10-sekündigen Testdatensatz, hier wurde das gesamte Frame außer der vereinfachten Umrisse der detektierten Objekte schwarz gerendert (Quelle: eigene Darstellung)}
+        \caption[Screenshots aus dem 10- und 30-sekündigen Testdatensätzen]{Screenshots aus dem 10- und 30-sekündigen Testdatensätzen. (a) zeigt die Testdaten ohne Bearbeitung; (b) zeigt den gleichen Frame aus dem 30-sekündigen Testdatensatz, der mit YOLO analysiert und von der DCE vereinfacht wurde, es wurden jedoch nur die Boundingboxen der erkannten Objekte schwarz gerendert; (c) zeigt den gleichen Frame aus dem 10-sekündigen Testdatensatz, hier wurde das gesamte Frame außer der vereinfachten Umrisse der detektierten Objekte schwarz gerendert (Quelle: eigene Darstellung)}
         \label{Scr:Settings_Comp}
     \end{figure} 
 \clearpage
@@ -154,7 +154,7 @@
 \caption[Vergleich der verschiedenen YOLO Modelle bei 1 Sekunde Video (30 Frames)]{Vergleich der verschiedenen YOLO Modelle bei 1 Sekunde Video (30 Frames) (Quelle: eigene Darstellung; \ref{cd:listing_A1s_EF_results.txt(Y8n)}; \ref{cd:listing_A1s_RV_results.txt(Y8n)}; \ref{cd:listing_A1s_EF_results.txt(Y8m)}; \ref{cd:listing_A1s_RV_results.txt(Y8m)}; \ref{cd:listing_A1s_EF_results.txt(Y8x)}; \ref{cd:listing_A1s_RV_results.txt(Y8x)})}
 \label{tab:YOLO8_A1s}
 \begin{tabular}{l|l|l|l|l|l|l}
-    & \textbf{8n (EFV)} & \textbf{8n (RV)} & \textbf{8m (EFV)} & \textbf{8m (RV)} & \textbf{8x (EFV)} & \textbf{8x (RV)} \\ \hline
+    & \textbf{8n (EF)} & \textbf{8n (RV)} & \textbf{8m (EF)} & \textbf{8m (RV)} & \textbf{8x (EF)} & \textbf{8x (RV)} \\ \hline
 \textit{\begin{tabular}[c]{@{}l@{}}Anzahl Punkte/Winkel\\ vor DCE\end{tabular}} & 5.353 & 5.303 & 5.863 & 5.885 & 5.306 & 5.325 \\ \hline
 \textit{\begin{tabular}[c]{@{}l@{}}Anzahl Punkte/Winkel\\ nach DCE\end{tabular}} & 1.919 & 1.880 & 2.168 & 2.185 & 1.965 & 1.988 \\ \hline
 \textit{\begin{tabular}[c]{@{}l@{}}Anzahl vergl. Winkel\\ bei SSM Berechnung\end{tabular}} & 19.100 & 17.811 & 10.251 & 10.130 & 11.803 & 11.858 \\ \hline
@@ -172,7 +172,7 @@
 		\caption[Vergleich der SSMs bei verschiedenen YOLO Modellen bei 1 Sekunde Video (30 Frames)]{Vergleich der SSMs bei verschiedenen YOLO Modellen bei 1 Sekunde Video (30 Frames) (Quelle: eigene Darstellung; \ref{cd:listing_A1s_EF_results.txt(Y8n)}; \ref{cd:listing_A1s_RV_results.txt(Y8n)}; \ref{cd:listing_A1s_EF_results.txt(Y8m)}; \ref{cd:listing_A1s_RV_results.txt(Y8m)}; \ref{cd:listing_A1s_EF_results.txt(Y8x)}; \ref{cd:listing_A1s_RV_results.txt(Y8x)})}
 		\label{tab:YOLO8_A1s_SSM}
 		\begin{tabular}{l|l|l|l|l|l|l}
-		 & \textbf{8n (EFV)} & \textbf{8n (RV)} & \textbf{8m (EFV)} & \textbf{8m (RV)} & \textbf{8x (EFV)} & \textbf{8x (RV)} \\ \hline
+		 & \textbf{8n (EF)} & \textbf{8n (RV)} & \textbf{8m (EF)} & \textbf{8m (RV)} & \textbf{8x (EF)} & \textbf{8x (RV)} \\ \hline
 		\textit{Absolute SSM Auto} & 2,0174 & 2,0174 & 2,2393 & 2,3659 & 3,8058 & 4,1018 \\ \hline
 		\textit{SSM pro Fr. und Kl. Auto} & 0,0672 & 0,0672 & 0,0746 & 0,0789 & 0,1269 & 0,1637 \\ \hline
 		\textit{SSM pro detektiertes Auto} & 0,0672 & 0,0721 & 0,0622 & 0,0676 & 0,0634 & 0,0672 \\ \hline
@@ -292,13 +292,13 @@
     \lstinputlisting[caption={Gesamtlisting main.py}, label = {cd:listing_main.py}]{../Code/main.py}}
 
 \subsection{Vollständiges Listing von yolo\_every\_frame.py}{
-    \lstinputlisting[caption={Gesamtlisting YOLO\_every\_frame.py}, label = {cd:listing_yolo_every_frame_py}]{../Code/YOLO/yolo_every_frame.py}}
+    \lstinputlisting[caption={Gesamtlisting Yolo\_every\_frame.py}, label = {cd:listing_yolo_every_frame_py}]{../Code/YOLO/yolo_every_frame.py}}
 
 \subsection{Vollständiges Listing von yolo\_result\_version.py}{
-    \lstinputlisting[caption={Gesamtlisting YOLO\_result\_version.py}, label = {cd:listing_yolo_result_version}]{../Code/YOLO/yolo_result_version.py}}
+    \lstinputlisting[caption={Gesamtlisting Yolo\_result\_version.py}, label = {cd:listing_yolo_result_version}]{../Code/YOLO/yolo_result_version.py}}
 
 \subsection{Vollständiges Listing von yolo\_segmentation.py}{
-    \lstinputlisting[caption={Gesamtlisting YOLO\_segementation.py}, label = {cd:listing_yolo_segmentation.py}]{../Code/YOLO/yolo_segmentation.py}}
+    \lstinputlisting[caption={Gesamtlisting Yolo\_segementation.py}, label = {cd:listing_yolo_segmentation.py}]{../Code/YOLO/yolo_segmentation.py}}
 
 \subsection{Vollständiges Listing von DCE.py}{
     \lstinputlisting[caption={Gesamtlisting DCE.py}, label = {cd:listing_DCE.py}]{../Code/DCE/DCE.py}}

@@ -19,10 +19,13 @@ cleardoublepage=empty,
 DIV=13, %  a5
 %DIV=13, %a4
 numbers = noenddot,
-%draft=false
+%draft=true
 final
 ]{scrreprt}
 
+% %Abänderung Lange/Kurze Version False = wenige Listings; True = alle Listings
+\newif\ifimportant
+\importantfalse
 
 \usepackage[usenames,x11names]{xcolor}
 \usepackage[final]{graphicx}
@@ -92,9 +95,8 @@ final
 % \renewcommand{\floatpagefraction}{0.7}
 % \renewcommand{\dblfloatpagefraction}{0.7}
 
-%Abänderung Lange/Kurze Version False = wenige Listings; True = alle Listings
-\newif\ifimportant
-\importantfalse
+% %Abänderung Lange/Kurze Version False = wenige Listings; True = alle Listings
+
 
 
 

@@ -86,10 +86,10 @@ def run_yolo(img, options,framenumber):
     if(options["black_video"] == True): #If clause to set the result video to black
         img_size = get_img_size(img)
         img = cv2.rectangle(img, (0,0),(img_size[0],img_size[1]), (0, 0, 0), -1)
-        cv2.putText(img, "EV Version", (img_size[0]-200, img_size[1] - 1050), cv2.FONT_HERSHEY_PLAIN, 2, (255, 255, 255), 2) #write the used version at the right top of the video
+        cv2.putText(img, "EF Version", (img_size[0]-200, img_size[1] - 1050), cv2.FONT_HERSHEY_PLAIN, 2, (255, 255, 255), 2) #write the used version at the right top of the video
     else:
         img_size = get_img_size(img)
-        cv2.putText(img, "EV Version", (img_size[0]-200, img_size[1] - 1050), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 0), 2) #write the used version at the right top of the video
+        cv2.putText(img, "EF Version", (img_size[0]-200, img_size[1] - 1050), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 0), 2) #write the used version at the right top of the video
          
 
     iterator = 0

@@ -42,7 +42,7 @@
 # \subsection{Winkelabweichung ohne Klassenunterscheidung}
 # {	\todo{klare Benennung von YOLO oder Yolo; bzw. Yolov8n oder 8n etc.}
 # 	\todo{Yolo Modelle ebenfalls durchgehend klar benennen}
-# 	In der Tabelle \ref{tab:YOLO8_A1s} sind die durchnittlichen Winkelabweichungen pro Polygon und pro Winkel zu sehen. Diese Abweichung wurde über das gesamte Video berechnet für alle Polygone ohne Klassenunterscheidung berechnet.  EFV steht für die 1. YOLO Version, in der jeder Frame extrahiert wird (s. Kap. \ref{py:YOLO_every_frame}) und RV für die 2. YOLO Version (s. Kap. \ref{py:YOLO_res_vers}), wo YOLO zuerst das Video insgesamt analysiert. Beide Implementierungen unterscheiden sich von den statistischen Auswertungen nur marginal.\\
+# 	In der Tabelle \ref{tab:YOLO8_A1s} sind die durchnittlichen Winkelabweichungen pro Polygon und pro Winkel zu sehen. Diese Abweichung wurde über das gesamte Video berechnet für alle Polygone ohne Klassenunterscheidung berechnet.  EF steht für die 1. YOLO Version, in der jeder Frame extrahiert wird (s. Kap. \ref{py:YOLO_every_frame}) und RV für die 2. YOLO Version (s. Kap. \ref{py:YOLO_res_vers}), wo YOLO zuerst das Video insgesamt analysiert. Beide Implementierungen unterscheiden sich von den statistischen Auswertungen nur marginal.\\
 # 	Es ist auffällig, dass die durchschnittliche  Winkelabweichung steigt, je größer der Trainingsdatensatz des verwendeten Modells ist. Dies könnte daran liegen, dass bei einem größeren Trainingsdatensatz mehr Detektionen möglich sind, welche damit  die Abweichung erhöhen. Auch an dem steigenden Wert der absoluten Abweichung ist zu sehen, dass es Unterschiede zwischen den Modellen gibt. Die absolute Winkelabweichung steigt insbesondere im Vergleich von 8n mit 3910,4 Grad (RV Version) zu 8m mit 7358,55 Grad (RV Version) ebenfalls an. Dies ist auch im Vergleich zu 8x zu sehen. \\
 # 	Die erkannte Punktanzahl nach der Vereinfachung mit der DCE bleibt relativ konstant zwischen den Modellen, abgesehen von den Punkten bei 8m. Dies ist damit zu erklären, dass die Vereinfachung mit der DCE zu konstanten und gleich bleibenden Punkt- und Polygonanzahlen führt. \\
 # 	Der Unterschied zwischen 8n und 8m ist auch in der Zahl der verglichenen Polygone sichtbar. Dieser Wert gibt an, wie viel Polygone mit gleicher Klasse verglichen zum nächsten Frame in die Berechnung der absoluten Abweichung einfließen. Es wurden bei der Berechnung der absoluten Abweichung die Differenzen zwischen dieser Anzahl an Polygonen summiert. Im Vergleich zu 8m und 8x ergibt sich nur eine gering ansteigende Zahl verglichener und erkannter Polygone. \\
@@ -52,7 +52,7 @@
 # 	\caption[Vergleich der verschiedenen YOLO Modelle bei 1 Sekunde Video (30 Frames) (Quelle: eigene Darstellung)]{Vergleich der verschiedenen YOLO Modelle bei 1 Sekunde Video (30 Frames) (Quelle: eigene Darstellung; \ref{cd:listing_A1s_EF_results.txt(Y8n)}; \ref{cd:listing_A1s_RV_results.txt(Y8n)}; \ref{cd:listing_A1s_EF_results.txt(Y8m)}; \ref{cd:listing_A1s_RV_results.txt(Y8m)}; \ref{cd:listing_A1s_EF_results.txt(Y8x)}; \ref{cd:listing_A1s_RV_results.txt(Y8x)})}
 # 	\label{tab:YOLO8_A1s}
 # 	\begin{tabular}{l|l|l|l|l|l|l}
-# 		& \textbf{8n (EFV)} & \textbf{8n (RV)} & \textbf{8m (EFV)} & \textbf{8m (RV)} & \textbf{8x (EFV)} & \textbf{8x (RV)} \\ \hline
+# 		& \textbf{8n (EF)} & \textbf{8n (RV)} & \textbf{8m (EF)} & \textbf{8m (RV)} & \textbf{8x (EF)} & \textbf{8x (RV)} \\ \hline
 # 	   \textit{\begin{tabular}[c]{@{}l@{}}Anzahl Punkte/Winkel\\ vor DCE\end{tabular}} & 5.353 & 5.303 & 5.863 & 5.885 & 5.306 & 5.325 \\ \hline
 # 	   \textit{\begin{tabular}[c]{@{}l@{}}Anzahl Punkte/Winkel\\ nach DCE\end{tabular}} & 1.919 & 1.880 & 2.168 & 2.185 & 1.965 & 1.988 \\ \hline
 # 	   \textit{\begin{tabular}[c]{@{}l@{}}Anzahl vergl. Winkel\\ bei SSM Berechnung\end{tabular}} & 19.100 & 17.811 & 10.251 & 10.130 & 11.803 & 11.858 \\ \hline
@@ -68,7 +68,7 @@
 # 		\caption[Vergleich der verschiedenen YOLO Modelle bei 10 Sekunde Video (300 Frames) (Quelle: eigene Darstellung)]{Vergleich der verschiedenen YOLO Modelle bei 10 Sekunde Video (300 Frames) (Quelle: eigene Darstellung; \ref{cd:listing_A10s_EF_results.txt(Y8n)}; \ref{cd:listing_A10s_RV_results.txt(Y8n)}; \ref{cd:listing_A10s_EF_results.txt(Y8m)}; \ref{cd:listing_A10s_RV_results.txt(Y8m)}; \ref{cd:listing_A10s_EF_results.txt(Y8x)}; \ref{cd:listing_A10s_RV_results.txt(Y8x)})}
 # 		\label{tab:YOLO8_A10s}
 # 		\begin{tabular}{l|l|l|l|l|l|l}
-# 			& \textbf{8n (EFV)} & \textbf{8n (RV)} & \textbf{8m (EFV)} & \textbf{8m (RV)} & \textbf{8x (EFV)} & \textbf{8x (RV)} \\ \hline
+# 			& \textbf{8n (EF)} & \textbf{8n (RV)} & \textbf{8m (EF)} & \textbf{8m (RV)} & \textbf{8x (EF)} & \textbf{8x (RV)} \\ \hline
 # 		   \textit{\begin{tabular}[c]{@{}l@{}}Anzahl Punkte/Winkel\\ vor DCE\end{tabular}} & 54.574 & 54.565 & 59.945 & 59.908 & 57.753 & 57.673 \\ \hline
 # 		   \textit{\begin{tabular}[c]{@{}l@{}}Anzahl Punkte/Winkel\\ nach DCE\end{tabular}} & 17.300 & 17.298 & 20.571 & 20.575 & 20.164 & 20.132 \\ \hline
 # 		   \textit{\begin{tabular}[c]{@{}l@{}}Anzahl vergl. Winkel\\ bei SSM Berechnung\end{tabular}} & 104.128 & 102.718 & 103.275 & 102.962 & 120.091 & 119.714 \\ \hline
@@ -97,7 +97,7 @@
 # 		\caption[Vergleich der SSMs bei verschiedenen YOLO8 bei 1 Sekunde Video (30 Frames)]{Vergleich der SSMs bei verschiedenen YOLO Modellen bei 1 Sekunde Video (30 Frames) (Alle Angaben in Grad) (Quelle: eigene Darstellung; \ref{cd:listing_A1s_EF_results.txt(Y8n)}; \ref{cd:listing_A1s_RV_results.txt(Y8n)}; \ref{cd:listing_A1s_EF_results.txt(Y8m)}; \ref{cd:listing_A1s_RV_results.txt(Y8m)}; \ref{cd:listing_A1s_EF_results.txt(Y8x)}; \ref{cd:listing_A1s_RV_results.txt(Y8x)})}
 # 		\label{tab:YOLO8_A1s_SSM}
 # 		\begin{tabular}{l|l|l|l|l|l|l}
-# 		 & \textbf{8n (EFV)} & \textbf{8n (RV)} & \textbf{8m (EFV)} & \textbf{8m (RV)} & \textbf{8x (EFV)} & \textbf{8x (RV)} \\ \hline
+# 		 & \textbf{8n (EF)} & \textbf{8n (RV)} & \textbf{8m (EF)} & \textbf{8m (RV)} & \textbf{8x (EF)} & \textbf{8x (RV)} \\ \hline
 # 		\textit{SSM pro Fr. und Kl. Auto} & 55,67 & 55,69 & 258,55 & 270,58 & 343,47 & 355,41 \\ \hline
 # 		\textit{SSM pro detektiertes Auto} & 30,93 & 30,94 & 95,76 & 100,22 & 101,02 & 102,52 \\ \hline
 # 		\textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ Autos (in Klam. pro Fr.)\end{tabular}} & \begin{tabular}[c]{@{}l@{}}54\\ (1,8)\end{tabular} & \begin{tabular}[c]{@{}l@{}}54\\ (1,8))\end{tabular} & \begin{tabular}[c]{@{}l@{}}81\\ (2,7)\end{tabular} & \begin{tabular}[c]{@{}l@{}}81\\ (2,7)\end{tabular} & \begin{tabular}[c]{@{}l@{}}102\\ (3,4)\end{tabular} & \begin{tabular}[c]{@{}l@{}}104\\ (3,47)\end{tabular} \\ \hline
@@ -129,7 +129,7 @@
 # 			\caption[Vergleich der SSMs bei verschiedenen YOLO Modellen bei 10 Sekunde Video (300 Frames)]{Vergleich der SSMs bei verschiedenen YOLO8 bei 10 Sekunde Video (300 Frames) (Angaben in Grad) (Quelle: eigene Darstellung; \ref{cd:listing_A10s_EF_results.txt(Y8n)}; \ref{cd:listing_A10s_RV_results.txt(Y8n)}; \ref{cd:listing_A10s_EF_results.txt(Y8m)}; \ref{cd:listing_A10s_RV_results.txt(Y8m)}; \ref{cd:listing_A10s_EF_results.txt(Y8x)}; \ref{cd:listing_A10s_RV_results.txt(Y8x)})}
 # 			\label{tab:YOLO8_A10s_SSM}
 # 			\begin{tabular}{l|l|l|l|l|l|l}
-# 			& \textbf{8n (EFV)} & \textbf{8n (RV)} & \textbf{8m (EFV)} & \textbf{8m (RV)} & \textbf{8x (EFV)} & \textbf{8x (RV)} \\ \hline
+# 			& \textbf{8n (EF)} & \textbf{8n (RV)} & \textbf{8m (EF)} & \textbf{8m (RV)} & \textbf{8x (EF)} & \textbf{8x (RV)} \\ \hline
 # 			\textit{SSM pro Fr. und Kl. Auto} & 34,25 & 34,24 & 232,00 & 232,00 & 344,68 & 344,68 \\ \hline
 # 			\textit{SSM pro detektiertes Auto} & 21,31 & 21,36 & 87,00 & 87,22 & 114,13 & 114,38 \\ \hline
 # 			\textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ Autos (in Klam. pro Fr.)\end{tabular}} & \begin{tabular}[c]{@{}l@{}}482 \\ (1,61)\end{tabular} & \begin{tabular}[c]{@{}l@{}}481 \\ (1,6)\end{tabular} & \begin{tabular}[c]{@{}l@{}}800\\ (2,67)\end{tabular} & \begin{tabular}[c]{@{}l@{}}798 \\ (2,66)\end{tabular} & \begin{tabular}[c]{@{}l@{}}906\\ (3,02)\end{tabular} & \begin{tabular}[c]{@{}l@{}}904 \\ (3,63)\end{tabular} \\ \hline
@@ -301,7 +301,7 @@
 # 	% 	\caption[Vergleich der SSMs bei verschiedenen YOLO8 bei 1 Sekunde Video (30 Frames)]{Vergleich der SSMs bei verschiedenen YOLO Modellen bei 1 Sekunde Video (30 Frames) (Alle Angaben in Grad) (Quelle: eigene Darstellung; \ref{cd:listing_A1s_EF_results.txt(Y8n)}; \ref{cd:listing_A1s_RV_results.txt(Y8n)}; \ref{cd:listing_A1s_EF_results.txt(Y8m)}; \ref{cd:listing_A1s_RV_results.txt(Y8m)}; \ref{cd:listing_A1s_EF_results.txt(Y8x)}; \ref{cd:listing_A1s_RV_results.txt(Y8x)})}
 # 	% 	\label{tab:YOLO8_A1s_SSM}
 # 	% 	\begin{tabular}{l|l|l|l|l|l|l}
-# 	% 	 & \textbf{8n (EFV)} & \textbf{8n (RV)} & \textbf{8m (EFV)} & \textbf{8m (RV)} & \textbf{8x (EFV)} & \textbf{8x (RV)} \\ \hline
+# 	% 	 & \textbf{8n (EF)} & \textbf{8n (RV)} & \textbf{8m (EF)} & \textbf{8m (RV)} & \textbf{8x (EF)} & \textbf{8x (RV)} \\ \hline
 # 	% 	\textit{SSM pro Fr. und Kl. Auto} & 55,67 & 55,69 & 258,55 & 270,58 & 343,47 & 355,41 \\ \hline
 # 	% 	\textit{SSM pro detektiertes Auto} & 30,93 & 30,94 & 95,76 & 100,22 & 101,02 & 102,52 \\ \hline
 # 	% 	\textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ Autos (in Klam. pro Fr.)\end{tabular}} & \begin{tabular}[c]{@{}l@{}}54\\ (1,8)\end{tabular} & \begin{tabular}[c]{@{}l@{}}54\\ (1,8))\end{tabular} & \begin{tabular}[c]{@{}l@{}}81\\ (2,7)\end{tabular} & \begin{tabular}[c]{@{}l@{}}81\\ (2,7)\end{tabular} & \begin{tabular}[c]{@{}l@{}}102\\ (3,4)\end{tabular} & \begin{tabular}[c]{@{}l@{}}104\\ (3,47)\end{tabular} \\ \hline
@@ -325,7 +325,7 @@
 # 	% 		\caption[Vergleich der SSMs bei verschiedenen YOLO Modellen bei 10 Sekunde Video (300 Frames)]{Vergleich der SSMs bei verschiedenen YOLO8 bei 10 Sekunde Video (300 Frames) (Angaben in Grad) (Quelle: eigene Darstellung; \ref{cd:listing_A10s_EF_results.txt(Y8n)}; \ref{cd:listing_A10s_RV_results.txt(Y8n)}; \ref{cd:listing_A10s_EF_results.txt(Y8m)}; \ref{cd:listing_A10s_RV_results.txt(Y8m)}; \ref{cd:listing_A10s_EF_results.txt(Y8x)}; \ref{cd:listing_A10s_RV_results.txt(Y8x)})}
 # 	% 		\label{tab:YOLO8_A10s_SSM}
 # 	% 		\begin{tabular}{l|l|l|l|l|l|l}
-# 	% 		& \textbf{8n (EFV)} & \textbf{8n (RV)} & \textbf{8m (EFV)} & \textbf{8m (RV)} & \textbf{8x (EFV)} & \textbf{8x (RV)} \\ \hline
+# 	% 		& \textbf{8n (EF)} & \textbf{8n (RV)} & \textbf{8m (EF)} & \textbf{8m (RV)} & \textbf{8x (EF)} & \textbf{8x (RV)} \\ \hline
 # 	% 		\textit{SSM pro Fr. und Kl. Auto} & 34,25 & 34,24 & 232,00 & 232,00 & 344,68 & 344,68 \\ \hline
 # 	% 		\textit{SSM pro detektiertes Auto} & 21,31 & 21,36 & 87,00 & 87,22 & 114,13 & 114,38 \\ \hline
 # 	% 		\textit{\begin{tabular}[c]{@{}l@{}}absolute Anz. detektierter\\ Autos (in Klam. pro Fr.)\end{tabular}} & \begin{tabular}[c]{@{}l@{}}482 \\ (1,61)\end{tabular} & \begin{tabular}[c]{@{}l@{}}481 \\ (1,6)\end{tabular} & \begin{tabular}[c]{@{}l@{}}800\\ (2,67)\end{tabular} & \begin{tabular}[c]{@{}l@{}}798 \\ (2,66)\end{tabular} & \begin{tabular}[c]{@{}l@{}}906\\ (3,02)\end{tabular} & \begin{tabular}[c]{@{}l@{}}904 \\ (3,63)\end{tabular} \\ \hline
